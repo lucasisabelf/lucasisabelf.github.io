@@ -1,1 +1,395 @@
-nada para se ver aqui
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechEcode | Soluções em Automação</title>
+    <style>
+        /* --- RESET E VARIÁVEIS --- */
+        :root {
+            --primary-color: #0056b3; /* Azul Tech */
+            --secondary-color: #333333; /* Cinza Escuro */
+            --accent-color: #f4f4f4; /* Cinza Claro Fundo */
+            --placeholder-color: #bdc3c7; /* Cor do Placeholder de Imagem */
+            --text-color: #333;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- UTILITÁRIO: PLACEHOLDER DE IMAGEM --- */
+        .img-placeholder {
+            background-color: var(--placeholder-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        /* --- HEADER / NAV --- */
+        .navbar {
+            background-color: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-contact {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn-contact:hover {
+            background-color: #004494;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 4rem 5%;
+            background-color: var(--white);
+            margin-bottom: 2rem;
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 2rem;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* Placeholder específico do Hero */
+        .hero-image .img-placeholder {
+            height: 350px;
+            border-radius: 10px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* --- PRODUTOS --- */
+        .products-section {
+            padding: 2rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Placeholder específico dos cards */
+        .product-card .img-placeholder {
+            height: 220px;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .specs {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 1rem;
+        }
+
+        .specs li {
+            margin-bottom: 4px;
+        }
+
+        .price-area {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        .btn-details {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .btn-details:hover {
+            text-decoration: underline;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--secondary-color);
+            color: #ccc;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            margin: 0 10px;
+            color: var(--white);
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 2rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVEGAÇÃO -->
+    <nav class="navbar">
+        <div class="logo">Tech<span>Ecode</span></div>
+        <div class="nav-links">
+            <a href="#">Início</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#sobre">Sobre</a>
+        </div>
+        <a href="#contato" class="btn-contact">Fale Conosco</a>
+    </nav>
+
+    <!-- HERO SECTION (DESTAQUE) -->
+    <header class="hero">
+        <div class="hero-text">
+            <h1>Agilidade e Precisão no Ponto de Venda</h1>
+            <p>Conheça a nova linha de Terminais de Consulta de Preço da TechEcode. Tecnologia robusta para modernizar seu supermercado ou varejo.</p>
+            <a href="#produtos" class="cta-button">Ver Modelos</a>
+        </div>
+        <div class="hero-image">
+            <!-- Retângulo Cinza Hero -->
+            <div class="img-placeholder">Imagem Destaque do Terminal</div>
+        </div>
+    </header>
+
+    <!-- GRID DE PRODUTOS -->
+    <section id="produtos" class="products-section">
+        <div class="section-title">
+            <h2>Nossos Terminais</h2>
+            <p>Escolha a solução ideal para o seu negócio</p>
+        </div>
+
+        <div class="product-grid">
+            
+            <!-- PRODUTO 1 -->
+            <div class="product-card">
+                <div class="img-placeholder">Terminal Compacto</div>
+                <div class="card-content">
+                    <h3>TechView Mini</h3>
+                    <ul class="specs">
+                        <li>• Conexão Wi-Fi / Ethernet</li>
+                        <li>• Scanner 1D/2D Omnidirecional</li>
+                        <li>• Display LCD 3.5"</li>
+                    </ul>
+                    <div class="price-area">
+                        <span>Consulte</span>
+                        <a href="#" class="btn-details">Ver detalhes &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 2 -->
+            <div class="product-card">
+                <div class="img-placeholder">Terminal Parede</div>
+                <div class="card-content">
+                    <h3>TechView Wall 10"</h3>
+                    <ul class="specs">
+                        <li>• Tela Touchscreen 10"</li>
+                        <li>• Android 11 Integrado</li>
+                        <li>• Leitor de alta velocidade</li>
+                    </ul>
+                    <div class="price-area">
+                        <span>Consulte</span>
+                        <a href="#" class="btn-details">Ver detalhes &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 3 -->
+            <div class="product-card">
+                <div class="img-placeholder">Totem Interativo</div>
+                <div class="card-content">
+                    <h3>Totem InfoStand</h3>
+                    <ul class="specs">
+                        <li>• Estrutura em Aço Carbono</li>
+                        <li>• Impressora Térmica Opcional</li>
+                        <li>• Ideal para Autoatendimento</li>
+                    </ul>
+                    <div class="price-area">
+                        <span>Consulte</span>
+                        <a href="#" class="btn-details">Ver detalhes &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 4 -->
+            <div class="product-card">
+                <div class="img-placeholder">Acessórios</div>
+                <div class="card-content">
+                    <h3>Suportes e Scanners</h3>
+                    <ul class="specs">
+                        <li>• Leitores de mão Bluetooth</li>
+                        <li>• Suportes VESA articulados</li>
+                        <li>• Cabos e Fontes</li>
+                    </ul>
+                    <div class="price-area">
+                        <span>Consulte</span>
+                        <a href="#" class="btn-details">Ver detalhes &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contato">
+        <div class="logo" style="margin-bottom: 20px;">Tech<span>Ecode</span></div>
+        <p>Inovação em automação comercial e terminais de consulta.</p>
+        <p>Email: contato@techecode.com.br | Tel: (11) 9999-9999</p>
+        <div class="footer-links">
+            <a href="#">LinkedIn</a>
+            <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.8rem;">&copy; 2023 TechEcode. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
