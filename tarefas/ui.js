@@ -239,6 +239,7 @@ function showState(state, msg) {
   document.getElementById('board').classList.add('hidden');
   document.getElementById('refresh-btn').classList.add('hidden');
   document.getElementById('copy-link-btn').classList.add('hidden');
+  document.getElementById('copy-sheet-btn').classList.add('hidden');
   document.getElementById('new-task-btn').classList.add('hidden');
   document.getElementById('auto-refresh-controls').classList.add('hidden');
   document.getElementById('board-summary').classList.add('hidden');
@@ -273,6 +274,7 @@ function showState(state, msg) {
     document.getElementById('board').classList.remove('hidden');
     document.getElementById('refresh-btn').classList.remove('hidden');
     document.getElementById('copy-link-btn').classList.remove('hidden');
+    document.getElementById('copy-sheet-btn').classList.remove('hidden');
     document.getElementById('new-task-btn').classList.remove('hidden');
     filterRow.classList.remove('hidden');
     document.getElementById('auto-refresh-controls').classList.remove('hidden');

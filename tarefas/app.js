@@ -48,6 +48,7 @@ async function handleSubmit() {
 
     editLink.href = input;
     editLink.classList.remove('hidden');
+    document.querySelector('.app-header').dataset.printDate = new Date().toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
     localStorage.setItem('lastSheet', input);
     saveRecentSheet(input);
@@ -67,6 +68,12 @@ function updateUrlParam(key, value) {
   if (value) params.set(key, value); else params.delete(key);
   const qs = params.toString();
   return `${location.pathname}${qs ? '?' + qs : ''}`;
+}
+
+function copySheetUrl() {
+  const url = document.getElementById('edit-link').href;
+  const btn = document.getElementById('copy-sheet-btn');
+  navigator.clipboard.writeText(url).then(() => flashButton(btn, '✓ Copiado!'));
 }
 
 function copyBoardLink() {
@@ -148,6 +155,7 @@ function buildCalendarUrl(title, desc, dateStr) {
 }
 
 function resetAllSettings() {
+  if (!confirm('Limpar todas as configurações e recarregar a página?')) return;
   STORAGE_KEYS.forEach(k => localStorage.removeItem(k));
   location.reload();
 }
@@ -297,6 +305,7 @@ document.getElementById('sheet-url').addEventListener('keydown', e => {
 });
 document.getElementById('refresh-btn').addEventListener('click', handleSubmit);
 document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink);
+document.getElementById('copy-sheet-btn').addEventListener('click', copySheetUrl);
 document.getElementById('export-btn').addEventListener('click', exportBoardText);
 document.getElementById('download-btn').addEventListener('click', downloadBoardText);
 document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
@@ -389,6 +398,10 @@ document.addEventListener('keydown', e => {
   if (e.key === 'n' || e.key === 'N') openNewTaskModal();
   if (e.key === 'd' || e.key === 'D') document.getElementById('compact-btn').click();
   if (e.key === 't' || e.key === 'T') document.getElementById('theme-toggle').click();
+  if (e.key === 'g' || e.key === 'G') {
+    const el = document.getElementById('edit-link');
+    if (!el.classList.contains('hidden')) el.click();
+  }
 });
 
 document.querySelectorAll('.version-text').forEach(el => { el.textContent = APP_VERSION; });

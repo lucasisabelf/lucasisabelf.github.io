@@ -422,6 +422,8 @@ main {
   min-height: 60px;
   max-height: 70vh;
   overflow-y: auto;
+  opacity: 1;
+  transition: max-height .25s ease, opacity .2s ease;
 }
 
 .column-body::-webkit-scrollbar {
@@ -707,7 +709,7 @@ main {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.column--collapsed .column-body { display: none; }
+.column--collapsed .column-body { max-height: 0; overflow: hidden; opacity: 0; }
 .column--collapsed { min-height: 0; }
 
 .input--invalid {
@@ -789,6 +791,7 @@ main {
   .modal-overlay { display: none !important; }
 
   .app-header { position: static; box-shadow: none; border-radius: 0; margin-bottom: .5rem; }
+  .app-header::before { content: 'Sprint Board · Impresso em ' attr(data-print-date); display: block; font-size: .9rem; margin-bottom: .5rem; color: #555; }
   .board { grid-template-columns: repeat(3, 1fr); }
   .column-body { max-height: none; overflow: visible; }
   .card-actions { display: none; }
