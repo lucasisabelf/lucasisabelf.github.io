@@ -24,6 +24,8 @@
   --priority-high-color: #c53030;
   --priority-mid-bg: #fffbeb;
   --priority-mid-color: #b45309;
+  --mark-bg: #fef08a;
+  --mark-color: #713f12;
   --warning-bg: #fef3c7;
   --warning-color: #92400e;
   --today-bg: #f0fff4;
@@ -56,6 +58,8 @@
   --priority-high-color: #fc8181;
   --priority-mid-bg: #2d2310;
   --priority-mid-color: #fbbf24;
+  --mark-bg: #78350f;
+  --mark-color: #fde68a;
   --warning-bg: #29200a;
   --warning-color: #f59e0b;
   --today-bg: #1a2d1e;
@@ -484,6 +488,21 @@ main {
 .card-date--today {
   background: var(--today-bg);
   color: var(--today-color);
+}
+
+.filter-empty {
+  color: var(--text-muted);
+  font-size: .85rem;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.card-title mark,
+.card-desc mark {
+  background: var(--mark-bg);
+  color: var(--mark-color);
+  border-radius: 2px;
+  padding: 0 .1rem;
 }
 
 .card-priority {

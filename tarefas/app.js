@@ -205,6 +205,12 @@ document.getElementById('board').addEventListener('click', e => {
     window.open(buildCalendarUrl(title, desc, date));
     return;
   }
+  const copyBtn = e.target.closest('.card-copy-btn');
+  if (copyBtn) {
+    const { title } = copyBtn.closest('.card').dataset;
+    navigator.clipboard.writeText(title).then(() => flashButton(copyBtn, '✓ Copiado!'));
+    return;
+  }
   const priorityBadge = e.target.closest('.card-priority');
   if (priorityBadge) {
     const filterInput = document.getElementById('filter-input');

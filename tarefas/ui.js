@@ -84,6 +84,11 @@ function renderCard(row) {
   calBtn.textContent = '+ Agenda';
   actions.appendChild(calBtn);
 
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'card-action-btn card-copy-btn';
+  copyBtn.textContent = 'Copiar';
+  actions.appendChild(copyBtn);
+
   card.appendChild(actions);
 
   return card;
@@ -112,6 +117,10 @@ function renderSummary(counts, overdue, warning) {
   let text = `${total} total · ${counts[1]} em andamento · ${counts[2]} concluídas`;
   if (overdue > 0) text += ` · ${overdue} vencida${overdue !== 1 ? 's' : ''}`;
   if (warning > 0) text += ` · ${warning} com prazo próximo`;
+  const alta = countByPriority('Alta');
+  const media = countByPriority('Média');
+  const baixa = countByPriority('Baixa');
+  if (alta > 0 || media > 0 || baixa > 0) text += ` · Alta: ${alta} · Média: ${media} · Baixa: ${baixa}`;
   const hhmm = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   text += ` · Atualizado às ${hhmm}`;
   document.getElementById('board-summary').textContent = text;
@@ -145,6 +154,10 @@ function countWarning() {
   return document.querySelectorAll('.card-date--warning').length;
 }
 
+function countByPriority(priority) {
+  return document.querySelectorAll(`.card:not(.hidden)[data-priority="${priority}"]`).length;
+}
+
 function buildBoardText() {
   const lines = [];
   document.querySelectorAll('.column').forEach(col => {
@@ -169,17 +182,46 @@ function toggleColumnCollapse(columnEl) {
   columnEl.classList.toggle('column--collapsed');
 }
 
+function markMatch(text, query) {
+  const safe = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const re = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  return safe.replace(re, m => `<mark>${m}</mark>`);
+}
+
 function filterCards(query) {
   const q = query.toLowerCase();
   let visible = 0;
   document.querySelectorAll('.card').forEach(card => {
-    const title = card.querySelector('.card-title').textContent.toLowerCase();
-    const descEl = card.querySelector('.card-desc');
-    const desc = descEl ? descEl.textContent.toLowerCase() : '';
+    const title = card.dataset.title || '';
+    const desc = card.dataset.desc || '';
     const priority = (card.dataset.priority || '').toLowerCase();
-    const hidden = q !== '' && !title.includes(q) && !desc.includes(q) && !priority.includes(q);
+    const hidden = q !== '' && !title.toLowerCase().includes(q) && !desc.toLowerCase().includes(q) && !priority.includes(q);
     card.classList.toggle('hidden', hidden);
+    const titleEl = card.querySelector('.card-title');
+    const descEl = card.querySelector('.card-desc');
+    if (!hidden && q !== '') {
+      titleEl.innerHTML = markMatch(title, query);
+      if (descEl) descEl.innerHTML = markMatch(desc, query);
+    } else {
+      titleEl.textContent = title;
+      if (descEl) descEl.textContent = desc;
+    }
     if (!hidden) visible++;
+  });
+  document.querySelectorAll('.column-body').forEach(body => {
+    const cards = Array.from(body.querySelectorAll('.card'));
+    const allHidden = cards.length > 0 && cards.every(c => c.classList.contains('hidden'));
+    let emptyEl = body.querySelector('.filter-empty');
+    if (q !== '' && allHidden) {
+      if (!emptyEl) {
+        emptyEl = document.createElement('div');
+        emptyEl.className = 'filter-empty';
+        emptyEl.textContent = 'Sem resultados';
+        body.appendChild(emptyEl);
+      }
+    } else if (emptyEl) {
+      emptyEl.remove();
+    }
   });
   return visible;
 }
