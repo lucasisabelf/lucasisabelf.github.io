@@ -1,5 +1,7 @@
 let refreshTimer;
 let sortEnabled = false;
+let dateSortEnabled = false;
+let compactMode = false;
 
 async function handleSubmit() {
   clearInterval(refreshTimer);
@@ -35,8 +37,13 @@ async function handleSubmit() {
       ? `Sprint Board — ${results[1].length} em andamento`
       : 'Sprint Board';
 
-    renderSummary(results.map(r => r.length));
-    results.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], sortEnabled ? sortByPriority(rows) : rows));
+    const orderedResults = results.map(rows => {
+      if (sortEnabled) return sortByPriority(rows);
+      if (dateSortEnabled) return sortByDate(rows);
+      return rows;
+    });
+    orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows));
+    renderSummary(results.map(r => r.length), countOverdue());
 
     showState('success');
 
@@ -60,18 +67,20 @@ function copyBoardLink() {
   if (!input) return;
   const url = `${location.origin}${location.pathname}?sheet=${encodeURIComponent(input)}`;
   const btn = document.getElementById('copy-link-btn');
-  navigator.clipboard.writeText(url).then(() => {
-    btn.textContent = '✓ Copiado!';
-    setTimeout(() => { btn.textContent = 'Copiar link do board'; }, 2000);
-  });
+  navigator.clipboard.writeText(url).then(() => flashButton(btn, '✓ Copiado!'));
 }
 
 function exportBoardText() {
   const btn = document.getElementById('export-btn');
-  navigator.clipboard.writeText(buildBoardText()).then(() => {
-    btn.textContent = '✓ Exportado!';
-    setTimeout(() => { btn.textContent = 'Exportar'; }, 2000);
-  });
+  navigator.clipboard.writeText(buildBoardText()).then(() => flashButton(btn, '✓ Exportado!'));
+}
+
+function buildCalendarUrl(title, desc, dateStr) {
+  const d = parsePtBrDate(dateStr);
+  if (!d) return 'https://calendar.google.com/calendar/r/eventedit' + (title ? `?text=${encodeURIComponent(title)}` : '');
+  const pad = n => String(n).padStart(2, '0');
+  const ymd = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+  return `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(title)}&details=${encodeURIComponent(desc)}&dates=${ymd}/${ymd}`;
 }
 
 function initTheme() {
@@ -100,6 +109,48 @@ function initTheme() {
     }
   });
 }
+
+document.getElementById('board').addEventListener('click', e => {
+  const askBtn = e.target.closest('.card-ask-claude-btn');
+  if (askBtn) {
+    const card = askBtn.closest('.card');
+    const { title, desc, date } = card.dataset;
+    const q = `Estou trabalhando na tarefa: ${title}.${desc ? ' ' + desc : ''} ${date ? 'Prazo: ' + date + '.' : ''} Como você me ajudaria com essa tarefa?`;
+    navigator.clipboard.writeText(q).then(() => {
+      flashButton(askBtn, '✓ Copiado!');
+      window.open('https://claude.ai');
+    });
+    return;
+  }
+  const calBtn = e.target.closest('.card-calendar-btn');
+  if (calBtn) {
+    const { title, desc, date } = calBtn.closest('.card').dataset;
+    window.open(buildCalendarUrl(title, desc, date));
+  }
+});
+
+document.getElementById('date-sort-btn').addEventListener('click', () => {
+  dateSortEnabled = !dateSortEnabled;
+  if (dateSortEnabled) { sortEnabled = false; document.getElementById('sort-btn').classList.remove('header-action-btn--active'); document.getElementById('sort-btn').textContent = 'Ordenar por prioridade'; localStorage.setItem('sortEnabled', false); }
+  const btn = document.getElementById('date-sort-btn');
+  btn.textContent = dateSortEnabled ? 'Ordem original' : 'Ordenar por data';
+  btn.classList.toggle('header-action-btn--active', dateSortEnabled);
+  localStorage.setItem('dateSortEnabled', dateSortEnabled);
+  handleSubmit();
+});
+
+document.getElementById('compact-btn').addEventListener('click', () => {
+  compactMode = !compactMode;
+  document.getElementById('board').classList.toggle('board--compact', compactMode);
+  document.getElementById('compact-btn').classList.toggle('header-action-btn--active', compactMode);
+  localStorage.setItem('compactMode', compactMode);
+});
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  showState('idle');
+  document.getElementById('sheet-url').value = '';
+  history.replaceState(null, '', location.pathname);
+});
 
 document.getElementById('sheet-select').addEventListener('change', e => {
   if (e.target.value) document.getElementById('sheet-url').value = e.target.value;
@@ -160,6 +211,17 @@ if (localStorage.getItem('sortEnabled') === 'true') {
   const sortBtn = document.getElementById('sort-btn');
   sortBtn.textContent = 'Ordem original';
   sortBtn.classList.add('header-action-btn--active');
+}
+if (localStorage.getItem('dateSortEnabled') === 'true') {
+  dateSortEnabled = true;
+  const btn = document.getElementById('date-sort-btn');
+  btn.textContent = 'Ordem original';
+  btn.classList.add('header-action-btn--active');
+}
+if (localStorage.getItem('compactMode') === 'true') {
+  compactMode = true;
+  document.getElementById('board').classList.add('board--compact');
+  document.getElementById('compact-btn').classList.add('header-action-btn--active');
 }
 
 const urlSheet = new URLSearchParams(location.search).get('sheet');

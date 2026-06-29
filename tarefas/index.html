@@ -11,7 +11,10 @@
     <header class="app-header">
       <div class="header-top">
         <h1>Sprint Board</h1>
-        <button id="theme-toggle" class="theme-toggle" title="Alternar tema">&#9728;</button>
+        <div class="header-top-actions">
+          <button id="reset-btn" class="reset-btn hidden">&#8592; Trocar planilha</button>
+          <button id="theme-toggle" class="theme-toggle" title="Alternar tema">&#9728;</button>
+        </div>
       </div>
       <p class="hint">
         Cole o link da planilha (as abas devem se chamar <strong>To Do</strong>, <strong>In Progress</strong> e <strong>Done</strong>).
@@ -33,6 +36,8 @@
         <button id="copy-link-btn" class="header-action-btn hidden">Copiar link do board</button>
         <button id="export-btn" class="header-action-btn hidden">Exportar</button>
         <button id="sort-btn" class="header-action-btn hidden">Ordenar por prioridade</button>
+        <button id="date-sort-btn" class="header-action-btn hidden">Ordenar por data</button>
+        <button id="compact-btn" class="header-action-btn hidden">Compacto</button>
         <button id="refresh-btn" class="header-action-btn hidden">&#8635; Atualizar</button>
         <button id="new-task-btn" class="new-task-btn hidden">+ Nova Tarefa</button>
       </div>
@@ -81,6 +86,10 @@
         <div class="modal-field">
           <label for="task-desc">Descrição</label>
           <textarea id="task-desc" placeholder="Descrição (opcional)" rows="3"></textarea>
+        </div>
+        <div class="modal-field">
+          <label for="task-date">Data</label>
+          <input id="task-date" type="date" />
         </div>
         <div id="modal-feedback" class="modal-feedback hidden"></div>
         <div class="modal-actions">

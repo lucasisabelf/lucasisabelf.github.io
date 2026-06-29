@@ -1,6 +1,20 @@
 const PRIORITY_CLASS = { 'Alta': 'priority--high', 'Média': 'priority--mid', 'Baixa': 'priority--low' };
 const PRIORITY_ORDER = { 'Alta': 0, 'Média': 1, 'Baixa': 2 };
 
+function flashButton(btn, tempText) {
+  const original = btn.textContent;
+  btn.textContent = tempText;
+  setTimeout(() => { btn.textContent = original; }, 2000);
+}
+
+function parsePtBrDate(str) {
+  if (!str) return null;
+  const parts = str.split('/');
+  if (parts.length !== 3) return null;
+  const d = new Date(`${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`);
+  return isNaN(d) ? null : d;
+}
+
 function renderCard(row) {
   const name = row[0].trim();
   const desc = row[1] ? row[1].trim() : '';
@@ -9,6 +23,9 @@ function renderCard(row) {
 
   const card = document.createElement('div');
   card.className = 'card';
+  card.dataset.title = name;
+  card.dataset.desc = desc;
+  card.dataset.date = date;
 
   const title = document.createElement('div');
   title.className = 'card-title';
@@ -40,6 +57,21 @@ function renderCard(row) {
     card.appendChild(badge);
   }
 
+  const actions = document.createElement('div');
+  actions.className = 'card-actions';
+
+  const askBtn = document.createElement('button');
+  askBtn.className = 'card-action-btn card-ask-claude-btn';
+  askBtn.textContent = 'Sugerir ao Claude';
+  actions.appendChild(askBtn);
+
+  const calBtn = document.createElement('button');
+  calBtn.className = 'card-action-btn card-calendar-btn';
+  calBtn.textContent = '+ Agenda';
+  actions.appendChild(calBtn);
+
+  card.appendChild(actions);
+
   return card;
 }
 
@@ -61,16 +93,32 @@ function renderColumn(bodyId, rows) {
   rows.forEach(row => body.appendChild(renderCard(row)));
 }
 
-function renderSummary(counts) {
+function renderSummary(counts, overdue) {
   const total = counts.reduce((s, n) => s + n, 0);
-  document.getElementById('board-summary').textContent =
-    `${total} total · ${counts[1]} em andamento · ${counts[2]} concluídas`;
+  let text = `${total} total · ${counts[1]} em andamento · ${counts[2]} concluídas`;
+  if (overdue > 0) text += ` · ${overdue} vencida${overdue !== 1 ? 's' : ''}`;
+  document.getElementById('board-summary').textContent = text;
 }
 
 function sortByPriority(rows) {
   return [...rows].sort((a, b) =>
     (PRIORITY_ORDER[a[3]] ?? 3) - (PRIORITY_ORDER[b[3]] ?? 3)
   );
+}
+
+function sortByDate(rows) {
+  return [...rows].sort((a, b) => {
+    const da = parsePtBrDate(a[2]);
+    const db = parsePtBrDate(b[2]);
+    if (!da && !db) return 0;
+    if (!da) return 1;
+    if (!db) return -1;
+    return da - db;
+  });
+}
+
+function countOverdue() {
+  return document.querySelectorAll('.card-date--overdue').length;
 }
 
 function buildBoardText() {
@@ -118,7 +166,10 @@ function showState(state, msg) {
   document.getElementById('auto-refresh-controls').classList.add('hidden');
   document.getElementById('board-summary').classList.add('hidden');
   document.getElementById('sort-btn').classList.add('hidden');
+  document.getElementById('date-sort-btn').classList.add('hidden');
   document.getElementById('export-btn').classList.add('hidden');
+  document.getElementById('compact-btn').classList.add('hidden');
+  document.getElementById('reset-btn').classList.add('hidden');
 
   const filterRow = document.getElementById('filter-row');
   filterRow.classList.add('hidden');
@@ -144,7 +195,10 @@ function showState(state, msg) {
     document.getElementById('auto-refresh-controls').classList.remove('hidden');
     document.getElementById('board-summary').classList.remove('hidden');
     document.getElementById('sort-btn').classList.remove('hidden');
+    document.getElementById('date-sort-btn').classList.remove('hidden');
     document.getElementById('export-btn').classList.remove('hidden');
+    document.getElementById('compact-btn').classList.remove('hidden');
+    document.getElementById('reset-btn').classList.remove('hidden');
   }
 }
 
@@ -152,6 +206,7 @@ function openNewTaskModal() {
   const taskName = document.getElementById('task-name');
   taskName.value = '';
   document.getElementById('task-desc').value = '';
+  document.getElementById('task-date').value = new Date().toISOString().slice(0, 10);
   document.getElementById('modal-feedback').classList.add('hidden');
   document.getElementById('modal-submit').disabled = false;
   document.getElementById('new-task-overlay').classList.remove('hidden');
@@ -167,7 +222,8 @@ function submitNewTask() {
   if (!name) return;
 
   const desc = document.getElementById('task-desc').value.trim();
-  const date = new Date().toLocaleDateString('pt-BR');
+  const isoDate = document.getElementById('task-date').value;
+  const date = isoDate ? isoDate.split('-').reverse().join('/') : new Date().toLocaleDateString('pt-BR');
   const tsv = `${name}\t${desc}\t${date}`;
 
   navigator.clipboard.writeText(tsv).then(() => {

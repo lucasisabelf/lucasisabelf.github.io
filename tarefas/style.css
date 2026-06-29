@@ -89,6 +89,25 @@ main {
   margin-bottom: .4rem;
 }
 
+.header-top-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.reset-btn {
+  font-size: .8rem;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.reset-btn:hover {
+  color: var(--text);
+}
+
 .app-header h1 {
   font-size: 1.6rem;
   font-weight: 700;
@@ -418,6 +437,32 @@ main {
 .priority--high { background: var(--priority-high-bg); color: var(--priority-high-color); }
 .priority--mid  { background: var(--priority-mid-bg);  color: var(--priority-mid-color); }
 .priority--low  { background: var(--badge-bg);          color: var(--empty-col); }
+
+.card-actions {
+  display: flex;
+  gap: .4rem;
+  margin-top: .5rem;
+  padding-top: .4rem;
+  border-top: 1px solid var(--border);
+}
+
+.card-action-btn {
+  font-size: .72rem;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.card-action-btn:hover {
+  color: var(--blue);
+}
+
+.board--compact .card-desc,
+.board--compact .card-date,
+.board--compact .card-priority,
+.board--compact .card-actions { display: none; }
 
 .empty-column {
   font-size: .85rem;
