@@ -133,7 +133,7 @@ function renderSummary(counts, overdue, warning) {
   document.getElementById('board-summary').textContent = text;
   const pct = total > 0 ? Math.round((counts[2] / total) * 100) : 0;
   document.getElementById('sprint-progress-bar').style.width = pct + '%';
-  document.title = pct > 0 ? `Sprint Board · ${pct}%` : 'Sprint Board';
+  document.title = alta > 0 ? `⚠ ${alta} · Sprint Board · ${pct}%` : pct > 0 ? `Sprint Board · ${pct}%` : 'Sprint Board';
 }
 
 function sortByPriority(rows) {
@@ -191,26 +191,54 @@ function toggleColumnCollapse(columnEl) {
   columnEl.classList.toggle('column--collapsed');
 }
 
+function buildIcsContent(title, desc, dateStr) {
+  const d = parsePtBrDate(dateStr) || new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const ymd = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+  const next = new Date(d);
+  next.setDate(next.getDate() + 1);
+  const ymdn = `${next.getFullYear()}${pad(next.getMonth() + 1)}${pad(next.getDate())}`;
+  const lines = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Sprint Board//EN',
+    'BEGIN:VEVENT',
+    `UID:sprint-board-${Date.now()}@app`,
+    `DTSTART;VALUE=DATE:${ymd}`,
+    `DTEND;VALUE=DATE:${ymdn}`,
+    `SUMMARY:${title}`,
+    desc ? `DESCRIPTION:${desc}` : null,
+    'END:VEVENT', 'END:VCALENDAR'
+  ].filter(Boolean);
+  return lines.join('\r\n');
+}
+
+function markTerms(text, terms) {
+  let html = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  terms.forEach(t => {
+    const re = new RegExp(t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    html = html.replace(re, m => `<mark>${m}</mark>`);
+  });
+  return html;
+}
+
 function markMatch(text, query) {
-  const safe = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const re = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-  return safe.replace(re, m => `<mark>${m}</mark>`);
+  return markTerms(text, [query]);
 }
 
 function filterCards(query) {
-  const q = query.toLowerCase();
+  const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
   let visible = 0;
   document.querySelectorAll('.card').forEach(card => {
     const title = card.dataset.title || '';
     const desc = card.dataset.desc || '';
     const priority = (card.dataset.priority || '').toLowerCase();
-    const hidden = q !== '' && !title.toLowerCase().includes(q) && !desc.toLowerCase().includes(q) && !priority.includes(q);
+    const combined = title.toLowerCase() + ' ' + desc.toLowerCase() + ' ' + priority;
+    const hidden = terms.length > 0 && !terms.every(t => combined.includes(t));
     card.classList.toggle('hidden', hidden);
     const titleEl = card.querySelector('.card-title');
     const descEl = card.querySelector('.card-desc');
-    if (!hidden && q !== '') {
-      titleEl.innerHTML = markMatch(title, query);
-      if (descEl) descEl.innerHTML = markMatch(desc, query);
+    if (!hidden && terms.length > 0) {
+      titleEl.innerHTML = markTerms(title, terms);
+      if (descEl) descEl.innerHTML = markTerms(desc, terms);
     } else {
       titleEl.textContent = title;
       if (descEl) descEl.textContent = desc;
@@ -221,7 +249,7 @@ function filterCards(query) {
     const cards = Array.from(body.querySelectorAll('.card'));
     const allHidden = cards.length > 0 && cards.every(c => c.classList.contains('hidden'));
     let emptyEl = body.querySelector('.filter-empty');
-    if (q !== '' && allHidden) {
+    if (terms.length > 0 && allHidden) {
       if (!emptyEl) {
         emptyEl = document.createElement('div');
         emptyEl.className = 'filter-empty';

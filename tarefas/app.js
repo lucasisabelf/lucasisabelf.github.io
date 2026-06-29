@@ -146,12 +146,13 @@ function downloadBoardJson() {
   URL.revokeObjectURL(a.href);
 }
 
-function buildCalendarUrl(title, desc, dateStr) {
-  const d = parsePtBrDate(dateStr);
-  if (!d) return 'https://calendar.google.com/calendar/r/eventedit' + (title ? `?text=${encodeURIComponent(title)}` : '');
-  const pad = n => String(n).padStart(2, '0');
-  const ymd = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
-  return `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(title)}&details=${encodeURIComponent(desc)}&dates=${ymd}/${ymd}`;
+function downloadIcs(title, desc, dateStr) {
+  const blob = new Blob([buildIcsContent(title, desc, dateStr)], { type: 'text/calendar;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tarefa.ics';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 function resetAllSettings() {
@@ -245,13 +246,14 @@ document.getElementById('board').addEventListener('click', e => {
   const calBtn = e.target.closest('.card-calendar-btn');
   if (calBtn) {
     const { title, desc, date } = calBtn.closest('.card').dataset;
-    window.open(buildCalendarUrl(title, desc, date));
+    downloadIcs(title, desc, date);
     return;
   }
   const copyBtn = e.target.closest('.card-copy-btn');
   if (copyBtn) {
-    const { title } = copyBtn.closest('.card').dataset;
-    navigator.clipboard.writeText(title).then(() => flashButton(copyBtn, '✓ Copiado!'));
+    const { title, desc, date, priority } = copyBtn.closest('.card').dataset;
+    const text = `${title}${desc ? ' — ' + desc : ''}${date ? ' · ' + date : ''}${priority ? ' [' + priority + ']' : ''}`;
+    navigator.clipboard.writeText(text).then(() => flashButton(copyBtn, '✓ Copiado!'));
     return;
   }
   const priorityBadge = e.target.closest('.card-priority');
@@ -418,6 +420,7 @@ document.addEventListener('keydown', e => {
     if (!el.classList.contains('hidden')) el.click();
   }
   if (e.key === 'p' || e.key === 'P') window.print();
+  if (e.key === 'e' || e.key === 'E') exportBoardText();
 });
 
 document.querySelectorAll('.version-text').forEach(el => { el.textContent = APP_VERSION; });
