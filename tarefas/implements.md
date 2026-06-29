@@ -1,8 +1,18 @@
-# Implements — Sprint Board (ciclo 15)
+# Implements — Sprint Board (ciclo 16)
 
-## 1. Download .ics para criar evento no Google Agenda
+## 1. Coluna de origem e data relativa no modal de detalhes
 
-**Tarefa:** Adicionado `buildIcsContent(title, desc, dateStr)` em `ui.js` — retorna string VCALENDAR/VEVENT com DTSTART/DTEND como datas de dia inteiro (VALUE=DATE), SUMMARY e DESCRIPTION opcionais, UID único por timestamp. Adicionado `downloadIcs(title, desc, dateStr)` em `app.js` — cria Blob `text/calendar`, ancora temporária e faz download `tarefa.ics`. No board delegation de `app.js`, substituído `window.open(buildCalendarUrl(...))` por `downloadIcs(...)`. Removida `buildCalendarUrl`.
+**Tarefa:** Em `openCardDetail` (ui.js), adicionado campo `#card-detail-column` em `index.html` e preenchido com `Coluna: ${colName}` derivado de `card.closest('.column').querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '')`. Para a data, calculado `delta` via `parsePtBrDate` e `MS_PER_DAY` já existentes, e exibido suffix `· em X dia(s)`, `· hoje` ou `· vencida há X dia(s)` conforme o caso.
+
+**Edge case:** Feature de sticky headers (original #1 do FEATURES.md) descartada por `.column { overflow: hidden }` que bloqueia `position: sticky` em filhos. Substituída pela coluna de origem no modal.
+
+**Solução:** Sticky headers requer remover `overflow: hidden` de `.column` o que quebraria o clipping dos border-radius dos cards. Mantido o overflow; feature substituída por informação contextual no modal de detalhes.
+
+---
+
+## 2. Animação de entrada dos cards (já existia)
+
+**Tarefa:** Feature do FEATURES.md (`@keyframes card-in` + `animation: card-in .15s`) já estava implementada: `.card { animation: fadeIn .18s ease }` e `@keyframes fadeIn` definidos em `style.css`. Nenhuma mudança necessária.
 
 **Edge case:** Nenhum
 
@@ -10,19 +20,9 @@
 
 ---
 
-## 2. Filtro multi-termo com AND por espaço
+## 3. Atalho C para colapsar/expandir todas as colunas
 
-**Tarefa:** Em `ui.js`, substituído `markMatch` por dois helpers: `markTerms(text, terms)` (escapa HTML uma vez e aplica regex de cada termo sequencialmente) e `markMatch(text, query)` que delega para `markTerms([query])`. Reescrito `filterCards` para dividir a query em `terms` via `/\s+/`, verificar visibilidade com `terms.every(t => combined.includes(t))` e usar `markTerms` para highlight de todos os termos.
-
-**Edge case:** `markMatch` precisou ser refatorado para evitar re-escape de HTML ao aplicar múltiplos termos sequencialmente.
-
-**Solução:** Introduzido `markTerms` como primitivo que faz o escape uma vez; `markMatch` vira wrapper de um termo só — nenhuma quebra de API existente.
-
----
-
-## 3. Atalho E para exportar board como texto
-
-**Tarefa:** No handler `keydown` de `document` em `app.js`, adicionado `if (e.key === 'e' || e.key === 'E') exportBoardText()` dentro do bloco `boardVisible && !inInput`. Em `index.html`, adicionada linha `E → Exportar board (copiar como texto)` na tabela de atalhos.
+**Tarefa:** No handler `keydown` de `document` em `app.js`, adicionado `c/C` → `querySelectorAll('.column')`, verifica se todas têm `column--collapsed` com `Array.from().every()`, faz toggle inverso em todas e chama `saveCollapseState()`. Em `index.html`, adicionada linha `C → Colapsar/expandir todas as colunas` na tabela de atalhos.
 
 **Edge case:** Nenhum
 
@@ -30,19 +30,9 @@
 
 ---
 
-## 4. Alta prioridade no título da aba
+## 4. Feedback visual ao baixar .ics
 
-**Tarefa:** Em `renderSummary` (ui.js), atualizado `document.title` para `⚠ ${alta} · Sprint Board · ${pct}%` quando `alta > 0`, mantendo o formato original nos outros casos.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 5. Copiar card completo com metadados
-
-**Tarefa:** No handler `.card-copy-btn` do board delegation em `app.js`, destruturado `{ title, desc, date, priority }` do `card.dataset` e construída string `${title}${desc ? ' — ' + desc : ''}${date ? ' · ' + date : ''}${priority ? ' [' + priority + ']' : ''}`. Campos opcionais omitidos quando vazios.
+**Tarefa:** No handler `.card-calendar-btn` do board delegation em `app.js`, adicionado `flashButton(calBtn, '✓ Baixando!')` após `downloadIcs(...)`. Consistente com o padrão dos demais botões de ação do card.
 
 **Edge case:** Nenhum
 

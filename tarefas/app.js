@@ -247,6 +247,7 @@ document.getElementById('board').addEventListener('click', e => {
   if (calBtn) {
     const { title, desc, date } = calBtn.closest('.card').dataset;
     downloadIcs(title, desc, date);
+    flashButton(calBtn, '✓ Baixando!');
     return;
   }
   const copyBtn = e.target.closest('.card-copy-btn');
@@ -421,6 +422,12 @@ document.addEventListener('keydown', e => {
   }
   if (e.key === 'p' || e.key === 'P') window.print();
   if (e.key === 'e' || e.key === 'E') exportBoardText();
+  if (e.key === 'c' || e.key === 'C') {
+    const cols = document.querySelectorAll('.column');
+    const allCollapsed = Array.from(cols).every(c => c.classList.contains('column--collapsed'));
+    cols.forEach(c => c.classList.toggle('column--collapsed', !allCollapsed));
+    saveCollapseState();
+  }
 });
 
 document.querySelectorAll('.version-text').forEach(el => { el.textContent = APP_VERSION; });

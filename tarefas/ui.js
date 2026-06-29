@@ -329,8 +329,19 @@ function openCardDetail(card) {
   const descEl = document.getElementById('card-detail-desc');
   descEl.textContent = desc;
   descEl.classList.toggle('hidden', !desc);
+  const colName = card.closest('.column').querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
+  const colEl = document.getElementById('card-detail-column');
+  colEl.textContent = `Coluna: ${colName}`;
+  colEl.classList.remove('hidden');
   const dateEl = document.getElementById('card-detail-date');
-  dateEl.textContent = date ? `Data: ${date}` : '';
+  if (date) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const parsed = parsePtBrDate(date);
+    const delta = parsed ? Math.round((parsed - today) / MS_PER_DAY) : null;
+    const suffix = delta === null ? '' : delta > 0 ? ` · em ${delta} dia${delta !== 1 ? 's' : ''}` : delta < 0 ? ` · vencida há ${Math.abs(delta)} dia${Math.abs(delta) !== 1 ? 's' : ''}` : ' · hoje';
+    dateEl.textContent = `Data: ${date}${suffix}`;
+  }
   dateEl.classList.toggle('hidden', !date);
   const prioEl = document.getElementById('card-detail-priority');
   prioEl.textContent = priority ? `Prioridade: ${priority}` : '';
