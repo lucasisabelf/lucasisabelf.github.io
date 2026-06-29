@@ -340,6 +340,8 @@ document.addEventListener('keydown', e => {
   if (e.key === 'n' || e.key === 'N') openNewTaskModal();
 });
 
+document.querySelectorAll('.version-text').forEach(el => { el.textContent = APP_VERSION; });
+
 populateSelect();
 initRecentSheets();
 initTheme();

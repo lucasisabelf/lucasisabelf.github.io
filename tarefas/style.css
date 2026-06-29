@@ -125,6 +125,24 @@ main {
   color: var(--text);
 }
 
+.version-badge {
+  font-size: .65rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--badge-bg);
+  border-radius: 999px;
+  padding: .1rem .45rem;
+  vertical-align: middle;
+  letter-spacing: .02em;
+}
+
+.about-info {
+  font-size: .8rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: .5rem;
+}
+
 .hint {
   font-size: .85rem;
   color: var(--text-muted);
