@@ -24,6 +24,8 @@
   --priority-high-color: #c53030;
   --priority-mid-bg: #fffbeb;
   --priority-mid-color: #b45309;
+  --warning-bg: #fef3c7;
+  --warning-color: #92400e;
 }
 
 [data-theme="dark"] {
@@ -52,6 +54,8 @@
   --priority-high-color: #fc8181;
   --priority-mid-bg: #2d2310;
   --priority-mid-color: #fbbf24;
+  --warning-bg: #29200a;
+  --warning-color: #f59e0b;
 }
 
 *, *::before, *::after {
@@ -379,6 +383,16 @@ main {
   flex-direction: column;
   gap: .6rem;
   min-height: 60px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.column-body::-webkit-scrollbar {
+  width: 4px;
+}
+.column-body::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
 }
 
 /* ── Cards ── */
@@ -422,6 +436,11 @@ main {
 .card-date--overdue {
   background: var(--overdue-bg);
   color: var(--overdue-color);
+}
+
+.card-date--warning {
+  background: var(--warning-bg);
+  color: var(--warning-color);
 }
 
 .card-priority {
@@ -585,6 +604,38 @@ main {
   font-size: .82rem;
   color: var(--text-muted);
   margin-top: .5rem;
+}
+
+.sprint-progress {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  margin-top: .4rem;
+  overflow: hidden;
+}
+
+.sprint-progress-bar {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 3px;
+  transition: width .4s ease;
+}
+
+.shortcuts-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .875rem;
+  margin-bottom: 1rem;
+}
+
+.shortcuts-table td {
+  padding: .4rem .5rem;
+}
+
+.shortcuts-table td:first-child {
+  font-weight: 600;
+  color: var(--text);
+  width: 4rem;
 }
 
 .column--collapsed .column-body { display: none; }

@@ -1,18 +1,8 @@
 # Implements — Sprint Board
 
-## 1. Botão "Sugerir ao Claude" por card
+## 1. Scroll independente por coluna
 
-**Tarefa:** `renderCard` adiciona `data-title/desc/date` ao `.card` e cria `.card-actions` com botão `.card-ask-claude-btn`. Listener de delegação único em `#board` (app.js) intercepta cliques via `closest()`, monta pergunta contextualizada, copia via clipboard e abre `claude.ai`. Feedback via `flashButton` (helper DRY extraído — 4 botões usam o mesmo padrão de feedback temporário).
-
-**Edge case:** FEATURES.md propunha listener direto no botão dentro de `renderCard`. Isso viola SRP — render não registra eventos.
-
-**Solução:** Delegação em `#board` na camada de inicialização de `app.js`. Um único listener cobre todos os cards presentes e futuros.
-
----
-
-## 2. Botão "Adicionar ao Google Agenda" por card
-
-**Tarefa:** Botão `.card-calendar-btn` adicionado ao `.card-actions` em `renderCard`. Mesmo listener de delegação de `#board` intercepta cliques via segundo `closest()`. Handler chama `buildCalendarUrl(title, desc, dateStr)` (função pura em app.js) que usa `parsePtBrDate` para converter DD/MM/YYYY → YYYYMMDD e monta URL do Google Calendar. Se a data for inválida, URL abre sem parâmetro de data.
+**Tarefa:** Adicionado `max-height: 70vh; overflow-y: auto` ao `.column-body` existente em `style.css`. Adicionada scrollbar estilizada via `::-webkit-scrollbar` e `::-webkit-scrollbar-thumb`. Nenhuma alteração em HTML ou JS.
 
 **Edge case:** Nenhum
 
@@ -20,19 +10,9 @@
 
 ---
 
-## 3. Date picker no modal de nova tarefa
+## 2. Barra de progresso do sprint
 
-**Tarefa:** Campo `<input type="date" id="task-date">` adicionado ao modal em `index.html`. `openNewTaskModal` (ui.js) pré-preenche com `.toISOString().slice(0, 10)`. `submitNewTask` converte o valor ISO para pt-BR via `.split('-').reverse().join('/')`, mantendo compatibilidade com o formato do spreadsheet.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 4. Ordenação de cards por data
-
-**Tarefa:** `parsePtBrDate(str)` extraída ao topo de ui.js (usada também por buildCalendarUrl — 2 usos, mas previsto terceiro em sort). `sortByDate(rows)` pura usa-a para ordenar por prazo ascendente, nulls no final. `let dateSortEnabled` em app.js. Sorts por prioridade e data são mutuamente exclusivos: ativar um desativa e reseta o outro. Persistência em localStorage. Restauração na init.
+**Tarefa:** Adicionado `<div id="sprint-progress">` com `<div id="sprint-progress-bar">` no `index.html` após `#board-summary`. Em `ui.js`, `renderSummary` calcula `pct = Math.round((counts[2] / total) * 100)` e aplica ao `style.width` do bar. `showState` gerencia visibilidade de `#sprint-progress` junto de `#board-summary`. CSS define a barra com `transition: width .4s ease` para animação suave.
 
 **Edge case:** Nenhum
 
@@ -40,19 +20,19 @@
 
 ---
 
-## 5. Contagem de tarefas vencidas no resumo
+## 3. Destaque de prazo próximo nos cards
 
-**Tarefa:** `countOverdue()` em ui.js conta `.card-date--overdue` no DOM. `renderSummary(counts, overdue)` recebe o segundo parâmetro e acrescenta `· N vencidas` somente se `overdue > 0`. Em `handleSubmit`, a chamada `renderSummary` foi movida para depois de `renderColumn` para que os elementos já existam no DOM.
+**Tarefa:** Adicionada constante `DAYS_UNTIL_WARNING = 3` ao topo de `ui.js` junto de `PRIORITY_CLASS` e `PRIORITY_ORDER`. Em `renderCard`, a checagem de data foi refatorada para usar `parsePtBrDate(date)` em vez de `new Date(date)` (o formato real dos dados é DD/MM/YYYY). Cards não vencidos com prazo dentro de `DAYS_UNTIL_WARNING` dias recebem `.card-date--warning`. CSS adiciona variáveis `--warning-bg`/`--warning-color` em `:root` e `[data-theme="dark"]` e a regra `.card-date--warning`.
 
-**Edge case:** FEATURES.md propunha chamar `renderSummary` antes de `renderColumn`. Isso produziria contagem zero sempre (DOM ainda não renderizado).
+**Edge case:** FEATURES.md propunha usar a variável `parsed` já existente (computada com `new Date(date)`). Esse parser falha para datas no formato DD/MM/YYYY — o formato real dos dados da planilha, evidenciado pela existência de `parsePtBrDate` no projeto. Usar `new Date('28/06/2026')` retorna `Invalid Date` na maioria dos browsers.
 
-**Solução:** `renderColumn` ocorre primeiro; `renderSummary(counts, countOverdue())` é chamada depois.
+**Solução:** O bloco de data em `renderCard` foi alterado para usar `parsePtBrDate(date)`, corrigindo simultaneamente a detecção de vencimento (que também estava quebrada) e implementando o destaque de aviso corretamente.
 
 ---
 
-## 6. Modo compacto de cards
+## 4. Histórico de planilhas recentes
 
-**Tarefa:** `let compactMode` em app.js. Listener de `#compact-btn` alterna a classe `.board--compact` em `#board` diretamente (sem re-fetch), persiste em localStorage e atualiza `.header-action-btn--active` no botão. Em style.css, `.board--compact` oculta `.card-desc`, `.card-date`, `.card-priority` e `.card-actions`. Restauração na init.
+**Tarefa:** Em `app.js`, adicionadas `saveRecentSheet(url)` — lê o array de `localStorage.getItem('recentSheets')`, faz prepend da URL, remove duplicatas via `filter`, limita a 5 e salva — e `initRecentSheets()` — lê o array e, se não vazio, cria `<optgroup label="Recentes">` no `#sheet-select` com uma `<option>` por URL (50 chars + `…`). `saveRecentSheet(input)` é chamada em `handleSubmit` após `localStorage.setItem('lastSheet')`. `initRecentSheets()` é chamada na inicialização após `populateSelect()`.
 
 **Edge case:** Nenhum
 
@@ -60,9 +40,9 @@
 
 ---
 
-## 7. Botão "← Trocar planilha"
+## 5. Overlay de atalhos de teclado
 
-**Tarefa:** `<button id="reset-btn">` dentro de `.header-top-actions` (novo wrapper flex junto do `#theme-toggle`). Listener em app.js chama `showState('idle')`, zera `#sheet-url` e limpa a URL com `history.replaceState(null, '', location.pathname)`. `showState` gerencia visibilidade — visível só em `success`.
+**Tarefa:** Adicionado `<button id="help-btn" class="theme-toggle">?</button>` no `.header-top-actions` do `index.html`. Adicionado `#help-overlay` com tabela de 6 atalhos (R, F, N, ?, Esc, Header) e botão `#help-close-btn`. Em `ui.js`, adicionada `toggleHelp()` que alterna `.hidden` no overlay. Em `app.js`, registrados listeners para `#help-btn`, `#help-close-btn` e clique no fundo do overlay. No listener `keydown` existente: `?` chama `toggleHelp()` (antes da guarda de `inInput`); `Escape` fecha o overlay além do modal. CSS adiciona `.shortcuts-table` com `td:first-child` destacado.
 
 **Edge case:** Nenhum
 

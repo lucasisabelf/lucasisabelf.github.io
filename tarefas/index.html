@@ -13,6 +13,7 @@
         <h1>Sprint Board</h1>
         <div class="header-top-actions">
           <button id="reset-btn" class="reset-btn hidden">&#8592; Trocar planilha</button>
+          <button id="help-btn" class="theme-toggle" title="Atalhos de teclado">?</button>
           <button id="theme-toggle" class="theme-toggle" title="Alternar tema">&#9728;</button>
         </div>
       </div>
@@ -75,6 +76,9 @@
       </div>
     </div>
     <div id="board-summary" class="board-summary hidden"></div>
+    <div id="sprint-progress" class="sprint-progress hidden">
+      <div id="sprint-progress-bar" class="sprint-progress-bar"></div>
+    </div>
 
     <div id="new-task-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
       <div class="modal">
@@ -95,6 +99,24 @@
         <div class="modal-actions">
           <button id="modal-cancel" class="modal-cancel-btn">Cancelar</button>
           <button id="modal-submit" class="modal-submit-btn">Adicionar</button>
+        </div>
+      </div>
+    </div>
+    <div id="help-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
+      <div class="modal">
+        <h2 class="modal-title">Atalhos de teclado</h2>
+        <table class="shortcuts-table">
+          <tbody>
+            <tr><td>R</td><td>Atualizar board</td></tr>
+            <tr><td>F</td><td>Focar no filtro</td></tr>
+            <tr><td>N</td><td>Nova tarefa</td></tr>
+            <tr><td>?</td><td>Mostrar/ocultar atalhos</td></tr>
+            <tr><td>Esc</td><td>Fechar modal ou atalhos</td></tr>
+            <tr><td>Header</td><td>Recolher/expandir coluna</td></tr>
+          </tbody>
+        </table>
+        <div class="modal-actions">
+          <button id="help-close-btn" class="modal-cancel-btn">Fechar</button>
         </div>
       </div>
     </div>

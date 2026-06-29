@@ -1,5 +1,6 @@
 const PRIORITY_CLASS = { 'Alta': 'priority--high', 'Média': 'priority--mid', 'Baixa': 'priority--low' };
 const PRIORITY_ORDER = { 'Alta': 0, 'Média': 1, 'Baixa': 2 };
+const DAYS_UNTIL_WARNING = 3;
 
 function flashButton(btn, tempText) {
   const original = btn.textContent;
@@ -45,8 +46,16 @@ function renderCard(row) {
     dt.textContent = date;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const parsed = new Date(date);
-    if (!isNaN(parsed) && parsed < today) dt.classList.add('card-date--overdue');
+    const parsed = parsePtBrDate(date);
+    if (parsed && parsed < today) {
+      dt.classList.add('card-date--overdue');
+    } else {
+      const warningThreshold = new Date();
+      warningThreshold.setDate(warningThreshold.getDate() + DAYS_UNTIL_WARNING);
+      if (parsed && parsed >= today && parsed <= warningThreshold) {
+        dt.classList.add('card-date--warning');
+      }
+    }
     card.appendChild(dt);
   }
 
@@ -98,6 +107,8 @@ function renderSummary(counts, overdue) {
   let text = `${total} total · ${counts[1]} em andamento · ${counts[2]} concluídas`;
   if (overdue > 0) text += ` · ${overdue} vencida${overdue !== 1 ? 's' : ''}`;
   document.getElementById('board-summary').textContent = text;
+  const pct = total > 0 ? Math.round((counts[2] / total) * 100) : 0;
+  document.getElementById('sprint-progress-bar').style.width = pct + '%';
 }
 
 function sortByPriority(rows) {
@@ -165,6 +176,7 @@ function showState(state, msg) {
   document.getElementById('new-task-btn').classList.add('hidden');
   document.getElementById('auto-refresh-controls').classList.add('hidden');
   document.getElementById('board-summary').classList.add('hidden');
+  document.getElementById('sprint-progress').classList.add('hidden');
   document.getElementById('sort-btn').classList.add('hidden');
   document.getElementById('date-sort-btn').classList.add('hidden');
   document.getElementById('export-btn').classList.add('hidden');
@@ -194,6 +206,7 @@ function showState(state, msg) {
     filterRow.classList.remove('hidden');
     document.getElementById('auto-refresh-controls').classList.remove('hidden');
     document.getElementById('board-summary').classList.remove('hidden');
+    document.getElementById('sprint-progress').classList.remove('hidden');
     document.getElementById('sort-btn').classList.remove('hidden');
     document.getElementById('date-sort-btn').classList.remove('hidden');
     document.getElementById('export-btn').classList.remove('hidden');
@@ -236,6 +249,10 @@ function submitNewTask() {
       closeNewTaskModal();
     }, 1000);
   });
+}
+
+function toggleHelp() {
+  document.getElementById('help-overlay').classList.toggle('hidden');
 }
 
 function populateSelect() {

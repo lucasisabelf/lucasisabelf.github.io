@@ -51,6 +51,7 @@ async function handleSubmit() {
     editLink.classList.remove('hidden');
 
     localStorage.setItem('lastSheet', input);
+    saveRecentSheet(input);
     history.replaceState(null, '', `?sheet=${encodeURIComponent(input)}`);
 
     if (document.getElementById('auto-refresh').checked) {
@@ -81,6 +82,30 @@ function buildCalendarUrl(title, desc, dateStr) {
   const pad = n => String(n).padStart(2, '0');
   const ymd = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
   return `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(title)}&details=${encodeURIComponent(desc)}&dates=${ymd}/${ymd}`;
+}
+
+function saveRecentSheet(url) {
+  const stored = localStorage.getItem('recentSheets');
+  const list = stored ? JSON.parse(stored) : [];
+  const updated = [url, ...list.filter(u => u !== url)].slice(0, 5);
+  localStorage.setItem('recentSheets', JSON.stringify(updated));
+}
+
+function initRecentSheets() {
+  const stored = localStorage.getItem('recentSheets');
+  if (!stored) return;
+  const list = JSON.parse(stored);
+  if (!list.length) return;
+  const select = document.getElementById('sheet-select');
+  const group = document.createElement('optgroup');
+  group.label = 'Recentes';
+  list.forEach(url => {
+    const opt = document.createElement('option');
+    opt.value = url;
+    opt.textContent = url.length > 50 ? url.slice(0, 50) + '…' : url;
+    group.appendChild(opt);
+  });
+  select.appendChild(group);
 }
 
 function initTheme() {
@@ -184,6 +209,11 @@ document.getElementById('filter-clear-btn').addEventListener('click', () => {
   document.getElementById('filter-clear-btn').classList.add('hidden');
   filterInput.focus();
 });
+document.getElementById('help-btn').addEventListener('click', toggleHelp);
+document.getElementById('help-close-btn').addEventListener('click', toggleHelp);
+document.getElementById('help-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) toggleHelp();
+});
 document.getElementById('new-task-btn').addEventListener('click', openNewTaskModal);
 document.getElementById('modal-cancel').addEventListener('click', closeNewTaskModal);
 document.getElementById('modal-submit').addEventListener('click', submitNewTask);
@@ -194,7 +224,12 @@ document.getElementById('task-name').addEventListener('keydown', e => {
   if (e.key === 'Enter') submitNewTask();
 });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeNewTaskModal(); return; }
+  if (e.key === 'Escape') {
+    closeNewTaskModal();
+    document.getElementById('help-overlay').classList.add('hidden');
+    return;
+  }
+  if (e.key === '?') { toggleHelp(); return; }
   const boardVisible = !document.getElementById('board').classList.contains('hidden');
   const inInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT';
   if (!boardVisible || inInput) return;
@@ -204,6 +239,7 @@ document.addEventListener('keydown', e => {
 });
 
 populateSelect();
+initRecentSheets();
 initTheme();
 
 if (localStorage.getItem('sortEnabled') === 'true') {
