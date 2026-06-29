@@ -1,10 +1,11 @@
 let refreshTimer;
 let sortEnabled = false;
 let dateSortEnabled = false;
+let titleSortEnabled = false;
 let compactMode = false;
 let focusMode = false;
 
-const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortEnabled', 'dateSortEnabled', 'compactMode', 'collapseState', 'focusMode'];
+const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortEnabled', 'dateSortEnabled', 'titleSortEnabled', 'compactMode', 'collapseState', 'focusMode'];
 
 async function handleSubmit() {
   clearInterval(refreshTimer);
@@ -39,6 +40,7 @@ async function handleSubmit() {
     const orderedResults = results.map(rows => {
       if (sortEnabled) return sortByPriority(rows);
       if (dateSortEnabled) return sortByDate(rows);
+      if (titleSortEnabled) return sortByTitle(rows);
       return rows;
     });
     orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows));
@@ -54,7 +56,9 @@ async function handleSubmit() {
     saveRecentSheet(input);
     history.replaceState(null, '', `?sheet=${encodeURIComponent(input)}`);
 
-    if (document.getElementById('auto-refresh').checked) {
+    const autoActive = document.getElementById('auto-refresh').checked;
+    document.getElementById('refresh-btn').classList.toggle('header-action-btn--active', autoActive);
+    if (autoActive) {
       const intervalMs = parseInt(document.getElementById('refresh-interval').value, 10) * 60000;
       refreshTimer = setInterval(handleSubmit, intervalMs);
     }
@@ -247,7 +251,8 @@ document.getElementById('board').addEventListener('click', e => {
   if (calBtn) {
     const { title, desc, date } = calBtn.closest('.card').dataset;
     downloadIcs(title, desc, date);
-    flashButton(calBtn, '✓ Baixando!');
+    window.open(buildCalendarUrl(title, desc, date));
+    flashButton(calBtn, '✓ Agenda!');
     return;
   }
   const copyBtn = e.target.closest('.card-copy-btn');
@@ -282,6 +287,24 @@ document.getElementById('date-sort-btn').addEventListener('click', () => {
   handleSubmit();
 });
 
+document.getElementById('title-sort-btn').addEventListener('click', () => {
+  titleSortEnabled = !titleSortEnabled;
+  if (titleSortEnabled) {
+    sortEnabled = false;
+    dateSortEnabled = false;
+    document.getElementById('sort-btn').classList.remove('header-action-btn--active');
+    document.getElementById('sort-btn').textContent = 'Ordenar por prioridade';
+    document.getElementById('date-sort-btn').classList.remove('header-action-btn--active');
+    document.getElementById('date-sort-btn').textContent = 'Ordenar por data';
+    localStorage.setItem('sortEnabled', false);
+    localStorage.setItem('dateSortEnabled', false);
+  }
+  const btn = document.getElementById('title-sort-btn');
+  btn.textContent = titleSortEnabled ? 'Ordem original' : 'Ordenar A-Z';
+  btn.classList.toggle('header-action-btn--active', titleSortEnabled);
+  localStorage.setItem('titleSortEnabled', titleSortEnabled);
+  handleSubmit();
+});
 document.getElementById('compact-btn').addEventListener('click', () => {
   compactMode = !compactMode;
   document.getElementById('board').classList.toggle('board--compact', compactMode);
@@ -325,6 +348,14 @@ document.getElementById('sort-btn').addEventListener('click', () => {
 });
 document.querySelectorAll('.column-header').forEach(h => {
   h.addEventListener('click', e => {
+    if (e.shiftKey && e.ctrlKey) {
+      const body = h.closest('.column').querySelector('.column-body');
+      const colName = h.textContent.replace(/ \(\d+\)$/, '');
+      const cards = Array.from(body.querySelectorAll('.card'));
+      const rows = ['Coluna,Título,Descrição,Data,Prioridade', ...cards.map(c => [colName, c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority].map(csvEscape).join(','))];
+      navigator.clipboard.writeText(rows.join('\n')).then(() => flashButton(h, '✓ CSV!'));
+      return;
+    }
     if (e.shiftKey) {
       const body = h.closest('.column').querySelector('.column-body');
       const colName = h.textContent.replace(/ \(\d+\)$/, '');
@@ -410,6 +441,17 @@ document.addEventListener('keydown', e => {
   if (e.key === '?') { toggleHelp(); return; }
   const boardVisible = !document.getElementById('board').classList.contains('hidden');
   const inInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT';
+  if (boardVisible && !inInput && e.key === 'Escape') {
+    const fi = document.getElementById('filter-input');
+    if (fi.value) {
+      fi.value = '';
+      filterCards('');
+      document.getElementById('filter-clear-btn').classList.add('hidden');
+      document.getElementById('filter-count').classList.add('hidden');
+      history.replaceState(null, '', updateUrlParam('filter', null));
+      return;
+    }
+  }
   if (!boardVisible || inInput) return;
   if (e.key === 'r' || e.key === 'R') handleSubmit();
   if (e.key === 'f' || e.key === 'F') document.getElementById('filter-input').focus();
@@ -421,6 +463,7 @@ document.addEventListener('keydown', e => {
     if (!el.classList.contains('hidden')) el.click();
   }
   if (e.key === 'p' || e.key === 'P') window.print();
+  if (e.key === 's' || e.key === 'S') document.getElementById('sort-btn').click();
   if (e.key === 'e' || e.key === 'E') exportBoardText();
   if (e.key === 'c' || e.key === 'C') {
     const cols = document.querySelectorAll('.column');
@@ -446,6 +489,12 @@ if (localStorage.getItem('sortEnabled') === 'true') {
 if (localStorage.getItem('dateSortEnabled') === 'true') {
   dateSortEnabled = true;
   const btn = document.getElementById('date-sort-btn');
+  btn.textContent = 'Ordem original';
+  btn.classList.add('header-action-btn--active');
+}
+if (localStorage.getItem('titleSortEnabled') === 'true') {
+  titleSortEnabled = true;
+  const btn = document.getElementById('title-sort-btn');
   btn.textContent = 'Ordem original';
   btn.classList.add('header-action-btn--active');
 }

@@ -1,18 +1,8 @@
-# Implements — Sprint Board (ciclo 16)
+# Implements — Sprint Board (ciclo 17)
 
-## 1. Coluna de origem e data relativa no modal de detalhes
+## 1. Ordenação por título A-Z
 
-**Tarefa:** Em `openCardDetail` (ui.js), adicionado campo `#card-detail-column` em `index.html` e preenchido com `Coluna: ${colName}` derivado de `card.closest('.column').querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '')`. Para a data, calculado `delta` via `parsePtBrDate` e `MS_PER_DAY` já existentes, e exibido suffix `· em X dia(s)`, `· hoje` ou `· vencida há X dia(s)` conforme o caso.
-
-**Edge case:** Feature de sticky headers (original #1 do FEATURES.md) descartada por `.column { overflow: hidden }` que bloqueia `position: sticky` em filhos. Substituída pela coluna de origem no modal.
-
-**Solução:** Sticky headers requer remover `overflow: hidden` de `.column` o que quebraria o clipping dos border-radius dos cards. Mantido o overflow; feature substituída por informação contextual no modal de detalhes.
-
----
-
-## 2. Animação de entrada dos cards (já existia)
-
-**Tarefa:** Feature do FEATURES.md (`@keyframes card-in` + `animation: card-in .15s`) já estava implementada: `.card { animation: fadeIn .18s ease }` e `@keyframes fadeIn` definidos em `style.css`. Nenhuma mudança necessária.
+**Tarefa:** Adicionado `sortByTitle(rows)` em `ui.js` usando `localeCompare('pt-BR')`. Em `app.js`: novo flag `titleSortEnabled`, adicionado `'titleSortEnabled'` em `STORAGE_KEYS`, aplicado em `handleSubmit` no bloco de sort, listener `#title-sort-btn` desativa os outros sorts ao ser ativado (mutuamente exclusivo, mesmo padrão dos demais), restauração no bloco de init. Em `index.html`: `#title-sort-btn` nas `.header-actions`. Em `showState` (ui.js): botão incluído no bloco de hide/show igual aos outros sorts.
 
 **Edge case:** Nenhum
 
@@ -20,9 +10,9 @@
 
 ---
 
-## 3. Atalho C para colapsar/expandir todas as colunas
+## 2. Atalho S para ordenar por prioridade
 
-**Tarefa:** No handler `keydown` de `document` em `app.js`, adicionado `c/C` → `querySelectorAll('.column')`, verifica se todas têm `column--collapsed` com `Array.from().every()`, faz toggle inverso em todas e chama `saveCollapseState()`. Em `index.html`, adicionada linha `C → Colapsar/expandir todas as colunas` na tabela de atalhos.
+**Tarefa:** No handler `keydown` de `document` em `app.js`, adicionado `if (e.key === 's' || e.key === 'S') document.getElementById('sort-btn').click()`. Em `index.html`, adicionada linha `S → Ordenar por prioridade (toggle)` na tabela de atalhos.
 
 **Edge case:** Nenhum
 
@@ -30,9 +20,39 @@
 
 ---
 
-## 4. Feedback visual ao baixar .ics
+## 3. Indicador visual de auto-refresh ativo
 
-**Tarefa:** No handler `.card-calendar-btn` do board delegation em `app.js`, adicionado `flashButton(calBtn, '✓ Baixando!')` após `downloadIcs(...)`. Consistente com o padrão dos demais botões de ação do card.
+**Tarefa:** Em `handleSubmit` (app.js), lida `autoActive = checkbox.checked` e usado `.classList.toggle('header-action-btn--active', autoActive)` no `#refresh-btn` antes de configurar o `setInterval`. O botão fica destacado quando o auto-refresh está ativo.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## 4. Esc limpa filtro de qualquer lugar no body
+
+**Tarefa:** No handler `keydown` de `document` em `app.js`, antes do bloco `!boardVisible || inInput`, adicionado: se `boardVisible && !inInput && e.key === 'Escape'` e `filter-input` tem valor → limpa filtro, remove classes hidden, reset URL param. Complementa o Esc-dentro-do-input que já existia.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## 5. Ctrl+Shift+Header exporta coluna como CSV
+
+**Tarefa:** No listener do `.column-header` em `app.js`, adicionada verificação `e.shiftKey && e.ctrlKey` ANTES da verificação `e.shiftKey` simples (precedência correta). Ao detectar Ctrl+Shift, constrói CSV com cabeçalho e usa `csvEscape` já existente. Em `index.html`, adicionada linha `Ctrl+Shift+Header → Copiar coluna como CSV`.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## Falha #001 — segunda tentativa (abordagem combinada)
+
+**Tarefa:** Adicionado `buildCalendarUrl(title, desc, dateStr)` em `ui.js` (junto de `buildIcsContent`/`parsePtBrDate`) usando o endpoint `action=TEMPLATE` do Google Calendar. No handler `.card-calendar-btn`, adicionado `window.open(buildCalendarUrl(...))` após `downloadIcs(...)`. Botão agora aciona as duas ações simultaneamente: download `.ics` (para apps de calendário nativos) + abertura Google Calendar web (fallback para Android/web).
 
 **Edge case:** Nenhum
 

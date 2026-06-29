@@ -142,6 +142,10 @@ function sortByPriority(rows) {
   );
 }
 
+function sortByTitle(rows) {
+  return [...rows].sort((a, b) => (a[0] || '').localeCompare(b[0] || '', 'pt-BR'));
+}
+
 function sortByDate(rows) {
   return [...rows].sort((a, b) => {
     const da = parsePtBrDate(a[2]);
@@ -189,6 +193,15 @@ function buildBoardText() {
 
 function toggleColumnCollapse(columnEl) {
   columnEl.classList.toggle('column--collapsed');
+}
+
+function buildCalendarUrl(title, desc, dateStr) {
+  const d = parsePtBrDate(dateStr);
+  const pad = n => String(n).padStart(2, '0');
+  const base = 'https://www.google.com/calendar/event?action=TEMPLATE';
+  const params = `&text=${encodeURIComponent(title)}${desc ? '&details=' + encodeURIComponent(desc) : ''}`;
+  const dates = d ? `&dates=${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}/${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}` : '';
+  return base + params + dates;
 }
 
 function buildIcsContent(title, desc, dateStr) {
@@ -281,6 +294,7 @@ function showState(state, msg) {
   document.getElementById('csv-btn').classList.add('hidden');
   document.getElementById('sort-btn').classList.add('hidden');
   document.getElementById('date-sort-btn').classList.add('hidden');
+  document.getElementById('title-sort-btn').classList.add('hidden');
   document.getElementById('export-btn').classList.add('hidden');
   document.getElementById('compact-btn').classList.add('hidden');
   document.getElementById('focus-btn').classList.add('hidden');
@@ -316,6 +330,7 @@ function showState(state, msg) {
     document.getElementById('csv-btn').classList.remove('hidden');
     document.getElementById('sort-btn').classList.remove('hidden');
     document.getElementById('date-sort-btn').classList.remove('hidden');
+    document.getElementById('title-sort-btn').classList.remove('hidden');
     document.getElementById('export-btn').classList.remove('hidden');
     document.getElementById('compact-btn').classList.remove('hidden');
     document.getElementById('focus-btn').classList.remove('hidden');
