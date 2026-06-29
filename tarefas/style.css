@@ -691,6 +691,37 @@ main {
   }
 }
 
+.back-to-top-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  z-index: 50;
+  transition: background .15s;
+}
+.back-to-top-btn:hover { background: var(--blue-hover); }
+
+.help-reset-row {
+  margin-top: .75rem;
+  text-align: center;
+}
+.help-reset-btn {
+  font-size: .8rem;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.help-reset-btn:hover { color: var(--error-color); }
+
 @media print {
   .app-header .hint,
   .app-header .input-row,

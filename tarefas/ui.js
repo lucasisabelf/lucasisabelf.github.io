@@ -114,6 +114,7 @@ function renderSummary(counts, overdue, warning) {
   document.getElementById('board-summary').textContent = text;
   const pct = total > 0 ? Math.round((counts[2] / total) * 100) : 0;
   document.getElementById('sprint-progress-bar').style.width = pct + '%';
+  document.title = pct > 0 ? `Sprint Board · ${pct}%` : 'Sprint Board';
 }
 
 function sortByPriority(rows) {

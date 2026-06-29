@@ -3,6 +3,8 @@ let sortEnabled = false;
 let dateSortEnabled = false;
 let compactMode = false;
 
+const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortEnabled', 'dateSortEnabled', 'compactMode', 'collapseState'];
+
 async function handleSubmit() {
   clearInterval(refreshTimer);
 
@@ -32,10 +34,6 @@ async function handleSubmit() {
     });
 
     const results = await Promise.all(fetches);
-
-    document.title = results[1].length > 0
-      ? `Sprint Board — ${results[1].length} em andamento`
-      : 'Sprint Board';
 
     const orderedResults = results.map(rows => {
       if (sortEnabled) return sortByPriority(rows);
@@ -91,6 +89,11 @@ function buildCalendarUrl(title, desc, dateStr) {
   const pad = n => String(n).padStart(2, '0');
   const ymd = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
   return `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(title)}&details=${encodeURIComponent(desc)}&dates=${ymd}/${ymd}`;
+}
+
+function resetAllSettings() {
+  STORAGE_KEYS.forEach(k => localStorage.removeItem(k));
+  location.reload();
 }
 
 function saveCollapseState() {
@@ -270,6 +273,16 @@ document.getElementById('task-desc').addEventListener('input', function () {
   this.style.height = 'auto';
   this.style.height = this.scrollHeight + 'px';
 });
+document.getElementById('task-desc').addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') submitNewTask();
+});
+window.addEventListener('scroll', () => {
+  document.getElementById('back-to-top').classList.toggle('hidden', window.scrollY <= 300);
+});
+document.getElementById('back-to-top').addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+document.getElementById('reset-settings-btn').addEventListener('click', resetAllSettings);
 document.getElementById('new-task-btn').addEventListener('click', openNewTaskModal);
 document.getElementById('modal-cancel').addEventListener('click', closeNewTaskModal);
 document.getElementById('modal-submit').addEventListener('click', submitNewTask);
@@ -281,6 +294,14 @@ document.getElementById('task-name').addEventListener('keydown', e => {
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
+    const filterInput = document.getElementById('filter-input');
+    if (document.activeElement === filterInput && filterInput.value) {
+      filterInput.value = '';
+      filterCards('');
+      document.getElementById('filter-clear-btn').classList.add('hidden');
+      document.getElementById('filter-count').classList.add('hidden');
+      return;
+    }
     closeNewTaskModal();
     document.getElementById('help-overlay').classList.add('hidden');
     return;
