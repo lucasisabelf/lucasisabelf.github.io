@@ -1,18 +1,8 @@
 # Implements — Sprint Board
 
-## 1. Feedback visual ao copiar link do board
+## 1. Sincronizar URL da barra do browser ao carregar board
 
-**Tarefa:** Em `copyBoardLink()` (app.js), `#copy-link-btn` selecionado uma vez antes do `.then()`. Dentro do callback, `textContent` muda para `'✓ Copiado!'` e `setTimeout` de 2s restaura o texto original.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 2. Resumo de tarefas abaixo do board
-
-**Tarefa:** `<div id="board-summary">` adicionado em `index.html` após `#board`. `renderSummary(counts)` em ui.js recebe array `[todo, progress, done]`, calcula total e atualiza o textContent. `showState` gerencia `.hidden`. Em `handleSubmit` (app.js), chamada antes de `renderColumn` com `results.map(r => r.length)`.
+**Tarefa:** Em `handleSubmit` (app.js), após `localStorage.setItem('lastSheet', input)`, adicionado `history.replaceState(null, '', `?sheet=${encodeURIComponent(input)}`)`. A URL da barra do browser reflete imediatamente o board carregado sem criar nova entrada no histórico.
 
 **Edge case:** Nenhum
 
@@ -20,19 +10,9 @@
 
 ---
 
-## 3. Ordenação dos cards por prioridade
+## 2. Persistência da preferência de ordenação
 
-**Tarefa:** `PRIORITY_ORDER` elevado ao topo de ui.js. `sortByPriority(rows)` pura retorna cópia ordenada. `let sortEnabled = false` em app.js controla o comportamento. `handleSubmit` aplica `sortByPriority` condicionalmente antes de `renderColumn`. Botão `#sort-btn` gerenciado por `showState`; listener em app.js alterna `sortEnabled`, atualiza texto e chama `handleSubmit()`.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 4. Exportar board como texto
-
-**Tarefa:** `buildBoardText()` em ui.js itera `.column`, lê headers e cards visíveis (`:not(.hidden)`), monta markdown. `exportBoardText()` em app.js chama `buildBoardText()`, escreve no clipboard e dá feedback temporário no botão (mesmo padrão da feature 1). Botão `#export-btn` gerenciado por `showState`.
+**Tarefa:** No listener do `#sort-btn` (app.js), adicionado `localStorage.setItem('sortEnabled', sortEnabled)` após alternar a flag. No bloco de inicialização, antes de `populateSelect()`, lê `localStorage.getItem('sortEnabled') === 'true'` e, se verdadeiro, define `sortEnabled = true`, atualiza `textContent` e aplica `.header-action-btn--active` ao botão.
 
 **Edge case:** Nenhum
 
@@ -40,12 +20,32 @@
 
 ---
 
-## 5. Collapse de coluna ao clicar no header
+## 3. Indicador visual de ordenação ativa no botão
 
-**Tarefa:** `toggleColumnCollapse(columnEl)` em ui.js alterna `.column--collapsed`. Em style.css, `.column--collapsed .column-body { display: none }` e `min-height: 0`. `cursor: pointer; user-select: none` adicionados à regra `.column-header` existente (sem duplicar seletor). Listeners registrados uma vez na init de app.js via `querySelectorAll('.column-header')`.
+**Tarefa:** Em `style.css`, adicionado `.header-action-btn--active { color: var(--blue); font-weight: 700; }`. No listener do `#sort-btn` (app.js), `classList.toggle('header-action-btn--active', sortEnabled)` é chamado junto da alteração de `textContent`. A restauração via localStorage na init também aplica a classe.
 
 **Edge case:** Nenhum
 
 **Solução:** N/A
+
+---
+
+## 4. Atalhos de teclado para ações principais
+
+**Tarefa:** O listener `document.addEventListener('keydown', ...)` existente foi expandido. Após tratar `Escape` (com `return` explícito), verifica se o board está visível e se o foco não está em `INPUT`, `TEXTAREA` ou `SELECT`. Se as condições passam: `R` chama `handleSubmit()`, `F` foca `#filter-input`, `N` chama `openNewTaskModal()`.
+
+**Edge case:** FEATURES.md propunha checar visibilidade como condição de guard. A guarda de tagName do elemento focado previne interceptar digitação normal — condição necessária que a descrição omitiu.
+
+**Solução:** Adicionada verificação `e.target.tagName` para INPUT, TEXTAREA e SELECT antes de processar os atalhos.
+
+---
+
+## 5. Botão para limpar filtro
+
+**Tarefa:** `<input id="filter-input">` envolvido por `<div id="filter-row">` com `<button id="filter-clear-btn">` em `index.html`. `showState` (ui.js) agora gerencia visibilidade via `#filter-row` (não mais direto no input). O botão aparece/some via listener de `input` em app.js. Listener de `click` no botão zera o valor, chama `filterCards('')`, esconde o botão e devolve foco ao input.
+
+**Edge case:** FEATURES.md descrevia que `showState` deveria continuar referenciando `filter-input` diretamente. Com a introdução do wrapper `filter-row`, a referência ao input direto em `showState` quebraria a visibilidade.
+
+**Solução:** `showState` agora usa `filterRow = getElementById('filter-row')` para mostrar/esconder; `filterInput` é usado apenas para `filterInput.value = ''`. A classe `.hidden` nunca é aplicada ao input diretamente.
 
 ---

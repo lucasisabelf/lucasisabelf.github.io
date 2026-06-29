@@ -157,10 +157,14 @@ main {
   background: var(--blue-hover);
 }
 
+.filter-row {
+  position: relative;
+  margin-top: .8rem;
+}
+
 .filter-input {
   width: 100%;
-  margin-top: .8rem;
-  padding: .5rem .9rem;
+  padding: .5rem 2.2rem .5rem .9rem;
   border: 1.5px solid var(--border-input);
   border-radius: 8px;
   font-size: .9rem;
@@ -172,6 +176,24 @@ main {
 
 .filter-input:focus {
   border-color: var(--blue);
+}
+
+.filter-clear-btn {
+  position: absolute;
+  right: .6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: .85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.filter-clear-btn:hover {
+  color: var(--text);
 }
 
 .header-actions {
@@ -205,6 +227,11 @@ main {
 
 .header-action-btn:hover {
   text-decoration: underline;
+}
+
+.header-action-btn--active {
+  color: var(--blue);
+  font-weight: 700;
 }
 
 .new-task-btn {

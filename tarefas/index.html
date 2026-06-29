@@ -24,7 +24,10 @@
         <input id="sheet-url" type="url" placeholder="https://docs.google.com/spreadsheets/d/..." autocomplete="off" />
         <button id="load-btn">Carregar</button>
       </div>
-      <input id="filter-input" class="filter-input hidden" placeholder="Filtrar tarefas..." autocomplete="off" />
+      <div id="filter-row" class="filter-row hidden">
+        <input id="filter-input" class="filter-input" placeholder="Filtrar tarefas..." autocomplete="off" />
+        <button id="filter-clear-btn" class="filter-clear-btn hidden">&#10005;</button>
+      </div>
       <div class="header-actions">
         <a id="edit-link" class="edit-link hidden" target="_blank" rel="noopener noreferrer">Ir para planilha</a>
         <button id="copy-link-btn" class="header-action-btn hidden">Copiar link do board</button>

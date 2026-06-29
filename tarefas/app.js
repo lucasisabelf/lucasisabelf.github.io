@@ -44,6 +44,7 @@ async function handleSubmit() {
     editLink.classList.remove('hidden');
 
     localStorage.setItem('lastSheet', input);
+    history.replaceState(null, '', `?sheet=${encodeURIComponent(input)}`);
 
     if (document.getElementById('auto-refresh').checked) {
       const intervalMs = parseInt(document.getElementById('refresh-interval').value, 10) * 60000;
@@ -112,13 +113,26 @@ document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink
 document.getElementById('export-btn').addEventListener('click', exportBoardText);
 document.getElementById('sort-btn').addEventListener('click', () => {
   sortEnabled = !sortEnabled;
-  document.getElementById('sort-btn').textContent = sortEnabled ? 'Ordem original' : 'Ordenar por prioridade';
+  const sortBtn = document.getElementById('sort-btn');
+  sortBtn.textContent = sortEnabled ? 'Ordem original' : 'Ordenar por prioridade';
+  sortBtn.classList.toggle('header-action-btn--active', sortEnabled);
+  localStorage.setItem('sortEnabled', sortEnabled);
   handleSubmit();
 });
 document.querySelectorAll('.column-header').forEach(h => {
   h.addEventListener('click', () => toggleColumnCollapse(h.closest('.column')));
 });
-document.getElementById('filter-input').addEventListener('input', e => filterCards(e.target.value));
+document.getElementById('filter-input').addEventListener('input', e => {
+  filterCards(e.target.value);
+  document.getElementById('filter-clear-btn').classList.toggle('hidden', e.target.value === '');
+});
+document.getElementById('filter-clear-btn').addEventListener('click', () => {
+  const filterInput = document.getElementById('filter-input');
+  filterInput.value = '';
+  filterCards('');
+  document.getElementById('filter-clear-btn').classList.add('hidden');
+  filterInput.focus();
+});
 document.getElementById('new-task-btn').addEventListener('click', openNewTaskModal);
 document.getElementById('modal-cancel').addEventListener('click', closeNewTaskModal);
 document.getElementById('modal-submit').addEventListener('click', submitNewTask);
@@ -129,11 +143,24 @@ document.getElementById('task-name').addEventListener('keydown', e => {
   if (e.key === 'Enter') submitNewTask();
 });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeNewTaskModal();
+  if (e.key === 'Escape') { closeNewTaskModal(); return; }
+  const boardVisible = !document.getElementById('board').classList.contains('hidden');
+  const inInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT';
+  if (!boardVisible || inInput) return;
+  if (e.key === 'r' || e.key === 'R') handleSubmit();
+  if (e.key === 'f' || e.key === 'F') document.getElementById('filter-input').focus();
+  if (e.key === 'n' || e.key === 'N') openNewTaskModal();
 });
 
 populateSelect();
 initTheme();
+
+if (localStorage.getItem('sortEnabled') === 'true') {
+  sortEnabled = true;
+  const sortBtn = document.getElementById('sort-btn');
+  sortBtn.textContent = 'Ordem original';
+  sortBtn.classList.add('header-action-btn--active');
+}
 
 const urlSheet = new URLSearchParams(location.search).get('sheet');
 const autoLoadUrl = urlSheet || localStorage.getItem('lastSheet');

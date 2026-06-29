@@ -120,9 +120,11 @@ function showState(state, msg) {
   document.getElementById('sort-btn').classList.add('hidden');
   document.getElementById('export-btn').classList.add('hidden');
 
+  const filterRow = document.getElementById('filter-row');
+  filterRow.classList.add('hidden');
   const filterInput = document.getElementById('filter-input');
-  filterInput.classList.add('hidden');
   filterInput.value = '';
+  document.getElementById('filter-clear-btn').classList.add('hidden');
   filterCards('');
 
   if (state === 'idle') {
@@ -138,7 +140,7 @@ function showState(state, msg) {
     document.getElementById('refresh-btn').classList.remove('hidden');
     document.getElementById('copy-link-btn').classList.remove('hidden');
     document.getElementById('new-task-btn').classList.remove('hidden');
-    filterInput.classList.remove('hidden');
+    filterRow.classList.remove('hidden');
     document.getElementById('auto-refresh-controls').classList.remove('hidden');
     document.getElementById('board-summary').classList.remove('hidden');
     document.getElementById('sort-btn').classList.remove('hidden');
