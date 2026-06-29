@@ -9,7 +9,10 @@
 <body>
   <main>
     <header class="app-header">
-      <h1>Sprint Board</h1>
+      <div class="header-top">
+        <h1>Sprint Board</h1>
+        <button id="theme-toggle" class="theme-toggle" title="Alternar tema">&#9728;</button>
+      </div>
       <p class="hint">
         Cole o link da planilha (as abas devem se chamar <strong>To Do</strong>, <strong>In Progress</strong> e <strong>Done</strong>).
         Os dados devem começar na linha 3.
@@ -21,9 +24,23 @@
         <input id="sheet-url" type="url" placeholder="https://docs.google.com/spreadsheets/d/..." autocomplete="off" />
         <button id="load-btn">Carregar</button>
       </div>
-      <a id="edit-link" class="edit-link hidden" target="_blank" rel="noopener noreferrer">
-        Ir para planilha / Editar
-      </a>
+      <input id="filter-input" class="filter-input hidden" placeholder="Filtrar tarefas..." autocomplete="off" />
+      <div class="header-actions">
+        <a id="edit-link" class="edit-link hidden" target="_blank" rel="noopener noreferrer">Ir para planilha</a>
+        <button id="copy-link-btn" class="header-action-btn hidden">Copiar link do board</button>
+        <button id="refresh-btn" class="header-action-btn hidden">&#8635; Atualizar</button>
+        <button id="new-task-btn" class="new-task-btn hidden">+ Nova Tarefa</button>
+      </div>
+      <div id="auto-refresh-controls" class="auto-refresh-controls hidden">
+        <label>
+          <input type="checkbox" id="auto-refresh"> Auto-refresh
+        </label>
+        <select id="refresh-interval">
+          <option value="1">1 min</option>
+          <option value="5" selected>5 min</option>
+          <option value="10">10 min</option>
+        </select>
+      </div>
     </header>
 
     <div id="state-idle" class="state-panel">Insira o link da planilha acima para começar.</div>
@@ -47,8 +64,30 @@
         <div class="column-body" id="body-done"></div>
       </div>
     </div>
+
+    <div id="new-task-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
+      <div class="modal">
+        <h2 class="modal-title">Nova Tarefa</h2>
+        <div class="modal-field">
+          <label for="task-name">Nome</label>
+          <input id="task-name" type="text" placeholder="Nome da tarefa" autocomplete="off" />
+        </div>
+        <div class="modal-field">
+          <label for="task-desc">Descrição</label>
+          <textarea id="task-desc" placeholder="Descrição (opcional)" rows="3"></textarea>
+        </div>
+        <div id="modal-feedback" class="modal-feedback hidden"></div>
+        <div class="modal-actions">
+          <button id="modal-cancel" class="modal-cancel-btn">Cancelar</button>
+          <button id="modal-submit" class="modal-submit-btn">Adicionar</button>
+        </div>
+      </div>
+    </div>
   </main>
 
+  <script src="config.js"></script>
+  <script src="sheets.js"></script>
+  <script src="ui.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

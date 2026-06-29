@@ -1,111 +1,8 @@
-const SHEET_NAMES = ['To Do', 'In Progress', 'Done'];
-const COLUMN_BODIES = ['body-todo', 'body-progress', 'body-done'];
-
-const SHEETS_MAP = {
-  'Lucas': 'https://docs.google.com/spreadsheets/d/1pwp4yeXAGXXghSW_tR9gqeaDI0vOOBmuL3-hYKsnzmk/edit?usp=sharing',
-
-  'Aline': 'https://docs.google.com/spreadsheets/d/1PrSsBgK5M0SoxYM2cJk7_GpIieNKzbeF2NQQmahvtpk/edit?usp=sharing'
-};
-
-function extractSheetId(url) {
-  const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
-  return match ? match[1] : null;
-}
-
-function buildSheetUrl(id, sheetName) {
-  return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=0&range=A3:C&sheet=${encodeURIComponent(sheetName)}`;
-}
-
-function parseCsv(text) {
-  const rows = [];
-  const re = /("(?:[^"]|"")*"|[^,\r\n]*)(,|\r?\n|\r|$)/g;
-  let row = [];
-  let match;
-  while ((match = re.exec(text)) !== null) {
-    let field = match[1];
-    const delim = match[2];
-    if (field.startsWith('"') && field.endsWith('"')) {
-      field = field.slice(1, -1).replace(/""/g, '"');
-    }
-    row.push(field);
-    if (delim !== ',') {
-      rows.push(row);
-      row = [];
-    }
-    if (match[0] === '') break;
-  }
-  return rows;
-}
-
-function filterRows(rows) {
-  return rows.filter(r => r[0] && r[0].trim() !== '');
-}
-
-function renderCard(row) {
-  const name = row[0].trim();
-  const desc = row[1] ? row[1].trim() : '';
-  const date = row[2] ? row[2].trim() : '';
-
-  const card = document.createElement('div');
-  card.className = 'card';
-
-  const title = document.createElement('div');
-  title.className = 'card-title';
-  title.textContent = name;
-  card.appendChild(title);
-
-  if (desc) {
-    const d = document.createElement('div');
-    d.className = 'card-desc';
-    d.textContent = desc;
-    card.appendChild(d);
-  }
-
-  if (date) {
-    const dt = document.createElement('span');
-    dt.className = 'card-date';
-    dt.textContent = date;
-    card.appendChild(dt);
-  }
-
-  return card;
-}
-
-function renderColumn(bodyId, rows) {
-  const body = document.getElementById(bodyId);
-  body.innerHTML = '';
-
-  if (rows.length === 0) {
-    const empty = document.createElement('div');
-    empty.className = 'empty-column';
-    empty.textContent = 'Nenhuma tarefa';
-    body.appendChild(empty);
-    return;
-  }
-
-  rows.forEach(row => body.appendChild(renderCard(row)));
-}
-
-function showState(state, msg) {
-  document.getElementById('state-idle').classList.add('hidden');
-  document.getElementById('state-loading').classList.add('hidden');
-  document.getElementById('state-error').classList.add('hidden');
-  document.getElementById('board').classList.add('hidden');
-
-  if (state === 'idle') {
-    document.getElementById('state-idle').classList.remove('hidden');
-  } else if (state === 'loading') {
-    document.getElementById('state-loading').classList.remove('hidden');
-  } else if (state === 'error') {
-    const el = document.getElementById('state-error');
-    el.textContent = msg || 'Ocorreu um erro.';
-    el.classList.remove('hidden');
-  } else if (state === 'success') {
-    document.getElementById('board').classList.remove('hidden');
-  }
-}
+let refreshTimer;
 
 async function handleSubmit() {
+  clearInterval(refreshTimer);
+
   const input = document.getElementById('sheet-url').value.trim();
   const id = extractSheetId(input);
 
@@ -118,7 +15,7 @@ async function handleSubmit() {
   document.getElementById('edit-link').classList.add('hidden');
 
   try {
-    const fetches = SHEET_NAMES.map(async (name, i) => {
+    const fetches = SHEET_NAMES.map(async (name) => {
       const url = buildSheetUrl(id, name);
       const res = await fetch(url);
       if (!res.ok) return [];
@@ -132,6 +29,10 @@ async function handleSubmit() {
 
     const results = await Promise.all(fetches);
 
+    document.title = results[1].length > 0
+      ? `Sprint Board — ${results[1].length} em andamento`
+      : 'Sprint Board';
+
     results.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows));
 
     showState('success');
@@ -139,22 +40,48 @@ async function handleSubmit() {
     const editLink = document.getElementById('edit-link');
     editLink.href = input;
     editLink.classList.remove('hidden');
+
+    localStorage.setItem('lastSheet', input);
+
+    if (document.getElementById('auto-refresh').checked) {
+      const intervalMs = parseInt(document.getElementById('refresh-interval').value, 10) * 60000;
+      refreshTimer = setInterval(handleSubmit, intervalMs);
+    }
   } catch (err) {
     showState('error', err.message || 'Erro ao carregar a planilha. Verifique a URL e a visibilidade da planilha.');
   }
 }
 
-function populateSelect() {
-  const select = document.getElementById('sheet-select');
-  Object.entries(SHEETS_MAP).forEach(([name, url]) => {
-    const opt = document.createElement('option');
-    opt.value = url;
-    opt.textContent = name;
-    select.appendChild(opt);
-  });
-  select.addEventListener('change', () => {
-    if (select.value) {
-      document.getElementById('sheet-url').value = select.value;
+function copyBoardLink() {
+  const input = document.getElementById('sheet-url').value.trim();
+  if (!input) return;
+  const url = `${location.origin}${location.pathname}?sheet=${encodeURIComponent(input)}`;
+  navigator.clipboard.writeText(url);
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = saved || (prefersDark ? 'dark' : 'light');
+  const toggle = document.getElementById('theme-toggle');
+
+  if (theme === 'dark') {
+    document.documentElement.dataset.theme = 'dark';
+    toggle.textContent = '☾';
+  } else {
+    toggle.textContent = '☀';
+  }
+
+  toggle.addEventListener('click', () => {
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    if (isDark) {
+      delete document.documentElement.dataset.theme;
+      localStorage.setItem('theme', 'light');
+      toggle.textContent = '☀';
+    } else {
+      document.documentElement.dataset.theme = 'dark';
+      localStorage.setItem('theme', 'dark');
+      toggle.textContent = '☾';
     }
   });
 }
@@ -163,5 +90,28 @@ document.getElementById('load-btn').addEventListener('click', handleSubmit);
 document.getElementById('sheet-url').addEventListener('keydown', e => {
   if (e.key === 'Enter') handleSubmit();
 });
+document.getElementById('refresh-btn').addEventListener('click', handleSubmit);
+document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink);
+document.getElementById('filter-input').addEventListener('input', e => filterCards(e.target.value));
+document.getElementById('new-task-btn').addEventListener('click', openNewTaskModal);
+document.getElementById('modal-cancel').addEventListener('click', closeNewTaskModal);
+document.getElementById('modal-submit').addEventListener('click', submitNewTask);
+document.getElementById('new-task-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeNewTaskModal();
+});
+document.getElementById('task-name').addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitNewTask();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeNewTaskModal();
+});
 
 populateSelect();
+initTheme();
+
+const urlSheet = new URLSearchParams(location.search).get('sheet');
+const autoLoadUrl = urlSheet || localStorage.getItem('lastSheet');
+if (autoLoadUrl) {
+  document.getElementById('sheet-url').value = autoLoadUrl;
+  handleSubmit();
+}
