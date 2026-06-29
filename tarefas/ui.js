@@ -27,6 +27,7 @@ function renderCard(row) {
   card.dataset.title = name;
   card.dataset.desc = desc;
   card.dataset.date = date;
+  card.dataset.priority = priority;
 
   const title = document.createElement('div');
   title.className = 'card-title';
@@ -106,6 +107,8 @@ function renderSummary(counts, overdue) {
   const total = counts.reduce((s, n) => s + n, 0);
   let text = `${total} total · ${counts[1]} em andamento · ${counts[2]} concluídas`;
   if (overdue > 0) text += ` · ${overdue} vencida${overdue !== 1 ? 's' : ''}`;
+  const hhmm = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  text += ` · Atualizado às ${hhmm}`;
   document.getElementById('board-summary').textContent = text;
   const pct = total > 0 ? Math.round((counts[2] / total) * 100) : 0;
   document.getElementById('sprint-progress-bar').style.width = pct + '%';
@@ -158,12 +161,17 @@ function toggleColumnCollapse(columnEl) {
 
 function filterCards(query) {
   const q = query.toLowerCase();
+  let visible = 0;
   document.querySelectorAll('.card').forEach(card => {
     const title = card.querySelector('.card-title').textContent.toLowerCase();
     const descEl = card.querySelector('.card-desc');
     const desc = descEl ? descEl.textContent.toLowerCase() : '';
-    card.classList.toggle('hidden', q !== '' && !title.includes(q) && !desc.includes(q));
+    const priority = (card.dataset.priority || '').toLowerCase();
+    const hidden = q !== '' && !title.includes(q) && !desc.includes(q) && !priority.includes(q);
+    card.classList.toggle('hidden', hidden);
+    if (!hidden) visible++;
   });
+  return visible;
 }
 
 function showState(state, msg) {
@@ -177,6 +185,8 @@ function showState(state, msg) {
   document.getElementById('auto-refresh-controls').classList.add('hidden');
   document.getElementById('board-summary').classList.add('hidden');
   document.getElementById('sprint-progress').classList.add('hidden');
+  document.getElementById('filter-count').classList.add('hidden');
+  document.getElementById('download-btn').classList.add('hidden');
   document.getElementById('sort-btn').classList.add('hidden');
   document.getElementById('date-sort-btn').classList.add('hidden');
   document.getElementById('export-btn').classList.add('hidden');
@@ -207,6 +217,7 @@ function showState(state, msg) {
     document.getElementById('auto-refresh-controls').classList.remove('hidden');
     document.getElementById('board-summary').classList.remove('hidden');
     document.getElementById('sprint-progress').classList.remove('hidden');
+    document.getElementById('download-btn').classList.remove('hidden');
     document.getElementById('sort-btn').classList.remove('hidden');
     document.getElementById('date-sort-btn').classList.remove('hidden');
     document.getElementById('export-btn').classList.remove('hidden');
@@ -220,6 +231,7 @@ function openNewTaskModal() {
   taskName.value = '';
   document.getElementById('task-desc').value = '';
   document.getElementById('task-date').value = new Date().toISOString().slice(0, 10);
+  document.getElementById('task-priority').value = '';
   document.getElementById('modal-feedback').classList.add('hidden');
   document.getElementById('modal-submit').disabled = false;
   document.getElementById('new-task-overlay').classList.remove('hidden');
@@ -237,7 +249,8 @@ function submitNewTask() {
   const desc = document.getElementById('task-desc').value.trim();
   const isoDate = document.getElementById('task-date').value;
   const date = isoDate ? isoDate.split('-').reverse().join('/') : new Date().toLocaleDateString('pt-BR');
-  const tsv = `${name}\t${desc}\t${date}`;
+  const priority = document.getElementById('task-priority').value;
+  const tsv = `${name}\t${desc}\t${date}\t${priority}`;
 
   navigator.clipboard.writeText(tsv).then(() => {
     const feedback = document.getElementById('modal-feedback');

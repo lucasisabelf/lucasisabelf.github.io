@@ -76,6 +76,15 @@ function exportBoardText() {
   navigator.clipboard.writeText(buildBoardText()).then(() => flashButton(btn, '✓ Exportado!'));
 }
 
+function downloadBoardText() {
+  const blob = new Blob([buildBoardText()], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sprint-board.md';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 function buildCalendarUrl(title, desc, dateStr) {
   const d = parsePtBrDate(dateStr);
   if (!d) return 'https://calendar.google.com/calendar/r/eventedit' + (title ? `?text=${encodeURIComponent(title)}` : '');
@@ -151,6 +160,20 @@ document.getElementById('board').addEventListener('click', e => {
   if (calBtn) {
     const { title, desc, date } = calBtn.closest('.card').dataset;
     window.open(buildCalendarUrl(title, desc, date));
+    return;
+  }
+  const priorityBadge = e.target.closest('.card-priority');
+  if (priorityBadge) {
+    const filterInput = document.getElementById('filter-input');
+    const filterCount = document.getElementById('filter-count');
+    const priorityText = priorityBadge.textContent;
+    const newQuery = filterInput.value === priorityText ? '' : priorityText;
+    filterInput.value = newQuery;
+    const visible = filterCards(newQuery);
+    document.getElementById('filter-clear-btn').classList.toggle('hidden', newQuery === '');
+    const total = document.querySelectorAll('.card').length;
+    filterCount.textContent = `${visible} de ${total}`;
+    filterCount.classList.toggle('hidden', newQuery === '');
   }
 });
 
@@ -187,6 +210,7 @@ document.getElementById('sheet-url').addEventListener('keydown', e => {
 document.getElementById('refresh-btn').addEventListener('click', handleSubmit);
 document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink);
 document.getElementById('export-btn').addEventListener('click', exportBoardText);
+document.getElementById('download-btn').addEventListener('click', downloadBoardText);
 document.getElementById('sort-btn').addEventListener('click', () => {
   sortEnabled = !sortEnabled;
   const sortBtn = document.getElementById('sort-btn');
@@ -199,14 +223,18 @@ document.querySelectorAll('.column-header').forEach(h => {
   h.addEventListener('click', () => toggleColumnCollapse(h.closest('.column')));
 });
 document.getElementById('filter-input').addEventListener('input', e => {
-  filterCards(e.target.value);
+  const visible = filterCards(e.target.value);
   document.getElementById('filter-clear-btn').classList.toggle('hidden', e.target.value === '');
+  const filterCount = document.getElementById('filter-count');
+  filterCount.textContent = `${visible} de ${document.querySelectorAll('.card').length}`;
+  filterCount.classList.toggle('hidden', e.target.value === '');
 });
 document.getElementById('filter-clear-btn').addEventListener('click', () => {
   const filterInput = document.getElementById('filter-input');
   filterInput.value = '';
   filterCards('');
   document.getElementById('filter-clear-btn').classList.add('hidden');
+  document.getElementById('filter-count').classList.add('hidden');
   filterInput.focus();
 });
 document.getElementById('help-btn').addEventListener('click', toggleHelp);

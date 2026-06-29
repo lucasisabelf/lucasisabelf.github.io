@@ -32,10 +32,12 @@
         <input id="filter-input" class="filter-input" placeholder="Filtrar tarefas..." autocomplete="off" />
         <button id="filter-clear-btn" class="filter-clear-btn hidden">&#10005;</button>
       </div>
+      <span id="filter-count" class="filter-count hidden"></span>
       <div class="header-actions">
         <a id="edit-link" class="edit-link hidden" target="_blank" rel="noopener noreferrer">Ir para planilha</a>
         <button id="copy-link-btn" class="header-action-btn hidden">Copiar link do board</button>
         <button id="export-btn" class="header-action-btn hidden">Exportar</button>
+        <button id="download-btn" class="header-action-btn hidden">Baixar .md</button>
         <button id="sort-btn" class="header-action-btn hidden">Ordenar por prioridade</button>
         <button id="date-sort-btn" class="header-action-btn hidden">Ordenar por data</button>
         <button id="compact-btn" class="header-action-btn hidden">Compacto</button>
@@ -94,6 +96,15 @@
         <div class="modal-field">
           <label for="task-date">Data</label>
           <input id="task-date" type="date" />
+        </div>
+        <div class="modal-field">
+          <label for="task-priority">Prioridade</label>
+          <select id="task-priority">
+            <option value="">Sem prioridade</option>
+            <option value="Alta">Alta</option>
+            <option value="Média">Média</option>
+            <option value="Baixa">Baixa</option>
+          </select>
         </div>
         <div id="modal-feedback" class="modal-feedback hidden"></div>
         <div class="modal-actions">

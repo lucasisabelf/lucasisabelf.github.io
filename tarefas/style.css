@@ -185,6 +185,14 @@ main {
   margin-top: .8rem;
 }
 
+.filter-count {
+  display: block;
+  font-size: .75rem;
+  color: var(--text-muted);
+  margin-top: .25rem;
+  padding: 0 .2rem;
+}
+
 .filter-input {
   width: 100%;
   padding: .5rem 2.2rem .5rem .9rem;
@@ -529,7 +537,8 @@ main {
 }
 
 .modal-field input,
-.modal-field textarea {
+.modal-field textarea,
+.modal-field select {
   width: 100%;
   padding: .55rem .8rem;
   border: 1.5px solid var(--border-input);
@@ -543,7 +552,8 @@ main {
 }
 
 .modal-field input:focus,
-.modal-field textarea:focus {
+.modal-field textarea:focus,
+.modal-field select:focus {
   border-color: var(--blue);
 }
 

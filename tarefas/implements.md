@@ -1,18 +1,8 @@
 # Implements — Sprint Board
 
-## 1. Scroll independente por coluna
+## 1. Seletor de prioridade no modal de nova tarefa
 
-**Tarefa:** Adicionado `max-height: 70vh; overflow-y: auto` ao `.column-body` existente em `style.css`. Adicionada scrollbar estilizada via `::-webkit-scrollbar` e `::-webkit-scrollbar-thumb`. Nenhuma alteração em HTML ou JS.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 2. Barra de progresso do sprint
-
-**Tarefa:** Adicionado `<div id="sprint-progress">` com `<div id="sprint-progress-bar">` no `index.html` após `#board-summary`. Em `ui.js`, `renderSummary` calcula `pct = Math.round((counts[2] / total) * 100)` e aplica ao `style.width` do bar. `showState` gerencia visibilidade de `#sprint-progress` junto de `#board-summary`. CSS define a barra com `transition: width .4s ease` para animação suave.
+**Tarefa:** Adicionado `<select id="task-priority">` com opções "Sem prioridade", "Alta", "Média", "Baixa" ao modal em `index.html`. Em `ui.js`, `openNewTaskModal` reseta `task-priority.value = ''`. `submitNewTask` lê `document.getElementById('task-priority').value` e inclui como quarta coluna no TSV: `\`${name}\t${desc}\t${date}\t${priority}\``. Em `style.css`, `<select>` dentro de `.modal-field` foi adicionado à regra compartilhada de input/textarea (focus + padding).
 
 **Edge case:** Nenhum
 
@@ -20,19 +10,9 @@
 
 ---
 
-## 3. Destaque de prazo próximo nos cards
+## 2. Filtro rápido por prioridade via click no badge
 
-**Tarefa:** Adicionada constante `DAYS_UNTIL_WARNING = 3` ao topo de `ui.js` junto de `PRIORITY_CLASS` e `PRIORITY_ORDER`. Em `renderCard`, a checagem de data foi refatorada para usar `parsePtBrDate(date)` em vez de `new Date(date)` (o formato real dos dados é DD/MM/YYYY). Cards não vencidos com prazo dentro de `DAYS_UNTIL_WARNING` dias recebem `.card-date--warning`. CSS adiciona variáveis `--warning-bg`/`--warning-color` em `:root` e `[data-theme="dark"]` e a regra `.card-date--warning`.
-
-**Edge case:** FEATURES.md propunha usar a variável `parsed` já existente (computada com `new Date(date)`). Esse parser falha para datas no formato DD/MM/YYYY — o formato real dos dados da planilha, evidenciado pela existência de `parsePtBrDate` no projeto. Usar `new Date('28/06/2026')` retorna `Invalid Date` na maioria dos browsers.
-
-**Solução:** O bloco de data em `renderCard` foi alterado para usar `parsePtBrDate(date)`, corrigindo simultaneamente a detecção de vencimento (que também estava quebrada) e implementando o destaque de aviso corretamente.
-
----
-
-## 4. Histórico de planilhas recentes
-
-**Tarefa:** Em `app.js`, adicionadas `saveRecentSheet(url)` — lê o array de `localStorage.getItem('recentSheets')`, faz prepend da URL, remove duplicatas via `filter`, limita a 5 e salva — e `initRecentSheets()` — lê o array e, se não vazio, cria `<optgroup label="Recentes">` no `#sheet-select` com uma `<option>` por URL (50 chars + `…`). `saveRecentSheet(input)` é chamada em `handleSubmit` após `localStorage.setItem('lastSheet')`. `initRecentSheets()` é chamada na inicialização após `populateSelect()`.
+**Tarefa:** Em `renderCard` (ui.js), adicionado `card.dataset.priority = priority` ao lado dos demais `dataset` já existentes. Em `filterCards` (ui.js), o critério de match foi estendido para incluir `card.dataset.priority.toLowerCase()`. Em `app.js`, o listener de delegação de `#board` recebeu um terceiro handler para `.card-priority`: ao clicar, compara `filterInput.value` com o texto do badge — se igual, limpa; caso contrário, seta e filtra. Atualiza `#filter-count` e `#filter-clear-btn` na mesma operação.
 
 **Edge case:** Nenhum
 
@@ -40,9 +20,29 @@
 
 ---
 
-## 5. Overlay de atalhos de teclado
+## 3. Indicador de última atualização no resumo
 
-**Tarefa:** Adicionado `<button id="help-btn" class="theme-toggle">?</button>` no `.header-top-actions` do `index.html`. Adicionado `#help-overlay` com tabela de 6 atalhos (R, F, N, ?, Esc, Header) e botão `#help-close-btn`. Em `ui.js`, adicionada `toggleHelp()` que alterna `.hidden` no overlay. Em `app.js`, registrados listeners para `#help-btn`, `#help-close-btn` e clique no fundo do overlay. No listener `keydown` existente: `?` chama `toggleHelp()` (antes da guarda de `inInput`); `Escape` fecha o overlay além do modal. CSS adiciona `.shortcuts-table` com `td:first-child` destacado.
+**Tarefa:** Em `renderSummary` (ui.js), após montar a string de contagens, acrescentado `const hhmm = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); text += \` · Atualizado às ${hhmm}\``. Nenhuma alteração em HTML, CSS ou app.js.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## 4. Contador de cards visíveis quando filtro ativo
+
+**Tarefa:** `filterCards` (ui.js) agora retorna o número de cards visíveis (não-hidden). Em `index.html`, adicionado `<span id="filter-count" class="filter-count hidden"></span>` como elemento irmão de `#filter-row` (fora do container para não interferir com o posicionamento absoluto do `#filter-clear-btn`). Em `showState` (ui.js), `#filter-count` é ocultado na seção de hide. Em `app.js`, os listeners de `#filter-input` e `#filter-clear-btn` foram atualizados para mostrar/ocultar e popular `#filter-count`. CSS adiciona `.filter-count` com `display: block` e margem superior.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## 5. Download do board como arquivo .md
+
+**Tarefa:** Adicionado `<button id="download-btn" class="header-action-btn hidden">Baixar .md</button>` em `index.html`. Em `app.js`, adicionada `downloadBoardText()` que cria `Blob` com o resultado de `buildBoardText()`, cria um `<a>` temporário com `download='sprint-board.md'`, simula clique e revoga a URL. Listener registrado na seção de inicialização. Em `showState` (ui.js), `#download-btn` gerenciado junto dos demais botões de sucesso.
 
 **Edge case:** Nenhum
 
