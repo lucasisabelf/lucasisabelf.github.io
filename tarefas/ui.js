@@ -1,4 +1,5 @@
 const PRIORITY_CLASS = { 'Alta': 'priority--high', 'Média': 'priority--mid', 'Baixa': 'priority--low' };
+const PRIORITY_ORDER = { 'Alta': 0, 'Média': 1, 'Baixa': 2 };
 
 function renderCard(row) {
   const name = row[0].trim();
@@ -60,6 +61,42 @@ function renderColumn(bodyId, rows) {
   rows.forEach(row => body.appendChild(renderCard(row)));
 }
 
+function renderSummary(counts) {
+  const total = counts.reduce((s, n) => s + n, 0);
+  document.getElementById('board-summary').textContent =
+    `${total} total · ${counts[1]} em andamento · ${counts[2]} concluídas`;
+}
+
+function sortByPriority(rows) {
+  return [...rows].sort((a, b) =>
+    (PRIORITY_ORDER[a[3]] ?? 3) - (PRIORITY_ORDER[b[3]] ?? 3)
+  );
+}
+
+function buildBoardText() {
+  const lines = [];
+  document.querySelectorAll('.column').forEach(col => {
+    const header = col.querySelector('.column-header').textContent;
+    lines.push(`## ${header}`);
+    const cards = col.querySelectorAll('.card:not(.hidden)');
+    if (cards.length === 0) {
+      lines.push('_(vazio)_');
+    } else {
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title').textContent;
+        const descEl = card.querySelector('.card-desc');
+        lines.push(`- ${title}${descEl ? ` — ${descEl.textContent}` : ''}`);
+      });
+    }
+    lines.push('');
+  });
+  return lines.join('\n').trim();
+}
+
+function toggleColumnCollapse(columnEl) {
+  columnEl.classList.toggle('column--collapsed');
+}
+
 function filterCards(query) {
   const q = query.toLowerCase();
   document.querySelectorAll('.card').forEach(card => {
@@ -79,6 +116,9 @@ function showState(state, msg) {
   document.getElementById('copy-link-btn').classList.add('hidden');
   document.getElementById('new-task-btn').classList.add('hidden');
   document.getElementById('auto-refresh-controls').classList.add('hidden');
+  document.getElementById('board-summary').classList.add('hidden');
+  document.getElementById('sort-btn').classList.add('hidden');
+  document.getElementById('export-btn').classList.add('hidden');
 
   const filterInput = document.getElementById('filter-input');
   filterInput.classList.add('hidden');
@@ -100,6 +140,9 @@ function showState(state, msg) {
     document.getElementById('new-task-btn').classList.remove('hidden');
     filterInput.classList.remove('hidden');
     document.getElementById('auto-refresh-controls').classList.remove('hidden');
+    document.getElementById('board-summary').classList.remove('hidden');
+    document.getElementById('sort-btn').classList.remove('hidden');
+    document.getElementById('export-btn').classList.remove('hidden');
   }
 }
 

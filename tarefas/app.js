@@ -1,4 +1,5 @@
 let refreshTimer;
+let sortEnabled = false;
 
 async function handleSubmit() {
   clearInterval(refreshTimer);
@@ -34,7 +35,8 @@ async function handleSubmit() {
       ? `Sprint Board — ${results[1].length} em andamento`
       : 'Sprint Board';
 
-    results.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows));
+    renderSummary(results.map(r => r.length));
+    results.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], sortEnabled ? sortByPriority(rows) : rows));
 
     showState('success');
 
@@ -56,7 +58,19 @@ function copyBoardLink() {
   const input = document.getElementById('sheet-url').value.trim();
   if (!input) return;
   const url = `${location.origin}${location.pathname}?sheet=${encodeURIComponent(input)}`;
-  navigator.clipboard.writeText(url);
+  const btn = document.getElementById('copy-link-btn');
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✓ Copiado!';
+    setTimeout(() => { btn.textContent = 'Copiar link do board'; }, 2000);
+  });
+}
+
+function exportBoardText() {
+  const btn = document.getElementById('export-btn');
+  navigator.clipboard.writeText(buildBoardText()).then(() => {
+    btn.textContent = '✓ Exportado!';
+    setTimeout(() => { btn.textContent = 'Exportar'; }, 2000);
+  });
 }
 
 function initTheme() {
@@ -95,6 +109,15 @@ document.getElementById('sheet-url').addEventListener('keydown', e => {
 });
 document.getElementById('refresh-btn').addEventListener('click', handleSubmit);
 document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink);
+document.getElementById('export-btn').addEventListener('click', exportBoardText);
+document.getElementById('sort-btn').addEventListener('click', () => {
+  sortEnabled = !sortEnabled;
+  document.getElementById('sort-btn').textContent = sortEnabled ? 'Ordem original' : 'Ordenar por prioridade';
+  handleSubmit();
+});
+document.querySelectorAll('.column-header').forEach(h => {
+  h.addEventListener('click', () => toggleColumnCollapse(h.closest('.column')));
+});
 document.getElementById('filter-input').addEventListener('input', e => filterCards(e.target.value));
 document.getElementById('new-task-btn').addEventListener('click', openNewTaskModal);
 document.getElementById('modal-cancel').addEventListener('click', closeNewTaskModal);
