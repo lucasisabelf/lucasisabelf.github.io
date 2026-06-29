@@ -26,6 +26,8 @@
   --priority-mid-color: #b45309;
   --warning-bg: #fef3c7;
   --warning-color: #92400e;
+  --today-bg: #f0fff4;
+  --today-color: #276749;
 }
 
 [data-theme="dark"] {
@@ -56,6 +58,8 @@
   --priority-mid-color: #fbbf24;
   --warning-bg: #29200a;
   --warning-color: #f59e0b;
+  --today-bg: #1a2d1e;
+  --today-color: #68d391;
 }
 
 *, *::before, *::after {
@@ -457,6 +461,11 @@ main {
 .card-date--warning {
   background: var(--warning-bg);
   color: var(--warning-color);
+}
+
+.card-date--today {
+  background: var(--today-bg);
+  color: var(--today-color);
 }
 
 .card-priority {

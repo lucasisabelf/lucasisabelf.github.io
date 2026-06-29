@@ -1,18 +1,8 @@
 # Implements — Sprint Board
 
-## 1. Porcentagem de conclusão no título da aba
+## 1. Corrigir timezone em `parsePtBrDate`
 
-**Tarefa:** Em `renderSummary` (ui.js), após calcular `pct`, adicionada atualização de `document.title`: `pct > 0 ? \`Sprint Board · ${pct}%\` : 'Sprint Board'`. Em `handleSubmit` (app.js), removida a atribuição anterior a `document.title` que exibia "N em andamento" — o título agora é responsabilidade exclusiva de `renderSummary`, que tem o `pct` calculado.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 2. Botão "↑ Topo" flutuante
-
-**Tarefa:** Em `index.html`, adicionado `<button id="back-to-top" class="back-to-top-btn hidden">↑</button>` antes de `#help-overlay`. Em `app.js`, registrados dois listeners na seção de inicialização: `scroll` em `window` que alterna `.hidden` com base em `window.scrollY <= 300`; e `click` no botão que chama `window.scrollTo({ top: 0, behavior: 'smooth' })`. Em `style.css`, adicionadas regras `position: fixed; bottom: 1.5rem; right: 1.5rem` com `border-radius: 50%` e `z-index: 50`.
+**Tarefa:** Em `parsePtBrDate` (ui.js), substituído `new Date('YYYY-MM-DD')` por `new Date(parseInt(year), parseInt(month) - 1, parseInt(day))`. O construtor de 3 argumentos interpreta os valores como hora local, eliminando o deslocamento de UTC que fazia datas DD/MM/YYYY aparecerem como "dia anterior" em fusos UTC-1 a UTC-12. Corrige silenciosamente overdue, warning, sort-by-date e o novo badge "Hoje".
 
 **Edge case:** Nenhum
 
@@ -20,19 +10,9 @@
 
 ---
 
-## 3. Ctrl+Enter no textarea submete o modal
+## 2. Badge "Hoje" para cards com prazo no dia atual
 
-**Tarefa:** Em `app.js`, adicionado listener `keydown` em `#task-desc` que chama `submitNewTask()` quando `e.ctrlKey || e.metaKey` e `e.key === 'Enter'`. O listener é independente do listener `input` existente (auto-resize) e registrado na mesma seção de inicialização.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 4. Escape limpa o filtro quando o input está focado
-
-**Tarefa:** Em `app.js`, o handler de `Escape` no listener `keydown` de `document` foi expandido com uma guarda inicial: se `document.activeElement === filterInput && filterInput.value`, limpa o filtro (zera valor, chama `filterCards('')`, esconde `filter-clear-btn` e `filter-count`) e retorna. O comportamento anterior (fechar modal + esconder help overlay) permanece como fallback.
+**Tarefa:** Em `renderCard` (ui.js), adicionado bloco `else if` após o check de `card-date--overdue` que aplica `card-date--today` quando `parsed.getTime() === today.getTime()` — possível após a correção de timezone da feature 1. O bloco `card-date--warning` foi ajustado de `parsed >= today` para `parsed > today` para excluir o dia atual. Em `style.css`, declaradas variáveis `--today-bg` e `--today-color` em `:root` (#f0fff4 / #276749) e `[data-theme="dark"]` (#1a2d1e / #68d391), e adicionada regra `.card-date--today` com essas variáveis.
 
 **Edge case:** Nenhum
 
@@ -40,9 +20,29 @@
 
 ---
 
-## 5. Botão de reset geral de configurações
+## 3. Contador de caracteres na descrição do modal
 
-**Tarefa:** Em `app.js`, adicionada constante `STORAGE_KEYS` no topo do arquivo (junto das demais variáveis de estado) com todas as chaves de `localStorage` usadas pelo app. Adicionada `resetAllSettings()` que itera `STORAGE_KEYS.forEach(k => localStorage.removeItem(k))` e chama `location.reload()`. Em `index.html`, adicionado `<button id="reset-settings-btn" class="help-reset-btn">Limpar configurações</button>` dentro do `#help-overlay`, antes do rodapé de ações. Listener registrado na seção de inicialização de `app.js`. Em `style.css`, adicionadas `.help-reset-row` e `.help-reset-btn` com hover vermelho.
+**Tarefa:** Constante `TASK_DESC_MAX = 300` declarada no topo de `ui.js` junto de `DAYS_UNTIL_WARNING`. Em `index.html`, adicionados `maxlength="300"` ao `#task-desc` e `<small id="task-desc-count" class="char-count">0 / 300</small>` logo após o textarea. Em `openNewTaskModal` (ui.js), reseto de `task-desc-count` via `\`0 / ${TASK_DESC_MAX}\``. No listener `input` existente em `#task-desc` (app.js), adicionada atualização de `task-desc-count` com `\`${this.value.length} / ${TASK_DESC_MAX}\`` — sem criar segundo listener.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## 4. Download do board como JSON estruturado
+
+**Tarefa:** Em `app.js`, adicionadas `buildBoardJson()` (itera `.column`, lê `.column-header` e `.card[data-*]`, retorna objeto com arrays por coluna) e `downloadBoardJson()` (Blob JSON, `<a download="sprint-board.json">`, pattern idêntico ao `downloadBoardText`). Em `index.html`, adicionado `<button id="json-btn" class="header-action-btn hidden">JSON</button>` após `#download-btn`. Em `showState` (ui.js), `#json-btn` adicionado aos conjuntos de hide-all e show-on-success. Listener registrado na seção de inicialização de `app.js`.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## 5. Atalhos adicionais na tabela do overlay de ajuda
+
+**Tarefa:** Em `index.html`, adicionadas três linhas ao `<tbody>` da `.shortcuts-table`: "Esc (no filtro)" → limpar filtro, "Ctrl+Enter" → submeter modal, "Badge de prioridade" → filtrar por prioridade. Nenhuma alteração em JS ou CSS.
 
 **Edge case:** Nenhum
 

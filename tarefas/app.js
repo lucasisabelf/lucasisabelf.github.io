@@ -83,6 +83,29 @@ function downloadBoardText() {
   URL.revokeObjectURL(a.href);
 }
 
+function buildBoardJson() {
+  const board = {};
+  document.querySelectorAll('.column').forEach(col => {
+    const header = col.querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
+    board[header] = Array.from(col.querySelectorAll('.card')).map(card => ({
+      title: card.dataset.title || '',
+      desc: card.dataset.desc || '',
+      date: card.dataset.date || '',
+      priority: card.dataset.priority || ''
+    }));
+  });
+  return board;
+}
+
+function downloadBoardJson() {
+  const blob = new Blob([JSON.stringify(buildBoardJson(), null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sprint-board.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 function buildCalendarUrl(title, desc, dateStr) {
   const d = parsePtBrDate(dateStr);
   if (!d) return 'https://calendar.google.com/calendar/r/eventedit' + (title ? `?text=${encodeURIComponent(title)}` : '');
@@ -231,6 +254,7 @@ document.getElementById('refresh-btn').addEventListener('click', handleSubmit);
 document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink);
 document.getElementById('export-btn').addEventListener('click', exportBoardText);
 document.getElementById('download-btn').addEventListener('click', downloadBoardText);
+document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
 document.getElementById('sort-btn').addEventListener('click', () => {
   sortEnabled = !sortEnabled;
   const sortBtn = document.getElementById('sort-btn');
@@ -272,6 +296,7 @@ document.getElementById('task-name').addEventListener('input', function () {
 document.getElementById('task-desc').addEventListener('input', function () {
   this.style.height = 'auto';
   this.style.height = this.scrollHeight + 'px';
+  document.getElementById('task-desc-count').textContent = `${this.value.length} / ${TASK_DESC_MAX}`;
 });
 document.getElementById('task-desc').addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') submitNewTask();

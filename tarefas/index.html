@@ -38,6 +38,7 @@
         <button id="copy-link-btn" class="header-action-btn hidden">Copiar link do board</button>
         <button id="export-btn" class="header-action-btn hidden">Exportar</button>
         <button id="download-btn" class="header-action-btn hidden">Baixar .md</button>
+        <button id="json-btn" class="header-action-btn hidden">JSON</button>
         <button id="sort-btn" class="header-action-btn hidden">Ordenar por prioridade</button>
         <button id="date-sort-btn" class="header-action-btn hidden">Ordenar por data</button>
         <button id="compact-btn" class="header-action-btn hidden">Compacto</button>
@@ -92,7 +93,8 @@
         </div>
         <div class="modal-field">
           <label for="task-desc">Descrição</label>
-          <textarea id="task-desc" placeholder="Descrição (opcional)" rows="3"></textarea>
+          <textarea id="task-desc" placeholder="Descrição (opcional)" rows="3" maxlength="300"></textarea>
+          <small id="task-desc-count" class="char-count">0 / 300</small>
         </div>
         <div class="modal-field">
           <label for="task-date">Data</label>
@@ -125,7 +127,10 @@
             <tr><td>N</td><td>Nova tarefa</td></tr>
             <tr><td>?</td><td>Mostrar/ocultar atalhos</td></tr>
             <tr><td>Esc</td><td>Fechar modal ou atalhos</td></tr>
+            <tr><td>Esc (no filtro)</td><td>Limpar filtro ativo</td></tr>
+            <tr><td>Ctrl+Enter</td><td>Submeter nova tarefa (no modal)</td></tr>
             <tr><td>Header</td><td>Recolher/expandir coluna</td></tr>
+            <tr><td>Badge de prioridade</td><td>Filtrar por prioridade (clique novamente para limpar)</td></tr>
           </tbody>
         </table>
         <p class="help-reset-row">

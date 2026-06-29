@@ -1,6 +1,7 @@
 const PRIORITY_CLASS = { 'Alta': 'priority--high', 'Média': 'priority--mid', 'Baixa': 'priority--low' };
 const PRIORITY_ORDER = { 'Alta': 0, 'Média': 1, 'Baixa': 2 };
 const DAYS_UNTIL_WARNING = 3;
+const TASK_DESC_MAX = 300;
 
 function flashButton(btn, tempText) {
   const original = btn.textContent;
@@ -12,8 +13,8 @@ function parsePtBrDate(str) {
   if (!str) return null;
   const parts = str.split('/');
   if (parts.length !== 3) return null;
-  const d = new Date(`${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`);
-  return isNaN(d) ? null : d;
+  const d = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+  return isNaN(d.getTime()) ? null : d;
 }
 
 function renderCard(row) {
@@ -50,10 +51,12 @@ function renderCard(row) {
     const parsed = parsePtBrDate(date);
     if (parsed && parsed < today) {
       dt.classList.add('card-date--overdue');
+    } else if (parsed && parsed.getTime() === today.getTime()) {
+      dt.classList.add('card-date--today');
     } else {
       const warningThreshold = new Date();
       warningThreshold.setDate(warningThreshold.getDate() + DAYS_UNTIL_WARNING);
-      if (parsed && parsed >= today && parsed <= warningThreshold) {
+      if (parsed && parsed > today && parsed <= warningThreshold) {
         dt.classList.add('card-date--warning');
       }
     }
@@ -194,6 +197,7 @@ function showState(state, msg) {
   document.getElementById('sprint-progress').classList.add('hidden');
   document.getElementById('filter-count').classList.add('hidden');
   document.getElementById('download-btn').classList.add('hidden');
+  document.getElementById('json-btn').classList.add('hidden');
   document.getElementById('sort-btn').classList.add('hidden');
   document.getElementById('date-sort-btn').classList.add('hidden');
   document.getElementById('export-btn').classList.add('hidden');
@@ -225,6 +229,7 @@ function showState(state, msg) {
     document.getElementById('board-summary').classList.remove('hidden');
     document.getElementById('sprint-progress').classList.remove('hidden');
     document.getElementById('download-btn').classList.remove('hidden');
+    document.getElementById('json-btn').classList.remove('hidden');
     document.getElementById('sort-btn').classList.remove('hidden');
     document.getElementById('date-sort-btn').classList.remove('hidden');
     document.getElementById('export-btn').classList.remove('hidden');
@@ -241,6 +246,7 @@ function openNewTaskModal() {
   const taskDesc = document.getElementById('task-desc');
   taskDesc.value = '';
   taskDesc.style.height = 'auto';
+  document.getElementById('task-desc-count').textContent = `0 / ${TASK_DESC_MAX}`;
   document.getElementById('task-date').value = new Date().toISOString().slice(0, 10);
   document.getElementById('task-priority').value = '';
   document.getElementById('modal-feedback').classList.add('hidden');
