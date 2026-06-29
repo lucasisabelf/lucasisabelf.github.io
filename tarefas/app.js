@@ -93,6 +93,23 @@ function buildCalendarUrl(title, desc, dateStr) {
   return `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(title)}&details=${encodeURIComponent(desc)}&dates=${ymd}/${ymd}`;
 }
 
+function saveCollapseState() {
+  const state = {};
+  document.querySelectorAll('.column').forEach(col => {
+    state[col.id] = col.classList.contains('column--collapsed');
+  });
+  localStorage.setItem('collapseState', JSON.stringify(state));
+}
+
+function initCollapseState() {
+  const stored = localStorage.getItem('collapseState');
+  if (!stored) return;
+  const state = JSON.parse(stored);
+  document.querySelectorAll('.column').forEach(col => {
+    col.classList.toggle('column--collapsed', !!state[col.id]);
+  });
+}
+
 function saveRecentSheet(url) {
   const stored = localStorage.getItem('recentSheets');
   const list = stored ? JSON.parse(stored) : [];
@@ -220,7 +237,10 @@ document.getElementById('sort-btn').addEventListener('click', () => {
   handleSubmit();
 });
 document.querySelectorAll('.column-header').forEach(h => {
-  h.addEventListener('click', () => toggleColumnCollapse(h.closest('.column')));
+  h.addEventListener('click', () => {
+    toggleColumnCollapse(h.closest('.column'));
+    saveCollapseState();
+  });
 });
 document.getElementById('filter-input').addEventListener('input', e => {
   const visible = filterCards(e.target.value);
@@ -241,6 +261,10 @@ document.getElementById('help-btn').addEventListener('click', toggleHelp);
 document.getElementById('help-close-btn').addEventListener('click', toggleHelp);
 document.getElementById('help-overlay').addEventListener('click', e => {
   if (e.target === e.currentTarget) toggleHelp();
+});
+document.getElementById('task-name').addEventListener('input', function () {
+  this.classList.remove('input--invalid');
+  document.getElementById('task-name-count').textContent = `${this.value.length} / 80`;
 });
 document.getElementById('task-desc').addEventListener('input', function () {
   this.style.height = 'auto';
@@ -273,6 +297,7 @@ document.addEventListener('keydown', e => {
 populateSelect();
 initRecentSheets();
 initTheme();
+initCollapseState();
 
 if (localStorage.getItem('sortEnabled') === 'true') {
   sortEnabled = true;

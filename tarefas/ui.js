@@ -235,6 +235,8 @@ function showState(state, msg) {
 function openNewTaskModal() {
   const taskName = document.getElementById('task-name');
   taskName.value = '';
+  taskName.classList.remove('input--invalid');
+  document.getElementById('task-name-count').textContent = '0 / 80';
   const taskDesc = document.getElementById('task-desc');
   taskDesc.value = '';
   taskDesc.style.height = 'auto';
@@ -251,8 +253,13 @@ function closeNewTaskModal() {
 }
 
 function submitNewTask() {
-  const name = document.getElementById('task-name').value.trim();
-  if (!name) return;
+  const taskNameEl = document.getElementById('task-name');
+  const name = taskNameEl.value.trim();
+  if (!name) {
+    taskNameEl.classList.add('input--invalid');
+    taskNameEl.focus();
+    return;
+  }
 
   const desc = document.getElementById('task-desc').value.trim();
   const isoDate = document.getElementById('task-date').value;

@@ -420,6 +420,10 @@ main {
   box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 
+.card[data-priority="Alta"]  { border-left: 3px solid var(--priority-high-color); }
+.card[data-priority="Média"] { border-left: 3px solid var(--priority-mid-color); }
+.card[data-priority="Baixa"] { border-left: 3px solid var(--empty-col); }
+
 .card-title {
   font-weight: 600;
   font-size: .9rem;
@@ -660,6 +664,18 @@ main {
 .column--collapsed .column-body { display: none; }
 .column--collapsed { min-height: 0; }
 
+.input--invalid {
+  border-color: var(--error-color) !important;
+}
+
+.char-count {
+  display: block;
+  font-size: .72rem;
+  color: var(--text-muted);
+  margin-top: .2rem;
+  text-align: right;
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .board {
@@ -673,4 +689,23 @@ main {
   .input-row button {
     width: 100%;
   }
+}
+
+@media print {
+  .app-header .hint,
+  .app-header .input-row,
+  .app-header .filter-row,
+  .filter-count,
+  .app-header .header-actions,
+  .app-header .auto-refresh-controls,
+  .header-top-actions,
+  .board-summary,
+  .sprint-progress,
+  .state-panel,
+  .modal-overlay { display: none !important; }
+
+  .app-header { position: static; box-shadow: none; border-radius: 0; margin-bottom: .5rem; }
+  .board { grid-template-columns: repeat(3, 1fr); }
+  .column-body { max-height: none; overflow: visible; }
+  .card-actions { display: none; }
 }
