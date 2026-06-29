@@ -119,6 +119,17 @@
         </div>
       </div>
     </div>
+    <div id="card-detail-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
+      <div class="modal">
+        <h2 id="card-detail-title" class="modal-title"></h2>
+        <p id="card-detail-desc" class="card-detail-desc hidden"></p>
+        <p id="card-detail-date" class="card-detail-meta hidden"></p>
+        <p id="card-detail-priority" class="card-detail-meta hidden"></p>
+        <div class="modal-actions">
+          <button id="card-detail-close" class="modal-cancel-btn">Fechar</button>
+        </div>
+      </div>
+    </div>
     <button id="back-to-top" class="back-to-top-btn hidden" title="Voltar ao topo">&#8679;</button>
     <div id="help-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
       <div class="modal">
@@ -137,6 +148,8 @@
             <tr><td>D</td><td>Alternar modo compacto</td></tr>
             <tr><td>T</td><td>Alternar tema claro/escuro</td></tr>
             <tr><td>G</td><td>Abrir planilha no Google Sheets</td></tr>
+            <tr><td>P</td><td>Imprimir board</td></tr>
+            <tr><td>Shift+Header</td><td>Copiar coluna como texto</td></tr>
           </tbody>
         </table>
         <p class="help-reset-row">

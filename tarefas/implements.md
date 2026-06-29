@@ -1,18 +1,8 @@
 # Implements — Sprint Board
 
-## 1. Animação CSS no colapso de coluna
+## 1. Modal de detalhes do card ao clicar no título
 
-**Tarefa:** Em `style.css`, substituída a regra `.column--collapsed .column-body { display: none; }` por `max-height: 0; overflow: hidden; opacity: 0;`. Adicionadas ao seletor `.column-body` as propriedades `opacity: 1` e `transition: max-height .25s ease, opacity .2s ease`. A regra `@media print .column-body { max-height: none; overflow: visible; }` já existente garante que colunas colapsadas apareçam normalmente na impressão. Nenhuma alteração em JS.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 2. Atalho G para abrir a planilha no Google Sheets
-
-**Tarefa:** No handler `keydown` de `document` em `app.js`, dentro do bloco `boardVisible && !inInput`, adicionado: se `e.key === 'g' || e.key === 'G'` e `edit-link` não possui `.hidden`, chama `.click()` no elemento. Em `index.html`, adicionada linha `G → Abrir planilha no Google Sheets` na tabela de atalhos do `#help-overlay`.
+**Tarefa:** Em `index.html`, adicionado `#card-detail-overlay` com modal contendo `#card-detail-title`, `#card-detail-desc`, `#card-detail-date`, `#card-detail-priority` e `#card-detail-close`. Em `ui.js`, adicionadas `openCardDetail(card)` (popula os campos de `card.dataset`, alterna `.hidden` nos campos opcionais, remove `.hidden` do overlay) e `closeCardDetail()` (adiciona `.hidden` ao overlay). Em `app.js`, delegação no `#board`: clique em `.card-title` chama `openCardDetail` antes de qualquer outro handler. Listeners para `#card-detail-close`, clique-fora no overlay, e `Escape` expandido para também chamar `closeCardDetail()`. Em `style.css`, adicionadas `.card-detail-desc` e `.card-detail-meta`.
 
 **Edge case:** Nenhum
 
@@ -20,19 +10,9 @@
 
 ---
 
-## 3. Confirmação antes de limpar as configurações
+## 2. Shift+click no header copia a coluna como texto
 
-**Tarefa:** Em `resetAllSettings` em `app.js`, adicionado `if (!confirm('Limpar todas as configurações e recarregar a página?')) return;` como primeiro statement. A função só prossegue com `STORAGE_KEYS.forEach` e `location.reload()` se o usuário confirmar.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 4. Cabeçalho com data e hora na impressão
-
-**Tarefa:** Em `handleSubmit` (app.js), após `showState('success')`, atribuído `document.querySelector('.app-header').dataset.printDate` com a data e hora formatadas em pt-BR. Em `style.css`, dentro do bloco `@media print`, adicionada regra `.app-header::before` com `content: 'Sprint Board · Impresso em ' attr(data-print-date)`, `display: block`, `font-size: .9rem`, `margin-bottom: .5rem`, `color: #555`.
+**Tarefa:** No listener existente dos `.column-header` em `app.js`, verificação de `e.shiftKey`: se verdadeiro, constrói array de linhas com `## colName` e uma linha `- title — desc` por card (usando `card.dataset`), copia via `navigator.clipboard.writeText` e chama `flashButton(h, '✓ Copiado!')` no header. Se sem shift, comportamento original (colapso + `saveCollapseState`). Em `index.html`, adicionada linha `Shift+Header → Copiar coluna como texto` na tabela de atalhos.
 
 **Edge case:** Nenhum
 
@@ -40,9 +20,29 @@
 
 ---
 
-## 5. Copiar URL da planilha atual
+## 3. Atalho P para imprimir
 
-**Tarefa:** Em `app.js`, adicionada `copySheetUrl()` que lê `document.getElementById('edit-link').href` e chama `navigator.clipboard.writeText(url)` seguido de `flashButton(btn, '✓ Copiado!')`. Em `index.html`, adicionado `#copy-sheet-btn` após `#copy-link-btn`. Em `showState` (ui.js), `copy-sheet-btn` adicionado ao conjunto hide-all e show-on-success junto de `copy-link-btn`. Listener registrado na seção de init. `APP_VERSION` incrementada para `1.13`.
+**Tarefa:** No handler `keydown` de `document` em `app.js`, dentro do bloco `boardVisible && !inInput`, adicionado `if (e.key === 'p' || e.key === 'P') window.print()`. Em `index.html`, adicionada linha `P → Imprimir board` na tabela de atalhos.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## 4. Scroll ao topo da coluna após renderização
+
+**Tarefa:** Em `renderColumn` (ui.js), após `rows.forEach(row => body.appendChild(renderCard(row)))`, adicionado `body.scrollTop = 0`. Garante que sort e re-render sempre posicionam a coluna no início.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## 5. Rodapé com metadados no export de texto
+
+**Tarefa:** Em `buildBoardText` (ui.js), após o loop de colunas, adicionado `lines.push('---\nExportado em ${ts}')` onde `ts` é `new Date().toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })`. O rodapé aparece tanto no "Exportar" (clipboard) quanto no "Baixar .md". `APP_VERSION` incrementada para `1.14`.
 
 **Edge case:** Nenhum
 

@@ -116,6 +116,7 @@ function renderColumn(bodyId, rows) {
   }
 
   rows.forEach(row => body.appendChild(renderCard(row)));
+  body.scrollTop = 0;
 }
 
 function renderSummary(counts, overdue, warning) {
@@ -181,6 +182,8 @@ function buildBoardText() {
     }
     lines.push('');
   });
+  const ts = new Date().toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  lines.push(`---\nExportado em ${ts}`);
   return lines.join('\n').trim();
 }
 
@@ -290,6 +293,25 @@ function showState(state, msg) {
     document.getElementById('focus-btn').classList.remove('hidden');
     document.getElementById('reset-btn').classList.remove('hidden');
   }
+}
+
+function openCardDetail(card) {
+  const { title, desc, date, priority } = card.dataset;
+  document.getElementById('card-detail-title').textContent = title;
+  const descEl = document.getElementById('card-detail-desc');
+  descEl.textContent = desc;
+  descEl.classList.toggle('hidden', !desc);
+  const dateEl = document.getElementById('card-detail-date');
+  dateEl.textContent = date ? `Data: ${date}` : '';
+  dateEl.classList.toggle('hidden', !date);
+  const prioEl = document.getElementById('card-detail-priority');
+  prioEl.textContent = priority ? `Prioridade: ${priority}` : '';
+  prioEl.classList.toggle('hidden', !priority);
+  document.getElementById('card-detail-overlay').classList.remove('hidden');
+}
+
+function closeCardDetail() {
+  document.getElementById('card-detail-overlay').classList.add('hidden');
 }
 
 function openNewTaskModal() {

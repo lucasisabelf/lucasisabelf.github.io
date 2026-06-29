@@ -229,6 +229,8 @@ function initTheme() {
 }
 
 document.getElementById('board').addEventListener('click', e => {
+  const cardTitle = e.target.closest('.card-title');
+  if (cardTitle) { openCardDetail(cardTitle.closest('.card')); return; }
   const askBtn = e.target.closest('.card-ask-claude-btn');
   if (askBtn) {
     const card = askBtn.closest('.card');
@@ -319,7 +321,15 @@ document.getElementById('sort-btn').addEventListener('click', () => {
   handleSubmit();
 });
 document.querySelectorAll('.column-header').forEach(h => {
-  h.addEventListener('click', () => {
+  h.addEventListener('click', e => {
+    if (e.shiftKey) {
+      const body = h.closest('.column').querySelector('.column-body');
+      const colName = h.textContent.replace(/ \(\d+\)$/, '');
+      const cards = Array.from(body.querySelectorAll('.card'));
+      const lines = [`## ${colName}`, ...cards.map(c => `- ${c.dataset.title}${c.dataset.desc ? ' — ' + c.dataset.desc : ''}`)];
+      navigator.clipboard.writeText(lines.join('\n')).then(() => flashButton(h, '✓ Copiado!'));
+      return;
+    }
     toggleColumnCollapse(h.closest('.column'));
     saveCollapseState();
   });
@@ -340,6 +350,10 @@ document.getElementById('filter-clear-btn').addEventListener('click', () => {
   document.getElementById('filter-count').classList.add('hidden');
   history.replaceState(null, '', updateUrlParam('filter', null));
   filterInput.focus();
+});
+document.getElementById('card-detail-close').addEventListener('click', closeCardDetail);
+document.getElementById('card-detail-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeCardDetail();
 });
 document.getElementById('help-btn').addEventListener('click', toggleHelp);
 document.getElementById('help-close-btn').addEventListener('click', toggleHelp);
@@ -386,6 +400,7 @@ document.addEventListener('keydown', e => {
       return;
     }
     closeNewTaskModal();
+    closeCardDetail();
     document.getElementById('help-overlay').classList.add('hidden');
     return;
   }
@@ -402,6 +417,7 @@ document.addEventListener('keydown', e => {
     const el = document.getElementById('edit-link');
     if (!el.classList.contains('hidden')) el.click();
   }
+  if (e.key === 'p' || e.key === 'P') window.print();
 });
 
 document.querySelectorAll('.version-text').forEach(el => { el.textContent = APP_VERSION; });

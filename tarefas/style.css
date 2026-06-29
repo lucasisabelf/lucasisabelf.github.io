@@ -613,6 +613,19 @@ main {
   border-color: var(--blue);
 }
 
+.card-detail-desc {
+  font-size: .95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: .5rem;
+}
+
+.card-detail-meta {
+  font-size: .85rem;
+  color: var(--text-muted);
+  margin-bottom: .25rem;
+}
+
 .modal-feedback {
   margin-bottom: .85rem;
   padding: .6rem .8rem;
