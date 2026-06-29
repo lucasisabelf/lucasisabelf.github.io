@@ -43,7 +43,7 @@ async function handleSubmit() {
       return rows;
     });
     orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows));
-    renderSummary(results.map(r => r.length), countOverdue());
+    renderSummary(results.map(r => r.length), countOverdue(), countWarning());
 
     showState('success');
 
@@ -241,6 +241,10 @@ document.getElementById('help-btn').addEventListener('click', toggleHelp);
 document.getElementById('help-close-btn').addEventListener('click', toggleHelp);
 document.getElementById('help-overlay').addEventListener('click', e => {
   if (e.target === e.currentTarget) toggleHelp();
+});
+document.getElementById('task-desc').addEventListener('input', function () {
+  this.style.height = 'auto';
+  this.style.height = this.scrollHeight + 'px';
 });
 document.getElementById('new-task-btn').addEventListener('click', openNewTaskModal);
 document.getElementById('modal-cancel').addEventListener('click', closeNewTaskModal);

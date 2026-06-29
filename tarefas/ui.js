@@ -57,6 +57,7 @@ function renderCard(row) {
         dt.classList.add('card-date--warning');
       }
     }
+    if (parsed) dt.title = parsed.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     card.appendChild(dt);
   }
 
@@ -103,10 +104,11 @@ function renderColumn(bodyId, rows) {
   rows.forEach(row => body.appendChild(renderCard(row)));
 }
 
-function renderSummary(counts, overdue) {
+function renderSummary(counts, overdue, warning) {
   const total = counts.reduce((s, n) => s + n, 0);
   let text = `${total} total · ${counts[1]} em andamento · ${counts[2]} concluídas`;
   if (overdue > 0) text += ` · ${overdue} vencida${overdue !== 1 ? 's' : ''}`;
+  if (warning > 0) text += ` · ${warning} com prazo próximo`;
   const hhmm = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   text += ` · Atualizado às ${hhmm}`;
   document.getElementById('board-summary').textContent = text;
@@ -133,6 +135,10 @@ function sortByDate(rows) {
 
 function countOverdue() {
   return document.querySelectorAll('.card-date--overdue').length;
+}
+
+function countWarning() {
+  return document.querySelectorAll('.card-date--warning').length;
 }
 
 function buildBoardText() {
@@ -229,7 +235,9 @@ function showState(state, msg) {
 function openNewTaskModal() {
   const taskName = document.getElementById('task-name');
   taskName.value = '';
-  document.getElementById('task-desc').value = '';
+  const taskDesc = document.getElementById('task-desc');
+  taskDesc.value = '';
+  taskDesc.style.height = 'auto';
   document.getElementById('task-date').value = new Date().toISOString().slice(0, 10);
   document.getElementById('task-priority').value = '';
   document.getElementById('modal-feedback').classList.add('hidden');
