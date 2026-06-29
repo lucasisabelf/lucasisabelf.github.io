@@ -687,6 +687,13 @@ main {
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
+  .app-header {
+    position: static;
+    border-radius: 0;
+    margin: 0 0 1rem;
+    padding: 1rem;
+  }
+
   .board {
     grid-template-columns: 1fr;
   }
