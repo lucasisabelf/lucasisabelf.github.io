@@ -1,18 +1,8 @@
 # Implements — Sprint Board
 
-## 1. Highlight de texto correspondente no filtro
+## 1. Contador de dias até/desde o vencimento no badge de data
 
-**Tarefa:** Em `ui.js`, adicionado helper `markMatch(text, query)` que escapa `&`, `<`, `>` para HTML e envolve cada match case-insensitive de `query` em `<mark>` usando RegExp com flag `gi`. Em `filterCards`, quando card é visível e `q !== ''`, `.card-title.innerHTML` e `.card-desc.innerHTML` recebem o resultado de `markMatch` com o title/desc de `card.dataset`. Quando `q === ''` ou card é oculto, `.textContent` é restaurado de `card.dataset` para remover as marcações. Em `style.css`, declaradas `--mark-bg` e `--mark-color` em `:root` (amarelo/marrom) e `[data-theme="dark"]` (marrom escuro/âmbar claro), e regra `.card-title mark, .card-desc mark` com essas variáveis.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 2. Mensagem "Sem resultados" por coluna ao filtrar
-
-**Tarefa:** No final de `filterCards` em `ui.js`, após o loop de visibilidade, iteração de cada `.column-body`: se `cards.length > 0 && cards.every(c => c.classList.contains('hidden')) && q !== ''`, cria ou reusa `.filter-empty` com textContent `'Sem resultados'` e appenda ao body. Se a condição não é atendida, remove o elemento se existir. Em `style.css`, adicionada regra `.filter-empty` com `color: var(--text-muted)`, `font-size: .85rem`, `text-align: center`, `padding: 1rem 0`.
+**Tarefa:** Constante `MS_PER_DAY = 86400000` declarada no topo de `ui.js`. Em `renderCard`, após aplicar a classe de data, calcula `delta = Math.round((parsed - today) / MS_PER_DAY)`. Se `delta > 0`, acrescenta ` · em N dia(s)` ao `dt.textContent`; se `delta < 0`, ` · há N dia(s)`. O bloco `if (parsed) dt.title = ...` foi fundido ao mesmo condicional. Dia atual (delta === 0) não recebe sufixo — o badge verde já sinaliza.
 
 **Edge case:** Nenhum
 
@@ -20,19 +10,9 @@
 
 ---
 
-## 3. Botão "Copiar título" no card
+## 2. Modo "Foco" — esconder coluna Done
 
-**Tarefa:** Em `renderCard` (ui.js), adicionado `.card-copy-btn` com texto `'Copiar'` ao `.card-actions` após `.card-calendar-btn`. No listener de delegação em `#board` (app.js), adicionado handler para `.card-copy-btn`: `navigator.clipboard.writeText(card.dataset.title)` seguido de `flashButton(copyBtn, '✓ Copiado!')`.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 4. Contagem de prioridades no resumo do board
-
-**Tarefa:** Em `ui.js`, adicionada `countByPriority(priority)` que retorna `document.querySelectorAll(\`.card:not(.hidden)[data-priority="${priority}"]\`).length`, espelhando o padrão de `countOverdue` e `countWarning`. Em `renderSummary`, após o bloco de warning, chamadas a `countByPriority('Alta')`, `countByPriority('Média')`, `countByPriority('Baixa')` e, se qualquer valor for positivo, acrescenta ` · Alta: X · Média: Y · Baixa: Z` ao texto do resumo.
+**Tarefa:** `let focusMode = false` adicionado ao topo de `app.js` junto dos outros estados de UI. `'focusMode'` adicionado a `STORAGE_KEYS`. `#focus-btn` adicionado ao HTML nas `.header-actions`. Em `showState` (ui.js), `focus-btn` adicionado ao conjunto hide-all e show-on-success. Listener `click` em `#focus-btn`: alterna `focusMode`, aplica `.hidden` em `#col-done`, alterna `.header-action-btn--active` e persiste em `localStorage`. Restauração via `localStorage.getItem('focusMode') === 'true'` na seção de init: aplica `.hidden` em `col-done` e a classe ativa no botão.
 
 **Edge case:** Nenhum
 
@@ -40,12 +20,32 @@
 
 ---
 
-## 5. Auto-incremento de `APP_VERSION` a cada ciclo
+## 3. Exportar board como CSV
 
-**Tarefa:** Em `config.js`, `APP_VERSION` incrementado de `'1.10'` para `'1.11'` como parte do ciclo dev-bat-loop. Esta ação ocorre antes do commit para que a versão publicada reflita o ciclo atual.
+**Tarefa:** Em `app.js`, adicionado helper `csvEscape(str)` que envolve campos com vírgula, aspas ou quebra em aspas duplas (escapando aspas internas com `""`). `buildBoardCsv()` gera linha de header `Coluna,Título,Descrição,Data,Prioridade` e uma linha por card, lendo do DOM via `card.dataset` com nome de coluna obtido do `.column-header` sem o count `(N)`. `downloadBoardCsv()` cria Blob com BOM UTF-8 (`'﻿'`) para compatibilidade com Excel, tipo `text/csv;charset=utf-8`, download `sprint-board.csv`. `#csv-btn` adicionado ao HTML; visibilidade gerenciada por `showState`; listener registrado na seção de init.
 
 **Edge case:** Nenhum
 
 **Solução:** N/A
+
+---
+
+## 4. Atalhos de teclado D (compacto) e T (tema)
+
+**Tarefa:** No handler `keydown` de `document` em `app.js`, dentro do bloco `boardVisible && !inInput`, adicionados: `D`/`d` → `compact-btn.click()` e `T`/`t` → `theme-toggle.click()`. Em `index.html`, adicionadas duas linhas à tabela de atalhos no `#help-overlay`.
+
+**Edge case:** Nenhum
+
+**Solução:** N/A
+
+---
+
+## 5. Sincronização do filtro ativo na URL
+
+**Tarefa:** Adicionado `updateUrlParam(key, value)` em `app.js`: usa `URLSearchParams`, faz `set`/`delete` e retorna URL com `params.toString()` (compatível com todos browsers). Nos três pontos onde o filtro é limpo (listener `filter-clear-btn`, Escape key, listener `filter-input`), chamada a `history.replaceState(null, '', updateUrlParam('filter', valor))`. Na seção de init, `handleSubmit()` é encadeado com `.then()` para restaurar `?filter=` da URL: popula `filter-input`, chama `filterCards`, exibe `filter-count` e `filter-clear-btn`. `APP_VERSION` incrementada de `1.11` para `1.12`.
+
+**Edge case:** `params.size` não suportado em browsers antigos — corrigido usando `params.toString()` como guard.
+
+**Solução:** Substituído `params.size ? '?' + params : ''` por `const qs = params.toString(); qs ? '?' + qs : ''`.
 
 ---

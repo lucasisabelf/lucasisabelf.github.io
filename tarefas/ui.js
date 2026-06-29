@@ -2,6 +2,7 @@ const PRIORITY_CLASS = { 'Alta': 'priority--high', 'Média': 'priority--mid', 'B
 const PRIORITY_ORDER = { 'Alta': 0, 'Média': 1, 'Baixa': 2 };
 const DAYS_UNTIL_WARNING = 3;
 const TASK_DESC_MAX = 300;
+const MS_PER_DAY = 86400000;
 
 function flashButton(btn, tempText) {
   const original = btn.textContent;
@@ -60,7 +61,12 @@ function renderCard(row) {
         dt.classList.add('card-date--warning');
       }
     }
-    if (parsed) dt.title = parsed.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    if (parsed) {
+      const delta = Math.round((parsed - today) / MS_PER_DAY);
+      if (delta > 0) dt.textContent = `${date} · em ${delta} dia${delta !== 1 ? 's' : ''}`;
+      else if (delta < 0) dt.textContent = `${date} · há ${Math.abs(delta)} dia${Math.abs(delta) !== 1 ? 's' : ''}`;
+      dt.title = parsed.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
     card.appendChild(dt);
   }
 
@@ -240,10 +246,12 @@ function showState(state, msg) {
   document.getElementById('filter-count').classList.add('hidden');
   document.getElementById('download-btn').classList.add('hidden');
   document.getElementById('json-btn').classList.add('hidden');
+  document.getElementById('csv-btn').classList.add('hidden');
   document.getElementById('sort-btn').classList.add('hidden');
   document.getElementById('date-sort-btn').classList.add('hidden');
   document.getElementById('export-btn').classList.add('hidden');
   document.getElementById('compact-btn').classList.add('hidden');
+  document.getElementById('focus-btn').classList.add('hidden');
   document.getElementById('reset-btn').classList.add('hidden');
 
   const filterRow = document.getElementById('filter-row');
@@ -272,10 +280,12 @@ function showState(state, msg) {
     document.getElementById('sprint-progress').classList.remove('hidden');
     document.getElementById('download-btn').classList.remove('hidden');
     document.getElementById('json-btn').classList.remove('hidden');
+    document.getElementById('csv-btn').classList.remove('hidden');
     document.getElementById('sort-btn').classList.remove('hidden');
     document.getElementById('date-sort-btn').classList.remove('hidden');
     document.getElementById('export-btn').classList.remove('hidden');
     document.getElementById('compact-btn').classList.remove('hidden');
+    document.getElementById('focus-btn').classList.remove('hidden');
     document.getElementById('reset-btn').classList.remove('hidden');
   }
 }

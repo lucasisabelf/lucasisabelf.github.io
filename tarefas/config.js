@@ -1,4 +1,4 @@
-const APP_VERSION = '1.11';
+const APP_VERSION = '1.12';
 
 const SHEET_NAMES = ['To Do', 'In Progress', 'Done'];
 const COLUMN_BODIES = ['body-todo', 'body-progress', 'body-done'];

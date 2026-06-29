@@ -2,8 +2,9 @@ let refreshTimer;
 let sortEnabled = false;
 let dateSortEnabled = false;
 let compactMode = false;
+let focusMode = false;
 
-const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortEnabled', 'dateSortEnabled', 'compactMode', 'collapseState'];
+const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortEnabled', 'dateSortEnabled', 'compactMode', 'collapseState', 'focusMode'];
 
 async function handleSubmit() {
   clearInterval(refreshTimer);
@@ -61,6 +62,13 @@ async function handleSubmit() {
   }
 }
 
+function updateUrlParam(key, value) {
+  const params = new URLSearchParams(location.search);
+  if (value) params.set(key, value); else params.delete(key);
+  const qs = params.toString();
+  return `${location.pathname}${qs ? '?' + qs : ''}`;
+}
+
 function copyBoardLink() {
   const input = document.getElementById('sheet-url').value.trim();
   if (!input) return;
@@ -79,6 +87,31 @@ function downloadBoardText() {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'sprint-board.md';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function csvEscape(str) {
+  const s = str || '';
+  return /[,"\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+function buildBoardCsv() {
+  const rows = ['Coluna,Título,Descrição,Data,Prioridade'];
+  document.querySelectorAll('.column').forEach(col => {
+    const colName = col.querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
+    col.querySelectorAll('.card').forEach(card => {
+      rows.push([colName, card.dataset.title, card.dataset.desc, card.dataset.date, card.dataset.priority].map(csvEscape).join(','));
+    });
+  });
+  return rows.join('\n');
+}
+
+function downloadBoardCsv() {
+  const blob = new Blob(['﻿' + buildBoardCsv()], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sprint-board.csv';
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -242,6 +275,12 @@ document.getElementById('compact-btn').addEventListener('click', () => {
   document.getElementById('compact-btn').classList.toggle('header-action-btn--active', compactMode);
   localStorage.setItem('compactMode', compactMode);
 });
+document.getElementById('focus-btn').addEventListener('click', () => {
+  focusMode = !focusMode;
+  document.getElementById('col-done').classList.toggle('hidden', focusMode);
+  document.getElementById('focus-btn').classList.toggle('header-action-btn--active', focusMode);
+  localStorage.setItem('focusMode', focusMode);
+});
 
 document.getElementById('reset-btn').addEventListener('click', () => {
   showState('idle');
@@ -261,6 +300,7 @@ document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink
 document.getElementById('export-btn').addEventListener('click', exportBoardText);
 document.getElementById('download-btn').addEventListener('click', downloadBoardText);
 document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
+document.getElementById('csv-btn').addEventListener('click', downloadBoardCsv);
 document.getElementById('sort-btn').addEventListener('click', () => {
   sortEnabled = !sortEnabled;
   const sortBtn = document.getElementById('sort-btn');
@@ -281,6 +321,7 @@ document.getElementById('filter-input').addEventListener('input', e => {
   const filterCount = document.getElementById('filter-count');
   filterCount.textContent = `${visible} de ${document.querySelectorAll('.card').length}`;
   filterCount.classList.toggle('hidden', e.target.value === '');
+  history.replaceState(null, '', updateUrlParam('filter', e.target.value || null));
 });
 document.getElementById('filter-clear-btn').addEventListener('click', () => {
   const filterInput = document.getElementById('filter-input');
@@ -288,6 +329,7 @@ document.getElementById('filter-clear-btn').addEventListener('click', () => {
   filterCards('');
   document.getElementById('filter-clear-btn').classList.add('hidden');
   document.getElementById('filter-count').classList.add('hidden');
+  history.replaceState(null, '', updateUrlParam('filter', null));
   filterInput.focus();
 });
 document.getElementById('help-btn').addEventListener('click', toggleHelp);
@@ -331,6 +373,7 @@ document.addEventListener('keydown', e => {
       filterCards('');
       document.getElementById('filter-clear-btn').classList.add('hidden');
       document.getElementById('filter-count').classList.add('hidden');
+      history.replaceState(null, '', updateUrlParam('filter', null));
       return;
     }
     closeNewTaskModal();
@@ -344,6 +387,8 @@ document.addEventListener('keydown', e => {
   if (e.key === 'r' || e.key === 'R') handleSubmit();
   if (e.key === 'f' || e.key === 'F') document.getElementById('filter-input').focus();
   if (e.key === 'n' || e.key === 'N') openNewTaskModal();
+  if (e.key === 'd' || e.key === 'D') document.getElementById('compact-btn').click();
+  if (e.key === 't' || e.key === 'T') document.getElementById('theme-toggle').click();
 });
 
 document.querySelectorAll('.version-text').forEach(el => { el.textContent = APP_VERSION; });
@@ -370,10 +415,26 @@ if (localStorage.getItem('compactMode') === 'true') {
   document.getElementById('board').classList.add('board--compact');
   document.getElementById('compact-btn').classList.add('header-action-btn--active');
 }
+if (localStorage.getItem('focusMode') === 'true') {
+  focusMode = true;
+  document.getElementById('col-done').classList.add('hidden');
+  document.getElementById('focus-btn').classList.add('header-action-btn--active');
+}
 
 const urlSheet = new URLSearchParams(location.search).get('sheet');
+const urlFilter = new URLSearchParams(location.search).get('filter');
 const autoLoadUrl = urlSheet || localStorage.getItem('lastSheet');
 if (autoLoadUrl) {
   document.getElementById('sheet-url').value = autoLoadUrl;
-  handleSubmit();
+  handleSubmit().then(() => {
+    if (urlFilter) {
+      const fi = document.getElementById('filter-input');
+      fi.value = urlFilter;
+      const visible = filterCards(urlFilter);
+      document.getElementById('filter-clear-btn').classList.remove('hidden');
+      const fc = document.getElementById('filter-count');
+      fc.textContent = `${visible} de ${document.querySelectorAll('.card').length}`;
+      fc.classList.remove('hidden');
+    }
+  });
 }
