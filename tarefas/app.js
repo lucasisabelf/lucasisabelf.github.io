@@ -11,8 +11,9 @@ async function handleSubmit() {
     return;
   }
 
+  const editLink = document.getElementById('edit-link');
   showState('loading');
-  document.getElementById('edit-link').classList.add('hidden');
+  editLink.classList.add('hidden');
 
   try {
     const fetches = SHEET_NAMES.map(async (name) => {
@@ -37,7 +38,6 @@ async function handleSubmit() {
 
     showState('success');
 
-    const editLink = document.getElementById('edit-link');
     editLink.href = input;
     editLink.classList.remove('hidden');
 
@@ -86,6 +86,9 @@ function initTheme() {
   });
 }
 
+document.getElementById('sheet-select').addEventListener('change', e => {
+  if (e.target.value) document.getElementById('sheet-url').value = e.target.value;
+});
 document.getElementById('load-btn').addEventListener('click', handleSubmit);
 document.getElementById('sheet-url').addEventListener('keydown', e => {
   if (e.key === 'Enter') handleSubmit();

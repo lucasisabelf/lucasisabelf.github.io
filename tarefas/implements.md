@@ -54,9 +54,9 @@
 
 **Tarefa:** `let refreshTimer` em app.js. `clearInterval(refreshTimer)` no início de `handleSubmit`. Após success, se `#auto-refresh` está marcado, inicia `setInterval(handleSubmit, intervalMs)`. Controles de UI (`#auto-refresh-controls`) gerenciados por `showState` — visíveis só em `success`.
 
-**Edge case:** Nenhum
+**Edge case:** FEATURES.md menciona "contador visível" de tempo até o próximo refresh. Implementar um countdown exigiria um segundo `setInterval` apenas para atualizar a UI — estado global mutável de UI desnecessário.
 
-**Solução:** N/A
+**Solução:** Contador omitido. O checkbox + select cumprem o contrato de configurar e pausar o auto-refresh sem estado de contagem.
 
 ---
 

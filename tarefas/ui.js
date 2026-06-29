@@ -98,18 +98,19 @@ function showState(state, msg) {
     document.getElementById('refresh-btn').classList.remove('hidden');
     document.getElementById('copy-link-btn').classList.remove('hidden');
     document.getElementById('new-task-btn').classList.remove('hidden');
-    document.getElementById('filter-input').classList.remove('hidden');
+    filterInput.classList.remove('hidden');
     document.getElementById('auto-refresh-controls').classList.remove('hidden');
   }
 }
 
 function openNewTaskModal() {
-  document.getElementById('task-name').value = '';
+  const taskName = document.getElementById('task-name');
+  taskName.value = '';
   document.getElementById('task-desc').value = '';
   document.getElementById('modal-feedback').classList.add('hidden');
   document.getElementById('modal-submit').disabled = false;
   document.getElementById('new-task-overlay').classList.remove('hidden');
-  document.getElementById('task-name').focus();
+  taskName.focus();
 }
 
 function closeNewTaskModal() {
@@ -143,10 +144,5 @@ function populateSelect() {
     opt.value = url;
     opt.textContent = name;
     select.appendChild(opt);
-  });
-  select.addEventListener('change', () => {
-    if (select.value) {
-      document.getElementById('sheet-url').value = select.value;
-    }
   });
 }
