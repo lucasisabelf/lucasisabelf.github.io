@@ -1,28 +1,8 @@
-# Implements — Ciclo 26
+# Implements — Ciclo 27
 
-## 1. Fonte para disléxicos
+## 1. Consolidar auto-refresh no menu "Visualização"
 
-**Tarefa:** Novo botão `#dyslexic-toggle` ao lado de `#theme-toggle` em `.header-top-actions`. `initDyslexicFont()` (`app.js`, mesmo padrão exato de `initTheme()`) lê `localStorage.getItem('dyslexicFont')`, aplica `document.documentElement.dataset.dyslexicFont` e registra o listener de toggle. `[data-dyslexic-font="true"] body` (`style.css`, mesmo padrão de `[data-theme="dark"]`) ajusta `font-family`/`letter-spacing`/`line-height` usando fontes já disponíveis no sistema — sem `@font-face`/CDN externo.
-
-**Edge case:** Nenhum — a sugestão (recebida via notepad externo, filtrada pelo Passo 0d do `dev-bat-loop`) já veio descrita em termos compatíveis com o padrão do projeto.
-
-**Solução:** N/A.
-
----
-
-## 2. Tempo na coluna atual
-
-**Tarefa:** Nova `trackColumnTime(orderedResults)` (`app.js`), chamada em `handleSubmit` logo após `orderedResults`, antes de `renderColumn`. Persiste `{ [título]: { column, since } }` em `localStorage` (`columnEntryTimes`), reseta `since` quando a coluna muda, remove títulos que não existem mais no board, e retorna um `Map` título→dias. `renderCard` (`ui.js`) recebe um segundo parâmetro opcional `daysInColumn` e, quando maior que 0, renderiza um `<span class="card-column-time">` com "há N dias".
-
-**Edge case:** Nenhum — a limitação de chave por título (sem ID estável de linha) já é uma postura aceita em outras partes do projeto (filtro de responsável).
-
-**Solução:** N/A.
-
----
-
-## 3. Badge de tempo na coluna com Tailwind
-
-**Tarefa:** O `<span class="card-column-time">` da feature anterior ganhou `text-xs text-empty-col` no `className` — primeira aplicação real de classes utilitárias Tailwind no projeto, reaproveitando o token de cor `empty-col` já mapeado em `tailwind.config` (`index.html`, ciclo 25) em vez de uma cor arbitrária ou uma nova regra em `style.css`.
+**Tarefa:** `#auto-refresh-controls` removido como bloco separado; o checkbox `#auto-refresh` e o `<select id="refresh-interval">` movidos para dentro de `#view-menu-panel`, ambos reaproveitando `.header-action-btn`/`.export-menu-panel .header-action-btn` (nenhuma regra CSS nova para o layout do controle em si). `showState` (`ui.js`) removeu as linhas de hide/show de `#auto-refresh-controls`. CSS morto (`.auto-refresh-controls`, `.auto-refresh-controls select`, referência no `@media print`) removido de `style.css`.
 
 **Edge case:** Nenhum.
 
@@ -30,29 +10,9 @@
 
 ---
 
-## 4. Menu "Visualização" consolidado
+## 2. Mensagens de erro específicas por tipo de falha
 
-**Tarefa:** `#compact-btn`, `#focus-btn` e o novo `#column-time-toggle-btn` agrupados em `#view-menu-panel`, revelado por `#view-menu-btn` ("Visualização ▾") — mesma estrutura/classes (`.export-menu`/`.export-menu-panel`) dos menus "Baixar"/"Compartilhar" já existentes, sem CSS novo. Novo `let columnTimeVisible` (mesmo padrão de `compactMode`/`focusMode`), persistido em `localStorage`, controla a visibilidade de todos `.card-column-time` via `querySelectorAll`; reaplicado após cada `renderColumn` em `handleSubmit`, já que os cards são recriados a cada carregamento. `showState` (`ui.js`) atualizado para esconder/mostrar `#view-menu-btn` no lugar de `#compact-btn`/`#focus-btn` individuais.
-
-**Edge case:** Nenhum — o listener global de "fechar ao clicar fora" (generalizado no ciclo 24 para `querySelectorAll('.export-menu-panel')`) já cobre este terceiro menu automaticamente.
-
-**Solução:** N/A.
-
----
-
-## 5. Acessibilidade de teclado nos cards
-
-**Tarefa:** `renderCard` (`ui.js`) adiciona `card.tabIndex = 0` e `card.setAttribute('role', 'button')`. Novo listener de `keydown` em `#board` (irmão do listener de `click` já existente, não misturado nele): quando `Enter`/`Espaço` e o alvo é exatamente o `.card` (não um filho), chama a mesma `openCardDetail` já usada pelo clique em `.card-title`.
-
-**Edge case:** Nenhum — o filtro `e.target.classList.contains('card')` já garante que os botões de ação internos (nativamente focáveis) não são interceptados.
-
-**Solução:** N/A.
-
----
-
-## 6. Contagem de tarefas por responsável no filtro
-
-**Tarefa:** `populateResponsavelFilter` (`ui.js`) passou a receber `{ name, count }[]` em vez de nomes simples; o texto de cada `<option>` vira `"Nome (N)"`, mantendo `option.value = name`. Em `handleSubmit` (`app.js`), a contagem é feita via `reduce` sobre `results.flat()` em vez do `Set` anterior.
+**Tarefa:** O `catch` de `handleSubmit` (`app.js`) passou a checar `err.name === 'AbortError'` (erro lançado por `fetchWithTimeout` após as 2 tentativas já esgotadas) e exibir uma mensagem específica de timeout/rede; o caso de HTML retornado pela planilha continua usando `err.message` como antes.
 
 **Edge case:** Nenhum.
 
@@ -60,14 +20,44 @@
 
 ---
 
-## 7. Checklist simples na descrição
+## 3. Progresso do checklist
 
-**Tarefa:** Nova função pura `parseChecklist(desc)` (`ui.js`, junto de `parsePtBrDate`/`toIsoDate`/`toPtBrDate`) que extrai linhas `- [ ]`/`- [x]` da descrição e retorna `null` se nenhuma existir. `renderCard` renderiza uma `<ul class="card-checklist">` no lugar do `.card-desc` de texto corrido quando `parseChecklist` retorna itens.
+**Tarefa:** Quando `parseChecklist(desc)` retorna itens, `renderCard` (`ui.js`) calcula `checklist.filter(i => i.done).length` sobre o array já produzido e insere um `<span class="card-checklist-progress">X/Y</span>` dentro de `.card-title`, sem reprocessar a descrição.
 
-**Edge case:** `buildBoardText` (`ui.js`) buscava a descrição via `card.querySelector('.card-desc')` — para cards renderizados como checklist esse elemento não existe, e a descrição seria silenciosamente omitida do export em texto/`.md`. Corrigido para ler `card.dataset.desc` diretamente (mesma fonte já usada por `buildBoardCsv`/`buildBoardJson`/`filterCards`), independente de como o card é renderizado visualmente.
+**Edge case:** Nenhum.
 
-**Solução:** `buildBoardText` passou a desestruturar `card.dataset` (`{ title, desc }`) em vez de consultar o DOM (`.card-desc`) — mais robusto e consistente com o restante do arquivo, que já usa `dataset` como fonte canônica dos dados do card.
+**Solução:** N/A.
 
 ---
 
-**Nota do ciclo:** `APP_VERSION` incrementada de `1.24` para `1.25`. A feature "Fonte para disléxicos" (item 1) teve origem em uma sugestão externa lida do notepad `invertexto.com/matuto` (seção `##### features`), filtrada pelas salvaguardas de segurança do Passo 0d do `dev-bat-loop` antes de entrar em `FEATURES.md` — conteúdo tratado como texto descritivo puro, nunca como instrução.
+## 4. Destaque visual em tarefas sem responsável
+
+**Tarefa:** `renderCard` (`ui.js`) adiciona a classe `card--unassigned` ao `.card` quando `responsavel` está vazio. `.card--unassigned { border: 1px dashed var(--border-input); }` em `style.css`, reaproveitando a variável de cor já existente.
+
+**Edge case:** Nenhum.
+
+**Solução:** N/A.
+
+---
+
+## 5. Ordenação combinada (prioridade + data)
+
+**Tarefa:** A lógica de comparação de datas de `sortByDate` foi extraída para `compareByDate(a, b)` (`ui.js`); `sortByDate` agora só chama `rows.sort(compareByDate)`, e `sortByPriority` usa `compareByDate` como critério de desempate (`... || compareByDate(a, b)`) quando duas tarefas têm a mesma prioridade.
+
+**Edge case:** Nenhum — o tratamento de datas ausentes (`null` vai para o fim) foi preservado exatamente igual ao original de `sortByDate`.
+
+**Solução:** N/A.
+
+---
+
+## 6. Tags livres por tarefa
+
+**Tarefa:** `BOARD_RANGE` (`config.js`) ampliado de `'A3:F'` para `'A3:G'`. `renderCard` (`ui.js`) lê `row[6]` como `tagsRaw`, grava `card.dataset.tags`, e renderiza um `<span class="card-tag">` por tag dentro de `.card-tags`. `.card-tag` foi adicionado ao seletor já combinado `.study-card-status, .card-responsavel` (ciclo 23) em vez de uma nova regra CSS. `filterCards` inclui `card.dataset.tags` na busca combinada. O listener de delegação em `#board` (`app.js`) ganhou um ramo para `.card-tag`, com a mesma lógica de filtro-por-clique já usada por `.card-priority` (2 ocorrências do mesmo padrão — não justifica extração ainda pela regra do projeto). `TEMPLATE_HEADERS` e as 3 representações estruturadas de export (`buildBoardCsv`, `buildBoardJson`, cópia CSV por coluna) ganharam `Tags`/`card.dataset.tags` como sétimo campo, pela mesma paridade já aplicada a Responsável e Link.
+
+**Edge case:** Nenhum — a busca por tag reaproveita o mesmo `combined.includes(t)` (substring) do filtro de texto já existente, não uma regra de correspondência nova.
+
+**Solução:** N/A.
+
+---
+
+**Nota do ciclo:** `APP_VERSION` incrementada de `1.25` para `1.26`. O Passo 0d verificou `invertexto.com/matuto` novamente — a seção `##### features` continha a mesma sugestão já implementada no ciclo 26 ("fonte para disléxicos"), confirmada como já presente no código e não duplicada em `FEATURES.md`.

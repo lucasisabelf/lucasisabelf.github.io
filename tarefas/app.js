@@ -129,7 +129,11 @@ async function handleSubmit() {
       refreshTimer = setInterval(handleSubmit, intervalMs);
     }
   } catch (err) {
-    showState('error', err.message || 'Erro ao carregar a planilha. Verifique a URL e a visibilidade da planilha.');
+    if (err.name === 'AbortError') {
+      showState('error', 'A planilha demorou demais para responder. Verifique sua conexão e tente novamente.');
+    } else {
+      showState('error', err.message || 'Erro ao carregar a planilha. Verifique a URL e a visibilidade da planilha.');
+    }
   }
 }
 
@@ -174,11 +178,11 @@ function csvEscape(str) {
 }
 
 function buildBoardCsv() {
-  const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link'];
+  const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link,Tags'];
   document.querySelectorAll('.column').forEach(col => {
     const colName = col.querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
     col.querySelectorAll('.card').forEach(card => {
-      rows.push([colName, card.dataset.title, card.dataset.desc, card.dataset.date, card.dataset.priority, card.dataset.responsavel, card.dataset.link].map(csvEscape).join(','));
+      rows.push([colName, card.dataset.title, card.dataset.desc, card.dataset.date, card.dataset.priority, card.dataset.responsavel, card.dataset.link, card.dataset.tags].map(csvEscape).join(','));
     });
   });
   return rows.join('\n');
@@ -218,7 +222,8 @@ function buildBoardJson() {
       date: card.dataset.date || '',
       priority: card.dataset.priority || '',
       responsavel: card.dataset.responsavel || '',
-      link: card.dataset.link || ''
+      link: card.dataset.link || '',
+      tags: card.dataset.tags || ''
     }));
   });
   return board;
@@ -398,6 +403,20 @@ document.getElementById('board').addEventListener('click', e => {
     const total = document.querySelectorAll('.card').length;
     filterCount.textContent = `${visible} de ${total}`;
     filterCount.classList.toggle('hidden', newQuery === '');
+    return;
+  }
+  const tagBadge = e.target.closest('.card-tag');
+  if (tagBadge) {
+    const filterInput = document.getElementById('filter-input');
+    const filterCount = document.getElementById('filter-count');
+    const tagText = tagBadge.textContent;
+    const newQuery = filterInput.value === tagText ? '' : tagText;
+    filterInput.value = newQuery;
+    const visible = filterCards(newQuery, document.getElementById('responsavel-filter').value);
+    document.getElementById('filter-clear-btn').classList.toggle('hidden', newQuery === '');
+    const total = document.querySelectorAll('.card').length;
+    filterCount.textContent = `${visible} de ${total}`;
+    filterCount.classList.toggle('hidden', newQuery === '');
   }
 });
 document.getElementById('board').addEventListener('keydown', e => {
@@ -472,7 +491,7 @@ document.querySelectorAll('.column-header').forEach(h => {
       const body = h.closest('.column').querySelector('.column-body');
       const colName = h.textContent.replace(/ \(\d+\)$/, '');
       const cards = Array.from(body.querySelectorAll('.card'));
-      const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link', ...cards.map(c => [colName, c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority, c.dataset.responsavel, c.dataset.link].map(csvEscape).join(','))];
+      const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link,Tags', ...cards.map(c => [colName, c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority, c.dataset.responsavel, c.dataset.link, c.dataset.tags].map(csvEscape).join(','))];
       navigator.clipboard.writeText(rows.join('\n')).then(() => flashButton(h, '✓ CSV!'));
       return;
     }

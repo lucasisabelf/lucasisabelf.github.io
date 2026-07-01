@@ -56,9 +56,10 @@ function renderCard(row, daysInColumn) {
   const priority = row[3] ? row[3].trim() : '';
   const responsavel = row[4] ? row[4].trim() : '';
   const link = row[5] ? row[5].trim() : '';
+  const tagsRaw = row[6] ? row[6].trim() : '';
 
   const card = document.createElement('div');
-  card.className = 'card';
+  card.className = responsavel ? 'card' : 'card card--unassigned';
   card.tabIndex = 0;
   card.setAttribute('role', 'button');
   card.dataset.title = name;
@@ -67,6 +68,7 @@ function renderCard(row, daysInColumn) {
   card.dataset.priority = priority;
   card.dataset.responsavel = responsavel;
   card.dataset.link = link;
+  card.dataset.tags = tagsRaw;
 
   const title = document.createElement('div');
   title.className = 'card-title';
@@ -75,6 +77,11 @@ function renderCard(row, daysInColumn) {
 
   const checklist = parseChecklist(desc);
   if (checklist) {
+    const progress = document.createElement('span');
+    progress.className = 'card-checklist-progress';
+    progress.textContent = `${checklist.filter(i => i.done).length}/${checklist.length}`;
+    title.appendChild(progress);
+
     const list = document.createElement('ul');
     list.className = 'card-checklist';
     checklist.forEach(({ done, text }) => {
@@ -131,6 +138,19 @@ function renderCard(row, daysInColumn) {
     badge.className = 'card-responsavel';
     badge.textContent = responsavel;
     card.appendChild(badge);
+  }
+
+  const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean);
+  if (tags.length) {
+    const tagsEl = document.createElement('div');
+    tagsEl.className = 'card-tags';
+    tags.forEach(tag => {
+      const chip = document.createElement('span');
+      chip.className = 'card-tag';
+      chip.textContent = tag;
+      tagsEl.appendChild(chip);
+    });
+    card.appendChild(tagsEl);
   }
 
   if (daysInColumn > 0) {
@@ -300,9 +320,18 @@ function renderSummary(counts, overdue, warning) {
   document.title = alta > 0 ? `⚠ ${alta} · Sprint Board · ${pct}%` : pct > 0 ? `Sprint Board · ${pct}%` : 'Sprint Board';
 }
 
+function compareByDate(a, b) {
+  const da = parsePtBrDate(a[2]);
+  const db = parsePtBrDate(b[2]);
+  if (!da && !db) return 0;
+  if (!da) return 1;
+  if (!db) return -1;
+  return da - db;
+}
+
 function sortByPriority(rows) {
   return [...rows].sort((a, b) =>
-    (PRIORITY_ORDER[a[3]] ?? 3) - (PRIORITY_ORDER[b[3]] ?? 3)
+    (PRIORITY_ORDER[a[3]] ?? 3) - (PRIORITY_ORDER[b[3]] ?? 3) || compareByDate(a, b)
   );
 }
 
@@ -311,14 +340,7 @@ function sortByTitle(rows) {
 }
 
 function sortByDate(rows) {
-  return [...rows].sort((a, b) => {
-    const da = parsePtBrDate(a[2]);
-    const db = parsePtBrDate(b[2]);
-    if (!da && !db) return 0;
-    if (!da) return 1;
-    if (!db) return -1;
-    return da - db;
-  });
+  return [...rows].sort(compareByDate);
 }
 
 function countOverdue() {
@@ -409,7 +431,8 @@ function filterCards(query, responsavelFilter = '') {
     const desc = card.dataset.desc || '';
     const priority = (card.dataset.priority || '').toLowerCase();
     const responsavel = card.dataset.responsavel || '';
-    const combined = title.toLowerCase() + ' ' + desc.toLowerCase() + ' ' + priority + ' ' + responsavel.toLowerCase();
+    const tags = (card.dataset.tags || '').toLowerCase();
+    const combined = title.toLowerCase() + ' ' + desc.toLowerCase() + ' ' + priority + ' ' + responsavel.toLowerCase() + ' ' + tags;
     const matchesQuery = terms.length === 0 || terms.every(t => combined.includes(t));
     const matchesResponsavel = !responsavelFilter || responsavel === responsavelFilter;
     const hidden = !matchesQuery || !matchesResponsavel;
@@ -450,7 +473,6 @@ function showState(state, msg) {
   document.getElementById('board').classList.add('hidden');
   document.getElementById('refresh-btn').classList.add('hidden');
   document.getElementById('new-task-btn').classList.add('hidden');
-  document.getElementById('auto-refresh-controls').classList.add('hidden');
   document.getElementById('board-summary').classList.add('hidden');
   document.getElementById('sprint-progress').classList.add('hidden');
   document.getElementById('filter-count').classList.add('hidden');
@@ -485,7 +507,6 @@ function showState(state, msg) {
     document.getElementById('refresh-btn').classList.remove('hidden');
     document.getElementById('new-task-btn').classList.remove('hidden');
     filterRow.classList.remove('hidden');
-    document.getElementById('auto-refresh-controls').classList.remove('hidden');
     document.getElementById('board-summary').classList.remove('hidden');
     document.getElementById('sprint-progress').classList.remove('hidden');
     document.getElementById('share-menu-btn').classList.remove('hidden');

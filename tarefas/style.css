@@ -387,23 +387,10 @@ main {
   border-color: var(--blue);
 }
 
-.auto-refresh-controls {
+.auto-refresh-label {
   display: flex;
   align-items: center;
-  gap: .5rem;
-  margin-top: .8rem;
-  font-size: .85rem;
-  color: var(--text-muted);
-}
-
-.auto-refresh-controls select {
-  padding: .2rem .4rem;
-  border: 1px solid var(--border-input);
-  border-radius: 6px;
-  font-size: .85rem;
-  background: var(--surface);
-  color: var(--text);
-  outline: none;
+  gap: .4rem;
 }
 
 /* ── State panels ── */
@@ -506,6 +493,10 @@ main {
   animation: fadeIn .18s ease;
 }
 
+.card--unassigned {
+  border: 1px dashed var(--border-input);
+}
+
 .card:hover {
   box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
@@ -535,6 +526,13 @@ main {
 
 .card-checklist-item + .card-checklist-item {
   margin-top: .15rem;
+}
+
+.card-checklist-progress {
+  margin-left: .4rem;
+  font-size: .78rem;
+  font-weight: 400;
+  color: var(--text-muted);
 }
 
 .card-date {
@@ -937,13 +935,21 @@ main {
 }
 
 .study-card-status,
-.card-responsavel {
+.card-responsavel,
+.card-tag {
   font-size: .72rem;
   color: var(--text-muted);
   background: var(--badge-bg);
   border-radius: 999px;
   padding: .1rem .5rem;
   font-weight: 500;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  margin-top: .35rem;
 }
 
 .study-card-motivo {
@@ -1023,7 +1029,6 @@ main {
   .app-header .filter-row,
   .filter-count,
   .app-header .header-actions,
-  .app-header .auto-refresh-controls,
   .header-top-actions,
   .board-summary,
   .sprint-progress,

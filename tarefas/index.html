@@ -115,20 +115,18 @@
             <button id="compact-btn" class="header-action-btn" title="Compacto (D)">Compacto</button>
             <button id="focus-btn" class="header-action-btn">Foco</button>
             <button id="column-time-toggle-btn" class="header-action-btn header-action-btn--active">Tempo na coluna</button>
+            <label class="auto-refresh-label header-action-btn">
+              <input type="checkbox" id="auto-refresh"> Auto-refresh
+            </label>
+            <select id="refresh-interval" class="header-action-btn">
+              <option value="1">1 min</option>
+              <option value="5" selected>5 min</option>
+              <option value="10">10 min</option>
+            </select>
           </div>
         </div>
         <button id="refresh-btn" class="header-action-btn hidden" title="Atualizar (R)">&#8635; Atualizar</button>
         <button id="new-task-btn" class="new-task-btn hidden" title="Nova tarefa (N)">+ Nova Tarefa</button>
-      </div>
-      <div id="auto-refresh-controls" class="auto-refresh-controls hidden">
-        <label>
-          <input type="checkbox" id="auto-refresh"> Auto-refresh
-        </label>
-        <select id="refresh-interval">
-          <option value="1">1 min</option>
-          <option value="5" selected>5 min</option>
-          <option value="10">10 min</option>
-        </select>
       </div>
     </header>
 
