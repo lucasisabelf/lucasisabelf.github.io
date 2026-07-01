@@ -186,6 +186,11 @@ function renderCard(row, daysInColumn, isNew) {
   copyBtn.textContent = 'Copiar';
   actions.appendChild(copyBtn);
 
+  const whatsappBtn = document.createElement('button');
+  whatsappBtn.className = 'card-action-btn card-whatsapp-btn';
+  whatsappBtn.textContent = 'WhatsApp';
+  actions.appendChild(whatsappBtn);
+
   const dupBtn = document.createElement('button');
   dupBtn.className = 'card-action-btn card-duplicate-btn';
   dupBtn.textContent = 'Duplicar';
@@ -311,8 +316,34 @@ function renderExtraLists(lists) {
   });
 }
 
+function renderActivityFeed(log) {
+  const list = document.getElementById('activity-feed-list');
+  list.innerHTML = '';
+
+  if (log.length === 0) {
+    const empty = document.createElement('li');
+    empty.className = 'empty-column';
+    empty.textContent = 'Nenhuma atividade registrada ainda';
+    list.appendChild(empty);
+    return;
+  }
+
+  log.forEach(({ title, from, to }) => {
+    const item = document.createElement('li');
+    item.className = 'activity-item';
+    item.textContent = `${title}: ${from} → ${to}`;
+    list.appendChild(item);
+  });
+}
+
 function renderSummary(counts, overdue, warning) {
   const total = counts.reduce((s, n) => s + n, 0);
+  if (total === 0) {
+    document.getElementById('board-summary').textContent = 'Nenhuma tarefa encontrada — confira se os dados começam na linha 3 e se os nomes das abas conferem.';
+    document.getElementById('sprint-progress-bar').style.width = '0%';
+    document.title = 'Sprint Board';
+    return;
+  }
   let text = `${total} total · ${counts[1]} em andamento · ${counts[2]} concluídas`;
   if (overdue > 0) {
     text += ` · ${overdue} vencida${overdue !== 1 ? 's' : ''}`;
@@ -398,6 +429,14 @@ function buildBoardText() {
 
 function toggleColumnCollapse(columnEl) {
   columnEl.classList.toggle('column--collapsed');
+}
+
+function buildCardSummaryText(title, desc, date, priority) {
+  return `${title}${desc ? ' — ' + desc : ''}${date ? ' · ' + date : ''}${priority ? ' [' + priority + ']' : ''}`;
+}
+
+function buildWhatsAppUrl(title, desc, date, priority) {
+  return `https://wa.me/?text=${encodeURIComponent(buildCardSummaryText(title, desc, date, priority))}`;
 }
 
 function buildCalendarUrl(title, desc, dateStr) {
@@ -520,6 +559,8 @@ function showState(state, msg) {
   document.getElementById('view-menu-btn').classList.add('hidden');
   document.getElementById('reset-btn').classList.add('hidden');
   document.getElementById('extra-lists').classList.add('hidden');
+  document.getElementById('activity-btn').classList.add('hidden');
+  document.getElementById('activity-panel').classList.add('hidden');
   document.getElementById('mode-select').classList.add('hidden');
 
   const filterRow = document.getElementById('filter-row');
@@ -551,6 +592,7 @@ function showState(state, msg) {
     document.getElementById('view-menu-btn').classList.remove('hidden');
     document.getElementById('reset-btn').classList.remove('hidden');
     document.getElementById('extra-lists').classList.remove('hidden');
+    document.getElementById('activity-btn').classList.remove('hidden');
     document.getElementById('mode-select').classList.remove('hidden');
   }
 }
@@ -567,13 +609,13 @@ function setMode(mode) {
   document.getElementById('mode-select').value = mode;
 }
 
-function populateModeSelect(listNames) {
+function populateModeSelect(lists) {
   const select = document.getElementById('mode-select');
   select.querySelectorAll('option:not([value="tarefas"])').forEach(opt => opt.remove());
-  listNames.forEach(name => {
+  lists.forEach(({ name, count }) => {
     const opt = document.createElement('option');
     opt.value = name;
-    opt.textContent = name;
+    opt.textContent = `${name} (${count})`;
     select.appendChild(opt);
   });
 }

@@ -614,7 +614,11 @@ main {
 .board--compact .card-desc,
 .board--compact .card-date,
 .board--compact .card-priority,
-.board--compact .card-actions { display: none; }
+.board--compact .card-actions,
+.board--compact .card-tags,
+.board--compact .card-checklist,
+.board--compact .card-checklist-progress,
+.board--compact .card-new-badge { display: none; }
 
 .empty-column {
   font-size: .85rem;
@@ -898,6 +902,18 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: .75rem;
+}
+
+#activity-feed-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.activity-item {
+  font-size: .85rem;
+  color: var(--text-muted);
 }
 
 .study-card {

@@ -6,8 +6,9 @@ let focusMode = false;
 let columnTimeVisible = true;
 
 const FILTER_DEBOUNCE_MS = 200;
+const ACTIVITY_LOG_LIMIT = 20;
 const SORT_MODES = ['original', 'prioridade', 'data', 'titulo'];
-const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'dyslexicFont', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'columnTimeVisible', 'columnEntryTimes', 'mode'];
+const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'dyslexicFont', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'columnTimeVisible', 'columnEntryTimes', 'activityLog', 'mode'];
 
 async function fetchListNames(id) {
   try {
@@ -39,13 +40,18 @@ function trackColumnTime(orderedResults) {
   const updated = {};
   const daysByTitle = new Map();
   const newTitles = new Set();
+  const transitions = [];
 
   orderedResults.forEach((rows, i) => {
     const column = SHEET_NAMES[i];
     rows.forEach(row => {
       const title = row[0].trim();
       const entry = stored[title];
-      if (!entry) newTitles.add(title);
+      if (!entry) {
+        newTitles.add(title);
+      } else if (entry.column !== column) {
+        transitions.push({ title, from: entry.column, to: column });
+      }
       const since = entry && entry.column === column ? entry.since : now;
       updated[title] = { column, since };
       daysByTitle.set(title, Math.floor((now - since) / MS_PER_DAY));
@@ -53,7 +59,14 @@ function trackColumnTime(orderedResults) {
   });
 
   localStorage.setItem('columnEntryTimes', JSON.stringify(updated));
-  return { daysByTitle, newTitles };
+  return { daysByTitle, newTitles, transitions };
+}
+
+function logActivity(transitions) {
+  const stored = JSON.parse(localStorage.getItem('activityLog') || '[]');
+  const updated = [...transitions, ...stored].slice(0, ACTIVITY_LOG_LIMIT);
+  localStorage.setItem('activityLog', JSON.stringify(updated));
+  return updated;
 }
 
 async function handleSubmit() {
@@ -98,12 +111,13 @@ async function handleSubmit() {
       if (sortMode === 'titulo') return sortByTitle(rows);
       return rows;
     });
-    const { daysByTitle, newTitles } = trackColumnTime(orderedResults);
+    const { daysByTitle, newTitles, transitions } = trackColumnTime(orderedResults);
     orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows, daysByTitle, newTitles));
     if (!columnTimeVisible) document.querySelectorAll('.card-column-time').forEach(el => el.classList.add('hidden'));
+    renderActivityFeed(logActivity(transitions));
     renderSummary(results.map(r => r.length), countOverdue(), countWarning());
     renderExtraLists(extraLists);
-    populateModeSelect(listNames);
+    populateModeSelect(extraLists.map(({ name, rows }) => ({ name, count: rows.length })));
     const responsavelCounts = results.flat().reduce((counts, r) => {
       const name = r[4] && r[4].trim();
       if (name) counts[name] = (counts[name] || 0) + 1;
@@ -113,6 +127,10 @@ async function handleSubmit() {
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
     populateResponsavelFilter(responsaveis);
+    const hasTags = results.flat().some(r => r[6] && r[6].trim());
+    document.getElementById('filter-input').placeholder = responsaveis.length > 0 || hasTags
+      ? 'Filtrar por título, responsável ou tag...'
+      : 'Filtrar tarefas...';
 
     showState('success');
     const storedMode = localStorage.getItem('mode') || 'tarefas';
@@ -403,8 +421,13 @@ document.getElementById('board').addEventListener('click', e => {
   const copyBtn = e.target.closest('.card-copy-btn');
   if (copyBtn) {
     const { title, desc, date, priority } = copyBtn.closest('.card').dataset;
-    const text = `${title}${desc ? ' — ' + desc : ''}${date ? ' · ' + date : ''}${priority ? ' [' + priority + ']' : ''}`;
-    navigator.clipboard.writeText(text).then(() => flashButton(copyBtn, '✓ Copiado!'));
+    navigator.clipboard.writeText(buildCardSummaryText(title, desc, date, priority)).then(() => flashButton(copyBtn, '✓ Copiado!'));
+    return;
+  }
+  const whatsappBtn = e.target.closest('.card-whatsapp-btn');
+  if (whatsappBtn) {
+    const { title, desc, date, priority } = whatsappBtn.closest('.card').dataset;
+    window.open(buildWhatsAppUrl(title, desc, date, priority));
     return;
   }
   const dupBtn = e.target.closest('.card-duplicate-btn');
@@ -490,6 +513,9 @@ document.getElementById('sheet-url').addEventListener('keydown', e => {
   if (e.key === 'Enter') handleSubmit();
 });
 document.getElementById('refresh-btn').addEventListener('click', handleSubmit);
+document.getElementById('activity-btn').addEventListener('click', () => {
+  document.getElementById('activity-panel').classList.toggle('hidden');
+});
 document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink);
 document.getElementById('copy-sheet-btn').addEventListener('click', copySheetUrl);
 document.getElementById('export-btn').addEventListener('click', exportBoardText);

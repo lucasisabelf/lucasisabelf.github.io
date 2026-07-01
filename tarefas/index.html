@@ -127,6 +127,7 @@
           </div>
         </div>
         <button id="refresh-btn" class="header-action-btn hidden" title="Atualizar (R)">&#8635; Atualizar</button>
+        <button id="activity-btn" class="header-action-btn hidden">Atividade</button>
         <button id="new-task-btn" class="new-task-btn hidden" title="Nova tarefa (N)">+ Nova Tarefa</button>
       </div>
     </header>
@@ -158,6 +159,11 @@
     </div>
 
     <div id="extra-lists" class="hidden"></div>
+
+    <div id="activity-panel" class="study-panel hidden">
+      <h2 class="study-panel-title">Atividade recente</h2>
+      <ul id="activity-feed-list"></ul>
+    </div>
 
     <div id="new-task-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
       <div class="modal">

@@ -1,4 +1,4 @@
-const APP_VERSION = '1.27';
+const APP_VERSION = '1.28';
 
 const FETCH_TIMEOUT_MS = 10000;
 const BOARD_RANGE = 'A3:G';
