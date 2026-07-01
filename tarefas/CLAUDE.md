@@ -2,7 +2,7 @@
 
 ## Visao geral
 
-Aplicacao Kanban frontend-only que carrega tarefas de planilhas Google Sheets via endpoint `gviz/tq?out=csv`. Sem build tool, sem framework, sem dependencias — HTML + CSS + JS vanilla.
+Aplicacao Kanban frontend-only que carrega tarefas de planilhas Google Sheets via endpoint `gviz/tq?out=csv`. Sem build tool, sem dependencias de JS — HTML + CSS + JS vanilla. Excecao: Tailwind CSS via CDN Play (ver secao "Estilo com Tailwind CSS") — unico "framework" adotado no projeto, e mesmo assim sem passo de build.
 
 ## Estrutura
 
@@ -57,3 +57,15 @@ O codigo segue camadas funcionais distintas — cada funcao tem uma unica respon
 - Colunas indexadas pelo mesmo array `COLUMN_BODIES` que o JS usa
 - CSS usa variaveis de layout no `.board` (grid 3 colunas, responsivo em 768px)
 - Cores de header de coluna: azul (todo), amarelo (progress), verde (done)
+
+## Estilo com Tailwind CSS (decisao registrada em 2026-07-01)
+
+**Decisao:** adotar Tailwind CSS via **CDN Play** (`<script src="https://cdn.tailwindcss.com"></script>` em `index.html`), nao via CLI/PostCSS.
+
+**Por que esta opcao e nao a de build tool:** o ambiente onde o `/dev-bat-loop` roda nao tem `node`, `npm`, `npx` nem `tailwindcss` instalados — um passo de build (CLI standalone ou npm+PostCSS) nao e executavel por este pipeline automatico hoje. CDN Play e a unica das duas opcoes mapeadas em `FEATURES.md` que o ciclo automatico consegue de fato aplicar sem depender de um humano rodando build local ou de uma GitHub Action nova.
+
+**Limitacao aceita conscientemente:** o proprio Tailwind desaconselha Play CDN para producao (compila no navegador em runtime, sem purge de classes nao usadas, bundle maior). Aceito aqui porque a alternativa (build tool) e tecnicamente inviavel no pipeline atual — se isso mudar (ex: `/dev-bat-loop` ganhar acesso a `node`/`tailwindcss`, ou uma GitHub Action assumir o build), reavaliar a migracao para CLI/PostCSS.
+
+**Como configurar:** o `tailwind.config` inline (segundo `<script>` em `index.html`, apos o CDN) deve mapear as variaveis CSS ja existentes em `:root`/`[data-theme="dark"]` de `style.css` (`--blue`, `--badge-bg`, `--border-input` etc.) como `theme.extend.colors` nomeadas — nao duplicar os valores hex como novas constantes Tailwind.
+
+**Migracao:** gradual, nao um rewrite em lote. `style.css` continua sendo a fonte de verdade para o que ja existe; Tailwind e usado em classes novas de features futuras. Uma feature que reescreva `style.css` inteiro de uma vez teria alto risco de regressao visual sem cobertura de teste visual — nao propor isso como uma unica feature de escopo grande.
