@@ -5,7 +5,7 @@ let titleSortEnabled = false;
 let compactMode = false;
 let focusMode = false;
 
-const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortEnabled', 'dateSortEnabled', 'titleSortEnabled', 'compactMode', 'collapseState', 'focusMode'];
+const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortEnabled', 'dateSortEnabled', 'titleSortEnabled', 'compactMode', 'collapseState', 'focusMode', 'mode'];
 
 async function handleSubmit() {
   clearInterval(refreshTimer);
@@ -41,7 +41,9 @@ async function handleSubmit() {
         const res = await fetch(url);
         if (!res.ok) return [];
         if ((res.headers.get('content-type') || '').includes('text/html')) return [];
-        return filterRows(parseCsv(await res.text()));
+        const rows = parseCsv(await res.text());
+        if (!rows.length || rows[0][0].trim().toLowerCase() !== 'nome') return [];
+        return filterRows(rows.slice(1));
       } catch { return []; }
     };
 
@@ -60,6 +62,7 @@ async function handleSubmit() {
     renderStudyList(studyRows);
 
     showState('success');
+    setMode(localStorage.getItem('mode') || 'tarefas');
 
     editLink.href = input;
     editLink.classList.remove('hidden');
@@ -365,6 +368,11 @@ document.getElementById('download-btn').addEventListener('click', downloadBoardT
 document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
 document.getElementById('csv-btn').addEventListener('click', downloadBoardCsv);
 document.getElementById('template-btn').addEventListener('click', downloadTemplateCsv);
+document.getElementById('mode-btn').addEventListener('click', () => {
+  const newMode = document.getElementById('mode-btn').classList.contains('header-action-btn--active') ? 'tarefas' : 'estudo';
+  setMode(newMode);
+  localStorage.setItem('mode', newMode);
+});
 document.getElementById('sort-btn').addEventListener('click', () => {
   sortEnabled = !sortEnabled;
   const sortBtn = document.getElementById('sort-btn');

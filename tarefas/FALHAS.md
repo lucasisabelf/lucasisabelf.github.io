@@ -15,3 +15,13 @@ Falhas reportadas para análise e resolução automática no ciclo `dev-bat-loop
 **Status:** finalizado funcionou
 
 ---
+
+## #002 — Lista de Estudos carrega dados da aba errada
+
+**O que:** Ao carregar a planilha, a seção "Lista de Estudos" exibe os dados da primeira aba da planilha em vez da aba chamada "Lista de Estudos". A causa provável é que a aba "Lista de Estudos" não existe na planilha do usuário — quando a aba não existe, a API do Google Sheets retorna os dados da primeira aba por padrão, sem erro mas a lista deveria estar zerada nesse edge case.
+
+**Como resolvi:** Alterado `STUDY_RANGE` de `'A2:E'` para `'A1:E'` para incluir a linha de cabeçalho no fetch. Em `studyFetch` (app.js), após `parseCsv`, valida-se que `rows[0][0].trim().toLowerCase() === 'nome'` antes de prosseguir — se a aba não existe, a API retorna dados da primeira aba cujo cabeçalho é diferente de 'nome', e `studyFetch` retorna `[]` imediatamente. Se válido, `rows.slice(1)` descarta o cabeçalho e `filterRows` processa os dados. (aprendizado registrado em 2026-06-30)
+
+**Status:** finalizado funcionou
+
+---

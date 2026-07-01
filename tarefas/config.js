@@ -1,4 +1,4 @@
-const APP_VERSION = '1.19';
+const APP_VERSION = '1.20';
 
 const SHEET_NAMES = ['To Do', 'In Progress', 'Done'];
 const COLUMN_BODIES = ['body-todo', 'body-progress', 'body-done'];
@@ -9,6 +9,6 @@ const SHEETS_MAP = {
 };
 
 const STUDY_SHEET_NAME = 'Lista de Estudos';
-const STUDY_RANGE = 'A2:E';
+const STUDY_RANGE = 'A1:E';
 
 const TEMPLATE_HEADERS = ['Título', 'Descrição', 'Data', 'Prioridade'];

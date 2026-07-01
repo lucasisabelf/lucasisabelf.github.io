@@ -382,6 +382,7 @@ function showState(state, msg) {
   document.getElementById('reset-btn').classList.add('hidden');
   document.getElementById('study-panel').classList.add('hidden');
   document.getElementById('template-btn').classList.add('hidden');
+  document.getElementById('mode-btn').classList.add('hidden');
 
   const filterRow = document.getElementById('filter-row');
   filterRow.classList.add('hidden');
@@ -420,7 +421,20 @@ function showState(state, msg) {
     document.getElementById('reset-btn').classList.remove('hidden');
     document.getElementById('study-panel').classList.remove('hidden');
     document.getElementById('template-btn').classList.remove('hidden');
+    document.getElementById('mode-btn').classList.remove('hidden');
   }
+}
+
+function setMode(mode) {
+  const isEstudo = mode === 'estudo';
+  document.getElementById('board').classList.toggle('hidden', isEstudo);
+  document.getElementById('board-summary').classList.toggle('hidden', isEstudo);
+  document.getElementById('sprint-progress').classList.toggle('hidden', isEstudo);
+  document.getElementById('filter-row').classList.toggle('hidden', isEstudo);
+  document.getElementById('study-panel').classList.toggle('hidden', !isEstudo);
+  const btn = document.getElementById('mode-btn');
+  btn.textContent = isEstudo ? 'Modo Tarefas' : 'Modo Estudos';
+  btn.classList.toggle('header-action-btn--active', isEstudo);
 }
 
 function openCardDetail(card) {
