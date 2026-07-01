@@ -7,6 +7,30 @@ let focusMode = false;
 
 const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortEnabled', 'dateSortEnabled', 'titleSortEnabled', 'compactMode', 'collapseState', 'focusMode', 'mode'];
 
+async function fetchListNames(id) {
+  try {
+    const url = buildSheetUrl(id, LISTS_SHEET_NAME, LISTS_RANGE);
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    if ((res.headers.get('content-type') || '').includes('text/html')) return [];
+    const rows = parseCsv(await res.text());
+    if (!rows.length || rows[0][0].trim().toLowerCase() !== LISTS_HEADER) return [];
+    return filterRows(rows.slice(1)).map(r => r[0].trim());
+  } catch { return []; }
+}
+
+async function fetchExtraList(id, sheetName) {
+  try {
+    const url = buildSheetUrl(id, sheetName, EXTRA_LIST_RANGE);
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    if ((res.headers.get('content-type') || '').includes('text/html')) return [];
+    const rows = parseCsv(await res.text());
+    if (!rows.length || rows[0][0].trim().toLowerCase() !== EXTRA_LIST_HEADER) return [];
+    return filterRows(rows.slice(1));
+  } catch { return []; }
+}
+
 async function handleSubmit() {
   clearInterval(refreshTimer);
 
@@ -35,21 +59,13 @@ async function handleSubmit() {
       return filterRows(parseCsv(text));
     });
 
-    const studyFetch = async () => {
-      try {
-        const url = buildSheetUrl(id, STUDY_SHEET_NAME, STUDY_RANGE);
-        const res = await fetch(url);
-        if (!res.ok) return [];
-        if ((res.headers.get('content-type') || '').includes('text/html')) return [];
-        const rows = parseCsv(await res.text());
-        if (!rows.length || rows[0][0].trim().toLowerCase() !== 'nome') return [];
-        return filterRows(rows.slice(1));
-      } catch { return []; }
-    };
-
-    const allResults = await Promise.all([...fetches, studyFetch()]);
+    const allResults = await Promise.all([...fetches, fetchListNames(id)]);
     const results = allResults.slice(0, SHEET_NAMES.length);
-    const studyRows = allResults[SHEET_NAMES.length];
+    const listNames = allResults[SHEET_NAMES.length];
+
+    const extraLists = await Promise.all(
+      listNames.map(async name => ({ name, rows: await fetchExtraList(id, name) }))
+    );
 
     const orderedResults = results.map(rows => {
       if (sortEnabled) return sortByPriority(rows);
@@ -59,10 +75,12 @@ async function handleSubmit() {
     });
     orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows));
     renderSummary(results.map(r => r.length), countOverdue(), countWarning());
-    renderStudyList(studyRows);
+    renderExtraLists(extraLists);
+    populateModeSelect(listNames);
 
     showState('success');
-    setMode(localStorage.getItem('mode') || 'tarefas');
+    const storedMode = localStorage.getItem('mode') || 'tarefas';
+    setMode(['tarefas', ...listNames].includes(storedMode) ? storedMode : 'tarefas');
 
     editLink.href = input;
     editLink.classList.remove('hidden');
@@ -143,15 +161,17 @@ function downloadBoardCsv() {
   URL.revokeObjectURL(a.href);
 }
 
-function buildTemplateCsv() {
-  return TEMPLATE_HEADERS.map(csvEscape).join(',');
+function buildTemplateCsv(headers) {
+  return headers.map(csvEscape).join(',');
 }
 
 function downloadTemplateCsv() {
-  const blob = new Blob(['﻿' + buildTemplateCsv()], { type: 'text/csv;charset=utf-8' });
+  const type = document.getElementById('template-select').value;
+  const { headers, filename } = TEMPLATE_CONFIG[type];
+  const blob = new Blob(['﻿' + buildTemplateCsv(headers)], { type: 'text/csv;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'sprint-board-modelo.csv';
+  a.download = filename;
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -368,10 +388,9 @@ document.getElementById('download-btn').addEventListener('click', downloadBoardT
 document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
 document.getElementById('csv-btn').addEventListener('click', downloadBoardCsv);
 document.getElementById('template-btn').addEventListener('click', downloadTemplateCsv);
-document.getElementById('mode-btn').addEventListener('click', () => {
-  const newMode = document.getElementById('mode-btn').classList.contains('header-action-btn--active') ? 'tarefas' : 'estudo';
-  setMode(newMode);
-  localStorage.setItem('mode', newMode);
+document.getElementById('mode-select').addEventListener('change', e => {
+  setMode(e.target.value);
+  localStorage.setItem('mode', e.target.value);
 });
 document.getElementById('sort-btn').addEventListener('click', () => {
   sortEnabled = !sortEnabled;
@@ -511,6 +530,7 @@ document.addEventListener('keydown', e => {
 document.querySelectorAll('.version-text').forEach(el => { el.textContent = APP_VERSION; });
 
 populateSelect();
+populateTemplateSelect();
 initRecentSheets();
 initTheme();
 initCollapseState();

@@ -34,7 +34,9 @@
       </div>
       <span id="filter-count" class="filter-count hidden"></span>
       <div class="header-actions">
-        <button id="mode-btn" class="header-action-btn hidden">Modo Estudos</button>
+        <select id="mode-select" class="header-action-btn hidden">
+          <option value="tarefas">Tarefas</option>
+        </select>
         <a id="edit-link" class="edit-link hidden" target="_blank" rel="noopener noreferrer">Ir para planilha</a>
         <button id="copy-link-btn" class="header-action-btn hidden">Copiar link do board</button>
         <button id="copy-sheet-btn" class="header-action-btn hidden">Copiar URL</button>
@@ -42,6 +44,7 @@
         <button id="download-btn" class="header-action-btn hidden">Baixar .md</button>
         <button id="json-btn" class="header-action-btn hidden">JSON</button>
         <button id="csv-btn" class="header-action-btn hidden">CSV</button>
+        <select id="template-select" class="header-action-btn hidden"></select>
         <button id="template-btn" class="header-action-btn hidden">Baixar modelo .csv</button>
         <button id="sort-btn" class="header-action-btn hidden">Ordenar por prioridade</button>
         <button id="date-sort-btn" class="header-action-btn hidden">Ordenar por data</button>
@@ -89,10 +92,7 @@
       <div id="sprint-progress-bar" class="sprint-progress-bar"></div>
     </div>
 
-    <div id="study-panel" class="study-panel hidden">
-      <h2 class="study-panel-title">Lista de Estudos</h2>
-      <div id="body-estudos" class="study-body"></div>
-    </div>
+    <div id="extra-lists" class="hidden"></div>
 
     <div id="new-task-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
       <div class="modal">

@@ -134,7 +134,7 @@ function renderColumn(bodyId, rows) {
   body.scrollTop = 0;
 }
 
-function renderStudyCard(row) {
+function renderListItemCard(row) {
   const nome = row[0].trim();
   const topico = row[1] ? row[1].trim() : '';
   const prioridade = row[2] ? row[2].trim() : '';
@@ -185,19 +185,35 @@ function renderStudyCard(row) {
   return card;
 }
 
-function renderStudyList(rows) {
-  const body = document.getElementById('body-estudos');
-  body.innerHTML = '';
+function renderExtraLists(lists) {
+  const container = document.getElementById('extra-lists');
+  container.innerHTML = '';
 
-  if (rows.length === 0) {
-    const empty = document.createElement('div');
-    empty.className = 'empty-column';
-    empty.textContent = 'Nenhum item de estudo';
-    body.appendChild(empty);
-    return;
-  }
+  lists.forEach(({ name, rows }) => {
+    const panel = document.createElement('div');
+    panel.className = 'study-panel hidden';
+    panel.dataset.listName = name;
 
-  rows.forEach(row => body.appendChild(renderStudyCard(row)));
+    const title = document.createElement('h2');
+    title.className = 'study-panel-title';
+    title.textContent = name;
+    panel.appendChild(title);
+
+    const body = document.createElement('div');
+    body.className = 'study-body';
+
+    if (rows.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-column';
+      empty.textContent = 'Nenhum item nesta lista';
+      body.appendChild(empty);
+    } else {
+      rows.forEach(row => body.appendChild(renderListItemCard(row)));
+    }
+
+    panel.appendChild(body);
+    container.appendChild(panel);
+  });
 }
 
 function renderSummary(counts, overdue, warning) {
@@ -380,9 +396,10 @@ function showState(state, msg) {
   document.getElementById('compact-btn').classList.add('hidden');
   document.getElementById('focus-btn').classList.add('hidden');
   document.getElementById('reset-btn').classList.add('hidden');
-  document.getElementById('study-panel').classList.add('hidden');
+  document.getElementById('extra-lists').classList.add('hidden');
   document.getElementById('template-btn').classList.add('hidden');
-  document.getElementById('mode-btn').classList.add('hidden');
+  document.getElementById('template-select').classList.add('hidden');
+  document.getElementById('mode-select').classList.add('hidden');
 
   const filterRow = document.getElementById('filter-row');
   filterRow.classList.add('hidden');
@@ -419,22 +436,34 @@ function showState(state, msg) {
     document.getElementById('compact-btn').classList.remove('hidden');
     document.getElementById('focus-btn').classList.remove('hidden');
     document.getElementById('reset-btn').classList.remove('hidden');
-    document.getElementById('study-panel').classList.remove('hidden');
+    document.getElementById('extra-lists').classList.remove('hidden');
     document.getElementById('template-btn').classList.remove('hidden');
-    document.getElementById('mode-btn').classList.remove('hidden');
+    document.getElementById('template-select').classList.remove('hidden');
+    document.getElementById('mode-select').classList.remove('hidden');
   }
 }
 
 function setMode(mode) {
-  const isEstudo = mode === 'estudo';
-  document.getElementById('board').classList.toggle('hidden', isEstudo);
-  document.getElementById('board-summary').classList.toggle('hidden', isEstudo);
-  document.getElementById('sprint-progress').classList.toggle('hidden', isEstudo);
-  document.getElementById('filter-row').classList.toggle('hidden', isEstudo);
-  document.getElementById('study-panel').classList.toggle('hidden', !isEstudo);
-  const btn = document.getElementById('mode-btn');
-  btn.textContent = isEstudo ? 'Modo Tarefas' : 'Modo Estudos';
-  btn.classList.toggle('header-action-btn--active', isEstudo);
+  const isTasks = mode === 'tarefas';
+  document.getElementById('board').classList.toggle('hidden', !isTasks);
+  document.getElementById('board-summary').classList.toggle('hidden', !isTasks);
+  document.getElementById('sprint-progress').classList.toggle('hidden', !isTasks);
+  document.getElementById('filter-row').classList.toggle('hidden', !isTasks);
+  document.querySelectorAll('#extra-lists .study-panel').forEach(panel => {
+    panel.classList.toggle('hidden', panel.dataset.listName !== mode);
+  });
+  document.getElementById('mode-select').value = mode;
+}
+
+function populateModeSelect(listNames) {
+  const select = document.getElementById('mode-select');
+  select.querySelectorAll('option:not([value="tarefas"])').forEach(opt => opt.remove());
+  listNames.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    select.appendChild(opt);
+  });
 }
 
 function openCardDetail(card) {
@@ -525,6 +554,16 @@ function populateSelect() {
     const opt = document.createElement('option');
     opt.value = url;
     opt.textContent = name;
+    select.appendChild(opt);
+  });
+}
+
+function populateTemplateSelect() {
+  const select = document.getElementById('template-select');
+  Object.entries(TEMPLATE_CONFIG).forEach(([type, { label }]) => {
+    const opt = document.createElement('option');
+    opt.value = type;
+    opt.textContent = label;
     select.appendChild(opt);
   });
 }

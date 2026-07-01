@@ -25,3 +25,13 @@ Falhas reportadas para análise e resolução automática no ciclo `dev-bat-loop
 **Status:** finalizado funcionou
 
 ---
+
+## #003 — Baixar modelo .csv gera apenas modelo de tarefas
+
+**O que:** O botão "Baixar modelo .csv" gera sempre o CSV com os cabeçalhos do board de tarefas (Título, Descrição, Data, Prioridade). Não existe opção para baixar o modelo da Lista de Estudos (nome, topico, prioridade, status, motivo). O usuário precisa de um select para escolher qual modelo deseja baixar antes de clicar no botão.
+
+**Como resolvi:** Adicionado `<select id="template-select">` com opções "Tarefas" e "Lista extra" ao lado de `#template-btn` em `index.html`. `TEMPLATE_CONFIG` (novo, em `config.js`) mapeia cada tipo a `{ headers, filename }`, reaproveitando `TEMPLATE_HEADERS` (schema de tarefas) e a nova constante `EXTRA_LIST_TEMPLATE_HEADERS` (schema de 5 colunas — nome/tópico/prioridade/status/motivo — o mesmo já usado por qualquer lista extra dinâmica desde a generalização da feature de listas 1:N deste ciclo, não mais só "Lista de Estudos"). `buildTemplateCsv` passou a receber `headers` por parâmetro em vez de ler `TEMPLATE_HEADERS` fixo; `downloadTemplateCsv` lê `document.getElementById('template-select').value`, resolve `{ headers, filename }` via `TEMPLATE_CONFIG[type]` e monta o blob/nome de arquivo dinamicamente. `showState` atualizado para mostrar/esconder `#template-select` junto de `#template-btn`. (aprendizado registrado em 2026-06-30)
+
+**Status:** passou
+
+---
