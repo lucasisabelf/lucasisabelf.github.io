@@ -1,16 +1,15 @@
 let refreshTimer;
-let sortEnabled = false;
-let dateSortEnabled = false;
-let titleSortEnabled = false;
+let sortMode = 'original';
 let compactMode = false;
 let focusMode = false;
 
-const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortEnabled', 'dateSortEnabled', 'titleSortEnabled', 'compactMode', 'collapseState', 'focusMode', 'mode'];
+const SORT_MODES = ['original', 'prioridade', 'data', 'titulo'];
+const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'mode'];
 
 async function fetchListNames(id) {
   try {
     const url = buildSheetUrl(id, LISTS_SHEET_NAME, LISTS_RANGE);
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url);
     if (!res.ok) return [];
     if ((res.headers.get('content-type') || '').includes('text/html')) return [];
     const rows = parseCsv(await res.text());
@@ -22,7 +21,7 @@ async function fetchListNames(id) {
 async function fetchExtraList(id, sheetName) {
   try {
     const url = buildSheetUrl(id, sheetName, EXTRA_LIST_RANGE);
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url);
     if (!res.ok) return [];
     if ((res.headers.get('content-type') || '').includes('text/html')) return [];
     const rows = parseCsv(await res.text());
@@ -49,7 +48,7 @@ async function handleSubmit() {
   try {
     const fetches = SHEET_NAMES.map(async (name) => {
       const url = buildSheetUrl(id, name);
-      const res = await fetch(url);
+      const res = await fetchWithTimeout(url);
       if (!res.ok) return [];
       const contentType = res.headers.get('content-type') || '';
       if (contentType.includes('text/html')) {
@@ -68,9 +67,9 @@ async function handleSubmit() {
     );
 
     const orderedResults = results.map(rows => {
-      if (sortEnabled) return sortByPriority(rows);
-      if (dateSortEnabled) return sortByDate(rows);
-      if (titleSortEnabled) return sortByTitle(rows);
+      if (sortMode === 'prioridade') return sortByPriority(rows);
+      if (sortMode === 'data') return sortByDate(rows);
+      if (sortMode === 'titulo') return sortByTitle(rows);
       return rows;
     });
     orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows));
@@ -142,11 +141,11 @@ function csvEscape(str) {
 }
 
 function buildBoardCsv() {
-  const rows = ['Coluna,Título,Descrição,Data,Prioridade'];
+  const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável'];
   document.querySelectorAll('.column').forEach(col => {
     const colName = col.querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
     col.querySelectorAll('.card').forEach(card => {
-      rows.push([colName, card.dataset.title, card.dataset.desc, card.dataset.date, card.dataset.priority].map(csvEscape).join(','));
+      rows.push([colName, card.dataset.title, card.dataset.desc, card.dataset.date, card.dataset.priority, card.dataset.responsavel].map(csvEscape).join(','));
     });
   });
   return rows.join('\n');
@@ -184,7 +183,8 @@ function buildBoardJson() {
       title: card.dataset.title || '',
       desc: card.dataset.desc || '',
       date: card.dataset.date || '',
-      priority: card.dataset.priority || ''
+      priority: card.dataset.priority || '',
+      responsavel: card.dataset.responsavel || ''
     }));
   });
   return board;
@@ -283,6 +283,8 @@ function initTheme() {
 }
 
 document.getElementById('board').addEventListener('click', e => {
+  const emptyCta = e.target.closest('.empty-column-cta');
+  if (emptyCta) { openNewTaskModal(); return; }
   const cardTitle = e.target.closest('.card-title');
   if (cardTitle) { openCardDetail(cardTitle.closest('.card')); return; }
   const askBtn = e.target.closest('.card-ask-claude-btn');
@@ -311,6 +313,12 @@ document.getElementById('board').addEventListener('click', e => {
     navigator.clipboard.writeText(text).then(() => flashButton(copyBtn, '✓ Copiado!'));
     return;
   }
+  const dupBtn = e.target.closest('.card-duplicate-btn');
+  if (dupBtn) {
+    const { title, desc, date, priority } = dupBtn.closest('.card').dataset;
+    openNewTaskModal({ name: `${title} (cópia)`, desc: desc || '', date: toIsoDate(date), priority: priority || '' });
+    return;
+  }
   const priorityBadge = e.target.closest('.card-priority');
   if (priorityBadge) {
     const filterInput = document.getElementById('filter-input');
@@ -326,32 +334,9 @@ document.getElementById('board').addEventListener('click', e => {
   }
 });
 
-document.getElementById('date-sort-btn').addEventListener('click', () => {
-  dateSortEnabled = !dateSortEnabled;
-  if (dateSortEnabled) { sortEnabled = false; document.getElementById('sort-btn').classList.remove('header-action-btn--active'); document.getElementById('sort-btn').textContent = 'Ordenar por prioridade'; localStorage.setItem('sortEnabled', false); }
-  const btn = document.getElementById('date-sort-btn');
-  btn.textContent = dateSortEnabled ? 'Ordem original' : 'Ordenar por data';
-  btn.classList.toggle('header-action-btn--active', dateSortEnabled);
-  localStorage.setItem('dateSortEnabled', dateSortEnabled);
-  handleSubmit();
-});
-
-document.getElementById('title-sort-btn').addEventListener('click', () => {
-  titleSortEnabled = !titleSortEnabled;
-  if (titleSortEnabled) {
-    sortEnabled = false;
-    dateSortEnabled = false;
-    document.getElementById('sort-btn').classList.remove('header-action-btn--active');
-    document.getElementById('sort-btn').textContent = 'Ordenar por prioridade';
-    document.getElementById('date-sort-btn').classList.remove('header-action-btn--active');
-    document.getElementById('date-sort-btn').textContent = 'Ordenar por data';
-    localStorage.setItem('sortEnabled', false);
-    localStorage.setItem('dateSortEnabled', false);
-  }
-  const btn = document.getElementById('title-sort-btn');
-  btn.textContent = titleSortEnabled ? 'Ordem original' : 'Ordenar A-Z';
-  btn.classList.toggle('header-action-btn--active', titleSortEnabled);
-  localStorage.setItem('titleSortEnabled', titleSortEnabled);
+document.getElementById('sort-select').addEventListener('change', e => {
+  sortMode = e.target.value;
+  localStorage.setItem('sortMode', sortMode);
   handleSubmit();
 });
 document.getElementById('compact-btn').addEventListener('click', () => {
@@ -388,17 +373,21 @@ document.getElementById('download-btn').addEventListener('click', downloadBoardT
 document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
 document.getElementById('csv-btn').addEventListener('click', downloadBoardCsv);
 document.getElementById('template-btn').addEventListener('click', downloadTemplateCsv);
+document.getElementById('export-menu-btn').addEventListener('click', () => {
+  document.getElementById('export-menu-panel').classList.toggle('hidden');
+});
+document.getElementById('export-menu-panel').addEventListener('click', e => {
+  if (e.target.tagName === 'BUTTON') document.getElementById('export-menu-panel').classList.add('hidden');
+});
+document.addEventListener('click', e => {
+  const panel = document.getElementById('export-menu-panel');
+  if (!panel.classList.contains('hidden') && !e.target.closest('.export-menu')) {
+    panel.classList.add('hidden');
+  }
+});
 document.getElementById('mode-select').addEventListener('change', e => {
   setMode(e.target.value);
   localStorage.setItem('mode', e.target.value);
-});
-document.getElementById('sort-btn').addEventListener('click', () => {
-  sortEnabled = !sortEnabled;
-  const sortBtn = document.getElementById('sort-btn');
-  sortBtn.textContent = sortEnabled ? 'Ordem original' : 'Ordenar por prioridade';
-  sortBtn.classList.toggle('header-action-btn--active', sortEnabled);
-  localStorage.setItem('sortEnabled', sortEnabled);
-  handleSubmit();
 });
 document.querySelectorAll('.column-header').forEach(h => {
   h.addEventListener('click', e => {
@@ -406,7 +395,7 @@ document.querySelectorAll('.column-header').forEach(h => {
       const body = h.closest('.column').querySelector('.column-body');
       const colName = h.textContent.replace(/ \(\d+\)$/, '');
       const cards = Array.from(body.querySelectorAll('.card'));
-      const rows = ['Coluna,Título,Descrição,Data,Prioridade', ...cards.map(c => [colName, c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority].map(csvEscape).join(','))];
+      const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável', ...cards.map(c => [colName, c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority, c.dataset.responsavel].map(csvEscape).join(','))];
       navigator.clipboard.writeText(rows.join('\n')).then(() => flashButton(h, '✓ CSV!'));
       return;
     }
@@ -517,7 +506,11 @@ document.addEventListener('keydown', e => {
     if (!el.classList.contains('hidden')) el.click();
   }
   if (e.key === 'p' || e.key === 'P') window.print();
-  if (e.key === 's' || e.key === 'S') document.getElementById('sort-btn').click();
+  if (e.key === 's' || e.key === 'S') {
+    const select = document.getElementById('sort-select');
+    select.value = SORT_MODES[(SORT_MODES.indexOf(sortMode) + 1) % SORT_MODES.length];
+    select.dispatchEvent(new Event('change'));
+  }
   if (e.key === 'e' || e.key === 'E') exportBoardText();
   if (e.key === 'c' || e.key === 'C') {
     const cols = document.querySelectorAll('.column');
@@ -535,23 +528,10 @@ initRecentSheets();
 initTheme();
 initCollapseState();
 
-if (localStorage.getItem('sortEnabled') === 'true') {
-  sortEnabled = true;
-  const sortBtn = document.getElementById('sort-btn');
-  sortBtn.textContent = 'Ordem original';
-  sortBtn.classList.add('header-action-btn--active');
-}
-if (localStorage.getItem('dateSortEnabled') === 'true') {
-  dateSortEnabled = true;
-  const btn = document.getElementById('date-sort-btn');
-  btn.textContent = 'Ordem original';
-  btn.classList.add('header-action-btn--active');
-}
-if (localStorage.getItem('titleSortEnabled') === 'true') {
-  titleSortEnabled = true;
-  const btn = document.getElementById('title-sort-btn');
-  btn.textContent = 'Ordem original';
-  btn.classList.add('header-action-btn--active');
+const storedSortMode = localStorage.getItem('sortMode');
+if (storedSortMode) {
+  sortMode = storedSortMode;
+  document.getElementById('sort-select').value = sortMode;
 }
 if (localStorage.getItem('compactMode') === 'true') {
   compactMode = true;

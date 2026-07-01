@@ -41,14 +41,22 @@
         <button id="copy-link-btn" class="header-action-btn hidden">Copiar link do board</button>
         <button id="copy-sheet-btn" class="header-action-btn hidden">Copiar URL</button>
         <button id="export-btn" class="header-action-btn hidden">Exportar</button>
-        <button id="download-btn" class="header-action-btn hidden">Baixar .md</button>
-        <button id="json-btn" class="header-action-btn hidden">JSON</button>
-        <button id="csv-btn" class="header-action-btn hidden">CSV</button>
+        <div class="export-menu">
+          <button id="export-menu-btn" class="header-action-btn hidden">Baixar &#9662;</button>
+          <div id="export-menu-panel" class="export-menu-panel hidden">
+            <button id="download-btn" class="header-action-btn">Baixar .md</button>
+            <button id="json-btn" class="header-action-btn">JSON</button>
+            <button id="csv-btn" class="header-action-btn">CSV</button>
+          </div>
+        </div>
         <select id="template-select" class="header-action-btn hidden"></select>
         <button id="template-btn" class="header-action-btn hidden">Baixar modelo .csv</button>
-        <button id="sort-btn" class="header-action-btn hidden">Ordenar por prioridade</button>
-        <button id="date-sort-btn" class="header-action-btn hidden">Ordenar por data</button>
-        <button id="title-sort-btn" class="header-action-btn hidden">Ordenar A-Z</button>
+        <select id="sort-select" class="header-action-btn hidden">
+          <option value="original">Ordem original</option>
+          <option value="prioridade">Ordenar por prioridade</option>
+          <option value="data">Ordenar por data</option>
+          <option value="titulo">Ordenar A-Z</option>
+        </select>
         <button id="compact-btn" class="header-action-btn hidden">Compacto</button>
         <button id="focus-btn" class="header-action-btn hidden">Foco</button>
         <button id="refresh-btn" class="header-action-btn hidden">&#8635; Atualizar</button>
@@ -159,7 +167,7 @@
             <tr><td>G</td><td>Abrir planilha no Google Sheets</td></tr>
             <tr><td>P</td><td>Imprimir board</td></tr>
             <tr><td>E</td><td>Exportar board (copiar como texto)</td></tr>
-            <tr><td>S</td><td>Ordenar por prioridade (toggle)</td></tr>
+            <tr><td>S</td><td>Ciclar ordenação (original → prioridade → data → A-Z)</td></tr>
             <tr><td>C</td><td>Colapsar/expandir todas as colunas</td></tr>
             <tr><td>Shift+Header</td><td>Copiar coluna como texto</td></tr>
             <tr><td>Ctrl+Shift+Header</td><td>Copiar coluna como CSV</td></tr>

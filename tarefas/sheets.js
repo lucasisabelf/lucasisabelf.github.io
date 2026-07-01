@@ -3,8 +3,18 @@ function extractSheetId(url) {
   return match ? match[1] : null;
 }
 
-function buildSheetUrl(id, sheetName, range = 'A3:D') {
+function buildSheetUrl(id, sheetName, range = BOARD_RANGE) {
   return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=0&range=${range}&sheet=${encodeURIComponent(sheetName)}`;
+}
+
+async function fetchWithTimeout(url) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    return await fetch(url, { signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 function parseCsv(text) {

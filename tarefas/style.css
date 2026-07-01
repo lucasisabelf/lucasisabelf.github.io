@@ -311,6 +311,30 @@ main {
   font-weight: 700;
 }
 
+.export-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.export-menu-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.18);
+  padding: .4rem;
+  min-width: 120px;
+}
+
+.export-menu-panel .header-action-btn {
+  text-align: left;
+  padding: .35rem .5rem;
+}
+
 .new-task-btn {
   font-size: .85rem;
   font-weight: 600;
@@ -570,6 +594,17 @@ main {
   color: var(--empty-col);
   text-align: center;
   padding: .5rem 0 .25rem;
+}
+
+.empty-column-cta {
+  display: block;
+  margin: .4rem auto 0;
+  font-size: .78rem;
+  color: var(--blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 /* ── Modal ── */
@@ -864,7 +899,8 @@ main {
   flex-wrap: wrap;
 }
 
-.study-card-status {
+.study-card-status,
+.card-responsavel {
   font-size: .72rem;
   color: var(--text-muted);
   background: var(--badge-bg);

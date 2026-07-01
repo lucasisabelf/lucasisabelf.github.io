@@ -25,6 +25,15 @@ function parsePtBrDate(str) {
   return isNaN(d.getTime()) ? null : d;
 }
 
+function toIsoDate(ptBrDate) {
+  const [d, m, y] = (ptBrDate || '').split('/');
+  return d && m && y ? `${y}-${m}-${d}` : '';
+}
+
+function toPtBrDate(isoDate) {
+  return isoDate ? isoDate.split('-').reverse().join('/') : '';
+}
+
 function overdueStage(daysLate) {
   for (const { minDays, stage } of OVERDUE_STAGES) {
     if (daysLate >= minDays) return stage;
@@ -37,6 +46,7 @@ function renderCard(row) {
   const desc = row[1] ? row[1].trim() : '';
   const date = row[2] ? row[2].trim() : '';
   const priority = row[3] ? row[3].trim() : '';
+  const responsavel = row[4] ? row[4].trim() : '';
 
   const card = document.createElement('div');
   card.className = 'card';
@@ -44,6 +54,7 @@ function renderCard(row) {
   card.dataset.desc = desc;
   card.dataset.date = date;
   card.dataset.priority = priority;
+  card.dataset.responsavel = responsavel;
 
   const title = document.createElement('div');
   title.className = 'card-title';
@@ -92,6 +103,13 @@ function renderCard(row) {
     card.appendChild(badge);
   }
 
+  if (responsavel) {
+    const badge = document.createElement('span');
+    badge.className = 'card-responsavel';
+    badge.textContent = responsavel;
+    card.appendChild(badge);
+  }
+
   const actions = document.createElement('div');
   actions.className = 'card-actions';
 
@@ -110,6 +128,11 @@ function renderCard(row) {
   copyBtn.textContent = 'Copiar';
   actions.appendChild(copyBtn);
 
+  const dupBtn = document.createElement('button');
+  dupBtn.className = 'card-action-btn card-duplicate-btn';
+  dupBtn.textContent = 'Duplicar';
+  actions.appendChild(dupBtn);
+
   card.appendChild(actions);
 
   return card;
@@ -126,6 +149,10 @@ function renderColumn(bodyId, rows) {
     const empty = document.createElement('div');
     empty.className = 'empty-column';
     empty.textContent = 'Nenhuma tarefa';
+    const cta = document.createElement('button');
+    cta.className = 'empty-column-cta';
+    cta.textContent = '+ Nova Tarefa';
+    empty.appendChild(cta);
     body.appendChild(empty);
     return;
   }
@@ -341,7 +368,8 @@ function filterCards(query) {
     const title = card.dataset.title || '';
     const desc = card.dataset.desc || '';
     const priority = (card.dataset.priority || '').toLowerCase();
-    const combined = title.toLowerCase() + ' ' + desc.toLowerCase() + ' ' + priority;
+    const responsavel = (card.dataset.responsavel || '').toLowerCase();
+    const combined = title.toLowerCase() + ' ' + desc.toLowerCase() + ' ' + priority + ' ' + responsavel;
     const hidden = terms.length > 0 && !terms.every(t => combined.includes(t));
     card.classList.toggle('hidden', hidden);
     const titleEl = card.querySelector('.card-title');
@@ -386,12 +414,9 @@ function showState(state, msg) {
   document.getElementById('board-summary').classList.add('hidden');
   document.getElementById('sprint-progress').classList.add('hidden');
   document.getElementById('filter-count').classList.add('hidden');
-  document.getElementById('download-btn').classList.add('hidden');
-  document.getElementById('json-btn').classList.add('hidden');
-  document.getElementById('csv-btn').classList.add('hidden');
-  document.getElementById('sort-btn').classList.add('hidden');
-  document.getElementById('date-sort-btn').classList.add('hidden');
-  document.getElementById('title-sort-btn').classList.add('hidden');
+  document.getElementById('export-menu-btn').classList.add('hidden');
+  document.getElementById('export-menu-panel').classList.add('hidden');
+  document.getElementById('sort-select').classList.add('hidden');
   document.getElementById('export-btn').classList.add('hidden');
   document.getElementById('compact-btn').classList.add('hidden');
   document.getElementById('focus-btn').classList.add('hidden');
@@ -426,12 +451,8 @@ function showState(state, msg) {
     document.getElementById('auto-refresh-controls').classList.remove('hidden');
     document.getElementById('board-summary').classList.remove('hidden');
     document.getElementById('sprint-progress').classList.remove('hidden');
-    document.getElementById('download-btn').classList.remove('hidden');
-    document.getElementById('json-btn').classList.remove('hidden');
-    document.getElementById('csv-btn').classList.remove('hidden');
-    document.getElementById('sort-btn').classList.remove('hidden');
-    document.getElementById('date-sort-btn').classList.remove('hidden');
-    document.getElementById('title-sort-btn').classList.remove('hidden');
+    document.getElementById('export-menu-btn').classList.remove('hidden');
+    document.getElementById('sort-select').classList.remove('hidden');
     document.getElementById('export-btn').classList.remove('hidden');
     document.getElementById('compact-btn').classList.remove('hidden');
     document.getElementById('focus-btn').classList.remove('hidden');
@@ -496,17 +517,18 @@ function closeCardDetail() {
   document.getElementById('card-detail-overlay').classList.add('hidden');
 }
 
-function openNewTaskModal() {
+function openNewTaskModal(prefill) {
   const taskName = document.getElementById('task-name');
-  taskName.value = '';
+  taskName.value = prefill ? prefill.name : '';
   taskName.classList.remove('input--invalid');
-  document.getElementById('task-name-count').textContent = '0 / 80';
+  document.getElementById('task-name-count').textContent = `${taskName.value.length} / 80`;
   const taskDesc = document.getElementById('task-desc');
-  taskDesc.value = '';
+  taskDesc.value = prefill ? prefill.desc : '';
   taskDesc.style.height = 'auto';
-  document.getElementById('task-desc-count').textContent = `0 / ${TASK_DESC_MAX}`;
-  document.getElementById('task-date').value = new Date().toISOString().slice(0, 10);
-  document.getElementById('task-priority').value = '';
+  taskDesc.style.height = taskDesc.scrollHeight + 'px';
+  document.getElementById('task-desc-count').textContent = `${taskDesc.value.length} / ${TASK_DESC_MAX}`;
+  document.getElementById('task-date').value = prefill ? prefill.date : new Date().toISOString().slice(0, 10);
+  document.getElementById('task-priority').value = prefill ? prefill.priority : '';
   document.getElementById('modal-feedback').classList.add('hidden');
   document.getElementById('modal-submit').disabled = false;
   document.getElementById('new-task-overlay').classList.remove('hidden');
@@ -528,7 +550,7 @@ function submitNewTask() {
 
   const desc = document.getElementById('task-desc').value.trim();
   const isoDate = document.getElementById('task-date').value;
-  const date = isoDate ? isoDate.split('-').reverse().join('/') : new Date().toLocaleDateString('pt-BR');
+  const date = toPtBrDate(isoDate) || new Date().toLocaleDateString('pt-BR');
   const priority = document.getElementById('task-priority').value;
   const tsv = `${name}\t${desc}\t${date}\t${priority}`;
 
