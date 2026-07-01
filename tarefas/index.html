@@ -58,6 +58,7 @@
           <button id="reset-btn" class="reset-btn hidden">&#8592; Trocar planilha</button>
           <button id="help-btn" class="theme-toggle" title="Atalhos de teclado">?</button>
           <button id="theme-toggle" class="theme-toggle" title="Alternar tema (T)">&#9728;</button>
+          <button id="dyslexic-toggle" class="theme-toggle" title="Fonte para disléxicos">&#9101;</button>
         </div>
       </div>
       <p class="hint">
@@ -108,8 +109,14 @@
           <option value="data">Ordenar por data</option>
           <option value="titulo">Ordenar A-Z</option>
         </select>
-        <button id="compact-btn" class="header-action-btn hidden" title="Compacto (D)">Compacto</button>
-        <button id="focus-btn" class="header-action-btn hidden">Foco</button>
+        <div class="export-menu">
+          <button id="view-menu-btn" class="header-action-btn hidden">Visualização &#9662;</button>
+          <div id="view-menu-panel" class="export-menu-panel hidden">
+            <button id="compact-btn" class="header-action-btn" title="Compacto (D)">Compacto</button>
+            <button id="focus-btn" class="header-action-btn">Foco</button>
+            <button id="column-time-toggle-btn" class="header-action-btn header-action-btn--active">Tempo na coluna</button>
+          </div>
+        </div>
         <button id="refresh-btn" class="header-action-btn hidden" title="Atualizar (R)">&#8635; Atualizar</button>
         <button id="new-task-btn" class="new-task-btn hidden" title="Nova tarefa (N)">+ Nova Tarefa</button>
       </div>

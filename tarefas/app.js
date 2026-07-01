@@ -2,9 +2,10 @@ let refreshTimer;
 let sortMode = 'original';
 let compactMode = false;
 let focusMode = false;
+let columnTimeVisible = true;
 
 const SORT_MODES = ['original', 'prioridade', 'data', 'titulo'];
-const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'mode'];
+const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'dyslexicFont', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'columnTimeVisible', 'columnEntryTimes', 'mode'];
 
 async function fetchListNames(id) {
   try {
@@ -28,6 +29,27 @@ async function fetchExtraList(id, sheetName) {
     if (!rows.length || rows[0][0].trim().toLowerCase() !== EXTRA_LIST_HEADER) return [];
     return filterRows(rows.slice(1));
   } catch { return []; }
+}
+
+function trackColumnTime(orderedResults) {
+  const now = Date.now();
+  const stored = JSON.parse(localStorage.getItem('columnEntryTimes') || '{}');
+  const updated = {};
+  const daysByTitle = new Map();
+
+  orderedResults.forEach((rows, i) => {
+    const column = SHEET_NAMES[i];
+    rows.forEach(row => {
+      const title = row[0].trim();
+      const entry = stored[title];
+      const since = entry && entry.column === column ? entry.since : now;
+      updated[title] = { column, since };
+      daysByTitle.set(title, Math.floor((now - since) / MS_PER_DAY));
+    });
+  });
+
+  localStorage.setItem('columnEntryTimes', JSON.stringify(updated));
+  return daysByTitle;
 }
 
 async function handleSubmit() {
@@ -72,11 +94,20 @@ async function handleSubmit() {
       if (sortMode === 'titulo') return sortByTitle(rows);
       return rows;
     });
-    orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows));
+    const daysByTitle = trackColumnTime(orderedResults);
+    orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows, daysByTitle));
+    if (!columnTimeVisible) document.querySelectorAll('.card-column-time').forEach(el => el.classList.add('hidden'));
     renderSummary(results.map(r => r.length), countOverdue(), countWarning());
     renderExtraLists(extraLists);
     populateModeSelect(listNames);
-    const responsaveis = [...new Set(results.flat().map(r => r[4] && r[4].trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    const responsavelCounts = results.flat().reduce((counts, r) => {
+      const name = r[4] && r[4].trim();
+      if (name) counts[name] = (counts[name] || 0) + 1;
+      return counts;
+    }, {});
+    const responsaveis = Object.entries(responsavelCounts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
     populateResponsavelFilter(responsaveis);
 
     showState('success');
@@ -285,6 +316,39 @@ function initTheme() {
   });
 }
 
+function initDyslexicFont() {
+  const enabled = localStorage.getItem('dyslexicFont') === 'true';
+  const toggle = document.getElementById('dyslexic-toggle');
+
+  if (enabled) {
+    document.documentElement.dataset.dyslexicFont = 'true';
+    toggle.classList.add('header-action-btn--active');
+  }
+
+  toggle.addEventListener('click', () => {
+    const isEnabled = document.documentElement.dataset.dyslexicFont === 'true';
+    if (isEnabled) {
+      delete document.documentElement.dataset.dyslexicFont;
+      localStorage.setItem('dyslexicFont', 'false');
+      toggle.classList.remove('header-action-btn--active');
+    } else {
+      document.documentElement.dataset.dyslexicFont = 'true';
+      localStorage.setItem('dyslexicFont', 'true');
+      toggle.classList.add('header-action-btn--active');
+    }
+  });
+}
+
+function setupDropdownMenu(btnId, panelId) {
+  const panel = document.getElementById(panelId);
+  document.getElementById(btnId).addEventListener('click', () => {
+    panel.classList.toggle('hidden');
+  });
+  panel.addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') panel.classList.add('hidden');
+  });
+}
+
 document.getElementById('board').addEventListener('click', e => {
   const emptyCta = e.target.closest('.empty-column-cta');
   if (emptyCta) { openNewTaskModal(); return; }
@@ -336,6 +400,12 @@ document.getElementById('board').addEventListener('click', e => {
     filterCount.classList.toggle('hidden', newQuery === '');
   }
 });
+document.getElementById('board').addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('card')) {
+    e.preventDefault();
+    openCardDetail(e.target);
+  }
+});
 
 document.getElementById('sort-select').addEventListener('change', e => {
   sortMode = e.target.value;
@@ -353,6 +423,12 @@ document.getElementById('focus-btn').addEventListener('click', () => {
   document.getElementById('col-done').classList.toggle('hidden', focusMode);
   document.getElementById('focus-btn').classList.toggle('header-action-btn--active', focusMode);
   localStorage.setItem('focusMode', focusMode);
+});
+document.getElementById('column-time-toggle-btn').addEventListener('click', () => {
+  columnTimeVisible = !columnTimeVisible;
+  document.querySelectorAll('.card-column-time').forEach(el => el.classList.toggle('hidden', !columnTimeVisible));
+  document.getElementById('column-time-toggle-btn').classList.toggle('header-action-btn--active', columnTimeVisible);
+  localStorage.setItem('columnTimeVisible', columnTimeVisible);
 });
 
 document.getElementById('reset-btn').addEventListener('click', () => {
@@ -376,18 +452,9 @@ document.getElementById('download-btn').addEventListener('click', downloadBoardT
 document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
 document.getElementById('csv-btn').addEventListener('click', downloadBoardCsv);
 document.getElementById('template-btn').addEventListener('click', downloadTemplateCsv);
-document.getElementById('export-menu-btn').addEventListener('click', () => {
-  document.getElementById('export-menu-panel').classList.toggle('hidden');
-});
-document.getElementById('export-menu-panel').addEventListener('click', e => {
-  if (e.target.tagName === 'BUTTON') document.getElementById('export-menu-panel').classList.add('hidden');
-});
-document.getElementById('share-menu-btn').addEventListener('click', () => {
-  document.getElementById('share-menu-panel').classList.toggle('hidden');
-});
-document.getElementById('share-menu-panel').addEventListener('click', e => {
-  if (e.target.tagName === 'BUTTON') document.getElementById('share-menu-panel').classList.add('hidden');
-});
+setupDropdownMenu('export-menu-btn', 'export-menu-panel');
+setupDropdownMenu('share-menu-btn', 'share-menu-panel');
+setupDropdownMenu('view-menu-btn', 'view-menu-panel');
 document.addEventListener('click', e => {
   document.querySelectorAll('.export-menu-panel').forEach(panel => {
     if (!panel.classList.contains('hidden') && !e.target.closest('.export-menu')) {
@@ -544,6 +611,7 @@ populateSelect();
 populateTemplateSelect();
 initRecentSheets();
 initTheme();
+initDyslexicFont();
 initCollapseState();
 
 const storedSortMode = localStorage.getItem('sortMode');
@@ -560,6 +628,10 @@ if (localStorage.getItem('focusMode') === 'true') {
   focusMode = true;
   document.getElementById('col-done').classList.add('hidden');
   document.getElementById('focus-btn').classList.add('header-action-btn--active');
+}
+if (localStorage.getItem('columnTimeVisible') === 'false') {
+  columnTimeVisible = false;
+  document.getElementById('column-time-toggle-btn').classList.remove('header-action-btn--active');
 }
 
 const urlSheet = new URLSearchParams(location.search).get('sheet');

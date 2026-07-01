@@ -96,6 +96,12 @@ body {
   min-height: 100vh;
 }
 
+[data-dyslexic-font="true"] body {
+  font-family: Verdana, Tahoma, Arial, sans-serif;
+  letter-spacing: .04em;
+  line-height: 1.7;
+}
+
 main {
   max-width: 1100px;
   margin: 0 auto;
@@ -515,11 +521,20 @@ main {
   line-height: 1.4;
 }
 
-.card-desc {
+.card-desc,
+.card-checklist {
   margin-top: .35rem;
   font-size: .82rem;
   color: var(--text-muted);
   line-height: 1.5;
+}
+
+.card-checklist {
+  list-style: none;
+}
+
+.card-checklist-item + .card-checklist-item {
+  margin-top: .15rem;
 }
 
 .card-date {

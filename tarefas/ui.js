@@ -34,6 +34,14 @@ function toPtBrDate(isoDate) {
   return isoDate ? isoDate.split('-').reverse().join('/') : '';
 }
 
+function parseChecklist(desc) {
+  const items = (desc || '').split('\n')
+    .map(line => line.match(/^-\s*\[([ xX])\]\s*(.+)$/))
+    .filter(Boolean)
+    .map(match => ({ done: match[1].toLowerCase() === 'x', text: match[2] }));
+  return items.length ? items : null;
+}
+
 function overdueStage(daysLate) {
   for (const { minDays, stage } of OVERDUE_STAGES) {
     if (daysLate >= minDays) return stage;
@@ -41,7 +49,7 @@ function overdueStage(daysLate) {
   return 0;
 }
 
-function renderCard(row) {
+function renderCard(row, daysInColumn) {
   const name = row[0].trim();
   const desc = row[1] ? row[1].trim() : '';
   const date = row[2] ? row[2].trim() : '';
@@ -51,6 +59,8 @@ function renderCard(row) {
 
   const card = document.createElement('div');
   card.className = 'card';
+  card.tabIndex = 0;
+  card.setAttribute('role', 'button');
   card.dataset.title = name;
   card.dataset.desc = desc;
   card.dataset.date = date;
@@ -63,7 +73,18 @@ function renderCard(row) {
   title.textContent = name;
   card.appendChild(title);
 
-  if (desc) {
+  const checklist = parseChecklist(desc);
+  if (checklist) {
+    const list = document.createElement('ul');
+    list.className = 'card-checklist';
+    checklist.forEach(({ done, text }) => {
+      const item = document.createElement('li');
+      item.className = 'card-checklist-item';
+      item.textContent = `${done ? '☑' : '☐'} ${text}`;
+      list.appendChild(item);
+    });
+    card.appendChild(list);
+  } else if (desc) {
     const d = document.createElement('div');
     d.className = 'card-desc';
     d.textContent = desc;
@@ -112,6 +133,13 @@ function renderCard(row) {
     card.appendChild(badge);
   }
 
+  if (daysInColumn > 0) {
+    const columnTime = document.createElement('span');
+    columnTime.className = 'card-column-time text-xs text-empty-col';
+    columnTime.textContent = `há ${daysInColumn} dia${daysInColumn !== 1 ? 's' : ''}`;
+    card.appendChild(columnTime);
+  }
+
   const actions = document.createElement('div');
   actions.className = 'card-actions';
 
@@ -150,7 +178,7 @@ function renderCard(row) {
   return card;
 }
 
-function renderColumn(bodyId, rows) {
+function renderColumn(bodyId, rows, daysByTitle) {
   const body = document.getElementById(bodyId);
   body.innerHTML = '';
 
@@ -169,7 +197,7 @@ function renderColumn(bodyId, rows) {
     return;
   }
 
-  rows.forEach(row => body.appendChild(renderCard(row)));
+  rows.forEach(row => body.appendChild(renderCard(row, daysByTitle && daysByTitle.get(row[0].trim()))));
   body.scrollTop = 0;
 }
 
@@ -315,9 +343,8 @@ function buildBoardText() {
       lines.push('_(vazio)_');
     } else {
       cards.forEach(card => {
-        const title = card.querySelector('.card-title').textContent;
-        const descEl = card.querySelector('.card-desc');
-        lines.push(`- ${title}${descEl ? ` — ${descEl.textContent}` : ''}`);
+        const { title, desc } = card.dataset;
+        lines.push(`- ${title}${desc ? ` — ${desc}` : ''}`);
       });
     }
     lines.push('');
@@ -432,8 +459,7 @@ function showState(state, msg) {
   document.getElementById('export-menu-btn').classList.add('hidden');
   document.getElementById('export-menu-panel').classList.add('hidden');
   document.getElementById('sort-select').classList.add('hidden');
-  document.getElementById('compact-btn').classList.add('hidden');
-  document.getElementById('focus-btn').classList.add('hidden');
+  document.getElementById('view-menu-btn').classList.add('hidden');
   document.getElementById('reset-btn').classList.add('hidden');
   document.getElementById('extra-lists').classList.add('hidden');
   document.getElementById('mode-select').classList.add('hidden');
@@ -465,8 +491,7 @@ function showState(state, msg) {
     document.getElementById('share-menu-btn').classList.remove('hidden');
     document.getElementById('export-menu-btn').classList.remove('hidden');
     document.getElementById('sort-select').classList.remove('hidden');
-    document.getElementById('compact-btn').classList.remove('hidden');
-    document.getElementById('focus-btn').classList.remove('hidden');
+    document.getElementById('view-menu-btn').classList.remove('hidden');
     document.getElementById('reset-btn').classList.remove('hidden');
     document.getElementById('extra-lists').classList.remove('hidden');
     document.getElementById('mode-select').classList.remove('hidden');
@@ -599,13 +624,13 @@ function populateTemplateSelect() {
   });
 }
 
-function populateResponsavelFilter(names) {
+function populateResponsavelFilter(entries) {
   const select = document.getElementById('responsavel-filter');
   select.querySelectorAll('option:not([value=""])').forEach(opt => opt.remove());
-  names.forEach(name => {
+  entries.forEach(({ name, count }) => {
     const opt = document.createElement('option');
     opt.value = name;
-    opt.textContent = name;
+    opt.textContent = `${name} (${count})`;
     select.appendChild(opt);
   });
 }
