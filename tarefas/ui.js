@@ -70,6 +70,7 @@ function renderCard(row, daysInColumn, isNew) {
   card.dataset.responsavel = responsavel;
   card.dataset.link = link;
   card.dataset.tags = tagsRaw;
+  if (daysInColumn !== undefined) card.dataset.daysInColumn = daysInColumn;
 
   if (isNew) {
     const newBadge = document.createElement('span');
@@ -130,6 +131,9 @@ function renderCard(row, daysInColumn, isNew) {
       else if (delta < 0) dt.textContent = `${date} · há ${Math.abs(delta)} dia${Math.abs(delta) !== 1 ? 's' : ''}`;
       dt.title = parsed.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       if (delta < 0) card.dataset.overdueStage = overdueStage(Math.abs(delta));
+    } else {
+      dt.classList.add('card-date--invalid');
+      dt.title = 'Formato de data não reconhecido — use DD/MM/AAAA';
     }
     card.appendChild(dt);
   }
@@ -336,6 +340,10 @@ function renderActivityFeed(log) {
   });
 }
 
+function updateActivityBadge(unseenCount) {
+  document.getElementById('activity-btn').textContent = `Atividade${unseenCount > 0 ? ` (${unseenCount})` : ''}`;
+}
+
 function renderSummary(counts, overdue, warning) {
   const total = counts.reduce((s, n) => s + n, 0);
   if (total === 0) {
@@ -363,6 +371,13 @@ function renderSummary(counts, overdue, warning) {
   const media = countByPriority('Média');
   const baixa = countByPriority('Baixa');
   if (alta > 0 || media > 0 || baixa > 0) text += ` · Alta: ${alta} · Média: ${media} · Baixa: ${baixa}`;
+  const inProgressDays = Array.from(document.querySelectorAll('#body-progress .card'))
+    .map(card => Number(card.dataset.daysInColumn))
+    .filter(days => !isNaN(days));
+  if (inProgressDays.length > 0) {
+    const avgDays = Math.round(inProgressDays.reduce((s, d) => s + d, 0) / inProgressDays.length);
+    text += ` · Tempo médio em andamento: ${avgDays} dia${avgDays !== 1 ? 's' : ''}`;
+  }
   const hhmm = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   text += ` · Atualizado às ${hhmm}`;
   document.getElementById('board-summary').textContent = text;
@@ -448,6 +463,14 @@ function buildCalendarUrl(title, desc, dateStr) {
   return base + params + dates;
 }
 
+function escapeIcsText(text) {
+  return text
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/,/g, '\\,')
+    .replace(/\n/g, '\\n');
+}
+
 function buildIcsEvent(title, desc, dateStr, uid) {
   const d = parsePtBrDate(dateStr) || new Date();
   const pad = n => String(n).padStart(2, '0');
@@ -460,8 +483,8 @@ function buildIcsEvent(title, desc, dateStr, uid) {
     `UID:${uid}@app`,
     `DTSTART;VALUE=DATE:${ymd}`,
     `DTEND;VALUE=DATE:${ymdn}`,
-    `SUMMARY:${title}`,
-    desc ? `DESCRIPTION:${desc}` : null,
+    `SUMMARY:${escapeIcsText(title)}`,
+    desc ? `DESCRIPTION:${escapeIcsText(desc)}` : null,
     'END:VEVENT'
   ].filter(Boolean);
 }
@@ -666,6 +689,7 @@ function openNewTaskModal(prefill) {
   document.getElementById('modal-submit').disabled = false;
   document.getElementById('new-task-overlay').classList.remove('hidden');
   taskName.focus();
+  taskName.select();
 }
 
 function closeNewTaskModal() {

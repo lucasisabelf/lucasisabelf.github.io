@@ -8,7 +8,15 @@ let columnTimeVisible = true;
 const FILTER_DEBOUNCE_MS = 200;
 const ACTIVITY_LOG_LIMIT = 20;
 const SORT_MODES = ['original', 'prioridade', 'data', 'titulo'];
-const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'dyslexicFont', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'columnTimeVisible', 'columnEntryTimes', 'activityLog', 'mode'];
+const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'dyslexicFont', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'columnTimeVisible', 'columnEntryTimes', 'activityLog', 'activityTotalCount', 'activityLastSeenCount', 'mode'];
+
+function safeJsonParse(json, fallback) {
+  try {
+    return json ? JSON.parse(json) : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 async function fetchListNames(id) {
   try {
@@ -36,7 +44,7 @@ async function fetchExtraList(id, sheetName) {
 
 function trackColumnTime(orderedResults) {
   const now = Date.now();
-  const stored = JSON.parse(localStorage.getItem('columnEntryTimes') || '{}');
+  const stored = safeJsonParse(localStorage.getItem('columnEntryTimes'), {});
   const updated = {};
   const daysByTitle = new Map();
   const newTitles = new Set();
@@ -63,10 +71,12 @@ function trackColumnTime(orderedResults) {
 }
 
 function logActivity(transitions) {
-  const stored = JSON.parse(localStorage.getItem('activityLog') || '[]');
-  const updated = [...transitions, ...stored].slice(0, ACTIVITY_LOG_LIMIT);
-  localStorage.setItem('activityLog', JSON.stringify(updated));
-  return updated;
+  const stored = safeJsonParse(localStorage.getItem('activityLog'), []);
+  const log = [...transitions, ...stored].slice(0, ACTIVITY_LOG_LIMIT);
+  localStorage.setItem('activityLog', JSON.stringify(log));
+  const totalCount = (Number(localStorage.getItem('activityTotalCount')) || 0) + transitions.length;
+  localStorage.setItem('activityTotalCount', totalCount);
+  return { log, totalCount };
 }
 
 async function handleSubmit() {
@@ -114,7 +124,10 @@ async function handleSubmit() {
     const { daysByTitle, newTitles, transitions } = trackColumnTime(orderedResults);
     orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows, daysByTitle, newTitles));
     if (!columnTimeVisible) document.querySelectorAll('.card-column-time').forEach(el => el.classList.add('hidden'));
-    renderActivityFeed(logActivity(transitions));
+    const { log: activityLog, totalCount: activityTotalCount } = logActivity(transitions);
+    renderActivityFeed(activityLog);
+    const activityLastSeen = Number(localStorage.getItem('activityLastSeenCount')) || 0;
+    updateActivityBadge(Math.max(activityTotalCount - activityLastSeen, 0));
     renderSummary(results.map(r => r.length), countOverdue(), countWarning());
     renderExtraLists(extraLists);
     populateModeSelect(extraLists.map(({ name, rows }) => ({ name, count: rows.length })));
@@ -296,25 +309,21 @@ function saveCollapseState() {
 }
 
 function initCollapseState() {
-  const stored = localStorage.getItem('collapseState');
-  if (!stored) return;
-  const state = JSON.parse(stored);
+  const state = safeJsonParse(localStorage.getItem('collapseState'), null);
+  if (!state) return;
   document.querySelectorAll('.column').forEach(col => {
     col.classList.toggle('column--collapsed', !!state[col.id]);
   });
 }
 
 function saveRecentSheet(url) {
-  const stored = localStorage.getItem('recentSheets');
-  const list = stored ? JSON.parse(stored) : [];
+  const list = safeJsonParse(localStorage.getItem('recentSheets'), []);
   const updated = [url, ...list.filter(u => u !== url)].slice(0, 5);
   localStorage.setItem('recentSheets', JSON.stringify(updated));
 }
 
 function initRecentSheets() {
-  const stored = localStorage.getItem('recentSheets');
-  if (!stored) return;
-  const list = JSON.parse(stored);
+  const list = safeJsonParse(localStorage.getItem('recentSheets'), []);
   if (!list.length) return;
   const select = document.getElementById('sheet-select');
   const group = document.createElement('optgroup');
@@ -514,7 +523,13 @@ document.getElementById('sheet-url').addEventListener('keydown', e => {
 });
 document.getElementById('refresh-btn').addEventListener('click', handleSubmit);
 document.getElementById('activity-btn').addEventListener('click', () => {
-  document.getElementById('activity-panel').classList.toggle('hidden');
+  const panel = document.getElementById('activity-panel');
+  const opening = panel.classList.contains('hidden');
+  panel.classList.toggle('hidden');
+  if (opening) {
+    localStorage.setItem('activityLastSeenCount', localStorage.getItem('activityTotalCount') || 0);
+    updateActivityBadge(0);
+  }
 });
 document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink);
 document.getElementById('copy-sheet-btn').addEventListener('click', copySheetUrl);
