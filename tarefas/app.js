@@ -1,9 +1,11 @@
 let refreshTimer;
+let debounceTimer;
 let sortMode = 'original';
 let compactMode = false;
 let focusMode = false;
 let columnTimeVisible = true;
 
+const FILTER_DEBOUNCE_MS = 200;
 const SORT_MODES = ['original', 'prioridade', 'data', 'titulo'];
 const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'dyslexicFont', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'columnTimeVisible', 'columnEntryTimes', 'mode'];
 
@@ -36,12 +38,14 @@ function trackColumnTime(orderedResults) {
   const stored = JSON.parse(localStorage.getItem('columnEntryTimes') || '{}');
   const updated = {};
   const daysByTitle = new Map();
+  const newTitles = new Set();
 
   orderedResults.forEach((rows, i) => {
     const column = SHEET_NAMES[i];
     rows.forEach(row => {
       const title = row[0].trim();
       const entry = stored[title];
+      if (!entry) newTitles.add(title);
       const since = entry && entry.column === column ? entry.since : now;
       updated[title] = { column, since };
       daysByTitle.set(title, Math.floor((now - since) / MS_PER_DAY));
@@ -49,7 +53,7 @@ function trackColumnTime(orderedResults) {
   });
 
   localStorage.setItem('columnEntryTimes', JSON.stringify(updated));
-  return daysByTitle;
+  return { daysByTitle, newTitles };
 }
 
 async function handleSubmit() {
@@ -94,8 +98,8 @@ async function handleSubmit() {
       if (sortMode === 'titulo') return sortByTitle(rows);
       return rows;
     });
-    const daysByTitle = trackColumnTime(orderedResults);
-    orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows, daysByTitle));
+    const { daysByTitle, newTitles } = trackColumnTime(orderedResults);
+    orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows, daysByTitle, newTitles));
     if (!columnTimeVisible) document.querySelectorAll('.card-column-time').forEach(el => el.classList.add('hidden'));
     renderSummary(results.map(r => r.length), countOverdue(), countWarning());
     renderExtraLists(extraLists);
@@ -247,6 +251,18 @@ function downloadIcs(title, desc, dateStr) {
   URL.revokeObjectURL(a.href);
 }
 
+function downloadIcsCalendar() {
+  const events = Array.from(document.querySelectorAll('.card:not(.hidden)'))
+    .filter(card => card.dataset.date)
+    .map(card => ({ title: card.dataset.title, desc: card.dataset.desc, date: card.dataset.date }));
+  const blob = new Blob([buildIcsCalendar(events)], { type: 'text/calendar;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sprint-board.ics';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 function resetAllSettings() {
   if (!confirm('Limpar todas as configurações e recarregar a página?')) return;
   STORAGE_KEYS.forEach(k => localStorage.removeItem(k));
@@ -354,6 +370,12 @@ function setupDropdownMenu(btnId, panelId) {
   });
 }
 
+function updateViewMenuLabel() {
+  const active = [compactMode, focusMode, columnTimeVisible, document.getElementById('auto-refresh').checked]
+    .filter(Boolean).length;
+  document.getElementById('view-menu-btn').textContent = `Visualização${active > 0 ? ` (${active})` : ''} ▾`;
+}
+
 document.getElementById('board').addEventListener('click', e => {
   const emptyCta = e.target.closest('.empty-column-cta');
   if (emptyCta) { openNewTaskModal(); return; }
@@ -436,19 +458,23 @@ document.getElementById('compact-btn').addEventListener('click', () => {
   document.getElementById('board').classList.toggle('board--compact', compactMode);
   document.getElementById('compact-btn').classList.toggle('header-action-btn--active', compactMode);
   localStorage.setItem('compactMode', compactMode);
+  updateViewMenuLabel();
 });
 document.getElementById('focus-btn').addEventListener('click', () => {
   focusMode = !focusMode;
   document.getElementById('col-done').classList.toggle('hidden', focusMode);
   document.getElementById('focus-btn').classList.toggle('header-action-btn--active', focusMode);
   localStorage.setItem('focusMode', focusMode);
+  updateViewMenuLabel();
 });
 document.getElementById('column-time-toggle-btn').addEventListener('click', () => {
   columnTimeVisible = !columnTimeVisible;
   document.querySelectorAll('.card-column-time').forEach(el => el.classList.toggle('hidden', !columnTimeVisible));
   document.getElementById('column-time-toggle-btn').classList.toggle('header-action-btn--active', columnTimeVisible);
   localStorage.setItem('columnTimeVisible', columnTimeVisible);
+  updateViewMenuLabel();
 });
+document.getElementById('auto-refresh').addEventListener('change', updateViewMenuLabel);
 
 document.getElementById('reset-btn').addEventListener('click', () => {
   showState('idle');
@@ -470,6 +496,7 @@ document.getElementById('export-btn').addEventListener('click', exportBoardText)
 document.getElementById('download-btn').addEventListener('click', downloadBoardText);
 document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
 document.getElementById('csv-btn').addEventListener('click', downloadBoardCsv);
+document.getElementById('ics-btn').addEventListener('click', downloadIcsCalendar);
 document.getElementById('template-btn').addEventListener('click', downloadTemplateCsv);
 setupDropdownMenu('export-menu-btn', 'export-menu-panel');
 setupDropdownMenu('share-menu-btn', 'share-menu-panel');
@@ -508,12 +535,16 @@ document.querySelectorAll('.column-header').forEach(h => {
   });
 });
 document.getElementById('filter-input').addEventListener('input', e => {
-  const visible = filterCards(e.target.value, document.getElementById('responsavel-filter').value);
-  document.getElementById('filter-clear-btn').classList.toggle('hidden', e.target.value === '');
-  const filterCount = document.getElementById('filter-count');
-  filterCount.textContent = `${visible} de ${document.querySelectorAll('.card').length}`;
-  filterCount.classList.toggle('hidden', e.target.value === '');
-  history.replaceState(null, '', updateUrlParam('filter', e.target.value || null));
+  const query = e.target.value;
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const visible = filterCards(query, document.getElementById('responsavel-filter').value);
+    document.getElementById('filter-clear-btn').classList.toggle('hidden', query === '');
+    const filterCount = document.getElementById('filter-count');
+    filterCount.textContent = `${visible} de ${document.querySelectorAll('.card').length}`;
+    filterCount.classList.toggle('hidden', query === '');
+    history.replaceState(null, '', updateUrlParam('filter', query || null));
+  }, FILTER_DEBOUNCE_MS);
 });
 document.getElementById('filter-clear-btn').addEventListener('click', () => {
   const filterInput = document.getElementById('filter-input');
@@ -652,6 +683,7 @@ if (localStorage.getItem('columnTimeVisible') === 'false') {
   columnTimeVisible = false;
   document.getElementById('column-time-toggle-btn').classList.remove('header-action-btn--active');
 }
+updateViewMenuLabel();
 
 const urlSheet = new URLSearchParams(location.search).get('sheet');
 const urlFilter = new URLSearchParams(location.search).get('filter');

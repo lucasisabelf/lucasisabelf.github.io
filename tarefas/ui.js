@@ -49,13 +49,14 @@ function overdueStage(daysLate) {
   return 0;
 }
 
-function renderCard(row, daysInColumn) {
+function renderCard(row, daysInColumn, isNew) {
   const name = row[0].trim();
   const desc = row[1] ? row[1].trim() : '';
   const date = row[2] ? row[2].trim() : '';
   const priority = row[3] ? row[3].trim() : '';
   const responsavel = row[4] ? row[4].trim() : '';
-  const link = row[5] ? row[5].trim() : '';
+  const linkRaw = row[5] ? row[5].trim() : '';
+  const link = /^https?:\/\//i.test(linkRaw) ? linkRaw : '';
   const tagsRaw = row[6] ? row[6].trim() : '';
 
   const card = document.createElement('div');
@@ -69,6 +70,13 @@ function renderCard(row, daysInColumn) {
   card.dataset.responsavel = responsavel;
   card.dataset.link = link;
   card.dataset.tags = tagsRaw;
+
+  if (isNew) {
+    const newBadge = document.createElement('span');
+    newBadge.className = 'card-new-badge';
+    newBadge.textContent = 'Novo';
+    card.appendChild(newBadge);
+  }
 
   const title = document.createElement('div');
   title.className = 'card-title';
@@ -198,7 +206,7 @@ function renderCard(row, daysInColumn) {
   return card;
 }
 
-function renderColumn(bodyId, rows, daysByTitle) {
+function renderColumn(bodyId, rows, daysByTitle, newTitles) {
   const body = document.getElementById(bodyId);
   body.innerHTML = '';
 
@@ -217,7 +225,7 @@ function renderColumn(bodyId, rows, daysByTitle) {
     return;
   }
 
-  rows.forEach(row => body.appendChild(renderCard(row, daysByTitle && daysByTitle.get(row[0].trim()))));
+  rows.forEach(row => body.appendChild(renderCard(row, daysByTitle && daysByTitle.get(row[0].trim()), newTitles && newTitles.has(row[0].trim()))));
   body.scrollTop = 0;
 }
 
@@ -306,7 +314,19 @@ function renderExtraLists(lists) {
 function renderSummary(counts, overdue, warning) {
   const total = counts.reduce((s, n) => s + n, 0);
   let text = `${total} total · ${counts[1]} em andamento · ${counts[2]} concluídas`;
-  if (overdue > 0) text += ` · ${overdue} vencida${overdue !== 1 ? 's' : ''}`;
+  if (overdue > 0) {
+    text += ` · ${overdue} vencida${overdue !== 1 ? 's' : ''}`;
+    const overdueByResponsavel = {};
+    document.querySelectorAll('.card-date--overdue').forEach(dt => {
+      const responsavel = dt.closest('.card').dataset.responsavel;
+      if (responsavel) overdueByResponsavel[responsavel] = (overdueByResponsavel[responsavel] || 0) + 1;
+    });
+    const breakdown = Object.entries(overdueByResponsavel)
+      .sort((a, b) => a[0].localeCompare(b[0], 'pt-BR'))
+      .map(([name, count]) => `${name}: ${count}`)
+      .join(', ');
+    if (breakdown) text += ` (${breakdown})`;
+  }
   if (warning > 0) text += ` · ${warning} com prazo próximo`;
   const alta = countByPriority('Alta');
   const media = countByPriority('Média');
@@ -389,23 +409,39 @@ function buildCalendarUrl(title, desc, dateStr) {
   return base + params + dates;
 }
 
-function buildIcsContent(title, desc, dateStr) {
+function buildIcsEvent(title, desc, dateStr, uid) {
   const d = parsePtBrDate(dateStr) || new Date();
   const pad = n => String(n).padStart(2, '0');
   const ymd = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
   const next = new Date(d);
   next.setDate(next.getDate() + 1);
   const ymdn = `${next.getFullYear()}${pad(next.getMonth() + 1)}${pad(next.getDate())}`;
-  const lines = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Sprint Board//EN',
+  return [
     'BEGIN:VEVENT',
-    `UID:sprint-board-${Date.now()}@app`,
+    `UID:${uid}@app`,
     `DTSTART;VALUE=DATE:${ymd}`,
     `DTEND;VALUE=DATE:${ymdn}`,
     `SUMMARY:${title}`,
     desc ? `DESCRIPTION:${desc}` : null,
-    'END:VEVENT', 'END:VCALENDAR'
+    'END:VEVENT'
   ].filter(Boolean);
+}
+
+function buildIcsContent(title, desc, dateStr) {
+  const lines = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Sprint Board//EN',
+    ...buildIcsEvent(title, desc, dateStr, `sprint-board-${Date.now()}`),
+    'END:VCALENDAR'
+  ];
+  return lines.join('\r\n');
+}
+
+function buildIcsCalendar(events) {
+  const lines = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Sprint Board//EN',
+    ...events.flatMap((e, i) => buildIcsEvent(e.title, e.desc, e.date, `sprint-board-${Date.now()}-${i}`)),
+    'END:VCALENDAR'
+  ];
   return lines.join('\r\n');
 }
 

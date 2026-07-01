@@ -1,18 +1,8 @@
-# Implements — Ciclo 27
+# Implements — Ciclo 28
 
-## 1. Consolidar auto-refresh no menu "Visualização"
+## 1. Sanitizar link contra esquemas perigosos
 
-**Tarefa:** `#auto-refresh-controls` removido como bloco separado; o checkbox `#auto-refresh` e o `<select id="refresh-interval">` movidos para dentro de `#view-menu-panel`, ambos reaproveitando `.header-action-btn`/`.export-menu-panel .header-action-btn` (nenhuma regra CSS nova para o layout do controle em si). `showState` (`ui.js`) removeu as linhas de hide/show de `#auto-refresh-controls`. CSS morto (`.auto-refresh-controls`, `.auto-refresh-controls select`, referência no `@media print`) removido de `style.css`.
-
-**Edge case:** Nenhum.
-
-**Solução:** N/A.
-
----
-
-## 2. Mensagens de erro específicas por tipo de falha
-
-**Tarefa:** O `catch` de `handleSubmit` (`app.js`) passou a checar `err.name === 'AbortError'` (erro lançado por `fetchWithTimeout` após as 2 tentativas já esgotadas) e exibir uma mensagem específica de timeout/rede; o caso de HTML retornado pela planilha continua usando `err.message` como antes.
+**Tarefa:** Em `renderCard` (`ui.js`), o valor bruto de `row[5]` só é aceito como `link` se casar com `/^https?:\/\//i` — caso contrário é tratado como string vazia, igual a campo não preenchido.
 
 **Edge case:** Nenhum.
 
@@ -20,44 +10,54 @@
 
 ---
 
-## 3. Progresso do checklist
+## 2. Debounce no filtro de texto
 
-**Tarefa:** Quando `parseChecklist(desc)` retorna itens, `renderCard` (`ui.js`) calcula `checklist.filter(i => i.done).length` sobre o array já produzido e insere um `<span class="card-checklist-progress">X/Y</span>` dentro de `.card-title`, sem reprocessar a descrição.
+**Tarefa:** Novo `let debounceTimer` (`app.js`, junto de `refreshTimer`) e `FILTER_DEBOUNCE_MS = 200` (constante nomeada, junto de `SORT_MODES`). O listener de `input` de `#filter-input` agenda `filterCards`/atualização de `filter-count`/`filter-clear-btn`/URL via `setTimeout`, cancelando o anterior a cada tecla.
 
-**Edge case:** Nenhum.
-
-**Solução:** N/A.
-
----
-
-## 4. Destaque visual em tarefas sem responsável
-
-**Tarefa:** `renderCard` (`ui.js`) adiciona a classe `card--unassigned` ao `.card` quando `responsavel` está vazio. `.card--unassigned { border: 1px dashed var(--border-input); }` em `style.css`, reaproveitando a variável de cor já existente.
-
-**Edge case:** Nenhum.
+**Edge case:** Nenhum — `filter-count` e `filter-clear-btn` passaram a atualizar dentro do mesmo `setTimeout` do resultado do filtro, evitando dessincronia.
 
 **Solução:** N/A.
 
 ---
 
-## 5. Ordenação combinada (prioridade + data)
+## 3. Indicar opções ativas no menu "Visualização"
 
-**Tarefa:** A lógica de comparação de datas de `sortByDate` foi extraída para `compareByDate(a, b)` (`ui.js`); `sortByDate` agora só chama `rows.sort(compareByDate)`, e `sortByPriority` usa `compareByDate` como critério de desempate (`... || compareByDate(a, b)`) quando duas tarefas têm a mesma prioridade.
+**Tarefa:** Nova `updateViewMenuLabel()` (`app.js`) conta quantos de `compactMode`/`focusMode`/`columnTimeVisible`/`#auto-refresh.checked` estão ativos e atualiza o texto de `#view-menu-btn`. Chamada ao final dos três toggles existentes (`compact-btn`, `focus-btn`, `column-time-toggle-btn`), num novo listener de `change` em `#auto-refresh`, e uma vez na inicialização após os blocos que restauram esses estados de `localStorage`.
 
-**Edge case:** Nenhum — o tratamento de datas ausentes (`null` vai para o fim) foi preservado exatamente igual ao original de `sortByDate`.
-
-**Solução:** N/A.
-
----
-
-## 6. Tags livres por tarefa
-
-**Tarefa:** `BOARD_RANGE` (`config.js`) ampliado de `'A3:F'` para `'A3:G'`. `renderCard` (`ui.js`) lê `row[6]` como `tagsRaw`, grava `card.dataset.tags`, e renderiza um `<span class="card-tag">` por tag dentro de `.card-tags`. `.card-tag` foi adicionado ao seletor já combinado `.study-card-status, .card-responsavel` (ciclo 23) em vez de uma nova regra CSS. `filterCards` inclui `card.dataset.tags` na busca combinada. O listener de delegação em `#board` (`app.js`) ganhou um ramo para `.card-tag`, com a mesma lógica de filtro-por-clique já usada por `.card-priority` (2 ocorrências do mesmo padrão — não justifica extração ainda pela regra do projeto). `TEMPLATE_HEADERS` e as 3 representações estruturadas de export (`buildBoardCsv`, `buildBoardJson`, cópia CSV por coluna) ganharam `Tags`/`card.dataset.tags` como sétimo campo, pela mesma paridade já aplicada a Responsável e Link.
-
-**Edge case:** Nenhum — a busca por tag reaproveita o mesmo `combined.includes(t)` (substring) do filtro de texto já existente, não uma regra de correspondência nova.
+**Edge case:** Nenhum — o novo listener de `#auto-refresh` só atualiza o rótulo; o comportamento de ligar o `setInterval` de auto-refresh continua exclusivamente dentro de `handleSubmit`, sem duplicação.
 
 **Solução:** N/A.
 
 ---
 
-**Nota do ciclo:** `APP_VERSION` incrementada de `1.25` para `1.26`. O Passo 0d verificou `invertexto.com/matuto` novamente — a seção `##### features` continha a mesma sugestão já implementada no ciclo 26 ("fonte para disléxicos"), confirmada como já presente no código e não duplicada em `FEATURES.md`.
+## 4. Destacar cards novos
+
+**Tarefa:** `trackColumnTime` (`app.js`) passou a retornar `{ daysByTitle, newTitles }` — `newTitles` é um `Set` dos títulos ausentes do registro anterior de `columnEntryTimes`, calculado no mesmo laço que já lia/escrevia esse registro. `renderColumn`/`renderCard` (`ui.js`) recebem um novo parâmetro `isNew`; quando `true`, um `<span class="card-new-badge">Novo</span>` é inserido antes do título.
+
+**Edge case:** Nenhum — a primeira carga de uma planilha nova marcar todas as tarefas como "novas" é a degradação aceitável já prevista em `FEATURES.md`.
+
+**Solução:** N/A.
+
+---
+
+## 5. Contagem de tarefas vencidas por responsável
+
+**Tarefa:** `renderSummary` (`ui.js`), quando `overdue > 0`, agrupa `document.querySelectorAll('.card-date--overdue')` por `closest('.card').dataset.responsavel` e anexa "(Nome: N, ...)" ordenado alfabeticamente ao texto de vencidas.
+
+**Edge case:** Nenhum — tarefas vencidas sem responsável ficam de fora do detalhamento por nome, entrando só no total, como já previsto.
+
+**Solução:** N/A.
+
+---
+
+## 6. Exportar agenda em lote (.ics)
+
+**Tarefa:** O corpo de um `VEVENT` foi extraído de `buildIcsContent` para `buildIcsEvent(title, desc, dateStr, uid)` (`ui.js`), reaproveitada tanto por `buildIcsContent` (evento único) quanto pela nova `buildIcsCalendar(events)` (um `VCALENDAR` com um `VEVENT` por item, UID único por índice). Nova `downloadIcsCalendar()` (`app.js`) coleta `{ title, desc, date }` de `.card:not(.hidden)` com `date` preenchido e baixa o blob. Novo `<button id="ics-btn">Agenda (.ics)</button>` dentro de `#export-menu-panel`, junto de Baixar .md/JSON/CSV.
+
+**Edge case:** Nenhum — tarefas sem data são filtradas antes de chegar em `buildIcsCalendar`, diferente do `.ics` individual por card que usa `new Date()` como fallback.
+
+**Solução:** N/A.
+
+---
+
+**Nota do ciclo:** `APP_VERSION` incrementada de `1.26` para `1.27`. O Passo 0d verificou `invertexto.com/matuto` novamente — mesma sugestão já implementada no ciclo 26 ("fonte para disléxicos"), confirmada e não duplicada.

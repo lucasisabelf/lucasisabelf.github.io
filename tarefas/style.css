@@ -952,6 +952,18 @@ main {
   margin-top: .35rem;
 }
 
+.card-new-badge {
+  display: inline-block;
+  margin-bottom: .3rem;
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--feedback-color);
+  background: var(--feedback-bg);
+  border-radius: 4px;
+  padding: .1rem .4rem;
+}
+
 .study-card-motivo {
   font-size: .78rem;
   color: var(--text-muted);
