@@ -7,13 +7,21 @@ function buildSheetUrl(id, sheetName, range = BOARD_RANGE) {
   return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=0&range=${range}&sheet=${encodeURIComponent(sheetName)}`;
 }
 
-async function fetchWithTimeout(url) {
+async function attemptFetch(url) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
     return await fetch(url, { signal: controller.signal });
   } finally {
     clearTimeout(timer);
+  }
+}
+
+async function fetchWithTimeout(url) {
+  try {
+    return await attemptFetch(url);
+  } catch {
+    return attemptFetch(url);
   }
 }
 

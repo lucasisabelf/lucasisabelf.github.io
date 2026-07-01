@@ -47,6 +47,7 @@ function renderCard(row) {
   const date = row[2] ? row[2].trim() : '';
   const priority = row[3] ? row[3].trim() : '';
   const responsavel = row[4] ? row[4].trim() : '';
+  const link = row[5] ? row[5].trim() : '';
 
   const card = document.createElement('div');
   card.className = 'card';
@@ -55,6 +56,7 @@ function renderCard(row) {
   card.dataset.date = date;
   card.dataset.priority = priority;
   card.dataset.responsavel = responsavel;
+  card.dataset.link = link;
 
   const title = document.createElement('div');
   title.className = 'card-title';
@@ -132,6 +134,16 @@ function renderCard(row) {
   dupBtn.className = 'card-action-btn card-duplicate-btn';
   dupBtn.textContent = 'Duplicar';
   actions.appendChild(dupBtn);
+
+  if (link) {
+    const linkEl = document.createElement('a');
+    linkEl.className = 'card-action-btn card-link';
+    linkEl.href = link;
+    linkEl.target = '_blank';
+    linkEl.rel = 'noopener noreferrer';
+    linkEl.textContent = '🔗';
+    actions.appendChild(linkEl);
+  }
 
   card.appendChild(actions);
 
@@ -361,16 +373,19 @@ function markMatch(text, query) {
   return markTerms(text, [query]);
 }
 
-function filterCards(query) {
+function filterCards(query, responsavelFilter = '') {
   const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+  const filtering = terms.length > 0 || responsavelFilter !== '';
   let visible = 0;
   document.querySelectorAll('.card').forEach(card => {
     const title = card.dataset.title || '';
     const desc = card.dataset.desc || '';
     const priority = (card.dataset.priority || '').toLowerCase();
-    const responsavel = (card.dataset.responsavel || '').toLowerCase();
-    const combined = title.toLowerCase() + ' ' + desc.toLowerCase() + ' ' + priority + ' ' + responsavel;
-    const hidden = terms.length > 0 && !terms.every(t => combined.includes(t));
+    const responsavel = card.dataset.responsavel || '';
+    const combined = title.toLowerCase() + ' ' + desc.toLowerCase() + ' ' + priority + ' ' + responsavel.toLowerCase();
+    const matchesQuery = terms.length === 0 || terms.every(t => combined.includes(t));
+    const matchesResponsavel = !responsavelFilter || responsavel === responsavelFilter;
+    const hidden = !matchesQuery || !matchesResponsavel;
     card.classList.toggle('hidden', hidden);
     const titleEl = card.querySelector('.card-title');
     const descEl = card.querySelector('.card-desc');
@@ -387,7 +402,7 @@ function filterCards(query) {
     const cards = Array.from(body.querySelectorAll('.card'));
     const allHidden = cards.length > 0 && cards.every(c => c.classList.contains('hidden'));
     let emptyEl = body.querySelector('.filter-empty');
-    if (terms.length > 0 && allHidden) {
+    if (filtering && allHidden) {
       if (!emptyEl) {
         emptyEl = document.createElement('div');
         emptyEl.className = 'filter-empty';
@@ -407,23 +422,20 @@ function showState(state, msg) {
   document.getElementById('state-error').classList.add('hidden');
   document.getElementById('board').classList.add('hidden');
   document.getElementById('refresh-btn').classList.add('hidden');
-  document.getElementById('copy-link-btn').classList.add('hidden');
-  document.getElementById('copy-sheet-btn').classList.add('hidden');
   document.getElementById('new-task-btn').classList.add('hidden');
   document.getElementById('auto-refresh-controls').classList.add('hidden');
   document.getElementById('board-summary').classList.add('hidden');
   document.getElementById('sprint-progress').classList.add('hidden');
   document.getElementById('filter-count').classList.add('hidden');
+  document.getElementById('share-menu-btn').classList.add('hidden');
+  document.getElementById('share-menu-panel').classList.add('hidden');
   document.getElementById('export-menu-btn').classList.add('hidden');
   document.getElementById('export-menu-panel').classList.add('hidden');
   document.getElementById('sort-select').classList.add('hidden');
-  document.getElementById('export-btn').classList.add('hidden');
   document.getElementById('compact-btn').classList.add('hidden');
   document.getElementById('focus-btn').classList.add('hidden');
   document.getElementById('reset-btn').classList.add('hidden');
   document.getElementById('extra-lists').classList.add('hidden');
-  document.getElementById('template-btn').classList.add('hidden');
-  document.getElementById('template-select').classList.add('hidden');
   document.getElementById('mode-select').classList.add('hidden');
 
   const filterRow = document.getElementById('filter-row');
@@ -431,6 +443,7 @@ function showState(state, msg) {
   const filterInput = document.getElementById('filter-input');
   filterInput.value = '';
   document.getElementById('filter-clear-btn').classList.add('hidden');
+  document.getElementById('responsavel-filter').value = '';
   filterCards('');
 
   if (state === 'idle') {
@@ -444,22 +457,18 @@ function showState(state, msg) {
   } else if (state === 'success') {
     document.getElementById('board').classList.remove('hidden');
     document.getElementById('refresh-btn').classList.remove('hidden');
-    document.getElementById('copy-link-btn').classList.remove('hidden');
-    document.getElementById('copy-sheet-btn').classList.remove('hidden');
     document.getElementById('new-task-btn').classList.remove('hidden');
     filterRow.classList.remove('hidden');
     document.getElementById('auto-refresh-controls').classList.remove('hidden');
     document.getElementById('board-summary').classList.remove('hidden');
     document.getElementById('sprint-progress').classList.remove('hidden');
+    document.getElementById('share-menu-btn').classList.remove('hidden');
     document.getElementById('export-menu-btn').classList.remove('hidden');
     document.getElementById('sort-select').classList.remove('hidden');
-    document.getElementById('export-btn').classList.remove('hidden');
     document.getElementById('compact-btn').classList.remove('hidden');
     document.getElementById('focus-btn').classList.remove('hidden');
     document.getElementById('reset-btn').classList.remove('hidden');
     document.getElementById('extra-lists').classList.remove('hidden');
-    document.getElementById('template-btn').classList.remove('hidden');
-    document.getElementById('template-select').classList.remove('hidden');
     document.getElementById('mode-select').classList.remove('hidden');
   }
 }
@@ -586,6 +595,17 @@ function populateTemplateSelect() {
     const opt = document.createElement('option');
     opt.value = type;
     opt.textContent = label;
+    select.appendChild(opt);
+  });
+}
+
+function populateResponsavelFilter(names) {
+  const select = document.getElementById('responsavel-filter');
+  select.querySelectorAll('option:not([value=""])').forEach(opt => opt.remove());
+  names.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
     select.appendChild(opt);
   });
 }

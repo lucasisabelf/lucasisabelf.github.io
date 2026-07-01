@@ -227,8 +227,27 @@ main {
 }
 
 .filter-row {
-  position: relative;
+  display: flex;
+  gap: .5rem;
   margin-top: .8rem;
+}
+
+.filter-search {
+  position: relative;
+  flex: 1;
+}
+
+.filter-input,
+.filter-select {
+  border: 1.5px solid var(--border-input);
+  border-radius: 8px;
+  font-size: .9rem;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.filter-select {
+  padding: .5rem .7rem;
 }
 
 .filter-count {
@@ -242,12 +261,7 @@ main {
 .filter-input {
   width: 100%;
   padding: .5rem 2.2rem .5rem .9rem;
-  border: 1.5px solid var(--border-input);
-  border-radius: 8px;
-  font-size: .9rem;
   outline: none;
-  background: var(--surface);
-  color: var(--text);
   transition: border-color .15s;
 }
 
@@ -829,6 +843,14 @@ main {
   transition: background .15s;
 }
 .back-to-top-btn:hover { background: var(--blue-hover); }
+
+.help-template-row {
+  margin-top: .75rem;
+  text-align: center;
+  display: flex;
+  gap: .6rem;
+  justify-content: center;
+}
 
 .help-reset-row {
   margin-top: .75rem;

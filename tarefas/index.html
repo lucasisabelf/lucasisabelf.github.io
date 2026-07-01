@@ -14,7 +14,7 @@
         <div class="header-top-actions">
           <button id="reset-btn" class="reset-btn hidden">&#8592; Trocar planilha</button>
           <button id="help-btn" class="theme-toggle" title="Atalhos de teclado">?</button>
-          <button id="theme-toggle" class="theme-toggle" title="Alternar tema">&#9728;</button>
+          <button id="theme-toggle" class="theme-toggle" title="Alternar tema (T)">&#9728;</button>
         </div>
       </div>
       <p class="hint">
@@ -29,8 +29,13 @@
         <button id="load-btn">Carregar</button>
       </div>
       <div id="filter-row" class="filter-row hidden">
-        <input id="filter-input" class="filter-input" placeholder="Filtrar tarefas..." autocomplete="off" />
-        <button id="filter-clear-btn" class="filter-clear-btn hidden">&#10005;</button>
+        <div class="filter-search">
+          <input id="filter-input" class="filter-input" placeholder="Filtrar tarefas..." autocomplete="off" />
+          <button id="filter-clear-btn" class="filter-clear-btn hidden">&#10005;</button>
+        </div>
+        <select id="responsavel-filter" class="filter-select">
+          <option value="">Todos os responsáveis</option>
+        </select>
       </div>
       <span id="filter-count" class="filter-count hidden"></span>
       <div class="header-actions">
@@ -38,9 +43,14 @@
           <option value="tarefas">Tarefas</option>
         </select>
         <a id="edit-link" class="edit-link hidden" target="_blank" rel="noopener noreferrer">Ir para planilha</a>
-        <button id="copy-link-btn" class="header-action-btn hidden">Copiar link do board</button>
-        <button id="copy-sheet-btn" class="header-action-btn hidden">Copiar URL</button>
-        <button id="export-btn" class="header-action-btn hidden">Exportar</button>
+        <div class="export-menu">
+          <button id="share-menu-btn" class="header-action-btn hidden">Compartilhar &#9662;</button>
+          <div id="share-menu-panel" class="export-menu-panel hidden">
+            <button id="copy-link-btn" class="header-action-btn">Copiar link do board</button>
+            <button id="copy-sheet-btn" class="header-action-btn">Copiar URL</button>
+            <button id="export-btn" class="header-action-btn" title="Exportar (E)">Exportar</button>
+          </div>
+        </div>
         <div class="export-menu">
           <button id="export-menu-btn" class="header-action-btn hidden">Baixar &#9662;</button>
           <div id="export-menu-panel" class="export-menu-panel hidden">
@@ -49,18 +59,16 @@
             <button id="csv-btn" class="header-action-btn">CSV</button>
           </div>
         </div>
-        <select id="template-select" class="header-action-btn hidden"></select>
-        <button id="template-btn" class="header-action-btn hidden">Baixar modelo .csv</button>
-        <select id="sort-select" class="header-action-btn hidden">
+        <select id="sort-select" class="header-action-btn hidden" title="Ciclar ordenação (S)">
           <option value="original">Ordem original</option>
           <option value="prioridade">Ordenar por prioridade</option>
           <option value="data">Ordenar por data</option>
           <option value="titulo">Ordenar A-Z</option>
         </select>
-        <button id="compact-btn" class="header-action-btn hidden">Compacto</button>
+        <button id="compact-btn" class="header-action-btn hidden" title="Compacto (D)">Compacto</button>
         <button id="focus-btn" class="header-action-btn hidden">Foco</button>
-        <button id="refresh-btn" class="header-action-btn hidden">&#8635; Atualizar</button>
-        <button id="new-task-btn" class="new-task-btn hidden">+ Nova Tarefa</button>
+        <button id="refresh-btn" class="header-action-btn hidden" title="Atualizar (R)">&#8635; Atualizar</button>
+        <button id="new-task-btn" class="new-task-btn hidden" title="Nova tarefa (N)">+ Nova Tarefa</button>
       </div>
       <div id="auto-refresh-controls" class="auto-refresh-controls hidden">
         <label>
@@ -173,6 +181,10 @@
             <tr><td>Ctrl+Shift+Header</td><td>Copiar coluna como CSV</td></tr>
           </tbody>
         </table>
+        <p class="help-template-row">
+          <select id="template-select" class="header-action-btn"></select>
+          <button id="template-btn" class="header-action-btn">Baixar modelo .csv</button>
+        </p>
         <p class="help-reset-row">
           <button id="reset-settings-btn" class="help-reset-btn">Limpar configurações</button>
         </p>

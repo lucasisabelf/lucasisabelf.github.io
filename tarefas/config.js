@@ -1,7 +1,7 @@
-const APP_VERSION = '1.22';
+const APP_VERSION = '1.23';
 
 const FETCH_TIMEOUT_MS = 10000;
-const BOARD_RANGE = 'A3:E';
+const BOARD_RANGE = 'A3:F';
 
 const SHEET_NAMES = ['To Do', 'In Progress', 'Done'];
 const COLUMN_BODIES = ['body-todo', 'body-progress', 'body-done'];
@@ -18,7 +18,7 @@ const LISTS_HEADER = 'lista';
 const EXTRA_LIST_RANGE = 'A1:E';
 const EXTRA_LIST_HEADER = 'nome';
 
-const TEMPLATE_HEADERS = ['Título', 'Descrição', 'Data', 'Prioridade', 'Responsável'];
+const TEMPLATE_HEADERS = ['Título', 'Descrição', 'Data', 'Prioridade', 'Responsável', 'Link'];
 const EXTRA_LIST_TEMPLATE_HEADERS = ['Nome', 'Tópico', 'Prioridade', 'Status', 'Motivo'];
 
 const TEMPLATE_CONFIG = {

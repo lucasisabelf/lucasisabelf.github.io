@@ -76,6 +76,8 @@ async function handleSubmit() {
     renderSummary(results.map(r => r.length), countOverdue(), countWarning());
     renderExtraLists(extraLists);
     populateModeSelect(listNames);
+    const responsaveis = [...new Set(results.flat().map(r => r[4] && r[4].trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    populateResponsavelFilter(responsaveis);
 
     showState('success');
     const storedMode = localStorage.getItem('mode') || 'tarefas';
@@ -141,11 +143,11 @@ function csvEscape(str) {
 }
 
 function buildBoardCsv() {
-  const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável'];
+  const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link'];
   document.querySelectorAll('.column').forEach(col => {
     const colName = col.querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
     col.querySelectorAll('.card').forEach(card => {
-      rows.push([colName, card.dataset.title, card.dataset.desc, card.dataset.date, card.dataset.priority, card.dataset.responsavel].map(csvEscape).join(','));
+      rows.push([colName, card.dataset.title, card.dataset.desc, card.dataset.date, card.dataset.priority, card.dataset.responsavel, card.dataset.link].map(csvEscape).join(','));
     });
   });
   return rows.join('\n');
@@ -184,7 +186,8 @@ function buildBoardJson() {
       desc: card.dataset.desc || '',
       date: card.dataset.date || '',
       priority: card.dataset.priority || '',
-      responsavel: card.dataset.responsavel || ''
+      responsavel: card.dataset.responsavel || '',
+      link: card.dataset.link || ''
     }));
   });
   return board;
@@ -326,7 +329,7 @@ document.getElementById('board').addEventListener('click', e => {
     const priorityText = priorityBadge.textContent;
     const newQuery = filterInput.value === priorityText ? '' : priorityText;
     filterInput.value = newQuery;
-    const visible = filterCards(newQuery);
+    const visible = filterCards(newQuery, document.getElementById('responsavel-filter').value);
     document.getElementById('filter-clear-btn').classList.toggle('hidden', newQuery === '');
     const total = document.querySelectorAll('.card').length;
     filterCount.textContent = `${visible} de ${total}`;
@@ -379,11 +382,18 @@ document.getElementById('export-menu-btn').addEventListener('click', () => {
 document.getElementById('export-menu-panel').addEventListener('click', e => {
   if (e.target.tagName === 'BUTTON') document.getElementById('export-menu-panel').classList.add('hidden');
 });
+document.getElementById('share-menu-btn').addEventListener('click', () => {
+  document.getElementById('share-menu-panel').classList.toggle('hidden');
+});
+document.getElementById('share-menu-panel').addEventListener('click', e => {
+  if (e.target.tagName === 'BUTTON') document.getElementById('share-menu-panel').classList.add('hidden');
+});
 document.addEventListener('click', e => {
-  const panel = document.getElementById('export-menu-panel');
-  if (!panel.classList.contains('hidden') && !e.target.closest('.export-menu')) {
-    panel.classList.add('hidden');
-  }
+  document.querySelectorAll('.export-menu-panel').forEach(panel => {
+    if (!panel.classList.contains('hidden') && !e.target.closest('.export-menu')) {
+      panel.classList.add('hidden');
+    }
+  });
 });
 document.getElementById('mode-select').addEventListener('change', e => {
   setMode(e.target.value);
@@ -395,7 +405,7 @@ document.querySelectorAll('.column-header').forEach(h => {
       const body = h.closest('.column').querySelector('.column-body');
       const colName = h.textContent.replace(/ \(\d+\)$/, '');
       const cards = Array.from(body.querySelectorAll('.card'));
-      const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável', ...cards.map(c => [colName, c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority, c.dataset.responsavel].map(csvEscape).join(','))];
+      const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link', ...cards.map(c => [colName, c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority, c.dataset.responsavel, c.dataset.link].map(csvEscape).join(','))];
       navigator.clipboard.writeText(rows.join('\n')).then(() => flashButton(h, '✓ CSV!'));
       return;
     }
@@ -412,7 +422,7 @@ document.querySelectorAll('.column-header').forEach(h => {
   });
 });
 document.getElementById('filter-input').addEventListener('input', e => {
-  const visible = filterCards(e.target.value);
+  const visible = filterCards(e.target.value, document.getElementById('responsavel-filter').value);
   document.getElementById('filter-clear-btn').classList.toggle('hidden', e.target.value === '');
   const filterCount = document.getElementById('filter-count');
   filterCount.textContent = `${visible} de ${document.querySelectorAll('.card').length}`;
@@ -422,11 +432,19 @@ document.getElementById('filter-input').addEventListener('input', e => {
 document.getElementById('filter-clear-btn').addEventListener('click', () => {
   const filterInput = document.getElementById('filter-input');
   filterInput.value = '';
-  filterCards('');
+  filterCards('', document.getElementById('responsavel-filter').value);
   document.getElementById('filter-clear-btn').classList.add('hidden');
   document.getElementById('filter-count').classList.add('hidden');
   history.replaceState(null, '', updateUrlParam('filter', null));
   filterInput.focus();
+});
+document.getElementById('responsavel-filter').addEventListener('change', e => {
+  const filterInput = document.getElementById('filter-input');
+  const visible = filterCards(filterInput.value, e.target.value);
+  const filterCount = document.getElementById('filter-count');
+  const showCount = filterInput.value !== '' || e.target.value !== '';
+  filterCount.textContent = `${visible} de ${document.querySelectorAll('.card').length}`;
+  filterCount.classList.toggle('hidden', !showCount);
 });
 document.getElementById('card-detail-close').addEventListener('click', closeCardDetail);
 document.getElementById('card-detail-overlay').addEventListener('click', e => {
@@ -470,7 +488,7 @@ document.addEventListener('keydown', e => {
     const filterInput = document.getElementById('filter-input');
     if (document.activeElement === filterInput && filterInput.value) {
       filterInput.value = '';
-      filterCards('');
+      filterCards('', document.getElementById('responsavel-filter').value);
       document.getElementById('filter-clear-btn').classList.add('hidden');
       document.getElementById('filter-count').classList.add('hidden');
       history.replaceState(null, '', updateUrlParam('filter', null));
@@ -488,7 +506,7 @@ document.addEventListener('keydown', e => {
     const fi = document.getElementById('filter-input');
     if (fi.value) {
       fi.value = '';
-      filterCards('');
+      filterCards('', document.getElementById('responsavel-filter').value);
       document.getElementById('filter-clear-btn').classList.add('hidden');
       document.getElementById('filter-count').classList.add('hidden');
       history.replaceState(null, '', updateUrlParam('filter', null));
