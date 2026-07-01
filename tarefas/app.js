@@ -35,7 +35,19 @@ async function handleSubmit() {
       return filterRows(parseCsv(text));
     });
 
-    const results = await Promise.all(fetches);
+    const studyFetch = async () => {
+      try {
+        const url = buildSheetUrl(id, STUDY_SHEET_NAME, STUDY_RANGE);
+        const res = await fetch(url);
+        if (!res.ok) return [];
+        if ((res.headers.get('content-type') || '').includes('text/html')) return [];
+        return filterRows(parseCsv(await res.text()));
+      } catch { return []; }
+    };
+
+    const allResults = await Promise.all([...fetches, studyFetch()]);
+    const results = allResults.slice(0, SHEET_NAMES.length);
+    const studyRows = allResults[SHEET_NAMES.length];
 
     const orderedResults = results.map(rows => {
       if (sortEnabled) return sortByPriority(rows);
@@ -45,6 +57,7 @@ async function handleSubmit() {
     });
     orderedResults.forEach((rows, i) => renderColumn(COLUMN_BODIES[i], rows));
     renderSummary(results.map(r => r.length), countOverdue(), countWarning());
+    renderStudyList(studyRows);
 
     showState('success');
 
@@ -123,6 +136,19 @@ function downloadBoardCsv() {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'sprint-board.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function buildTemplateCsv() {
+  return TEMPLATE_HEADERS.map(csvEscape).join(',');
+}
+
+function downloadTemplateCsv() {
+  const blob = new Blob(['﻿' + buildTemplateCsv()], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sprint-board-modelo.csv';
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -338,6 +364,7 @@ document.getElementById('export-btn').addEventListener('click', exportBoardText)
 document.getElementById('download-btn').addEventListener('click', downloadBoardText);
 document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
 document.getElementById('csv-btn').addEventListener('click', downloadBoardCsv);
+document.getElementById('template-btn').addEventListener('click', downloadTemplateCsv);
 document.getElementById('sort-btn').addEventListener('click', () => {
   sortEnabled = !sortEnabled;
   const sortBtn = document.getElementById('sort-btn');

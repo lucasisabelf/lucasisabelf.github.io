@@ -4,6 +4,13 @@ const DAYS_UNTIL_WARNING = 3;
 const TASK_DESC_MAX = 300;
 const MS_PER_DAY = 86400000;
 
+const OVERDUE_STAGES = [
+  { minDays: 14, stage: 4 },
+  { minDays: 7,  stage: 3 },
+  { minDays: 3,  stage: 2 },
+  { minDays: 1,  stage: 1 },
+];
+
 function flashButton(btn, tempText) {
   const original = btn.textContent;
   btn.textContent = tempText;
@@ -16,6 +23,13 @@ function parsePtBrDate(str) {
   if (parts.length !== 3) return null;
   const d = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
   return isNaN(d.getTime()) ? null : d;
+}
+
+function overdueStage(daysLate) {
+  for (const { minDays, stage } of OVERDUE_STAGES) {
+    if (daysLate >= minDays) return stage;
+  }
+  return 0;
 }
 
 function renderCard(row) {
@@ -66,6 +80,7 @@ function renderCard(row) {
       if (delta > 0) dt.textContent = `${date} · em ${delta} dia${delta !== 1 ? 's' : ''}`;
       else if (delta < 0) dt.textContent = `${date} · há ${Math.abs(delta)} dia${Math.abs(delta) !== 1 ? 's' : ''}`;
       dt.title = parsed.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      if (delta < 0) card.dataset.overdueStage = overdueStage(Math.abs(delta));
     }
     card.appendChild(dt);
   }
@@ -117,6 +132,72 @@ function renderColumn(bodyId, rows) {
 
   rows.forEach(row => body.appendChild(renderCard(row)));
   body.scrollTop = 0;
+}
+
+function renderStudyCard(row) {
+  const nome = row[0].trim();
+  const topico = row[1] ? row[1].trim() : '';
+  const prioridade = row[2] ? row[2].trim() : '';
+  const status = row[3] ? row[3].trim() : '';
+  const motivo = row[4] ? row[4].trim() : '';
+
+  const card = document.createElement('div');
+  card.className = 'study-card';
+
+  const title = document.createElement('div');
+  title.className = 'study-card-name';
+  title.textContent = nome;
+  card.appendChild(title);
+
+  if (topico) {
+    const t = document.createElement('div');
+    t.className = 'study-card-topico';
+    t.textContent = topico;
+    card.appendChild(t);
+  }
+
+  const meta = document.createElement('div');
+  meta.className = 'study-card-meta';
+
+  if (prioridade && PRIORITY_CLASS[prioridade]) {
+    const badge = document.createElement('span');
+    badge.className = `card-priority ${PRIORITY_CLASS[prioridade]}`;
+    badge.textContent = prioridade;
+    meta.appendChild(badge);
+  }
+
+  if (status) {
+    const s = document.createElement('span');
+    s.className = 'study-card-status';
+    s.textContent = status;
+    meta.appendChild(s);
+  }
+
+  if (meta.children.length) card.appendChild(meta);
+
+  if (motivo) {
+    const m = document.createElement('div');
+    m.className = 'study-card-motivo';
+    m.textContent = motivo;
+    card.appendChild(m);
+  }
+
+  return card;
+}
+
+function renderStudyList(rows) {
+  const body = document.getElementById('body-estudos');
+  body.innerHTML = '';
+
+  if (rows.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-column';
+    empty.textContent = 'Nenhum item de estudo';
+    body.appendChild(empty);
+    return;
+  }
+
+  rows.forEach(row => body.appendChild(renderStudyCard(row)));
 }
 
 function renderSummary(counts, overdue, warning) {
@@ -299,6 +380,8 @@ function showState(state, msg) {
   document.getElementById('compact-btn').classList.add('hidden');
   document.getElementById('focus-btn').classList.add('hidden');
   document.getElementById('reset-btn').classList.add('hidden');
+  document.getElementById('study-panel').classList.add('hidden');
+  document.getElementById('template-btn').classList.add('hidden');
 
   const filterRow = document.getElementById('filter-row');
   filterRow.classList.add('hidden');
@@ -335,6 +418,8 @@ function showState(state, msg) {
     document.getElementById('compact-btn').classList.remove('hidden');
     document.getElementById('focus-btn').classList.remove('hidden');
     document.getElementById('reset-btn').classList.remove('hidden');
+    document.getElementById('study-panel').classList.remove('hidden');
+    document.getElementById('template-btn').classList.remove('hidden');
   }
 }
 

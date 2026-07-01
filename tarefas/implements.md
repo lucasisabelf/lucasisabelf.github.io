@@ -1,8 +1,18 @@
-# Implements — Sprint Board (ciclo 17)
+# Implements — Sprint Board (ciclo 18)
 
-## 1. Ordenação por título A-Z
+## 1. Aba "Lista de Estudos"
 
-**Tarefa:** Adicionado `sortByTitle(rows)` em `ui.js` usando `localeCompare('pt-BR')`. Em `app.js`: novo flag `titleSortEnabled`, adicionado `'titleSortEnabled'` em `STORAGE_KEYS`, aplicado em `handleSubmit` no bloco de sort, listener `#title-sort-btn` desativa os outros sorts ao ser ativado (mutuamente exclusivo, mesmo padrão dos demais), restauração no bloco de init. Em `index.html`: `#title-sort-btn` nas `.header-actions`. Em `showState` (ui.js): botão incluído no bloco de hide/show igual aos outros sorts.
+**Tarefa:** Adicionadas constantes `STUDY_SHEET_NAME = 'Lista de Estudos'` e `STUDY_RANGE = 'A2:E'` em `config.js`. `buildSheetUrl` em `sheets.js` recebeu parâmetro `range = 'A3:D'` (default preserva o comportamento do board). Em `ui.js`: constante `STUDY_COLUMNS` no topo, funções `renderStudyCard(row)` e `renderStudyList(rows)` para o schema de 5 colunas, `showState` atualizado para hide/show `#study-panel`. Em `app.js`: `handleSubmit` expandido com `studyFetch()` incluído no mesmo `Promise.all` via `allResults = await Promise.all([...fetches, studyFetch()])`, resultados separados por slice antes do render do board. `renderStudyList(studyRows)` chamado antes de `showState('success')`. Em `index.html`: `#study-panel` com `#body-estudos` adicionado após `#sprint-progress`.
+
+**Edge case:** `studyFetch` tem try/catch próprio e retorna `[]` em qualquer erro (aba inexistente, HTML, falha de rede) sem propagar exceção ao `Promise.all` externo. O board nunca quebra por ausência da Lista de Estudos. `filterRows` já descarta linhas sem `nome` (filtra por `row[0]`), sem código extra.
+
+**Solução:** N/A
+
+---
+
+## 2. Baixar planilha-modelo com cabeçalhos
+
+**Tarefa:** Adicionada constante `TEMPLATE_HEADERS = ['Título', 'Descrição', 'Data', 'Prioridade']` em `config.js`. Em `app.js`: `buildTemplateCsv()` retorna a string CSV com BOM reaproveitando `csvEscape`; `downloadTemplateCsv()` segue o padrão de `downloadBoardCsv` (Blob + BOM `﻿` + `URL.createObjectURL` + `revokeObjectURL`, filename `sprint-board-modelo.csv`). Listener `#template-btn` registrado na seção de inicialização de `app.js`. Botão `#template-btn` adicionado em `index.html` ao lado de `#csv-btn`. `showState` atualizado para hide/show `#template-btn`.
 
 **Edge case:** Nenhum
 
@@ -10,52 +20,12 @@
 
 ---
 
-## 2. Atalho S para ordenar por prioridade
+## 3. Animação "forca" de atraso (gamificação estilo Duolingo)
 
-**Tarefa:** No handler `keydown` de `document` em `app.js`, adicionado `if (e.key === 's' || e.key === 'S') document.getElementById('sort-btn').click()`. Em `index.html`, adicionada linha `S → Ordenar por prioridade (toggle)` na tabela de atalhos.
+**Tarefa:** Adicionadas constante `OVERDUE_STAGES` (array decrescente por `minDays`) e função pura `overdueStage(daysLate)` no topo de `ui.js`. Em `renderCard`, dentro do bloco `if (parsed)` onde `delta` já é calculado, adicionado `if (delta < 0) card.dataset.overdueStage = overdueStage(Math.abs(delta))` — reutiliza `parsePtBrDate` e o `delta` já existentes, sem nenhuma instanciação extra de `Date`. Em `style.css`: variável `--forca-stroke` adicionada em `:root` (`#c53030`) e `[data-theme="dark"]` (`#fc8181`); `.card` recebeu `position: relative`; 4 estágios progressivos via `::before` com `box-shadow` pixel-art (stage 1: quadro; stage 2: + corda; stage 3: + cabeça; stage 4: + corpo/braços + animação `forca-pulse`). Regra `#col-done .card::before { display: none }` zera a forca em tarefas concluídas. `prefers-reduced-motion` desativa a animação do stage 4.
 
-**Edge case:** Nenhum
+**Edge case:** Tarefas na coluna Done suprimidas via CSS (`#col-done .card::before { display: none }`) — o JS ainda seta o atributo para evitar condicional em `renderCard` acoplado ao nome da coluna, mas o CSS garante que o desenho não apareça. Tarefas sem data nunca entram no bloco `if (date)`, logo nunca recebem `data-overdue-stage`.
 
-**Solução:** N/A
-
----
-
-## 3. Indicador visual de auto-refresh ativo
-
-**Tarefa:** Em `handleSubmit` (app.js), lida `autoActive = checkbox.checked` e usado `.classList.toggle('header-action-btn--active', autoActive)` no `#refresh-btn` antes de configurar o `setInterval`. O botão fica destacado quando o auto-refresh está ativo.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 4. Esc limpa filtro de qualquer lugar no body
-
-**Tarefa:** No handler `keydown` de `document` em `app.js`, antes do bloco `!boardVisible || inInput`, adicionado: se `boardVisible && !inInput && e.key === 'Escape'` e `filter-input` tem valor → limpa filtro, remove classes hidden, reset URL param. Complementa o Esc-dentro-do-input que já existia.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## 5. Ctrl+Shift+Header exporta coluna como CSV
-
-**Tarefa:** No listener do `.column-header` em `app.js`, adicionada verificação `e.shiftKey && e.ctrlKey` ANTES da verificação `e.shiftKey` simples (precedência correta). Ao detectar Ctrl+Shift, constrói CSV com cabeçalho e usa `csvEscape` já existente. Em `index.html`, adicionada linha `Ctrl+Shift+Header → Copiar coluna como CSV`.
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
-
----
-
-## Falha #001 — segunda tentativa (abordagem combinada)
-
-**Tarefa:** Adicionado `buildCalendarUrl(title, desc, dateStr)` em `ui.js` (junto de `buildIcsContent`/`parsePtBrDate`) usando o endpoint `action=TEMPLATE` do Google Calendar. No handler `.card-calendar-btn`, adicionado `window.open(buildCalendarUrl(...))` após `downloadIcs(...)`. Botão agora aciona as duas ações simultaneamente: download `.ics` (para apps de calendário nativos) + abertura Google Calendar web (fallback para Android/web).
-
-**Edge case:** Nenhum
-
-**Solução:** N/A
+**Solução:** A supressão do stage na coluna Done é feita via CSS em vez de condicional JS em `renderCard`, preservando SRP: `renderCard` não precisa saber em qual coluna o card está sendo inserido.
 
 ---

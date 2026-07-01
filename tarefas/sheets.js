@@ -3,8 +3,8 @@ function extractSheetId(url) {
   return match ? match[1] : null;
 }
 
-function buildSheetUrl(id, sheetName) {
-  return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=0&range=A3:D&sheet=${encodeURIComponent(sheetName)}`;
+function buildSheetUrl(id, sheetName, range = 'A3:D') {
+  return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=0&range=${range}&sheet=${encodeURIComponent(sheetName)}`;
 }
 
 function parseCsv(text) {
