@@ -128,9 +128,17 @@
         </div>
         <button id="refresh-btn" class="header-action-btn hidden" title="Atualizar (R)">&#8635; Atualizar</button>
         <button id="activity-btn" class="header-action-btn hidden">Atividade</button>
+        <button id="select-mode-btn" class="header-action-btn hidden">Selecionar</button>
         <button id="new-task-btn" class="new-task-btn hidden" title="Nova tarefa (N)">+ Nova Tarefa</button>
       </div>
     </header>
+
+    <div id="bulk-actions-bar" class="hidden">
+      <span id="selected-count">0 selecionados</span>
+      <button id="copy-selected-btn" class="header-action-btn">Copiar selecionados</button>
+      <button id="csv-selected-btn" class="header-action-btn">Baixar CSV selecionados</button>
+      <button id="cancel-select-btn" class="header-action-btn">Cancelar</button>
+    </div>
 
     <div id="state-idle" class="state-panel">Insira o link da planilha acima para começar.</div>
     <div id="state-loading" class="state-panel hidden">
@@ -170,7 +178,7 @@
         <h2 class="modal-title">Nova Tarefa</h2>
         <div class="modal-field">
           <label for="task-name">Nome</label>
-          <input id="task-name" type="text" placeholder="Nome da tarefa" autocomplete="off" />
+          <input id="task-name" type="text" placeholder="Nome da tarefa" autocomplete="off" maxlength="80" />
           <small id="task-name-count" class="char-count">0 / 80</small>
         </div>
         <div class="modal-field">
@@ -232,6 +240,7 @@
             <tr><td>E</td><td>Exportar board (copiar como texto)</td></tr>
             <tr><td>S</td><td>Ciclar ordenação (original → prioridade → data → A-Z)</td></tr>
             <tr><td>C</td><td>Colapsar/expandir todas as colunas</td></tr>
+            <tr><td>V</td><td>Alternar modo de seleção</td></tr>
             <tr><td>Shift+Header</td><td>Copiar coluna como texto</td></tr>
             <tr><td>Ctrl+Shift+Header</td><td>Copiar coluna como CSV</td></tr>
           </tbody>

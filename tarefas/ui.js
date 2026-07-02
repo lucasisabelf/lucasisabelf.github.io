@@ -72,6 +72,11 @@ function renderCard(row, daysInColumn, isNew) {
   card.dataset.tags = tagsRaw;
   if (daysInColumn !== undefined) card.dataset.daysInColumn = daysInColumn;
 
+  const selectCheckbox = document.createElement('input');
+  selectCheckbox.type = 'checkbox';
+  selectCheckbox.className = 'card-select-checkbox';
+  card.appendChild(selectCheckbox);
+
   if (isNew) {
     const newBadge = document.createElement('span');
     newBadge.className = 'card-new-badge';
@@ -175,30 +180,10 @@ function renderCard(row, daysInColumn, isNew) {
   const actions = document.createElement('div');
   actions.className = 'card-actions';
 
-  const askBtn = document.createElement('button');
-  askBtn.className = 'card-action-btn card-ask-claude-btn';
-  askBtn.textContent = 'Sugerir ao Claude';
-  actions.appendChild(askBtn);
-
-  const calBtn = document.createElement('button');
-  calBtn.className = 'card-action-btn card-calendar-btn';
-  calBtn.textContent = '+ Agenda';
-  actions.appendChild(calBtn);
-
   const copyBtn = document.createElement('button');
   copyBtn.className = 'card-action-btn card-copy-btn';
   copyBtn.textContent = 'Copiar';
   actions.appendChild(copyBtn);
-
-  const whatsappBtn = document.createElement('button');
-  whatsappBtn.className = 'card-action-btn card-whatsapp-btn';
-  whatsappBtn.textContent = 'WhatsApp';
-  actions.appendChild(whatsappBtn);
-
-  const dupBtn = document.createElement('button');
-  dupBtn.className = 'card-action-btn card-duplicate-btn';
-  dupBtn.textContent = 'Duplicar';
-  actions.appendChild(dupBtn);
 
   if (link) {
     const linkEl = document.createElement('a');
@@ -210,6 +195,35 @@ function renderCard(row, daysInColumn, isNew) {
     actions.appendChild(linkEl);
   }
 
+  const moreBtn = document.createElement('button');
+  moreBtn.className = 'card-action-btn card-more-btn';
+  moreBtn.textContent = 'Mais ▾';
+  actions.appendChild(moreBtn);
+
+  const morePanel = document.createElement('div');
+  morePanel.className = 'card-more-panel export-menu-panel hidden';
+
+  const askBtn = document.createElement('button');
+  askBtn.className = 'card-action-btn card-ask-claude-btn';
+  askBtn.textContent = 'Sugerir ao Claude';
+  morePanel.appendChild(askBtn);
+
+  const calBtn = document.createElement('button');
+  calBtn.className = 'card-action-btn card-calendar-btn';
+  calBtn.textContent = '+ Agenda';
+  morePanel.appendChild(calBtn);
+
+  const whatsappBtn = document.createElement('button');
+  whatsappBtn.className = 'card-action-btn card-whatsapp-btn';
+  whatsappBtn.textContent = 'WhatsApp';
+  morePanel.appendChild(whatsappBtn);
+
+  const dupBtn = document.createElement('button');
+  dupBtn.className = 'card-action-btn card-duplicate-btn';
+  dupBtn.textContent = 'Duplicar';
+  morePanel.appendChild(dupBtn);
+
+  actions.appendChild(morePanel);
   card.appendChild(actions);
 
   return card;
@@ -342,6 +356,10 @@ function renderActivityFeed(log) {
 
 function updateActivityBadge(unseenCount) {
   document.getElementById('activity-btn').textContent = `Atividade${unseenCount > 0 ? ` (${unseenCount})` : ''}`;
+}
+
+function updateSelectedCount(count) {
+  document.getElementById('selected-count').textContent = `${count} selecionado${count !== 1 ? 's' : ''}`;
 }
 
 function renderSummary(counts, overdue, warning) {
@@ -584,6 +602,10 @@ function showState(state, msg) {
   document.getElementById('extra-lists').classList.add('hidden');
   document.getElementById('activity-btn').classList.add('hidden');
   document.getElementById('activity-panel').classList.add('hidden');
+  document.getElementById('select-mode-btn').classList.add('hidden');
+  document.getElementById('select-mode-btn').classList.remove('header-action-btn--active');
+  document.getElementById('bulk-actions-bar').classList.add('hidden');
+  document.getElementById('board').classList.remove('board--selecting');
   document.getElementById('mode-select').classList.add('hidden');
 
   const filterRow = document.getElementById('filter-row');
@@ -616,6 +638,7 @@ function showState(state, msg) {
     document.getElementById('reset-btn').classList.remove('hidden');
     document.getElementById('extra-lists').classList.remove('hidden');
     document.getElementById('activity-btn').classList.remove('hidden');
+    document.getElementById('select-mode-btn').classList.remove('hidden');
     document.getElementById('mode-select').classList.remove('hidden');
   }
 }

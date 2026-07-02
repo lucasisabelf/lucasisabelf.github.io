@@ -4,6 +4,8 @@ let sortMode = 'original';
 let compactMode = false;
 let focusMode = false;
 let columnTimeVisible = true;
+let selectMode = false;
+let selectedTitles = new Set();
 
 const FILTER_DEBOUNCE_MS = 200;
 const ACTIVITY_LOG_LIMIT = 20;
@@ -81,6 +83,8 @@ function logActivity(transitions) {
 
 async function handleSubmit() {
   clearInterval(refreshTimer);
+  selectMode = false;
+  selectedTitles.clear();
 
   const input = document.getElementById('sheet-url').value.trim();
   const id = extractSheetId(input);
@@ -212,12 +216,16 @@ function csvEscape(str) {
   return /[,"\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
+function buildCardRowCsv(card, colName) {
+  return [colName, card.dataset.title, card.dataset.desc, card.dataset.date, card.dataset.priority, card.dataset.responsavel, card.dataset.link, card.dataset.tags].map(csvEscape).join(',');
+}
+
 function buildBoardCsv() {
   const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link,Tags'];
   document.querySelectorAll('.column').forEach(col => {
     const colName = col.querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
-    col.querySelectorAll('.card').forEach(card => {
-      rows.push([colName, card.dataset.title, card.dataset.desc, card.dataset.date, card.dataset.priority, card.dataset.responsavel, card.dataset.link, card.dataset.tags].map(csvEscape).join(','));
+    col.querySelectorAll('.card:not(.hidden)').forEach(card => {
+      rows.push(buildCardRowCsv(card, colName));
     });
   });
   return rows.join('\n');
@@ -251,7 +259,7 @@ function buildBoardJson() {
   const board = {};
   document.querySelectorAll('.column').forEach(col => {
     const header = col.querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
-    board[header] = Array.from(col.querySelectorAll('.card')).map(card => ({
+    board[header] = Array.from(col.querySelectorAll('.card:not(.hidden)')).map(card => ({
       title: card.dataset.title || '',
       desc: card.dataset.desc || '',
       date: card.dataset.date || '',
@@ -406,6 +414,11 @@ function updateViewMenuLabel() {
 document.getElementById('board').addEventListener('click', e => {
   const emptyCta = e.target.closest('.empty-column-cta');
   if (emptyCta) { openNewTaskModal(); return; }
+  const moreBtn = e.target.closest('.card-more-btn');
+  if (moreBtn) {
+    moreBtn.closest('.card').querySelector('.card-more-panel').classList.toggle('hidden');
+    return;
+  }
   const cardTitle = e.target.closest('.card-title');
   if (cardTitle) { openCardDetail(cardTitle.closest('.card')); return; }
   const askBtn = e.target.closest('.card-ask-claude-btn');
@@ -479,6 +492,47 @@ document.getElementById('board').addEventListener('keydown', e => {
     openCardDetail(e.target);
   }
 });
+document.getElementById('board').addEventListener('change', e => {
+  const checkbox = e.target.closest('.card-select-checkbox');
+  if (!checkbox) return;
+  const title = checkbox.closest('.card').dataset.title;
+  if (checkbox.checked) selectedTitles.add(title); else selectedTitles.delete(title);
+  updateSelectedCount(selectedTitles.size);
+});
+document.getElementById('select-mode-btn').addEventListener('click', () => {
+  selectMode = !selectMode;
+  document.getElementById('board').classList.toggle('board--selecting', selectMode);
+  document.getElementById('bulk-actions-bar').classList.toggle('hidden', !selectMode);
+  document.getElementById('select-mode-btn').classList.toggle('header-action-btn--active', selectMode);
+  if (!selectMode) {
+    selectedTitles.clear();
+    document.querySelectorAll('.card-select-checkbox').forEach(cb => { cb.checked = false; });
+  }
+  updateSelectedCount(selectedTitles.size);
+});
+document.getElementById('cancel-select-btn').addEventListener('click', () => {
+  document.getElementById('select-mode-btn').click();
+});
+document.getElementById('copy-selected-btn').addEventListener('click', () => {
+  const selectedCards = Array.from(document.querySelectorAll('.card')).filter(c => selectedTitles.has(c.dataset.title));
+  const text = selectedCards.map(c => buildCardSummaryText(c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority)).join('\n');
+  navigator.clipboard.writeText(text).then(() => flashButton(document.getElementById('copy-selected-btn'), '✓ Copiado!'));
+});
+document.getElementById('csv-selected-btn').addEventListener('click', () => {
+  const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link,Tags'];
+  document.querySelectorAll('.column').forEach(col => {
+    const colName = col.querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
+    col.querySelectorAll('.card').forEach(card => {
+      if (selectedTitles.has(card.dataset.title)) rows.push(buildCardRowCsv(card, colName));
+    });
+  });
+  const blob = new Blob(['﻿' + rows.join('\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sprint-board-selecionados.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
 
 document.getElementById('sort-select').addEventListener('change', e => {
   sortMode = e.target.value;
@@ -548,6 +602,11 @@ document.addEventListener('click', e => {
       panel.classList.add('hidden');
     }
   });
+  document.querySelectorAll('.card-more-panel').forEach(panel => {
+    if (!panel.classList.contains('hidden') && !e.target.closest('.card-actions')) {
+      panel.classList.add('hidden');
+    }
+  });
 });
 document.getElementById('mode-select').addEventListener('change', e => {
   setMode(e.target.value);
@@ -558,15 +617,15 @@ document.querySelectorAll('.column-header').forEach(h => {
     if (e.shiftKey && e.ctrlKey) {
       const body = h.closest('.column').querySelector('.column-body');
       const colName = h.textContent.replace(/ \(\d+\)$/, '');
-      const cards = Array.from(body.querySelectorAll('.card'));
-      const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link,Tags', ...cards.map(c => [colName, c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority, c.dataset.responsavel, c.dataset.link, c.dataset.tags].map(csvEscape).join(','))];
+      const cards = Array.from(body.querySelectorAll('.card:not(.hidden)'));
+      const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link,Tags', ...cards.map(c => buildCardRowCsv(c, colName))];
       navigator.clipboard.writeText(rows.join('\n')).then(() => flashButton(h, '✓ CSV!'));
       return;
     }
     if (e.shiftKey) {
       const body = h.closest('.column').querySelector('.column-body');
       const colName = h.textContent.replace(/ \(\d+\)$/, '');
-      const cards = Array.from(body.querySelectorAll('.card'));
+      const cards = Array.from(body.querySelectorAll('.card:not(.hidden)'));
       const lines = [`## ${colName}`, ...cards.map(c => `- ${c.dataset.title}${c.dataset.desc ? ' — ' + c.dataset.desc : ''}`)];
       navigator.clipboard.writeText(lines.join('\n')).then(() => flashButton(h, '✓ Copiado!'));
       return;
@@ -694,6 +753,7 @@ document.addEventListener('keydown', e => {
     cols.forEach(c => c.classList.toggle('column--collapsed', !allCollapsed));
     saveCollapseState();
   }
+  if (e.key === 'v' || e.key === 'V') document.getElementById('select-mode-btn').click();
 });
 
 document.querySelectorAll('.version-text').forEach(el => { el.textContent = APP_VERSION; });

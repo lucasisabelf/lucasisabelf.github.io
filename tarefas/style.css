@@ -350,7 +350,8 @@ main {
   min-width: 120px;
 }
 
-.export-menu-panel .header-action-btn {
+.export-menu-panel .header-action-btn,
+.export-menu-panel .card-action-btn {
   text-align: left;
   padding: .35rem .5rem;
 }
@@ -495,6 +496,29 @@ main {
 
 .card--unassigned {
   border: 1px dashed var(--border-input);
+}
+
+.card-select-checkbox {
+  display: none;
+  position: absolute;
+  top: .6rem;
+  right: .6rem;
+}
+
+.board--selecting .card-select-checkbox {
+  display: block;
+}
+
+#bulk-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: .75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: .85rem;
+  color: var(--text-muted);
 }
 
 .card:hover {
