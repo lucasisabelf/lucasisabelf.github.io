@@ -6,6 +6,7 @@ let focusMode = false;
 let columnTimeVisible = true;
 let selectMode = false;
 let selectedTitles = new Set();
+let isLoading = false;
 
 const FILTER_DEBOUNCE_MS = 200;
 const ACTIVITY_LOG_LIMIT = 20;
@@ -82,6 +83,7 @@ function logActivity(transitions) {
 }
 
 async function handleSubmit() {
+  if (isLoading) return;
   clearInterval(refreshTimer);
   selectMode = false;
   selectedTitles.clear();
@@ -94,6 +96,7 @@ async function handleSubmit() {
     return;
   }
 
+  isLoading = true;
   const editLink = document.getElementById('edit-link');
   showState('loading');
   editLink.classList.add('hidden');
@@ -173,6 +176,8 @@ async function handleSubmit() {
     } else {
       showState('error', err.message || 'Erro ao carregar a planilha. Verifique a URL e a visibilidade da planilha.');
     }
+  } finally {
+    isLoading = false;
   }
 }
 
@@ -513,6 +518,13 @@ document.getElementById('select-mode-btn').addEventListener('click', () => {
 document.getElementById('cancel-select-btn').addEventListener('click', () => {
   document.getElementById('select-mode-btn').click();
 });
+document.getElementById('select-all-btn').addEventListener('click', () => {
+  document.querySelectorAll('.card:not(.hidden) .card-select-checkbox').forEach(checkbox => {
+    checkbox.checked = true;
+    selectedTitles.add(checkbox.closest('.card').dataset.title);
+  });
+  updateSelectedCount(selectedTitles.size);
+});
 document.getElementById('copy-selected-btn').addEventListener('click', () => {
   const selectedCards = Array.from(document.querySelectorAll('.card')).filter(c => selectedTitles.has(c.dataset.title));
   const text = selectedCards.map(c => buildCardSummaryText(c.dataset.title, c.dataset.desc, c.dataset.date, c.dataset.priority)).join('\n');
@@ -786,8 +798,14 @@ if (localStorage.getItem('columnTimeVisible') === 'false') {
 }
 updateViewMenuLabel();
 
-const urlSheet = new URLSearchParams(location.search).get('sheet');
-const urlFilter = new URLSearchParams(location.search).get('filter');
+const urlParams = new URLSearchParams(location.search);
+const urlSheet = urlParams.get('sheet');
+const urlFilter = urlParams.get('filter');
+const urlReadonly = urlParams.get('readonly') === '1';
+if (urlReadonly) {
+  document.documentElement.classList.add('board--readonly');
+  document.getElementById('readonly-badge').classList.remove('hidden');
+}
 const autoLoadUrl = urlSheet || localStorage.getItem('lastSheet');
 if (autoLoadUrl) {
   document.getElementById('sheet-url').value = autoLoadUrl;

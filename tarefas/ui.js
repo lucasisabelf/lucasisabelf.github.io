@@ -218,10 +218,12 @@ function renderCard(row, daysInColumn, isNew) {
   whatsappBtn.textContent = 'WhatsApp';
   morePanel.appendChild(whatsappBtn);
 
-  const dupBtn = document.createElement('button');
-  dupBtn.className = 'card-action-btn card-duplicate-btn';
-  dupBtn.textContent = 'Duplicar';
-  morePanel.appendChild(dupBtn);
+  if (!document.documentElement.classList.contains('board--readonly')) {
+    const dupBtn = document.createElement('button');
+    dupBtn.className = 'card-action-btn card-duplicate-btn';
+    dupBtn.textContent = 'Duplicar';
+    morePanel.appendChild(dupBtn);
+  }
 
   actions.appendChild(morePanel);
   card.appendChild(actions);
@@ -640,6 +642,10 @@ function showState(state, msg) {
     document.getElementById('activity-btn').classList.remove('hidden');
     document.getElementById('select-mode-btn').classList.remove('hidden');
     document.getElementById('mode-select').classList.remove('hidden');
+    if (document.documentElement.classList.contains('board--readonly')) {
+      document.getElementById('new-task-btn').classList.add('hidden');
+      document.getElementById('select-mode-btn').classList.add('hidden');
+    }
   }
 }
 
@@ -667,10 +673,24 @@ function populateModeSelect(lists) {
 }
 
 function openCardDetail(card) {
-  const { title, desc, date, priority } = card.dataset;
+  const { title, desc, date, priority, responsavel, link, tags } = card.dataset;
   document.getElementById('card-detail-title').textContent = title;
   const descEl = document.getElementById('card-detail-desc');
-  descEl.textContent = desc;
+  descEl.innerHTML = '';
+  const checklist = parseChecklist(desc);
+  if (checklist) {
+    const list = document.createElement('ul');
+    list.className = 'card-checklist';
+    checklist.forEach(({ done, text }) => {
+      const item = document.createElement('li');
+      item.className = 'card-checklist-item';
+      item.textContent = `${done ? '☑' : '☐'} ${text}`;
+      list.appendChild(item);
+    });
+    descEl.appendChild(list);
+  } else {
+    descEl.textContent = desc;
+  }
   descEl.classList.toggle('hidden', !desc);
   const colName = card.closest('.column').querySelector('.column-header').textContent.replace(/ \(\d+\)$/, '');
   const colEl = document.getElementById('card-detail-column');
@@ -689,6 +709,31 @@ function openCardDetail(card) {
   const prioEl = document.getElementById('card-detail-priority');
   prioEl.textContent = priority ? `Prioridade: ${priority}` : '';
   prioEl.classList.toggle('hidden', !priority);
+  const responsavelEl = document.getElementById('card-detail-responsavel');
+  responsavelEl.textContent = responsavel ? `Responsável: ${responsavel}` : '';
+  responsavelEl.classList.toggle('hidden', !responsavel);
+  const linkEl = document.getElementById('card-detail-link');
+  linkEl.innerHTML = '';
+  if (link) {
+    linkEl.append('Link: ');
+    const a = document.createElement('a');
+    a.href = link;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = link;
+    linkEl.appendChild(a);
+  }
+  linkEl.classList.toggle('hidden', !link);
+  const tagsEl = document.getElementById('card-detail-tags');
+  tagsEl.innerHTML = '';
+  const tagList = (tags || '').split(',').map(t => t.trim()).filter(Boolean);
+  tagList.forEach(tag => {
+    const chip = document.createElement('span');
+    chip.className = 'card-tag';
+    chip.textContent = tag;
+    tagsEl.appendChild(chip);
+  });
+  tagsEl.classList.toggle('hidden', tagList.length === 0);
   document.getElementById('card-detail-overlay').classList.remove('hidden');
 }
 

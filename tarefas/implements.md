@@ -1,18 +1,18 @@
-# Implements — Ciclo 31
+# Implements — Ciclo 32
 
-## 1. Padronizar exports para respeitar o filtro ativo
+## 1. Prevenir chamadas concorrentes de handleSubmit
 
-**Tarefa:** `buildBoardCsv`, `buildBoardJson` (`app.js`) e os dois handlers de atalho de `.column-header` (Shift/Ctrl+Shift) passaram a usar `.card:not(.hidden)` em vez de `.card`, alinhando com `buildBoardText`/`downloadIcsCalendar`, que já respeitavam o filtro ativo.
+**Tarefa:** Novo `let isLoading = false;` (`app.js`). `handleSubmit` retorna imediatamente se já houver uma requisição em andamento; a flag é setada antes do primeiro `showState('loading')` e resetada em um único `finally` que cobre tanto o caminho de sucesso quanto o `catch`.
 
-**Edge case:** Nenhum — sem filtro ativo, `.card:not(.hidden)` é equivalente a `.card`.
+**Edge case:** `FEATURES.md` descrevia resetar `isLoading = false` "em todos os caminhos de saída (sucesso e o catch)" separadamente.
 
-**Solução:** N/A.
+**Solução:** Usado `try/finally` em vez de repetir `isLoading = false` em cada `return`/fim de bloco — um único ponto de reset que cobre todos os caminhos de saída sem duplicar a atribuição, mais robusto a um futuro `return` antecipado esquecido dentro do `try`.
 
 ---
 
-## 2. Limite real de 80 caracteres no campo Nome
+## 2. Aria-label nos botões somente-ícone
 
-**Tarefa:** `<input id="task-name">` ganhou `maxlength="80"`, igual ao padrão já usado por `#task-desc` (`maxlength="300"`).
+**Tarefa:** `#help-btn`, `#theme-toggle`, `#dyslexic-toggle`, `#filter-clear-btn` e `#back-to-top` (`index.html`) ganharam `aria-label` com o mesmo texto do `title` já existente.
 
 **Edge case:** Nenhum.
 
@@ -20,39 +20,9 @@
 
 ---
 
-## 3. Consolidar ações do card em menu "Mais ▾"
+## 3. Selecionar todos no modo de seleção
 
-**Tarefa:** `renderCard` (`ui.js`) mantém `.card-copy-btn` e o link (quando presente) soltos em `.card-actions`; `.card-ask-claude-btn`, `.card-calendar-btn`, `.card-whatsapp-btn` e `.card-duplicate-btn` passaram para dentro de um novo `.card-more-panel`, revelado por `.card-more-btn`. O painel reaproveita a classe `.export-menu-panel` já existente (mesmo CSS de posicionamento/sombra dos menus do header, sem regra nova) — `.export-menu-panel .header-action-btn` ganhou `.card-action-btn` no mesmo seletor combinado para herdar o padding/alinhamento. O listener de delegação em `#board` (`app.js`) ganhou um ramo para `.card-more-btn`; o listener global de fechar-ao-clicar-fora ganhou um segundo `querySelectorAll('.card-more-panel')` no mesmo corpo já existente.
-
-**Edge case:** Como já previsto em `FEATURES.md`, `setupDropdownMenu` (IDs fixos) não se aplica a N painéis por card sem ID único — a implementação usa delegação de evento, não o helper existente, o que não conta como uma nova "3ª ocorrência não extraída" (é uma variante estrutural diferente, não uma cópia do mesmo padrão).
-
-**Solução:** N/A — resolvido exatamente como descrito.
-
----
-
-## 4. Seleção múltipla de cards com ações em lote
-
-**Tarefa:** Novo `#select-mode-btn` no header e `#bulk-actions-bar` acima do `#board`. `renderCard` (`ui.js`) ganhou um `<input type="checkbox" class="card-select-checkbox">` por card, escondido por padrão e revelado via `.board--selecting .card-select-checkbox`. Novo `let selectMode`/`let selectedTitles` (`app.js`, escopo de UI, não persistido). A lógica de montar uma linha CSV, antes só dentro de `buildBoardCsv`, foi extraída para `buildCardRowCsv(card, colName)`, reaproveitada pelo export completo e pelo novo botão "Baixar CSV selecionados".
-
-**Edge case:** `showState` (`ui.js`) não pode resetar `selectMode`/`selectedTitles` diretamente (variáveis de `app.js`, fora do escopo de `ui.js` por convenção do projeto — `ui.js` nunca lê variáveis de estado de `app.js` diretamente, sempre recebe por parâmetro). Sem resetar esse estado a cada novo carregamento, clicar em "Selecionar" após um reload reabriria o modo já teria `selectMode` desatualizado (poderia inverter para `false` em vez de `true` no primeiro clique).
-
-**Solução:** `handleSubmit` (`app.js`) reseta `selectMode = false` e `selectedTitles.clear()` no início, antes de qualquer fetch — o reset de estado JS fica em `app.js` (dono da variável), e `showState` (`ui.js`) só reseta o DOM correspondente (`.board--selecting`, `#bulk-actions-bar`, `#select-mode-btn`), mantendo a separação de camadas already estabelecida.
-
----
-
-## 5. Indicador "N selecionados"
-
-**Tarefa:** Nova `updateSelectedCount(count)` (`ui.js`), chamada pelo listener de `change` de `.card-select-checkbox` e pelo toggle de `#select-mode-btn` (`app.js`), atualizando `#selected-count`.
-
-**Edge case:** Nenhum.
-
-**Solução:** `FEATURES.md` descrevia "uma linha a mais dentro do listener já existente" (sem função nova); como a atualização do contador acontece em 2 pontos (mudança de checkbox e toggle do modo), inline duplicaria a mesma linha 2×. Extraída como função nomeada, mesmo padrão já usado por `updateActivityBadge` — não é uma divergência de fundo, só uma pequena adaptação para não duplicar 1 linha.
-
----
-
-## 6. Atalho de teclado para alternar modo de seleção
-
-**Tarefa:** Tecla `V` dispara `document.getElementById('select-mode-btn').click()` (`app.js`, mesmo padrão de `D`/`T`). Nova linha na tabela de atalhos (`#help-overlay`, `index.html`).
+**Tarefa:** Novo `<button id="select-all-btn">` em `#bulk-actions-bar` (`index.html`). Listener em `app.js` marca `checkbox.checked = true` e adiciona `dataset.title` a `selectedTitles` para todo `.card:not(.hidden) .card-select-checkbox`, chamando `updateSelectedCount(selectedTitles.size)` uma única vez ao final — mesma função já usada pelo listener de `change` individual.
 
 **Edge case:** Nenhum.
 
@@ -60,4 +30,34 @@
 
 ---
 
-**Nota do ciclo:** `APP_VERSION` incrementada de `1.29` para `1.30`. O Passo 0d verificou `invertexto.com/matuto` novamente — mesma sugestão do WhatsApp já implementada, confirmada e não duplicada. Feature 1 corrigiu uma inconsistência real pré-existente (exports CSV/JSON e atalhos de coluna ignoravam o filtro ativo, diferente de `.md`/`.ics`), encontrada durante a análise do projeto para este ciclo.
+## 4. Detalhe do card mostra Responsável/Link/Tags/Checklist
+
+**Tarefa:** Novos `#card-detail-responsavel`, `#card-detail-link` e `#card-detail-tags` (`index.html`, este último reaproveitando a classe `.card-tags` já existente). `openCardDetail` (`ui.js`) passa a ler `responsavel`/`link`/`tags` de `card.dataset` e preenchê-los/escondê-los como já fazia para `date`/`priority`. Para a descrição, reaproveita `parseChecklist(desc)` já existente — quando retorna itens, `#card-detail-desc` recebe um `<ul class="card-checklist">`/`<li class="card-checklist-item">` (mesmas classes de `renderCard`, garantindo o mesmo visual via CSS já existente) em vez do texto cru; caso contrário mantém o texto simples.
+
+**Edge case:** A criação do `<ul>`/`<li>` do checklist e dos chips de tag (`.card-tag`) agora existe em dois lugares (`renderCard` e `openCardDetail`). Pela convenção do projeto ("3 ocorrências justificam extração, 2 não"), isso ainda não justifica um helper compartilhado.
+
+**Solução:** Duplicado inline em `openCardDetail`, reaproveitando as MESMAS classes CSS (`card-checklist`, `card-checklist-item`, `card-tag`) usadas por `renderCard`, para que o visual seja idêntico sem precisar de CSS novo nem de uma extração prematura para apenas 2 ocorrências. Se uma 3ª ocorrência aparecer futuramente, deve ser extraída (ver restrição `terceira-ocorrencia-nao-extraida`).
+
+---
+
+## 5. Modo somente leitura via `?readonly=1`
+
+**Tarefa:** `app.js`, no bloco de inicialização (junto de `urlSheet`/`urlFilter`, antes do primeiro `handleSubmit()`), lê `readonly === '1'` e, se verdadeiro, adiciona `board--readonly` a `document.documentElement`. `showState` (`ui.js`), no bloco de sucesso, esconde `#new-task-btn`/`#select-mode-btn` de novo se a classe estiver presente. `renderCard` (`ui.js`) não cria o botão "Duplicar" quando a classe está presente.
+
+**Edge case:** `FEATURES.md` descrevia ler `new URLSearchParams(location.search).get('readonly')` como uma chamada isolada. O bloco de inicialização já chamava `new URLSearchParams(location.search)` duas vezes (para `urlSheet` e `urlFilter`) antes desta feature — adicionar uma terceira chamada igual no mesmo bloco cruza o limiar de "3 ocorrências justificam extração" do projeto.
+
+**Solução:** Extraído `const urlParams = new URLSearchParams(location.search);` uma única vez no topo do bloco, reaproveitado por `urlSheet`, `urlFilter` e `urlReadonly` — encontrado e corrigido na autorrevisão (Fase 1 do `/review`).
+
+---
+
+## 6. Indicador visual de modo somente leitura
+
+**Tarefa:** Novo `<span id="readonly-badge">` (`index.html`) ao lado do `<h1>Sprint Board`. No mesmo bloco onde `board--readonly` é adicionado (`app.js`), `hidden` é removido do selo.
+
+**Edge case:** `FEATURES.md` não especificava estilo visual para o selo.
+
+**Solução:** Reaproveitada a classe `.version-badge` já existente (mesmo visual de pílula pequena usado pelo número de versão ao lado do título) em vez de criar uma regra CSS nova com as mesmas propriedades — consistente com a restrição `css-duplicado-entre-classes`.
+
+---
+
+**Nota do ciclo:** `APP_VERSION` incrementada de `1.30` para `1.31`. Ciclo cumpriu a nova regra de distribuição de esforço: feature 5 (Longa) e feature 4 (Média), as demais Curtas. Fila de falhas (`FALHAS.md`) não tinha itens `aberto`/`em análise` pendentes neste ciclo. Passo 0d (invertexto.com/matuto) verificado; nenhuma sugestão nova sobreviveu ao filtro de segurança/sentido para o projeto.

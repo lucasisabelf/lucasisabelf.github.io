@@ -54,11 +54,12 @@
     <header class="app-header">
       <div class="header-top">
         <h1>Sprint Board <small class="version-badge">v<span class="version-text"></span></small></h1>
+        <span id="readonly-badge" class="version-badge hidden">🔒 Somente leitura</span>
         <div class="header-top-actions">
           <button id="reset-btn" class="reset-btn hidden">&#8592; Trocar planilha</button>
-          <button id="help-btn" class="theme-toggle" title="Atalhos de teclado">?</button>
-          <button id="theme-toggle" class="theme-toggle" title="Alternar tema (T)">&#9728;</button>
-          <button id="dyslexic-toggle" class="theme-toggle" title="Fonte para disléxicos">&#9101;</button>
+          <button id="help-btn" class="theme-toggle" title="Atalhos de teclado" aria-label="Atalhos de teclado">?</button>
+          <button id="theme-toggle" class="theme-toggle" title="Alternar tema (T)" aria-label="Alternar tema">&#9728;</button>
+          <button id="dyslexic-toggle" class="theme-toggle" title="Fonte para disléxicos" aria-label="Fonte para disléxicos">&#9101;</button>
         </div>
       </div>
       <p class="hint">
@@ -75,7 +76,7 @@
       <div id="filter-row" class="filter-row hidden">
         <div class="filter-search">
           <input id="filter-input" class="filter-input" placeholder="Filtrar tarefas..." autocomplete="off" />
-          <button id="filter-clear-btn" class="filter-clear-btn hidden">&#10005;</button>
+          <button id="filter-clear-btn" class="filter-clear-btn hidden" aria-label="Limpar filtro">&#10005;</button>
         </div>
         <select id="responsavel-filter" class="filter-select">
           <option value="">Todos os responsáveis</option>
@@ -135,6 +136,7 @@
 
     <div id="bulk-actions-bar" class="hidden">
       <span id="selected-count">0 selecionados</span>
+      <button id="select-all-btn" class="header-action-btn">Selecionar todos</button>
       <button id="copy-selected-btn" class="header-action-btn">Copiar selecionados</button>
       <button id="csv-selected-btn" class="header-action-btn">Baixar CSV selecionados</button>
       <button id="cancel-select-btn" class="header-action-btn">Cancelar</button>
@@ -213,12 +215,15 @@
         <p id="card-detail-column" class="card-detail-meta hidden"></p>
         <p id="card-detail-date" class="card-detail-meta hidden"></p>
         <p id="card-detail-priority" class="card-detail-meta hidden"></p>
+        <p id="card-detail-responsavel" class="card-detail-meta hidden"></p>
+        <p id="card-detail-link" class="card-detail-meta hidden"></p>
+        <div id="card-detail-tags" class="card-tags hidden"></div>
         <div class="modal-actions">
           <button id="card-detail-close" class="modal-cancel-btn">Fechar</button>
         </div>
       </div>
     </div>
-    <button id="back-to-top" class="back-to-top-btn hidden" title="Voltar ao topo">&#8679;</button>
+    <button id="back-to-top" class="back-to-top-btn hidden" title="Voltar ao topo" aria-label="Voltar ao topo">&#8679;</button>
     <div id="help-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
       <div class="modal">
         <h2 class="modal-title">Atalhos de teclado</h2>
