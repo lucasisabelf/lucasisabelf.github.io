@@ -434,7 +434,6 @@ function App() {
                     onCancel={selection.toggleSelectMode}
                   />
                 )}
-                <BoardSummaryView summary={boardSummary} />
               </>
             )}
           </>
@@ -494,6 +493,7 @@ function App() {
                   }
             }
           />
+          <BoardSummaryView summary={boardSummary} />
         </div>
       )}
       {state === 'success' && mode !== 'tarefas' && (
