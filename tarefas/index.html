@@ -93,6 +93,7 @@
           <div id="share-menu-panel" class="export-menu-panel hidden">
             <button id="copy-link-btn" class="header-action-btn">Copiar link do board</button>
             <button id="copy-sheet-btn" class="header-action-btn">Copiar URL</button>
+            <button id="whatsapp-share-btn" class="header-action-btn">WhatsApp</button>
             <button id="export-btn" class="header-action-btn" title="Exportar (E)">Exportar</button>
           </div>
         </div>
@@ -117,6 +118,7 @@
             <button id="compact-btn" class="header-action-btn" title="Compacto (D)">Compacto</button>
             <button id="focus-btn" class="header-action-btn">Foco</button>
             <button id="column-time-toggle-btn" class="header-action-btn header-action-btn--active">Tempo na coluna</button>
+            <button id="expand-actions-btn" class="header-action-btn" title="Mostra as ações do card direto, sem o menu Mais">Ver todas as ações</button>
             <label class="auto-refresh-label header-action-btn">
               <input type="checkbox" id="auto-refresh"> Auto-refresh
             </label>
@@ -163,6 +165,10 @@
         <div class="column-body" id="body-done"></div>
       </div>
     </div>
+    <div id="paste-hint-banner" class="paste-hint-banner hidden">
+      <span>📋 Copiado! Cole (Ctrl+V) na aba correspondente da planilha para confirmar a tarefa.</span>
+      <button id="paste-hint-dismiss-btn" class="header-action-btn">Ok, entendi</button>
+    </div>
     <div id="board-summary" class="board-summary hidden"></div>
     <div id="sprint-progress" class="sprint-progress hidden">
       <div id="sprint-progress-bar" class="sprint-progress-bar"></div>
@@ -199,6 +205,12 @@
             <option value="Alta">Alta</option>
             <option value="Média">Média</option>
             <option value="Baixa">Baixa</option>
+          </select>
+        </div>
+        <div class="modal-field">
+          <label for="task-recurrence">Repetir</label>
+          <select id="task-recurrence">
+            <option value="">Nunca</option>
           </select>
         </div>
         <div id="modal-feedback" class="modal-feedback hidden"></div>

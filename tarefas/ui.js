@@ -34,6 +34,19 @@ function toPtBrDate(isoDate) {
   return isoDate ? isoDate.split('-').reverse().join('/') : '';
 }
 
+function buildRecurrenceMarker(type) {
+  return `[repete:${type}]`;
+}
+
+function parseRecurrence(desc) {
+  const match = (desc || '').match(RECURRENCE_MARKER_RE);
+  return match ? match[1] : null;
+}
+
+function stripRecurrenceMarker(desc) {
+  return (desc || '').replace(RECURRENCE_MARKER_RE, '');
+}
+
 function parseChecklist(desc) {
   const items = (desc || '').split('\n')
     .map(line => line.match(/^-\s*\[([ xX])\]\s*(.+)$/))
@@ -51,7 +64,9 @@ function overdueStage(daysLate) {
 
 function renderCard(row, daysInColumn, isNew) {
   const name = row[0].trim();
-  const desc = row[1] ? row[1].trim() : '';
+  const rawDesc = row[1] ? row[1].trim() : '';
+  const recurrence = parseRecurrence(rawDesc);
+  const desc = stripRecurrenceMarker(rawDesc);
   const date = row[2] ? row[2].trim() : '';
   const priority = row[3] ? row[3].trim() : '';
   const responsavel = row[4] ? row[4].trim() : '';
@@ -70,6 +85,7 @@ function renderCard(row, daysInColumn, isNew) {
   card.dataset.responsavel = responsavel;
   card.dataset.link = link;
   card.dataset.tags = tagsRaw;
+  card.dataset.recurrence = recurrence || '';
   if (daysInColumn !== undefined) card.dataset.daysInColumn = daysInColumn;
 
   const selectCheckbox = document.createElement('input');
@@ -150,6 +166,13 @@ function renderCard(row, daysInColumn, isNew) {
     card.appendChild(badge);
   }
 
+  if (recurrence && RECURRENCE_OPTIONS[recurrence]) {
+    const badge = document.createElement('span');
+    badge.className = 'card-recurrence-badge';
+    badge.textContent = RECURRENCE_OPTIONS[recurrence].badge;
+    card.appendChild(badge);
+  }
+
   if (responsavel) {
     const badge = document.createElement('span');
     badge.className = 'card-responsavel';
@@ -195,41 +218,45 @@ function renderCard(row, daysInColumn, isNew) {
     actions.appendChild(linkEl);
   }
 
-  const moreWrapper = document.createElement('div');
-  moreWrapper.className = 'card-more-menu';
-
-  const moreBtn = document.createElement('button');
-  moreBtn.className = 'card-action-btn card-more-btn';
-  moreBtn.textContent = 'Mais ▾';
-  moreWrapper.appendChild(moreBtn);
-
-  const morePanel = document.createElement('div');
-  morePanel.className = 'card-more-panel export-menu-panel hidden';
-
   const askBtn = document.createElement('button');
   askBtn.className = 'card-action-btn card-ask-claude-btn';
   askBtn.textContent = 'Sugerir ao Claude';
-  morePanel.appendChild(askBtn);
 
   const calBtn = document.createElement('button');
   calBtn.className = 'card-action-btn card-calendar-btn';
   calBtn.textContent = '+ Agenda';
-  morePanel.appendChild(calBtn);
 
   const whatsappBtn = document.createElement('button');
   whatsappBtn.className = 'card-action-btn card-whatsapp-btn';
   whatsappBtn.textContent = 'WhatsApp';
-  morePanel.appendChild(whatsappBtn);
 
+  const moreButtons = [askBtn, calBtn, whatsappBtn];
   if (!document.documentElement.classList.contains('board--readonly')) {
     const dupBtn = document.createElement('button');
     dupBtn.className = 'card-action-btn card-duplicate-btn';
     dupBtn.textContent = 'Duplicar';
-    morePanel.appendChild(dupBtn);
+    moreButtons.push(dupBtn);
   }
 
-  moreWrapper.appendChild(morePanel);
-  actions.appendChild(moreWrapper);
+  if (document.documentElement.classList.contains('board--expand-actions')) {
+    moreButtons.forEach(btn => actions.appendChild(btn));
+  } else {
+    const moreWrapper = document.createElement('div');
+    moreWrapper.className = 'card-more-menu';
+
+    const moreBtn = document.createElement('button');
+    moreBtn.className = 'card-action-btn card-more-btn';
+    moreBtn.textContent = 'Mais ▾';
+    moreWrapper.appendChild(moreBtn);
+
+    const morePanel = document.createElement('div');
+    morePanel.className = 'card-more-panel export-menu-panel hidden';
+    moreButtons.forEach(btn => morePanel.appendChild(btn));
+    moreWrapper.appendChild(morePanel);
+
+    actions.appendChild(moreWrapper);
+  }
+
   card.appendChild(actions);
 
   return card;
@@ -613,6 +640,7 @@ function showState(state, msg) {
   document.getElementById('bulk-actions-bar').classList.add('hidden');
   document.getElementById('board').classList.remove('board--selecting');
   document.getElementById('mode-select').classList.add('hidden');
+  document.getElementById('paste-hint-banner').classList.add('hidden');
 
   const filterRow = document.getElementById('filter-row');
   filterRow.classList.add('hidden');
@@ -757,6 +785,7 @@ function openNewTaskModal(prefill) {
   document.getElementById('task-desc-count').textContent = `${taskDesc.value.length} / ${TASK_DESC_MAX}`;
   document.getElementById('task-date').value = prefill ? prefill.date : new Date().toISOString().slice(0, 10);
   document.getElementById('task-priority').value = prefill ? prefill.priority : '';
+  document.getElementById('task-recurrence').value = prefill ? (prefill.recurrence || '') : '';
   document.getElementById('modal-feedback').classList.add('hidden');
   document.getElementById('modal-submit').disabled = false;
   document.getElementById('new-task-overlay').classList.remove('hidden');
@@ -781,7 +810,9 @@ function submitNewTask() {
   const isoDate = document.getElementById('task-date').value;
   const date = toPtBrDate(isoDate) || new Date().toLocaleDateString('pt-BR');
   const priority = document.getElementById('task-priority').value;
-  const tsv = `${name}\t${desc}\t${date}\t${priority}`;
+  const recurrence = document.getElementById('task-recurrence').value;
+  const descWithRecurrence = recurrence ? `${desc}${desc ? '\n' : ''}${buildRecurrenceMarker(recurrence)}` : desc;
+  const tsv = `${name}\t${descWithRecurrence}\t${date}\t${priority}`;
 
   navigator.clipboard.writeText(tsv).then(() => {
     const feedback = document.getElementById('modal-feedback');
@@ -791,12 +822,21 @@ function submitNewTask() {
     setTimeout(() => {
       window.open(document.getElementById('sheet-url').value);
       closeNewTaskModal();
+      showPasteHintBanner();
     }, 1000);
   });
 }
 
 function toggleHelp() {
   document.getElementById('help-overlay').classList.toggle('hidden');
+}
+
+function showPasteHintBanner() {
+  document.getElementById('paste-hint-banner').classList.remove('hidden');
+}
+
+function hidePasteHintBanner() {
+  document.getElementById('paste-hint-banner').classList.add('hidden');
 }
 
 function populateSelect() {
@@ -812,6 +852,16 @@ function populateSelect() {
 function populateTemplateSelect() {
   const select = document.getElementById('template-select');
   Object.entries(TEMPLATE_CONFIG).forEach(([type, { label }]) => {
+    const opt = document.createElement('option');
+    opt.value = type;
+    opt.textContent = label;
+    select.appendChild(opt);
+  });
+}
+
+function populateRecurrenceSelect() {
+  const select = document.getElementById('task-recurrence');
+  Object.entries(RECURRENCE_OPTIONS).forEach(([type, { label }]) => {
     const opt = document.createElement('option');
     opt.value = type;
     opt.textContent = label;

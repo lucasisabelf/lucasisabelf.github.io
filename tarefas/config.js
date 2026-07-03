@@ -1,4 +1,4 @@
-const APP_VERSION = '1.31';
+const APP_VERSION = '1.33';
 
 const FETCH_TIMEOUT_MS = 10000;
 const BOARD_RANGE = 'A3:G';
@@ -25,3 +25,9 @@ const TEMPLATE_CONFIG = {
   tarefas: { label: 'Tarefas', headers: TEMPLATE_HEADERS, filename: 'sprint-board-modelo.csv' },
   lista: { label: 'Lista extra', headers: EXTRA_LIST_TEMPLATE_HEADERS, filename: 'sprint-board-modelo-lista.csv' }
 };
+
+const RECURRENCE_OPTIONS = {
+  semanal: { label: 'Semanalmente', badge: '🔁 Semanal' },
+  mensal: { label: 'Mensalmente', badge: '🔁 Mensal' }
+};
+const RECURRENCE_MARKER_RE = new RegExp(`\\n?\\[repete:(${Object.keys(RECURRENCE_OPTIONS).join('|')})\\]$`);

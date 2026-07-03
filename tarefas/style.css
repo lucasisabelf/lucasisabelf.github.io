@@ -606,7 +606,8 @@ main {
   padding: 0 .1rem;
 }
 
-.card-priority {
+.card-priority,
+.card-recurrence-badge {
   display: inline-block;
   margin-top: .35rem;
   margin-left: .35rem;
@@ -619,6 +620,11 @@ main {
 .priority--high { background: var(--priority-high-bg); color: var(--priority-high-color); }
 .priority--mid  { background: var(--priority-mid-bg);  color: var(--priority-mid-color); }
 .priority--low  { background: var(--badge-bg);          color: var(--empty-col); }
+
+.card-recurrence-badge {
+  background: var(--badge-bg);
+  color: var(--text-card-date);
+}
 
 .card-actions {
   display: flex;
@@ -644,6 +650,7 @@ main {
 .board--compact .card-desc,
 .board--compact .card-date,
 .board--compact .card-priority,
+.board--compact .card-recurrence-badge,
 .board--compact .card-actions,
 .board--compact .card-tags,
 .board--compact .card-checklist,
@@ -740,14 +747,26 @@ main {
   margin-bottom: .25rem;
 }
 
-.modal-feedback {
-  margin-bottom: .85rem;
+.modal-feedback,
+.paste-hint-banner {
   padding: .6rem .8rem;
   background: var(--feedback-bg);
   border: 1px solid var(--feedback-border);
   border-radius: 6px;
   font-size: .85rem;
   color: var(--feedback-color);
+}
+
+.modal-feedback {
+  margin-bottom: .85rem;
+}
+
+.paste-hint-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin: .75rem 0;
 }
 
 .modal-actions {

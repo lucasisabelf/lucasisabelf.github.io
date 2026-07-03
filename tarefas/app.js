@@ -11,7 +11,7 @@ let isLoading = false;
 const FILTER_DEBOUNCE_MS = 200;
 const ACTIVITY_LOG_LIMIT = 20;
 const SORT_MODES = ['original', 'prioridade', 'data', 'titulo'];
-const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'dyslexicFont', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'columnTimeVisible', 'columnEntryTimes', 'activityLog', 'activityTotalCount', 'activityLastSeenCount', 'mode'];
+const STORAGE_KEYS = ['lastSheet', 'recentSheets', 'theme', 'dyslexicFont', 'sortMode', 'compactMode', 'collapseState', 'focusMode', 'columnTimeVisible', 'columnEntryTimes', 'activityLog', 'activityTotalCount', 'activityLastSeenCount', 'mode', 'expandActionsMode'];
 
 function safeJsonParse(json, fallback) {
   try {
@@ -80,6 +80,16 @@ function logActivity(transitions) {
   const totalCount = (Number(localStorage.getItem('activityTotalCount')) || 0) + transitions.length;
   localStorage.setItem('activityTotalCount', totalCount);
   return { log, totalCount };
+}
+
+function nextRecurrenceDate(ptBrDate, type) {
+  const parsed = parsePtBrDate(ptBrDate);
+  if (!parsed) return '';
+  const next = new Date(parsed);
+  if (type === 'semanal') next.setDate(next.getDate() + 7);
+  else if (type === 'mensal') next.setMonth(next.getMonth() + 1);
+  const pad = n => String(n).padStart(2, '0');
+  return `${next.getFullYear()}-${pad(next.getMonth() + 1)}-${pad(next.getDate())}`;
 }
 
 async function handleSubmit() {
@@ -200,6 +210,13 @@ function copyBoardLink() {
   const url = `${location.origin}${location.pathname}?sheet=${encodeURIComponent(input)}`;
   const btn = document.getElementById('copy-link-btn');
   navigator.clipboard.writeText(url).then(() => flashButton(btn, '✓ Copiado!'));
+}
+
+function shareBoardWhatsApp() {
+  const input = document.getElementById('sheet-url').value.trim();
+  if (!input) return;
+  const url = `${location.origin}${location.pathname}?sheet=${encodeURIComponent(input)}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(url)}`);
 }
 
 function exportBoardText() {
@@ -411,7 +428,7 @@ function setupDropdownMenu(btnId, panelId) {
 }
 
 function updateViewMenuLabel() {
-  const active = [compactMode, focusMode, columnTimeVisible, document.getElementById('auto-refresh').checked]
+  const active = [compactMode, focusMode, columnTimeVisible, document.getElementById('auto-refresh').checked, document.documentElement.classList.contains('board--expand-actions')]
     .filter(Boolean).length;
   document.getElementById('view-menu-btn').textContent = `Visualização${active > 0 ? ` (${active})` : ''} ▾`;
 }
@@ -459,8 +476,9 @@ document.getElementById('board').addEventListener('click', e => {
   }
   const dupBtn = e.target.closest('.card-duplicate-btn');
   if (dupBtn) {
-    const { title, desc, date, priority } = dupBtn.closest('.card').dataset;
-    openNewTaskModal({ name: `${title} (cópia)`, desc: desc || '', date: toIsoDate(date), priority: priority || '' });
+    const { title, desc, date, priority, recurrence } = dupBtn.closest('.card').dataset;
+    const nextDate = recurrence ? nextRecurrenceDate(date, recurrence) : toIsoDate(date);
+    openNewTaskModal({ name: `${title} (cópia)`, desc: desc || '', date: nextDate, priority: priority || '', recurrence: recurrence || '' });
     return;
   }
   const priorityBadge = e.target.closest('.card-priority');
@@ -573,6 +591,14 @@ document.getElementById('column-time-toggle-btn').addEventListener('click', () =
   updateViewMenuLabel();
 });
 document.getElementById('auto-refresh').addEventListener('change', updateViewMenuLabel);
+document.getElementById('expand-actions-btn').addEventListener('click', () => {
+  const enabled = !document.documentElement.classList.contains('board--expand-actions');
+  document.documentElement.classList.toggle('board--expand-actions', enabled);
+  document.getElementById('expand-actions-btn').classList.toggle('header-action-btn--active', enabled);
+  localStorage.setItem('expandActionsMode', enabled);
+  updateViewMenuLabel();
+  if (!document.getElementById('board').classList.contains('hidden')) handleSubmit();
+});
 
 document.getElementById('reset-btn').addEventListener('click', () => {
   showState('idle');
@@ -599,6 +625,7 @@ document.getElementById('activity-btn').addEventListener('click', () => {
 });
 document.getElementById('copy-link-btn').addEventListener('click', copyBoardLink);
 document.getElementById('copy-sheet-btn').addEventListener('click', copySheetUrl);
+document.getElementById('whatsapp-share-btn').addEventListener('click', shareBoardWhatsApp);
 document.getElementById('export-btn').addEventListener('click', exportBoardText);
 document.getElementById('download-btn').addEventListener('click', downloadBoardText);
 document.getElementById('json-btn').addEventListener('click', downloadBoardJson);
@@ -703,6 +730,7 @@ document.getElementById('back-to-top').addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 document.getElementById('reset-settings-btn').addEventListener('click', resetAllSettings);
+document.getElementById('paste-hint-dismiss-btn').addEventListener('click', hidePasteHintBanner);
 document.getElementById('new-task-btn').addEventListener('click', () => openNewTaskModal());
 document.getElementById('modal-cancel').addEventListener('click', closeNewTaskModal);
 document.getElementById('modal-submit').addEventListener('click', submitNewTask);
@@ -772,6 +800,7 @@ document.querySelectorAll('.version-text').forEach(el => { el.textContent = APP_
 
 populateSelect();
 populateTemplateSelect();
+populateRecurrenceSelect();
 initRecentSheets();
 initTheme();
 initDyslexicFont();
@@ -795,6 +824,10 @@ if (localStorage.getItem('focusMode') === 'true') {
 if (localStorage.getItem('columnTimeVisible') === 'false') {
   columnTimeVisible = false;
   document.getElementById('column-time-toggle-btn').classList.remove('header-action-btn--active');
+}
+if (localStorage.getItem('expandActionsMode') === 'true') {
+  document.documentElement.classList.add('board--expand-actions');
+  document.getElementById('expand-actions-btn').classList.add('header-action-btn--active');
 }
 updateViewMenuLabel();
 
