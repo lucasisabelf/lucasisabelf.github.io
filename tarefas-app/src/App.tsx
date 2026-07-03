@@ -17,8 +17,11 @@ import { buildWhatsAppUrl } from './lib/exporters/whatsapp';
 import { buildCalendarUrl } from './lib/exporters/calendar';
 import { buildAskClaudeText } from './lib/exporters/askClaude';
 import { buildCardRowCsv } from './lib/exporters/csv';
-
-function noopCard(_card: CardData) {}
+import { toIsoDate } from './lib/date';
+import { nextRecurrenceDate } from './lib/recurrence';
+import { NewTaskModal, type NewTaskPrefill } from './components/modals/NewTaskModal';
+import { CardDetailModal } from './components/modals/CardDetailModal';
+import { PasteHintBanner } from './components/PasteHintBanner';
 
 function App() {
   const { columns, state, errorMessage, load } = useSheetData();
@@ -31,6 +34,11 @@ function App() {
   const [responsavelFilter, setResponsavelFilter] = useState('');
   const [activeFilter, setActiveFilter] = useState('');
   const [sortMode, setSortMode] = useState<SortMode>('original');
+
+  const [newTaskModalOpen, setNewTaskModalOpen] = useState(false);
+  const [newTaskPrefill, setNewTaskPrefill] = useState<NewTaskPrefill | undefined>(undefined);
+  const [detailCard, setDetailCard] = useState<CardData | null>(null);
+  const [pasteHintVisible, setPasteHintVisible] = useState(false);
 
   const filterInputRef = useRef<HTMLInputElement>(null);
 
@@ -74,6 +82,29 @@ function App() {
     navigator.clipboard.writeText(buildAskClaudeText(card)).then(() => window.open('https://claude.ai'));
   }
 
+  function handleOpenDetail(card: CardData) {
+    setDetailCard(card);
+  }
+
+  function detailColumnTitle(card: CardData): string {
+    return displayColumns.find((col) => col.cards.some((c) => c.title === card.title))?.title ?? '';
+  }
+
+  function handleDuplicate(card: CardData) {
+    const date = card.recurrence ? nextRecurrenceDate(card.date, card.recurrence) : toIsoDate(card.date);
+    setNewTaskPrefill({ name: `${card.title} (cópia)`, desc: card.desc, date, priority: card.priority, recurrence: card.recurrence ?? '' });
+    setNewTaskModalOpen(true);
+  }
+
+  function handleNewTaskSubmit(tsvRow: string) {
+    navigator.clipboard.writeText(tsvRow).then(() => {
+      window.open(sheetUrl);
+      setNewTaskModalOpen(false);
+      setNewTaskPrefill(undefined);
+      setPasteHintVisible(true);
+    });
+  }
+
   function handleCopySelected() {
     const selected = displayColumns.flatMap((c) => c.cards).filter((c) => selection.selectedTitles.has(c.title));
     navigator.clipboard.writeText(selected.map(buildCardSummaryText).join('\n'));
@@ -100,13 +131,24 @@ function App() {
     boardVisible: state === 'success',
     onRefresh: () => load(sheetUrl),
     onFocusFilter: () => filterInputRef.current?.focus(),
-    onNewTask: () => {},
+    onNewTask: () => {
+      setNewTaskPrefill(undefined);
+      setNewTaskModalOpen(true);
+    },
     onToggleCompact: () => view.setCompact(!view.compact),
     onToggleTheme: toggleTheme,
     onCycleSort: () => setSortMode(SORT_MODES[(SORT_MODES.indexOf(sortMode) + 1) % SORT_MODES.length]),
     onToggleSelectMode: selection.toggleSelectMode,
     onToggleHelp: () => {},
     onEscape: () => {
+      if (newTaskModalOpen) {
+        setNewTaskModalOpen(false);
+        return;
+      }
+      if (detailCard) {
+        setDetailCard(null);
+        return;
+      }
       if (document.activeElement === filterInputRef.current && query) setQuery('');
     },
   });
@@ -167,6 +209,8 @@ function App() {
         )}
       </header>
 
+      {pasteHintVisible && <PasteHintBanner onDismiss={() => setPasteHintVisible(false)} />}
+
       {state === 'idle' && (
         <div className="mt-6 text-center text-text-muted">Insira o link da planilha acima para começar.</div>
       )}
@@ -188,14 +232,29 @@ function App() {
             onToggleSelect={selection.selectMode ? selection.toggleTitle : undefined}
             onFilterByPriority={toggleQueryFilter}
             onFilterByTag={toggleQueryFilter}
-            onOpenDetail={noopCard}
+            onOpenDetail={handleOpenDetail}
             onCopy={handleCopy}
-            onDuplicate={noopCard}
+            onDuplicate={handleDuplicate}
             onWhatsApp={handleWhatsApp}
             onCalendar={handleCalendar}
             onAskClaude={handleAskClaude}
+            onCreateTask={() => {
+              setNewTaskPrefill(undefined);
+              setNewTaskModalOpen(true);
+            }}
           />
         </div>
+      )}
+
+      {newTaskModalOpen && (
+        <NewTaskModal
+          prefill={newTaskPrefill}
+          onClose={() => setNewTaskModalOpen(false)}
+          onSubmit={handleNewTaskSubmit}
+        />
+      )}
+      {detailCard && (
+        <CardDetailModal card={detailCard} columnTitle={detailColumnTitle(detailCard)} onClose={() => setDetailCard(null)} />
       )}
     </main>
   );
