@@ -1,6 +1,6 @@
 import { DropdownMenu } from '../DropdownMenu';
 
-const ITEM_CLASS = 'text-left text-xs text-text-muted bg-transparent border-0 cursor-pointer p-1.5 hover:text-blue';
+const ITEM_CLASS = 'link-btn text-left p-1.5';
 
 interface HeaderMenusProps {
   onCopyBoardLink(): void;
@@ -24,8 +24,8 @@ export function HeaderMenus({
   onDownloadIcs,
 }: HeaderMenusProps) {
   return (
-    <div className="flex gap-1.5 mt-2">
-      <DropdownMenu label="Compartilhar ▾" buttonClassName="text-xs rounded px-2 py-1 border border-border-input">
+    <div className="flex gap-3">
+      <DropdownMenu label="Compartilhar ▾" buttonClassName="link-btn">
         <button type="button" className={ITEM_CLASS} onClick={onCopyBoardLink}>
           Copiar link do board
         </button>
@@ -39,7 +39,7 @@ export function HeaderMenus({
           Exportar (E)
         </button>
       </DropdownMenu>
-      <DropdownMenu label="Baixar ▾" buttonClassName="text-xs rounded px-2 py-1 border border-border-input">
+      <DropdownMenu label="Baixar ▾" buttonClassName="link-btn">
         <button type="button" className={ITEM_CLASS} onClick={onDownloadMd}>
           Baixar .md
         </button>

@@ -46,23 +46,23 @@ export function NewTaskModal({ prefill, onClose, onSubmit }: NewTaskModalProps) 
       title="Nova Tarefa"
       footer={
         <>
-          <button type="button" className="rounded px-3 py-1.5 border border-border-input" onClick={onClose}>
+          <button type="button" className="btn-outline" onClick={onClose}>
             Cancelar
           </button>
-          <button type="button" className="rounded px-3 py-1.5 bg-blue text-white" onClick={handleSubmit}>
+          <button type="button" className="btn-primary" onClick={handleSubmit}>
             Adicionar
           </button>
         </>
       }
     >
-      <div className="space-y-3">
+      <div className="space-y-3.5">
         <div>
-          <label className="block text-sm font-semibold mb-1" htmlFor="task-name">
+          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-name">
             Nome
           </label>
           <input
             id="task-name"
-            className={`w-full border rounded px-2.5 py-1.5 bg-surface text-text ${nameInvalid ? 'border-error-color' : 'border-border-input'}`}
+            className={`field-input w-full px-3.5 py-2 ${nameInvalid ? 'input--invalid' : ''}`}
             maxLength={80}
             value={name}
             onChange={(e) => {
@@ -72,15 +72,15 @@ export function NewTaskModal({ prefill, onClose, onSubmit }: NewTaskModalProps) 
             onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
             autoFocus
           />
-          <small className="text-xs text-text-muted">{name.length} / 80</small>
+          <small className="block text-right text-[0.72rem] text-text-muted mt-0.5">{name.length} / 80</small>
         </div>
         <div>
-          <label className="block text-sm font-semibold mb-1" htmlFor="task-desc">
+          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-desc">
             Descrição
           </label>
           <textarea
             id="task-desc"
-            className="w-full border border-border-input rounded px-2.5 py-1.5 bg-surface text-text"
+            className="field-input w-full px-3.5 py-2 resize-none"
             rows={3}
             maxLength={TASK_DESC_MAX}
             value={desc}
@@ -89,29 +89,29 @@ export function NewTaskModal({ prefill, onClose, onSubmit }: NewTaskModalProps) 
               if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') handleSubmit();
             }}
           />
-          <small className="text-xs text-text-muted">
+          <small className="block text-right text-[0.72rem] text-text-muted mt-0.5">
             {desc.length} / {TASK_DESC_MAX}
           </small>
         </div>
         <div>
-          <label className="block text-sm font-semibold mb-1" htmlFor="task-date">
+          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-date">
             Data
           </label>
           <input
             id="task-date"
             type="date"
-            className="w-full border border-border-input rounded px-2.5 py-1.5 bg-surface text-text"
+            className="field-input w-full px-3.5 py-2"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold mb-1" htmlFor="task-priority">
+          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-priority">
             Prioridade
           </label>
           <select
             id="task-priority"
-            className="w-full border border-border-input rounded px-2.5 py-1.5 bg-surface text-text"
+            className="field-input w-full px-3.5 py-2 cursor-pointer"
             value={priority}
             onChange={(e) => setPriority(e.target.value as Priority | '')}
           >
@@ -122,12 +122,12 @@ export function NewTaskModal({ prefill, onClose, onSubmit }: NewTaskModalProps) 
           </select>
         </div>
         <div>
-          <label className="block text-sm font-semibold mb-1" htmlFor="task-recurrence">
+          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-recurrence">
             Repetir
           </label>
           <select
             id="task-recurrence"
-            className="w-full border border-border-input rounded px-2.5 py-1.5 bg-surface text-text"
+            className="field-input w-full px-3.5 py-2 cursor-pointer"
             value={recurrence}
             onChange={(e) => setRecurrence(e.target.value as RecurrenceType | '')}
           >

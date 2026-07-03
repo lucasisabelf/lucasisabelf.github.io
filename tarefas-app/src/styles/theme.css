@@ -137,6 +137,208 @@ body {
 
 [data-dyslexic-font="true"] body {
   font-family: Verdana, Tahoma, Arial, sans-serif;
+  letter-spacing: .04em;
+  line-height: 1.7;
+}
+
+/* ── Design system — classes compartilhadas (equivalente aos seletores de style.css da versão vanilla) ── */
+
+.surface-panel {
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+}
+
+.link-btn {
+  font-size: .85rem;
+  color: var(--blue);
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+.link-btn--active {
+  font-weight: 700;
+}
+
+.btn-primary {
+  padding: .6rem 1.2rem;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: var(--blue-hover);
+}
+
+.btn-primary:disabled {
+  opacity: .6;
+  cursor: default;
+}
+
+.btn-outline {
+  padding: .5rem 1rem;
+  font-size: .9rem;
+  background: none;
+  border: 1.5px solid var(--border-input);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: border-color .15s;
+}
+
+.btn-outline:hover {
+  border-color: var(--blue);
+}
+
+.new-task-btn {
+  font-size: .85rem;
+  font-weight: 600;
+  padding: .3rem .8rem;
+  border: 1.5px solid var(--blue);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--blue);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+
+.new-task-btn:hover {
+  background: var(--blue);
+  color: #fff;
+}
+
+.icon-btn {
+  background: none;
+  border: 1.5px solid var(--border-input);
+  border-radius: 8px;
+  padding: .3rem .6rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: border-color .15s;
+}
+
+.icon-btn:hover {
+  border-color: var(--blue);
+}
+
+.field-input {
+  border: 1.5px solid var(--border-input);
+  border-radius: 8px;
+  font-size: .9rem;
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s;
+}
+
+.field-input:focus {
+  border-color: var(--blue);
+}
+
+.field-input.input--invalid {
+  border-color: var(--error-color) !important;
+}
+
+/* ── Animações ── */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-surface {
+  animation: fadeIn .18s ease;
+  transition: box-shadow .15s;
+}
+
+.card-surface:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--border);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Forca (gamificação de atraso) ──
+   Desenho em pixel art via box-shadow no ::before. Cada "pixel" é o próprio
+   elemento (2×2px). Quanto mais atrasado, mais peças do desenho aparecem. */
+.card-overdue-stage {
+  position: relative;
+}
+
+.card-overdue-stage::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 2px;
+  height: 2px;
+  background: var(--forca-stroke);
+}
+
+.card-overdue-stage-1::before {
+  box-shadow: var(--forca-frame);
+}
+
+.card-overdue-stage-2::before {
+  box-shadow: var(--forca-frame), var(--forca-rope);
+}
+
+.card-overdue-stage-3::before {
+  box-shadow: var(--forca-frame), var(--forca-rope), var(--forca-head);
+}
+
+.card-overdue-stage-4::before {
+  box-shadow:
+    var(--forca-frame), var(--forca-rope), var(--forca-head),
+    0px 14px 0 0 var(--forca-stroke),
+    -2px 14px 0 0 var(--forca-stroke), 2px 14px 0 0 var(--forca-stroke);
+  animation: forca-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes forca-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-overdue-stage-4::before {
+    animation: none;
+  }
+}
+
+/* ── Scrollbar das colunas ── */
+.column-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.column-scroll::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
 }
 
 @media print {

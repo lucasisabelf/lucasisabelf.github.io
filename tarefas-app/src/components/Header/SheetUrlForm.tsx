@@ -12,7 +12,7 @@ export function SheetUrlForm({ value, onChange, onSubmit, loading, recentSheets 
   return (
     <div className="flex flex-wrap gap-2 mt-2">
       <select
-        className="border border-border-input rounded px-2 py-1.5 bg-surface text-text"
+        className="field-input px-2.5 py-2 cursor-pointer whitespace-nowrap"
         value=""
         onChange={(e) => {
           if (e.target.value) onChange(e.target.value);
@@ -35,7 +35,7 @@ export function SheetUrlForm({ value, onChange, onSubmit, loading, recentSheets 
         )}
       </select>
       <input
-        className="flex-1 min-w-[200px] border border-border-input rounded px-2.5 py-1.5 bg-surface text-text"
+        className="field-input flex-1 min-w-[200px] px-3.5 py-2"
         type="url"
         placeholder="https://docs.google.com/spreadsheets/d/..."
         value={value}
@@ -44,12 +44,7 @@ export function SheetUrlForm({ value, onChange, onSubmit, loading, recentSheets 
           if (e.key === 'Enter') onSubmit(value.trim());
         }}
       />
-      <button
-        type="button"
-        className="rounded px-3 py-1.5 bg-blue text-white disabled:opacity-50"
-        disabled={loading}
-        onClick={() => onSubmit(value.trim())}
-      >
+      <button type="button" className="btn-primary" disabled={loading} onClick={() => onSubmit(value.trim())}>
         Carregar
       </button>
     </div>

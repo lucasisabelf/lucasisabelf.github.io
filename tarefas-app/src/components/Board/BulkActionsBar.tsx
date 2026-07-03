@@ -8,20 +8,20 @@ interface BulkActionsBarProps {
 
 export function BulkActionsBar({ selectedCount, onSelectAll, onCopySelected, onDownloadCsvSelected, onCancel }: BulkActionsBarProps) {
   return (
-    <div className="flex items-center gap-2 mt-2 p-2 bg-badge-bg rounded">
-      <span className="text-sm text-text-muted">
+    <div className="surface-panel flex flex-wrap items-center gap-3 px-4 py-3 mt-3 text-[0.85rem] text-text-muted">
+      <span>
         {selectedCount} selecionado{selectedCount !== 1 ? 's' : ''}
       </span>
-      <button type="button" className="text-xs rounded px-2 py-1 border border-border-input" onClick={onSelectAll}>
+      <button type="button" className="link-btn" onClick={onSelectAll}>
         Selecionar todos
       </button>
-      <button type="button" className="text-xs rounded px-2 py-1 border border-border-input" onClick={onCopySelected}>
+      <button type="button" className="link-btn" onClick={onCopySelected}>
         Copiar selecionados
       </button>
-      <button type="button" className="text-xs rounded px-2 py-1 border border-border-input" onClick={onDownloadCsvSelected}>
+      <button type="button" className="link-btn" onClick={onDownloadCsvSelected}>
         Baixar CSV selecionados
       </button>
-      <button type="button" className="text-xs rounded px-2 py-1 border border-border-input" onClick={onCancel}>
+      <button type="button" className="link-btn" onClick={onCancel}>
         Cancelar
       </button>
     </div>

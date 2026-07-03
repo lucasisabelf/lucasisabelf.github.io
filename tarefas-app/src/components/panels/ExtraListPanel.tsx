@@ -8,14 +8,14 @@ const PRIORITY_CLASS: Record<string, string> = {
 
 export function ExtraListPanel({ name, items }: ExtraList) {
   return (
-    <div className="bg-surface rounded-lg p-4">
-      <h2 className="font-semibold mb-2">{name}</h2>
+    <div className="surface-panel p-6">
+      <h2 className="text-[1.05rem] font-bold text-text mb-4">{name}</h2>
       {items.length === 0 ? (
         <div className="text-center text-sm text-empty-col py-2">Nenhum item nesta lista</div>
       ) : (
-        <div className="space-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {items.map((item) => (
-            <div key={item.nome} className="bg-surface-card border border-border rounded-lg p-3">
+            <div key={item.nome} className="card-surface bg-surface-card border border-border rounded-lg p-3">
               <div className="font-medium text-text-card-title">{item.nome}</div>
               {item.topico && <div className="text-sm text-text-muted">{item.topico}</div>}
               <div className="flex gap-1.5 mt-1.5">

@@ -22,11 +22,11 @@ export function FilterBar({
   const filtering = query !== '' || responsavelFilter !== '';
 
   return (
-    <div className="flex flex-wrap items-center gap-2 mt-2">
+    <div className="flex flex-wrap items-center gap-2 mt-3">
       <div className="relative flex-1 min-w-[180px]">
         <input
           ref={inputRef}
-          className="w-full border border-border-input rounded px-2.5 py-1.5 bg-surface text-text"
+          className="field-input w-full px-3.5 py-2 pr-9"
           placeholder="Filtrar tarefas..."
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
@@ -35,7 +35,7 @@ export function FilterBar({
           <button
             type="button"
             aria-label="Limpar filtro"
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-text-muted"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text text-[0.85rem] bg-transparent border-0 cursor-pointer p-0 leading-none"
             onClick={() => onQueryChange('')}
           >
             ✕
@@ -44,7 +44,7 @@ export function FilterBar({
       </div>
       {responsavelOptions.length > 0 && (
         <select
-          className="border border-border-input rounded px-2 py-1.5 bg-surface text-text"
+          className="field-input px-2.5 py-2 cursor-pointer"
           value={responsavelFilter}
           onChange={(e) => onResponsavelFilterChange(e.target.value)}
         >
@@ -57,7 +57,7 @@ export function FilterBar({
         </select>
       )}
       {filtering && (
-        <span className="text-xs text-text-muted">
+        <span className="text-[0.75rem] text-text-muted">
           {visibleCount} de {totalCount}
         </span>
       )}

@@ -20,6 +20,8 @@ import { NewTaskModal, type NewTaskPrefill } from './components/modals/NewTaskMo
 import { CardDetailModal } from './components/modals/CardDetailModal';
 import { HelpModal } from './components/modals/HelpModal';
 import { PasteHintBanner } from './components/PasteHintBanner';
+import { BoardSummaryView } from './components/panels/BoardSummaryView';
+import { BackToTop } from './components/BackToTop';
 import type { CardData } from './types/card';
 import { STORAGE_KEYS } from './lib/storageKeys';
 import { filterCards } from './lib/filterCards';
@@ -34,7 +36,9 @@ import { buildBoardJson } from './lib/exporters/json';
 import { buildIcsCalendar } from './lib/exporters/ics';
 import { toIsoDate } from './lib/date';
 import { nextRecurrenceDate } from './lib/recurrence';
+import { computeBoardSummary } from './lib/boardSummary';
 import { TEMPLATE_CONFIG } from './lib/config';
+import { APP_VERSION } from './lib/config';
 
 function downloadBlob(content: string, filename: string, type: string) {
   const blob = new Blob(['﻿' + content], { type });
@@ -124,6 +128,21 @@ function App() {
   const totalCount = useMemo(() => columns.reduce((sum, c) => sum + c.cards.length, 0), [columns]);
   const visibleCount = useMemo(() => displayColumns.reduce((sum, c) => sum + c.cards.length, 0), [displayColumns]);
   const visibleTitles = useMemo(() => displayColumns.flatMap((c) => c.cards.map((card) => card.title)), [displayColumns]);
+
+  const boardSummary = useMemo(
+    () => computeBoardSummary(displayColumns, view.columnTimeVisible ? activity.daysByTitle : undefined),
+    [displayColumns, activity.daysByTitle, view.columnTimeVisible],
+  );
+
+  useEffect(() => {
+    if (state !== 'success') {
+      document.title = 'Sprint Board';
+      return;
+    }
+    const pct = boardSummary.total > 0 ? Math.round((boardSummary.done / boardSummary.total) * 100) : 0;
+    const alta = boardSummary.priorityCounts.Alta;
+    document.title = alta > 0 ? `⚠ ${alta} · Sprint Board · ${pct}%` : pct > 0 ? `Sprint Board · ${pct}%` : 'Sprint Board';
+  }, [state, boardSummary]);
 
   useEffect(() => {
     localStorage.setItem('sortMode', sortMode);
@@ -275,36 +294,45 @@ function App() {
   });
 
   return (
-    <main className="max-w-6xl mx-auto p-4">
-      <header>
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold">
-            Sprint Board {readonly && <span className="text-xs font-normal text-text-muted">🔒 Somente leitura</span>}
+    <main className="max-w-6xl mx-auto p-4 sm:p-8">
+      <header className="surface-panel p-6 mb-6 sticky top-0 z-10">
+        <div className="flex items-center justify-between mb-1">
+          <h1 className="text-2xl font-bold text-text">
+            Sprint Board <small className="version-badge text-[0.65rem] font-medium text-text-muted bg-badge-bg rounded-full px-2 py-0.5 align-middle">v{APP_VERSION}</small>
+            {readonly && (
+              <span className="ml-2 text-[0.65rem] font-medium text-text-muted bg-badge-bg rounded-full px-2 py-0.5 align-middle">
+                🔒 Somente leitura
+              </span>
+            )}
           </h1>
-          <div className="flex gap-2">
-            <button type="button" className="text-lg" title="Atalhos de teclado" onClick={() => setHelpOpen(true)}>
+          <div className="no-print flex items-center gap-2">
+            <button type="button" className="icon-btn" title="Atalhos de teclado" aria-label="Atalhos de teclado" onClick={() => setHelpOpen(true)}>
               ?
             </button>
-            <button type="button" className="text-lg" title="Alternar tema (T)" onClick={toggleTheme}>
+            <button type="button" className="icon-btn" title="Alternar tema (T)" aria-label="Alternar tema" onClick={toggleTheme}>
               {theme === 'dark' ? '☾' : '☀'}
             </button>
             <button
               type="button"
-              className="text-lg"
+              className={`icon-btn ${dyslexicFont ? 'link-btn--active border-blue' : ''}`}
               title="Fonte para disléxicos"
+              aria-label="Fonte para disléxicos"
               onClick={() => setDyslexicFont(!dyslexicFont)}
             >
               ⚑
             </button>
           </div>
         </div>
+        <p className="no-print text-[0.85rem] text-text-muted mb-3 leading-relaxed">
+          Cole o link da planilha (as abas devem se chamar <strong>To Do</strong>, <strong>In Progress</strong> e <strong>Done</strong>).
+        </p>
         <div className="no-print">
         <SheetUrlForm value={sheetUrl} onChange={setSheetUrl} onSubmit={handleLoad} loading={state === 'loading'} recentSheets={recentSheets.recent} />
         {state === 'success' && (
           <>
             {(mode !== 'tarefas' || extraLists.lists.length > 0) && (
               <select
-                className="mt-2 border border-border-input rounded px-2 py-1.5 bg-surface text-text"
+                className="field-input mt-2 px-2.5 py-1.5 cursor-pointer"
                 value={mode}
                 onChange={(e) => setMode(e.target.value)}
               >
@@ -328,32 +356,32 @@ function App() {
                   totalCount={totalCount}
                   inputRef={filterInputRef}
                 />
-                <ViewToggles
-                  compact={view.compact}
-                  onToggleCompact={() => view.setCompact(!view.compact)}
-                  focus={view.focus}
-                  onToggleFocus={() => view.setFocus(!view.focus)}
-                  columnTimeVisible={view.columnTimeVisible}
-                  onToggleColumnTime={() => view.setColumnTimeVisible(!view.columnTimeVisible)}
-                  expandActions={view.expandActions}
-                  onToggleExpandActions={() => view.setExpandActions(!view.expandActions)}
-                  sortMode={sortMode}
-                  onSortModeChange={setSortMode}
-                />
-                <HeaderMenus
-                  onCopyBoardLink={handleCopyBoardLink}
-                  onCopySheetUrl={handleCopySheetUrl}
-                  onShareWhatsApp={handleShareWhatsApp}
-                  onExportText={handleExportText}
-                  onDownloadMd={handleDownloadMd}
-                  onDownloadJson={handleDownloadJson}
-                  onDownloadCsv={handleDownloadCsv}
-                  onDownloadIcs={handleDownloadIcs}
-                />
-                <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                <div className="flex flex-wrap items-center gap-3 mt-3">
+                  <ViewToggles
+                    compact={view.compact}
+                    onToggleCompact={() => view.setCompact(!view.compact)}
+                    focus={view.focus}
+                    onToggleFocus={() => view.setFocus(!view.focus)}
+                    columnTimeVisible={view.columnTimeVisible}
+                    onToggleColumnTime={() => view.setColumnTimeVisible(!view.columnTimeVisible)}
+                    expandActions={view.expandActions}
+                    onToggleExpandActions={() => view.setExpandActions(!view.expandActions)}
+                    sortMode={sortMode}
+                    onSortModeChange={setSortMode}
+                  />
+                  <HeaderMenus
+                    onCopyBoardLink={handleCopyBoardLink}
+                    onCopySheetUrl={handleCopySheetUrl}
+                    onShareWhatsApp={handleShareWhatsApp}
+                    onExportText={handleExportText}
+                    onDownloadMd={handleDownloadMd}
+                    onDownloadJson={handleDownloadJson}
+                    onDownloadCsv={handleDownloadCsv}
+                    onDownloadIcs={handleDownloadIcs}
+                  />
                   <button
                     type="button"
-                    className="text-xs rounded px-2 py-1 border border-border-input"
+                    className={`link-btn ${activity.unseenCount > 0 ? 'link-btn--active' : ''}`}
                     onClick={() => {
                       setActivityPanelOpen((o) => !o);
                       if (!activityPanelOpen) activity.markSeen();
@@ -364,18 +392,18 @@ function App() {
                   {!readonly && (
                     <button
                       type="button"
-                      className={`text-xs rounded px-2 py-1 border border-border-input ${selection.selectMode ? 'bg-blue text-white border-blue' : ''}`}
+                      className={`link-btn ${selection.selectMode ? 'link-btn--active' : ''}`}
                       onClick={selection.toggleSelectMode}
                     >
                       Selecionar
                     </button>
                   )}
-                  <label className="text-xs flex items-center gap-1">
+                  <label className="text-[0.85rem] text-text-muted flex items-center gap-1.5">
                     <input type="checkbox" checked={autoRefresh} onChange={(e) => setAutoRefresh(e.target.checked)} />
                     Auto-refresh
                   </label>
                   <select
-                    className="text-xs rounded px-1 py-1 border border-border-input bg-surface text-text"
+                    className="field-input px-2 py-1 text-[0.85rem] cursor-pointer"
                     value={refreshIntervalMin}
                     onChange={(e) => setRefreshIntervalMin(Number(e.target.value))}
                   >
@@ -383,6 +411,19 @@ function App() {
                     <option value={5}>5 min</option>
                     <option value={10}>10 min</option>
                   </select>
+                  {!readonly && (
+                    <button
+                      type="button"
+                      className="new-task-btn ml-auto"
+                      onClick={() => {
+                        setNewTaskPrefill(undefined);
+                        setNewTaskModalOpen(true);
+                      }}
+                      title="Nova tarefa (N)"
+                    >
+                      + Nova Tarefa
+                    </button>
+                  )}
                 </div>
                 {selection.selectMode && !readonly && (
                   <BulkActionsBar
@@ -393,6 +434,7 @@ function App() {
                     onCancel={selection.toggleSelectMode}
                   />
                 )}
+                <BoardSummaryView summary={boardSummary} />
               </>
             )}
           </>
@@ -408,11 +450,18 @@ function App() {
       )}
 
       {state === 'idle' && (
-        <div className="mt-6 text-center text-text-muted">Insira o link da planilha acima para começar.</div>
+        <div className="surface-panel flex items-center justify-center min-h-[80px] p-8 mt-4 text-text-muted text-[0.95rem]">
+          Insira o link da planilha acima para começar.
+        </div>
       )}
-      {state === 'loading' && <div className="mt-6 text-center text-text-muted">Carregando...</div>}
+      {state === 'loading' && (
+        <div className="surface-panel flex items-center justify-center gap-3 min-h-[80px] p-8 mt-4 text-text-muted text-[0.95rem]">
+          <span className="spinner" />
+          Carregando...
+        </div>
+      )}
       {state === 'error' && (
-        <div className="mt-6 text-center text-error-color bg-error-bg border border-error-border rounded p-3">
+        <div className="surface-panel flex items-center justify-center min-h-[80px] p-8 mt-4 text-error-color bg-error-bg border border-error-border text-[0.95rem]">
           {errorMessage}
         </div>
       )}
@@ -466,6 +515,7 @@ function App() {
       {helpOpen && (
         <HelpModal onClose={() => setHelpOpen(false)} onDownloadTemplate={handleDownloadTemplate} onResetSettings={handleResetSettings} />
       )}
+      <BackToTop />
     </main>
   );
 }

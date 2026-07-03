@@ -36,7 +36,7 @@ export function DropdownMenu({ label, buttonClassName, panelClassName, children 
       </button>
       {open && (
         <div
-          className={`absolute top-full left-0 z-10 flex flex-col bg-surface rounded-lg shadow-lg p-1.5 min-w-[120px] ${panelClassName ?? ''}`}
+          className={`absolute top-full left-0 mt-1 z-10 flex flex-col bg-surface rounded-lg shadow-xl p-1.5 min-w-[140px] ${panelClassName ?? ''}`}
           onClick={() => setOpen(false)}
         >
           {children}

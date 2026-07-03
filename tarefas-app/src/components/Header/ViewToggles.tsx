@@ -1,7 +1,7 @@
+import { DropdownMenu } from '../DropdownMenu';
 import { SORT_MODES, type SortMode } from '../../lib/sortCards';
 
-const TOGGLE_BASE = 'text-xs rounded px-2 py-1 border border-border-input';
-const TOGGLE_ACTIVE = 'bg-blue text-white border-blue';
+const ITEM_CLASS = 'link-btn text-left p-1.5';
 
 interface ViewTogglesProps {
   compact: boolean;
@@ -23,6 +23,10 @@ const SORT_LABELS: Record<SortMode, string> = {
   titulo: 'Ordenar A-Z',
 };
 
+function activeClass(active: boolean) {
+  return `${ITEM_CLASS} ${active ? 'link-btn--active' : ''}`;
+}
+
 export function ViewToggles({
   compact,
   onToggleCompact,
@@ -35,10 +39,13 @@ export function ViewToggles({
   sortMode,
   onSortModeChange,
 }: ViewTogglesProps) {
+  const activeCount = [compact, focus, columnTimeVisible, expandActions].filter(Boolean).length;
+
   return (
-    <div className="flex flex-wrap gap-1.5 mt-2">
+    <div className="flex flex-wrap items-center gap-3">
       <select
-        className="text-xs rounded px-2 py-1 border border-border-input bg-surface text-text"
+        className="field-input px-2.5 py-1.5 text-[0.85rem] cursor-pointer"
+        title="Ciclar ordenação (S)"
         value={sortMode}
         onChange={(e) => onSortModeChange(e.target.value as SortMode)}
       >
@@ -48,18 +55,20 @@ export function ViewToggles({
           </option>
         ))}
       </select>
-      <button type="button" className={`${TOGGLE_BASE} ${compact ? TOGGLE_ACTIVE : ''}`} onClick={onToggleCompact} title="Compacto (D)">
-        Compacto
-      </button>
-      <button type="button" className={`${TOGGLE_BASE} ${focus ? TOGGLE_ACTIVE : ''}`} onClick={onToggleFocus}>
-        Foco
-      </button>
-      <button type="button" className={`${TOGGLE_BASE} ${columnTimeVisible ? TOGGLE_ACTIVE : ''}`} onClick={onToggleColumnTime}>
-        Tempo na coluna
-      </button>
-      <button type="button" className={`${TOGGLE_BASE} ${expandActions ? TOGGLE_ACTIVE : ''}`} onClick={onToggleExpandActions}>
-        Ver todas as ações
-      </button>
+      <DropdownMenu label={`Visualização${activeCount > 0 ? ` (${activeCount})` : ''} ▾`} buttonClassName="link-btn">
+        <button type="button" className={activeClass(compact)} onClick={onToggleCompact} title="Compacto (D)">
+          Compacto
+        </button>
+        <button type="button" className={activeClass(focus)} onClick={onToggleFocus}>
+          Foco
+        </button>
+        <button type="button" className={activeClass(columnTimeVisible)} onClick={onToggleColumnTime}>
+          Tempo na coluna
+        </button>
+        <button type="button" className={activeClass(expandActions)} onClick={onToggleExpandActions}>
+          Ver todas as ações
+        </button>
+      </DropdownMenu>
     </div>
   );
 }

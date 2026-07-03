@@ -30,7 +30,7 @@ export function CardDetailModal({ card, columnTitle, onClose }: CardDetailModalP
       onClose={onClose}
       title={card.title}
       footer={
-        <button type="button" className="rounded px-3 py-1.5 border border-border-input" onClick={onClose}>
+        <button type="button" className="btn-outline" onClick={onClose}>
           Fechar
         </button>
       }
