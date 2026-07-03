@@ -35,3 +35,13 @@ Falhas reportadas para análise e resolução automática no ciclo `dev-bat-loop
 **Status:** passou
 
 ---
+
+## #004 — Botão "+" não faz nada, causando perda de funcionalidades
+
+**O que:** O botão "mais" é o botão ao lado do copiar em cada tarefa, não faz nada quando clicado. O usuário relata que isso está fazendo perder várias funcionalidades.
+
+**Como resolvi:** Primeira tentativa (incorreta): confundi "botão mais" com o "+" do header (`#new-task-btn`) e corrigi um bug real mas não relacionado nele (`addEventListener('click', openNewTaskModal)` recebia o `MouseEvent` como `prefill` — corrigido para `() => openNewTaskModal()`, mantido pois é uma correção válida por si só). O usuário esclareceu que "mais" é o botão **"Mais ▾"** de cada card (`.card-more-btn`, ao lado de "Copiar"), que abre um painel com "Sugerir ao Claude"/"+ Agenda"/"WhatsApp"/"Duplicar" — o que explica "perco várias funcionalidades" (as 4 de uma vez). Causa real: `.card-more-panel` tem `position: absolute; top: 100%` (via `.export-menu-panel`), mas seu pai direto `.card-actions` não tem `position: relative` — então o painel se posiciona relativo ao `.card` inteiro (o ancestral posicionado mais próximo), não ao botão "Mais ▾", renderizando fora do lugar esperado e sendo cortado pelo `overflow-y: auto` de `.column-body` na maioria dos casos, dando a impressão de que o clique "não faz nada". Corrigido envolvendo `.card-more-btn` + `.card-more-panel` em um wrapper `.card-more-menu` (`renderCard` em `ui.js`) com `position: relative` — mesmo padrão já usado e funcional em `.export-menu` (menus Baixar/Compartilhar/Visualização do header). `.card-more-menu` adicionado à regra `.export-menu { position: relative; display: inline-block; }` em `style.css` (seletor combinado, reaproveitando a regra existente). (aprendizado registrado em 2026-07-03)
+
+**Status:** passou
+
+---

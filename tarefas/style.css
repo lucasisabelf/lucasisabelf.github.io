@@ -331,7 +331,8 @@ main {
   font-weight: 700;
 }
 
-.export-menu {
+.export-menu,
+.card-more-menu {
   position: relative;
   display: inline-block;
 }

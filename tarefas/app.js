@@ -703,7 +703,7 @@ document.getElementById('back-to-top').addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 document.getElementById('reset-settings-btn').addEventListener('click', resetAllSettings);
-document.getElementById('new-task-btn').addEventListener('click', openNewTaskModal);
+document.getElementById('new-task-btn').addEventListener('click', () => openNewTaskModal());
 document.getElementById('modal-cancel').addEventListener('click', closeNewTaskModal);
 document.getElementById('modal-submit').addEventListener('click', submitNewTask);
 document.getElementById('new-task-overlay').addEventListener('click', e => {

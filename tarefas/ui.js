@@ -195,10 +195,13 @@ function renderCard(row, daysInColumn, isNew) {
     actions.appendChild(linkEl);
   }
 
+  const moreWrapper = document.createElement('div');
+  moreWrapper.className = 'card-more-menu';
+
   const moreBtn = document.createElement('button');
   moreBtn.className = 'card-action-btn card-more-btn';
   moreBtn.textContent = 'Mais ▾';
-  actions.appendChild(moreBtn);
+  moreWrapper.appendChild(moreBtn);
 
   const morePanel = document.createElement('div');
   morePanel.className = 'card-more-panel export-menu-panel hidden';
@@ -225,7 +228,8 @@ function renderCard(row, daysInColumn, isNew) {
     morePanel.appendChild(dupBtn);
   }
 
-  actions.appendChild(morePanel);
+  moreWrapper.appendChild(morePanel);
+  actions.appendChild(moreWrapper);
   card.appendChild(actions);
 
   return card;
