@@ -23,7 +23,7 @@ export function Modal({ onClose, title, children, footer }: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/45 flex items-center justify-center z-50"
+      className="no-print fixed inset-0 bg-black/45 flex items-center justify-center z-50"
       role="dialog"
       aria-modal="true"
       onClick={(e) => {

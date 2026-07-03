@@ -23,13 +23,14 @@ export function useSheetData() {
   const [columns, setColumns] = useState<ColumnData[]>([]);
   const [state, setState] = useState<BoardState>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [sheetId, setSheetId] = useState<string | null>(null);
 
   const load = useCallback(async (sheetUrl: string) => {
     const id = extractSheetId(sheetUrl);
     if (!id) {
       setState('error');
       setErrorMessage('URL inválida. Cole o link de compartilhamento do Google Sheets.');
-      return;
+      return null;
     }
 
     setState('loading');
@@ -41,7 +42,9 @@ export function useSheetData() {
         cards: rows.map(mapCardRow),
       }));
       setColumns(newColumns);
+      setSheetId(id);
       setState('success');
+      return { id, columns: newColumns };
     } catch (err) {
       setState('error');
       if (err instanceof DOMException && err.name === 'AbortError') {
@@ -51,6 +54,7 @@ export function useSheetData() {
           err instanceof Error ? err.message : 'Erro ao carregar a planilha. Verifique a URL e a visibilidade da planilha.',
         );
       }
+      return null;
     }
   }, []);
 
@@ -58,7 +62,8 @@ export function useSheetData() {
     setState('idle');
     setColumns([]);
     setErrorMessage('');
+    setSheetId(null);
   }, []);
 
-  return { columns, state, errorMessage, load, reset };
+  return { columns, state, errorMessage, sheetId, load, reset };
 }

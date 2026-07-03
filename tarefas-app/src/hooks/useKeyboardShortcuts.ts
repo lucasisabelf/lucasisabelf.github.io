@@ -11,6 +11,7 @@ export interface KeyboardShortcutHandlers {
   onToggleSelectMode(): void;
   onToggleHelp(): void;
   onEscape(): void;
+  onPrint(): void;
 }
 
 /** Atalhos globais do board — espelha os já documentados no modal de Ajuda da versão vanilla. */
@@ -51,6 +52,9 @@ export function useKeyboardShortcuts(handlers: KeyboardShortcutHandlers) {
           break;
         case 'v':
           handlers.onToggleSelectMode();
+          break;
+        case 'p':
+          handlers.onPrint();
           break;
       }
     }

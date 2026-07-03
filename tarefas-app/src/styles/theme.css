@@ -138,3 +138,9 @@ body {
 [data-dyslexic-font="true"] body {
   font-family: Verdana, Tahoma, Arial, sans-serif;
 }
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

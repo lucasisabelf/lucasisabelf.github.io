@@ -1,0 +1,16 @@
+export const STORAGE_KEYS = [
+  'lastSheet',
+  'recentSheets',
+  'theme',
+  'dyslexicFont',
+  'sortMode',
+  'compactMode',
+  'focusMode',
+  'columnTimeVisible',
+  'expandActionsMode',
+  'columnEntryTimes',
+  'activityLog',
+  'activityTotalCount',
+  'activityLastSeenCount',
+  'mode',
+];

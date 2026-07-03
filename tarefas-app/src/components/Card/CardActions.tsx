@@ -31,7 +31,7 @@ export function CardActions({ card, expandActions, readonly, onCopy, onDuplicate
   );
 
   return (
-    <div className="flex gap-2.5 mt-2 pt-1.5 border-t border-border">
+    <div className="no-print flex gap-2.5 mt-2 pt-1.5 border-t border-border">
       <button type="button" className={ACTION_BTN_CLASS} onClick={() => onCopy(card)}>
         Copiar
       </button>
