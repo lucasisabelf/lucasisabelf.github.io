@@ -1,3 +1,8 @@
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import type { ActivityEntry } from '../../hooks/useActivityLog';
 
 interface ActivityPanelProps {
@@ -6,19 +11,26 @@ interface ActivityPanelProps {
 
 export function ActivityPanel({ log }: ActivityPanelProps) {
   return (
-    <div className="surface-panel p-6">
-      <h2 className="text-[1.05rem] font-bold text-text mb-4">Atividade recente</h2>
+    <Paper elevation={1} sx={{ p: 3 }}>
+      <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5 }}>
+        Atividade recente
+      </Typography>
       {log.length === 0 ? (
-        <div className="text-center text-sm text-empty-col py-2">Nenhuma atividade registrada ainda</div>
+        <Typography variant="body2" color="text.disabled" sx={{ textAlign: 'center', py: 1 }}>
+          Nenhuma atividade registrada ainda
+        </Typography>
       ) : (
-        <ul className="space-y-1.5 text-[0.85rem] text-text-muted">
+        <List dense disablePadding>
           {log.map((entry, i) => (
-            <li key={i}>
-              {entry.title}: {entry.from} → {entry.to}
-            </li>
+            <ListItem key={i} disableGutters>
+              <ListItemText
+                slotProps={{ primary: { variant: 'body2', color: 'text.secondary' } }}
+                primary={`${entry.title}: ${entry.from} → ${entry.to}`}
+              />
+            </ListItem>
           ))}
-        </ul>
+        </List>
       )}
-    </div>
+    </Paper>
   );
 }

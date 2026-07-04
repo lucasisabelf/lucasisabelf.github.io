@@ -47,7 +47,7 @@ describe('Card', () => {
   it('reveals the "Mais" dropdown panel on click (regressão de FALHAS.md #004)', async () => {
     render(<Card {...baseProps} expandActions={false} />);
     expect(screen.queryByText('WhatsApp')).not.toBeInTheDocument();
-    await userEvent.click(screen.getByText('Mais ▾'));
+    await userEvent.click(screen.getByText('Mais'));
     expect(screen.getByText('WhatsApp')).toBeInTheDocument();
     expect(screen.getByText('Duplicar')).toBeInTheDocument();
   });

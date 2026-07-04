@@ -1,11 +1,14 @@
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import LinearProgress from '@mui/material/LinearProgress';
 import type { BoardSummary } from '../../lib/boardSummary';
 
 export function BoardSummaryView({ summary }: { summary: BoardSummary }) {
   if (summary.total === 0) {
     return (
-      <p className="mt-2 text-center text-[0.82rem] text-text-muted">
+      <Typography variant="body2" color="text.secondary" sx={{ mt: 2, textAlign: 'center' }}>
         Nenhuma tarefa encontrada — confira se os dados começam na linha 3 e se os nomes das abas conferem.
-      </p>
+      </Typography>
     );
   }
 
@@ -35,11 +38,11 @@ export function BoardSummaryView({ summary }: { summary: BoardSummary }) {
   const pct = summary.total > 0 ? Math.round((summary.done / summary.total) * 100) : 0;
 
   return (
-    <div className="mt-2 text-center">
-      <p className="text-[0.82rem] text-text-muted">{text}</p>
-      <div className="h-1.5 bg-border rounded-full mt-1.5 overflow-hidden">
-        <div className="h-full bg-blue rounded-full transition-[width] duration-500 ease-out" style={{ width: `${pct}%` }} />
-      </div>
-    </div>
+    <Box sx={{ mt: 2, textAlign: 'center' }}>
+      <Typography variant="body2" color="text.secondary">
+        {text}
+      </Typography>
+      <LinearProgress variant="determinate" value={pct} sx={{ mt: 1, borderRadius: 999, height: 6 }} />
+    </Box>
   );
 }

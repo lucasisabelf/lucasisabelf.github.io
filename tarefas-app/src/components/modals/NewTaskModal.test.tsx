@@ -15,7 +15,8 @@ describe('NewTaskModal', () => {
     const onSubmit = vi.fn();
     render(<NewTaskModal onClose={vi.fn()} onSubmit={onSubmit} />);
     await userEvent.type(screen.getByLabelText('Nome'), 'Revisar backlog');
-    await userEvent.selectOptions(screen.getByLabelText('Repetir'), 'semanal');
+    await userEvent.click(screen.getByLabelText('Repetir'));
+    await userEvent.click(await screen.findByText('Semanalmente'));
     await userEvent.click(screen.getByText('Adicionar'));
     expect(onSubmit).toHaveBeenCalledTimes(1);
     const tsv = onSubmit.mock.calls[0][0] as string;
@@ -33,6 +34,6 @@ describe('NewTaskModal', () => {
     );
     expect(screen.getByLabelText('Nome')).toHaveValue('Tarefa (cópia)');
     expect(screen.getByLabelText('Descrição')).toHaveValue('desc original');
-    expect(screen.getByLabelText('Repetir')).toHaveValue('mensal');
+    expect(screen.getByLabelText('Repetir')).toHaveTextContent('Mensalmente');
   });
 });

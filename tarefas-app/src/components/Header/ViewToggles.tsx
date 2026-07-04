@@ -1,7 +1,12 @@
-import { DropdownMenu } from '../DropdownMenu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import CheckIcon from '@mui/icons-material/Check';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { AppMenu } from '../AppMenu';
 import { SORT_MODES, type SortMode } from '../../lib/sortCards';
-
-const ITEM_CLASS = 'link-btn text-left p-1.5';
 
 interface ViewTogglesProps {
   compact: boolean;
@@ -23,8 +28,13 @@ const SORT_LABELS: Record<SortMode, string> = {
   titulo: 'Ordenar A-Z',
 };
 
-function activeClass(active: boolean) {
-  return `${ITEM_CLASS} ${active ? 'link-btn--active' : ''}`;
+function ToggleItem({ active, label, onClick }: { active: boolean; label: string; onClick(): void }) {
+  return (
+    <MenuItem onClick={onClick}>
+      <ListItemIcon>{active && <CheckIcon fontSize="small" />}</ListItemIcon>
+      <ListItemText>{label}</ListItemText>
+    </MenuItem>
+  );
 }
 
 export function ViewToggles({
@@ -42,33 +52,27 @@ export function ViewToggles({
   const activeCount = [compact, focus, columnTimeVisible, expandActions].filter(Boolean).length;
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <select
-        className="field-input px-2.5 py-1.5 text-[0.85rem] cursor-pointer"
-        title="Ciclar ordenação (S)"
-        value={sortMode}
-        onChange={(e) => onSortModeChange(e.target.value as SortMode)}
+    <>
+      <FormControl size="small">
+        <Select value={sortMode} onChange={(e) => onSortModeChange(e.target.value as SortMode)} title="Ciclar ordenação (S)">
+          {SORT_MODES.map((mode) => (
+            <MenuItem key={mode} value={mode}>
+              {SORT_LABELS[mode]}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <AppMenu
+        label={`Visualização${activeCount > 0 ? ` (${activeCount})` : ''}`}
+        buttonProps={{ endIcon: <ExpandMoreIcon />, size: 'small' }}
       >
-        {SORT_MODES.map((mode) => (
-          <option key={mode} value={mode}>
-            {SORT_LABELS[mode]}
-          </option>
-        ))}
-      </select>
-      <DropdownMenu label={`Visualização${activeCount > 0 ? ` (${activeCount})` : ''} ▾`} buttonClassName="link-btn">
-        <button type="button" className={activeClass(compact)} onClick={onToggleCompact} title="Compacto (D)">
-          Compacto
-        </button>
-        <button type="button" className={activeClass(focus)} onClick={onToggleFocus}>
-          Foco
-        </button>
-        <button type="button" className={activeClass(columnTimeVisible)} onClick={onToggleColumnTime}>
-          Tempo na coluna
-        </button>
-        <button type="button" className={activeClass(expandActions)} onClick={onToggleExpandActions}>
-          Ver todas as ações
-        </button>
-      </DropdownMenu>
-    </div>
+        {() => [
+          <ToggleItem key="compact" active={compact} label="Compacto (D)" onClick={onToggleCompact} />,
+          <ToggleItem key="focus" active={focus} label="Foco" onClick={onToggleFocus} />,
+          <ToggleItem key="colTime" active={columnTimeVisible} label="Tempo na coluna" onClick={onToggleColumnTime} />,
+          <ToggleItem key="expand" active={expandActions} label="Ver todas as ações" onClick={onToggleExpandActions} />,
+        ]}
+      </AppMenu>
+    </>
   );
 }

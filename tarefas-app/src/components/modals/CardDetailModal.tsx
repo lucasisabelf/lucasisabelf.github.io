@@ -1,4 +1,12 @@
-import { Modal } from '../Modal';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
+import Link from '@mui/material/Link';
 import type { CardData } from '../../types/card';
 import { parseChecklist } from '../../lib/checklist';
 import { parsePtBrDate } from '../../lib/date';
@@ -26,49 +34,60 @@ export function CardDetailModal({ card, columnTitle, onClose }: CardDetailModalP
   }
 
   return (
-    <Modal
-      onClose={onClose}
-      title={card.title}
-      footer={
-        <button type="button" className="btn-outline" onClick={onClose}>
-          Fechar
-        </button>
-      }
-    >
-      <div className="space-y-2 text-sm">
-        {checklist ? (
-          <ul className="text-text-muted">
-            {checklist.map((item, i) => (
-              <li key={i}>
-                {item.done ? '☑' : '☐'} {item.text}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          card.desc && <p className="text-text-muted">{card.desc}</p>
-        )}
-        <p className="text-text-muted">Coluna: {columnTitle}</p>
-        {card.date && <p className="text-text-muted">{dateText}</p>}
-        {card.priority && <p className="text-text-muted">Prioridade: {card.priority}</p>}
-        {card.responsavel && <p className="text-text-muted">Responsável: {card.responsavel}</p>}
-        {card.link && (
-          <p className="text-text-muted">
-            Link:{' '}
-            <a className="text-blue underline" href={card.link} target="_blank" rel="noopener noreferrer">
-              {card.link}
-            </a>
-          </p>
-        )}
-        {card.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {card.tags.map((tag) => (
-              <span key={tag} className="rounded-full px-2 py-0.5 text-xs bg-badge-bg text-text-muted">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-    </Modal>
+    <Dialog open onClose={onClose} fullWidth maxWidth="xs">
+      <DialogTitle>{card.title}</DialogTitle>
+      <DialogContent>
+        <Stack spacing={1.25}>
+          {checklist ? (
+            <Stack component="ul" sx={{ pl: 0, listStyle: 'none', m: 0 }}>
+              {checklist.map((item, i) => (
+                <Typography component="li" variant="body2" color="text.secondary" key={i}>
+                  {item.done ? '☑' : '☐'} {item.text}
+                </Typography>
+              ))}
+            </Stack>
+          ) : (
+            card.desc && (
+              <Typography variant="body2" color="text.secondary">
+                {card.desc}
+              </Typography>
+            )
+          )}
+          <Typography variant="body2" color="text.secondary">
+            Coluna: {columnTitle}
+          </Typography>
+          {card.date && (
+            <Typography variant="body2" color="text.secondary">
+              {dateText}
+            </Typography>
+          )}
+          {card.priority && (
+            <Typography variant="body2" color="text.secondary">
+              Prioridade: {card.priority}
+            </Typography>
+          )}
+          {card.responsavel && (
+            <Typography variant="body2" color="text.secondary">
+              Responsável: {card.responsavel}
+            </Typography>
+          )}
+          {card.link && (
+            <Typography variant="body2" color="text.secondary">
+              Link: <Link href={card.link} target="_blank" rel="noopener noreferrer">{card.link}</Link>
+            </Typography>
+          )}
+          {card.tags.length > 0 && (
+            <Stack direction="row" spacing={0.75} useFlexGap sx={{ flexWrap: 'wrap' }}>
+              {card.tags.map((tag) => (
+                <Chip key={tag} size="small" label={tag} variant="outlined" />
+              ))}
+            </Stack>
+          )}
+        </Stack>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Fechar</Button>
+      </DialogActions>
+    </Dialog>
   );
 }

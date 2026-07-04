@@ -1,3 +1,11 @@
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import ClearIcon from '@mui/icons-material/Clear';
+
 interface FilterBarProps {
   query: string;
   onQueryChange(query: string): void;
@@ -22,45 +30,47 @@ export function FilterBar({
   const filtering = query !== '' || responsavelFilter !== '';
 
   return (
-    <div className="flex flex-wrap items-center gap-2 mt-3">
-      <div className="relative flex-1 min-w-[180px]">
-        <input
-          ref={inputRef}
-          className="field-input w-full px-3.5 py-2 pr-9"
-          placeholder="Filtrar tarefas..."
-          value={query}
-          onChange={(e) => onQueryChange(e.target.value)}
-        />
-        {query && (
-          <button
-            type="button"
-            aria-label="Limpar filtro"
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text text-[0.85rem] bg-transparent border-0 cursor-pointer p-0 leading-none"
-            onClick={() => onQueryChange('')}
-          >
-            ✕
-          </button>
-        )}
-      </div>
+    <Stack direction="row" spacing={1.5} useFlexGap sx={{ flexWrap: 'wrap', alignItems: 'center' }}>
+      <TextField
+        inputRef={inputRef}
+        size="small"
+        placeholder="Filtrar tarefas..."
+        value={query}
+        onChange={(e) => onQueryChange(e.target.value)}
+        sx={{ flex: 1, minWidth: 180 }}
+        slotProps={{
+          input: {
+            endAdornment: query && (
+              <InputAdornment position="end">
+                <IconButton size="small" aria-label="Limpar filtro" onClick={() => onQueryChange('')}>
+                  <ClearIcon fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
+        }}
+      />
       {responsavelOptions.length > 0 && (
-        <select
-          className="field-input px-2.5 py-2 cursor-pointer"
+        <TextField
+          select
+          size="small"
           value={responsavelFilter}
           onChange={(e) => onResponsavelFilterChange(e.target.value)}
+          sx={{ minWidth: 180 }}
         >
-          <option value="">Todos os responsáveis</option>
+          <MenuItem value="">Todos os responsáveis</MenuItem>
           {responsavelOptions.map(({ name, count }) => (
-            <option key={name} value={name}>
+            <MenuItem key={name} value={name}>
               {name} ({count})
-            </option>
+            </MenuItem>
           ))}
-        </select>
+        </TextField>
       )}
       {filtering && (
-        <span className="text-[0.75rem] text-text-muted">
+        <Typography variant="caption" color="text.secondary">
           {visibleCount} de {totalCount}
-        </span>
+        </Typography>
       )}
-    </div>
+    </Stack>
   );
 }

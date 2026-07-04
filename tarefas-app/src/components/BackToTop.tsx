@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import Fab from '@mui/material/Fab';
+import Zoom from '@mui/material/Zoom';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -11,17 +14,19 @@ export function BackToTop() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  if (!visible) return null;
-
   return (
-    <button
-      type="button"
-      className="no-print fixed bottom-6 right-6 w-10 h-10 rounded-full bg-blue text-white text-lg shadow-lg z-40 hover:bg-blue-hover transition-colors"
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      aria-label="Voltar ao topo"
-      title="Voltar ao topo"
-    >
-      ⇧
-    </button>
+    <Zoom in={visible}>
+      <Fab
+        className="no-print"
+        color="primary"
+        size="small"
+        sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 40 }}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Voltar ao topo"
+        title="Voltar ao topo"
+      >
+        <KeyboardArrowUpIcon />
+      </Fab>
+    </Zoom>
   );
 }

@@ -1,8 +1,12 @@
+import MuiCardActions from '@mui/material/CardActions';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LinkIcon from '@mui/icons-material/Link';
 import type { CardData } from '../../types/card';
 import type { CardActionHandlers } from '../../types/handlers';
-import { DropdownMenu } from '../DropdownMenu';
-
-const ACTION_BTN_CLASS = 'text-xs text-text-muted bg-transparent border-0 cursor-pointer p-0 hover:text-blue';
+import { AppMenu } from '../AppMenu';
 
 interface CardActionsProps extends CardActionHandlers {
   card: CardData;
@@ -11,42 +15,35 @@ interface CardActionsProps extends CardActionHandlers {
 }
 
 export function CardActions({ card, expandActions, readonly, onCopy, onDuplicate, onWhatsApp, onCalendar, onAskClaude }: CardActionsProps) {
-  const moreButtons = (
-    <>
-      <button type="button" className={ACTION_BTN_CLASS} onClick={() => onAskClaude(card)}>
-        Sugerir ao Claude
-      </button>
-      <button type="button" className={ACTION_BTN_CLASS} onClick={() => onCalendar(card)}>
-        + Agenda
-      </button>
-      <button type="button" className={ACTION_BTN_CLASS} onClick={() => onWhatsApp(card)}>
-        WhatsApp
-      </button>
-      {!readonly && (
-        <button type="button" className={ACTION_BTN_CLASS} onClick={() => onDuplicate(card)}>
-          Duplicar
-        </button>
-      )}
-    </>
-  );
+  const moreMenuItems = (close: () => void) => [
+    <MenuItem key="ask" onClick={() => { onAskClaude(card); close(); }}>Sugerir ao Claude</MenuItem>,
+    <MenuItem key="cal" onClick={() => { onCalendar(card); close(); }}>+ Agenda</MenuItem>,
+    <MenuItem key="wa" onClick={() => { onWhatsApp(card); close(); }}>WhatsApp</MenuItem>,
+    ...(readonly ? [] : [<MenuItem key="dup" onClick={() => { onDuplicate(card); close(); }}>Duplicar</MenuItem>]),
+  ];
 
   return (
-    <div className="no-print flex gap-2.5 mt-2 pt-1.5 border-t border-border">
-      <button type="button" className={ACTION_BTN_CLASS} onClick={() => onCopy(card)}>
+    <MuiCardActions className="no-print" sx={{ px: 0, pb: 0, pt: 1, mt: 1, borderTop: '1px solid', borderColor: 'divider', gap: 0.5 }}>
+      <Button size="small" onClick={() => onCopy(card)}>
         Copiar
-      </button>
+      </Button>
       {card.link && (
-        <a className={ACTION_BTN_CLASS} href={card.link} target="_blank" rel="noopener noreferrer">
-          🔗
-        </a>
+        <IconButton size="small" component="a" href={card.link} target="_blank" rel="noopener noreferrer">
+          <LinkIcon fontSize="small" />
+        </IconButton>
       )}
       {expandActions ? (
-        moreButtons
+        <>
+          <Button size="small" onClick={() => onAskClaude(card)}>Sugerir ao Claude</Button>
+          <Button size="small" onClick={() => onCalendar(card)}>+ Agenda</Button>
+          <Button size="small" onClick={() => onWhatsApp(card)}>WhatsApp</Button>
+          {!readonly && <Button size="small" onClick={() => onDuplicate(card)}>Duplicar</Button>}
+        </>
       ) : (
-        <DropdownMenu label="Mais ▾" buttonClassName={ACTION_BTN_CLASS}>
-          {moreButtons}
-        </DropdownMenu>
+        <AppMenu label="Mais" buttonProps={{ size: 'small', endIcon: <ExpandMoreIcon /> }}>
+          {moreMenuItems}
+        </AppMenu>
       )}
-    </div>
+    </MuiCardActions>
   );
 }

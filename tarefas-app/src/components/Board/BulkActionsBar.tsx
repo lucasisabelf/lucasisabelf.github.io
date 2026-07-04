@@ -1,3 +1,8 @@
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
 interface BulkActionsBarProps {
   selectedCount: number;
   onSelectAll(): void;
@@ -8,22 +13,16 @@ interface BulkActionsBarProps {
 
 export function BulkActionsBar({ selectedCount, onSelectAll, onCopySelected, onDownloadCsvSelected, onCancel }: BulkActionsBarProps) {
   return (
-    <div className="surface-panel flex flex-wrap items-center gap-3 px-4 py-3 mt-3 text-[0.85rem] text-text-muted">
-      <span>
-        {selectedCount} selecionado{selectedCount !== 1 ? 's' : ''}
-      </span>
-      <button type="button" className="link-btn" onClick={onSelectAll}>
-        Selecionar todos
-      </button>
-      <button type="button" className="link-btn" onClick={onCopySelected}>
-        Copiar selecionados
-      </button>
-      <button type="button" className="link-btn" onClick={onDownloadCsvSelected}>
-        Baixar CSV selecionados
-      </button>
-      <button type="button" className="link-btn" onClick={onCancel}>
-        Cancelar
-      </button>
-    </div>
+    <Paper elevation={1} sx={{ mt: 1.5 }}>
+      <Stack direction="row" spacing={1.5} useFlexGap sx={{ flexWrap: 'wrap', alignItems: 'center', px: 2, py: 1.5 }}>
+        <Typography variant="body2" color="text.secondary">
+          {selectedCount} selecionado{selectedCount !== 1 ? 's' : ''}
+        </Typography>
+        <Button size="small" onClick={onSelectAll}>Selecionar todos</Button>
+        <Button size="small" onClick={onCopySelected}>Copiar selecionados</Button>
+        <Button size="small" onClick={onDownloadCsvSelected}>Baixar CSV selecionados</Button>
+        <Button size="small" onClick={onCancel}>Cancelar</Button>
+      </Stack>
+    </Paper>
   );
 }

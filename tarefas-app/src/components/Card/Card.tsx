@@ -1,3 +1,9 @@
+import MuiCard from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Checkbox from '@mui/material/Checkbox';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import type { CardData } from '../../types/card';
 import type { CardActionHandlers, CardDetailHandlers, CardFilterHandlers, CardSelectionHandlers } from '../../types/handlers';
 import { parseChecklist } from '../../lib/checklist';
@@ -5,10 +11,10 @@ import { getDateInfo } from '../../lib/dateStatus';
 import { CardBadges } from './CardBadges';
 import { CardActions } from './CardActions';
 
-const PRIORITY_BORDER: Record<string, string> = {
-  Alta: 'border-l-[3px] border-l-priority-high-color',
-  Média: 'border-l-[3px] border-l-priority-mid-color',
-  Baixa: 'border-l-[3px] border-l-empty-col',
+const PRIORITY_BORDER_COLOR: Record<string, string> = {
+  Alta: '#c53030',
+  Média: '#b45309',
+  Baixa: '#a0aec0',
 };
 
 interface CardProps
@@ -32,74 +38,83 @@ export function Card(props: CardProps) {
   const overdueStage = !isDoneColumn && dateInfo ? dateInfo.overdueStage : 0;
 
   return (
-    <div
-      className={`card-surface relative bg-surface-card border rounded-lg p-3 ${responsavel ? 'border-border' : 'border-dashed border-border-input'} ${priority && PRIORITY_BORDER[priority] ? PRIORITY_BORDER[priority] : ''} ${overdueStage > 0 ? `bg-overdue-bg card-overdue-stage card-overdue-stage-${overdueStage}` : ''}`}
-      tabIndex={0}
-      role="button"
+    <MuiCard
+      variant="outlined"
+      className={`card-surface ${overdueStage > 0 ? `card-overdue-stage card-overdue-stage-${overdueStage}` : ''}`}
+      sx={{
+        position: 'relative',
+        borderLeft: priority && PRIORITY_BORDER_COLOR[priority] ? `3px solid ${PRIORITY_BORDER_COLOR[priority]}` : undefined,
+        borderStyle: responsavel ? 'solid' : 'dashed',
+        bgcolor: overdueStage > 0 ? 'var(--overdue-bg)' : undefined,
+      }}
     >
-      {props.onToggleSelect && (
-        <input
-          type="checkbox"
-          className="absolute top-2.5 right-2.5"
-          checked={props.selected}
-          onChange={() => props.onToggleSelect!(title)}
-        />
-      )}
-
-      {isNew && (
-        <span className="inline-block mb-1 text-[0.68rem] font-bold uppercase text-feedback-color bg-feedback-bg rounded px-1.5 py-0.5">
-          Novo
-        </span>
-      )}
-
-      <div className="font-semibold text-[0.9rem] leading-snug text-text-card-title cursor-pointer" onClick={() => onOpenDetail(cardData)}>
-        {title}
-        {checklist && (
-          <span className="ml-1.5 text-xs font-normal text-text-muted">
-            {checklist.filter((i) => i.done).length}/{checklist.length}
-          </span>
+      <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+        {props.onToggleSelect && (
+          <Checkbox
+            size="small"
+            sx={{ position: 'absolute', top: 4, right: 4 }}
+            checked={props.selected}
+            onChange={() => props.onToggleSelect!(title)}
+          />
         )}
-      </div>
 
-      {checklist ? (
-        <ul className="mt-1.5 text-[0.82rem] leading-relaxed text-text-muted list-none">
-          {checklist.map((item, i) => (
-            <li key={i}>
-              {item.done ? '☑' : '☐'} {item.text}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        desc && <div className="mt-1.5 text-[0.82rem] leading-relaxed text-text-muted">{desc}</div>
-      )}
+        {isNew && <Chip size="small" color="success" label="Novo" sx={{ mb: 0.5, fontWeight: 700 }} />}
 
-      <CardBadges
-        date={date}
-        priority={priority}
-        recurrence={recurrence}
-        responsavel={responsavel}
-        tags={tags}
-        activeFilter={activeFilter}
-        onFilterByPriority={onFilterByPriority}
-        onFilterByTag={onFilterByTag}
-      />
+        <Box sx={{ cursor: 'pointer' }} onClick={() => onOpenDetail(cardData)}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+            {title}
+            {checklist && (
+              <Typography component="span" variant="caption" color="text.secondary" sx={{ ml: 0.75 }}>
+                {checklist.filter((i) => i.done).length}/{checklist.length}
+              </Typography>
+            )}
+          </Typography>
+        </Box>
 
-      {daysInColumn !== undefined && daysInColumn > 0 && (
-        <span className="block mt-1.5 text-xs text-empty-col">
-          há {daysInColumn} dia{daysInColumn !== 1 ? 's' : ''}
-        </span>
-      )}
+        {checklist ? (
+          <Box component="ul" sx={{ mt: 0.75, mb: 0, pl: 0, listStyle: 'none', fontSize: '0.82rem', color: 'text.secondary' }}>
+            {checklist.map((item, i) => (
+              <li key={i}>
+                {item.done ? '☑' : '☐'} {item.text}
+              </li>
+            ))}
+          </Box>
+        ) : (
+          desc && (
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.75 }}>
+              {desc}
+            </Typography>
+          )
+        )}
 
-      <CardActions
-        card={cardData}
-        expandActions={expandActions}
-        readonly={readonly}
-        onCopy={onCopy}
-        onDuplicate={onDuplicate}
-        onWhatsApp={onWhatsApp}
-        onCalendar={onCalendar}
-        onAskClaude={onAskClaude}
-      />
-    </div>
+        <CardBadges
+          date={date}
+          priority={priority}
+          recurrence={recurrence}
+          responsavel={responsavel}
+          tags={tags}
+          activeFilter={activeFilter}
+          onFilterByPriority={onFilterByPriority}
+          onFilterByTag={onFilterByTag}
+        />
+
+        {daysInColumn !== undefined && daysInColumn > 0 && (
+          <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 0.75 }}>
+            há {daysInColumn} dia{daysInColumn !== 1 ? 's' : ''}
+          </Typography>
+        )}
+
+        <CardActions
+          card={cardData}
+          expandActions={expandActions}
+          readonly={readonly}
+          onCopy={onCopy}
+          onDuplicate={onDuplicate}
+          onWhatsApp={onWhatsApp}
+          onCalendar={onCalendar}
+          onAskClaude={onAskClaude}
+        />
+      </CardContent>
+    </MuiCard>
   );
 }

@@ -1,11 +1,15 @@
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import type { ColumnData } from '../../types/card';
 import type { CardActionHandlers, CardDetailHandlers, CardFilterHandlers, CardSelectionHandlers } from '../../types/handlers';
 import { Card } from '../Card/Card';
 
-const HEADER_CLASS: Record<string, string> = {
-  todo: 'bg-[#3b82f6] text-white',
-  progress: 'bg-[#f59e0b] text-white',
-  done: 'bg-[#10b981] text-white',
+const HEADER_COLOR: Record<string, string> = {
+  todo: '#3b82f6',
+  progress: '#f59e0b',
+  done: '#10b981',
 };
 
 interface ColumnProps
@@ -27,21 +31,35 @@ export function Column(props: ColumnProps) {
   const { id, title, cards, onCreateTask, selectedTitles, newTitles, daysByTitle, onToggleSelect, ...cardHandlers } = props;
 
   return (
-    <div className="surface-panel flex flex-col overflow-hidden self-start">
-      <div className={`px-4 py-3 font-bold text-[0.95rem] tracking-wide select-none ${HEADER_CLASS[id] ?? ''}`}>
+    <Paper elevation={1} sx={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <Box sx={{ px: 2, py: 1.5, fontWeight: 700, fontSize: '0.95rem', letterSpacing: 0.3, color: '#fff', bgcolor: HEADER_COLOR[id], userSelect: 'none' }}>
         {title}
         {cards.length > 0 ? ` (${cards.length})` : ''}
-      </div>
-      <div className="column-scroll flex flex-col gap-2.5 p-3 min-h-[60px] max-h-[70vh] overflow-y-auto">
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1.25,
+          p: 1.5,
+          minHeight: 60,
+          maxHeight: '70vh',
+          overflowY: 'auto',
+          '&::-webkit-scrollbar': { width: 4 },
+          '&::-webkit-scrollbar-thumb': { bgcolor: 'divider', borderRadius: 2 },
+        }}
+      >
         {cards.length === 0 ? (
-          <div className="text-center text-sm text-empty-col py-2">
-            Nenhuma tarefa
+          <Box sx={{ textAlign: 'center', fontSize: '0.85rem', color: 'text.disabled', py: 1 }}>
+            <Typography variant="body2" color="text.disabled">
+              Nenhuma tarefa
+            </Typography>
             {onCreateTask && (
-              <button type="button" className="block mx-auto mt-1.5 text-blue underline text-[0.78rem] bg-transparent border-0 cursor-pointer" onClick={onCreateTask}>
+              <Button size="small" onClick={onCreateTask} sx={{ mt: 0.5 }}>
                 + Nova Tarefa
-              </button>
+              </Button>
             )}
-          </div>
+          </Box>
         ) : (
           cards.map((card) => (
             <Card
@@ -56,7 +74,7 @@ export function Column(props: ColumnProps) {
             />
           ))
         )}
-      </div>
-    </div>
+      </Box>
+    </Paper>
   );
 }

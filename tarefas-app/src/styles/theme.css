@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 :root {
   --bg: #f0f2f5;
   --surface: #fff;
@@ -85,177 +83,13 @@
   --forca-stroke: #fc8181;
 }
 
-/* Expõe as variáveis de tema como tokens Tailwind (bg-blue, text-text-muted etc.),
-   sem duplicar os valores hex — a fonte de verdade continua sendo os blocos acima. */
-@theme {
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-surface-card: var(--surface-card);
-  --color-text: var(--text);
-  --color-text-muted: var(--text-muted);
-  --color-text-card-title: var(--text-card-title);
-  --color-text-card-date: var(--text-card-date);
-  --color-border: var(--border);
-  --color-border-input: var(--border-input);
-  --color-badge-bg: var(--badge-bg);
-  --color-empty-col: var(--empty-col);
-  --color-blue: var(--blue);
-  --color-blue-hover: var(--blue-hover);
-  --color-error-bg: var(--error-bg);
-  --color-error-color: var(--error-color);
-  --color-error-border: var(--error-border);
-  --color-overdue-bg: var(--overdue-bg);
-  --color-overdue-color: var(--overdue-color);
-  --color-feedback-bg: var(--feedback-bg);
-  --color-feedback-color: var(--feedback-color);
-  --color-feedback-border: var(--feedback-border);
-  --color-priority-high-bg: var(--priority-high-bg);
-  --color-priority-high-color: var(--priority-high-color);
-  --color-priority-mid-bg: var(--priority-mid-bg);
-  --color-priority-mid-color: var(--priority-mid-color);
-  --color-mark-bg: var(--mark-bg);
-  --color-mark-color: var(--mark-color);
-  --color-warning-bg: var(--warning-bg);
-  --color-warning-color: var(--warning-color);
-  --color-today-bg: var(--today-bg);
-  --color-today-color: var(--today-color);
-  --color-forca-stroke: var(--forca-stroke);
-}
-
-* , *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
-
 [data-dyslexic-font="true"] body {
   font-family: Verdana, Tahoma, Arial, sans-serif;
   letter-spacing: .04em;
   line-height: 1.7;
 }
 
-/* ── Design system — classes compartilhadas (equivalente aos seletores de style.css da versão vanilla) ── */
-
-.surface-panel {
-  background: var(--surface);
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
-}
-
-.link-btn {
-  font-size: .85rem;
-  color: var(--blue);
-  font-weight: 500;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.link-btn:hover {
-  text-decoration: underline;
-}
-
-.link-btn--active {
-  font-weight: 700;
-}
-
-.btn-primary {
-  padding: .6rem 1.2rem;
-  background: var(--blue);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: .95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .15s;
-  white-space: nowrap;
-}
-
-.btn-primary:hover {
-  background: var(--blue-hover);
-}
-
-.btn-primary:disabled {
-  opacity: .6;
-  cursor: default;
-}
-
-.btn-outline {
-  padding: .5rem 1rem;
-  font-size: .9rem;
-  background: none;
-  border: 1.5px solid var(--border-input);
-  border-radius: 8px;
-  cursor: pointer;
-  color: var(--text-muted);
-  transition: border-color .15s;
-}
-
-.btn-outline:hover {
-  border-color: var(--blue);
-}
-
-.new-task-btn {
-  font-size: .85rem;
-  font-weight: 600;
-  padding: .3rem .8rem;
-  border: 1.5px solid var(--blue);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--blue);
-  cursor: pointer;
-  transition: background .15s, color .15s;
-}
-
-.new-task-btn:hover {
-  background: var(--blue);
-  color: #fff;
-}
-
-.icon-btn {
-  background: none;
-  border: 1.5px solid var(--border-input);
-  border-radius: 8px;
-  padding: .3rem .6rem;
-  font-size: 1rem;
-  cursor: pointer;
-  color: var(--text-muted);
-  transition: border-color .15s;
-}
-
-.icon-btn:hover {
-  border-color: var(--blue);
-}
-
-.field-input {
-  border: 1.5px solid var(--border-input);
-  border-radius: 8px;
-  font-size: .9rem;
-  background: var(--surface);
-  color: var(--text);
-  outline: none;
-  transition: border-color .15s;
-}
-
-.field-input:focus {
-  border-color: var(--blue);
-}
-
-.field-input.input--invalid {
-  border-color: var(--error-color) !important;
-}
-
-/* ── Animações ── */
-
+/* ── Animação de entrada dos cards (sem equivalente pronto no MUI) ── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -263,30 +97,11 @@ body {
 
 .card-surface {
   animation: fadeIn .18s ease;
-  transition: box-shadow .15s;
 }
 
-.card-surface:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
-}
-
-.spinner {
-  width: 22px;
-  height: 22px;
-  border: 3px solid var(--border);
-  border-top-color: var(--blue);
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-  flex-shrink: 0;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* ── Forca (gamificação de atraso) ──
+/* ── Forca (gamificação de atraso) — sem equivalente no MUI, assinatura visual do projeto.
    Desenho em pixel art via box-shadow no ::before. Cada "pixel" é o próprio
-   elemento (2×2px). Quanto mais atrasado, mais peças do desenho aparecem. */
+   elemento (2×2px). Quanto mais atrasado, mais peças do desenho aparecem. ── */
 .card-overdue-stage {
   position: relative;
 }
@@ -330,15 +145,6 @@ body {
   .card-overdue-stage-4::before {
     animation: none;
   }
-}
-
-/* ── Scrollbar das colunas ── */
-.column-scroll::-webkit-scrollbar {
-  width: 4px;
-}
-.column-scroll::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 2px;
 }
 
 @media print {

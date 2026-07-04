@@ -1,4 +1,27 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Paper from '@mui/material/Paper';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutlineOutlined';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import TextFieldsIcon from '@mui/icons-material/TextFields';
+import AddIcon from '@mui/icons-material/Add';
+import { createAppTheme } from './theme';
 import { useSheetData } from './hooks/useSheetData';
 import { useViewPreferences } from './hooks/useViewPreferences';
 import { useSelection } from './hooks/useSelection';
@@ -55,6 +78,7 @@ function App() {
   const view = useViewPreferences();
   const selection = useSelection();
   const { theme, toggleTheme } = useTheme();
+  const muiTheme = useMemo(() => createAppTheme(theme), [theme]);
   const extraLists = useExtraLists();
   const activity = useActivityLog();
   const recentSheets = useRecentSheets();
@@ -294,178 +318,173 @@ function App() {
   });
 
   return (
-    <main className="max-w-6xl mx-auto p-4 sm:p-8">
-      <header className="surface-panel p-6 mb-6 sticky top-0 z-10">
-        <div className="flex items-center justify-between mb-1">
-          <h1 className="text-2xl font-bold text-text">
-            Sprint Board <small className="version-badge text-[0.65rem] font-medium text-text-muted bg-badge-bg rounded-full px-2 py-0.5 align-middle">v{APP_VERSION}</small>
-            {readonly && (
-              <span className="ml-2 text-[0.65rem] font-medium text-text-muted bg-badge-bg rounded-full px-2 py-0.5 align-middle">
-                🔒 Somente leitura
-              </span>
-            )}
-          </h1>
-          <div className="no-print flex items-center gap-2">
-            <button type="button" className="icon-btn" title="Atalhos de teclado" aria-label="Atalhos de teclado" onClick={() => setHelpOpen(true)}>
-              ?
-            </button>
-            <button type="button" className="icon-btn" title="Alternar tema (T)" aria-label="Alternar tema" onClick={toggleTheme}>
-              {theme === 'dark' ? '☾' : '☀'}
-            </button>
-            <button
-              type="button"
-              className={`icon-btn ${dyslexicFont ? 'link-btn--active border-blue' : ''}`}
-              title="Fonte para disléxicos"
-              aria-label="Fonte para disléxicos"
-              onClick={() => setDyslexicFont(!dyslexicFont)}
-            >
-              ⚑
-            </button>
-          </div>
-        </div>
-        <p className="no-print text-[0.85rem] text-text-muted mb-3 leading-relaxed">
-          Cole o link da planilha (as abas devem se chamar <strong>To Do</strong>, <strong>In Progress</strong> e <strong>Done</strong>).
-        </p>
-        <div className="no-print">
-        <SheetUrlForm value={sheetUrl} onChange={setSheetUrl} onSubmit={handleLoad} loading={state === 'loading'} recentSheets={recentSheets.recent} />
-        {state === 'success' && (
-          <>
-            {(mode !== 'tarefas' || extraLists.lists.length > 0) && (
-              <select
-                className="field-input mt-2 px-2.5 py-1.5 cursor-pointer"
-                value={mode}
-                onChange={(e) => setMode(e.target.value)}
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline />
+    <Box component="main" sx={{ maxWidth: 1100, mx: 'auto', p: { xs: 2, sm: 4 } }}>
+      <AppBar position="sticky" color="inherit" elevation={1} className="no-print" sx={{ borderRadius: 3, mb: 3, top: 0 }}>
+        <Toolbar sx={{ flexDirection: 'column', alignItems: 'stretch', py: 2, gap: 1.5, '&.MuiToolbar-root': { px: 3 } }}>
+          <Stack direction="row" spacing={1} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                Sprint Board
+              </Typography>
+              <Chip size="small" label={`v${APP_VERSION}`} />
+              {readonly && <Chip size="small" label="🔒 Somente leitura" />}
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              <IconButton title="Atalhos de teclado" aria-label="Atalhos de teclado" onClick={() => setHelpOpen(true)}>
+                <HelpOutlineIcon />
+              </IconButton>
+              <IconButton title="Alternar tema (T)" aria-label="Alternar tema" onClick={toggleTheme}>
+                {theme === 'dark' ? <DarkModeIcon /> : <LightModeIcon />}
+              </IconButton>
+              <IconButton
+                title="Fonte para disléxicos"
+                aria-label="Fonte para disléxicos"
+                color={dyslexicFont ? 'primary' : 'default'}
+                onClick={() => setDyslexicFont(!dyslexicFont)}
               >
-                <option value="tarefas">Tarefas</option>
-                {extraLists.lists.map((l) => (
-                  <option key={l.name} value={l.name}>
-                    {l.name} ({l.items.length})
-                  </option>
-                ))}
-              </select>
-            )}
-            {mode === 'tarefas' && (
-              <>
-                <FilterBar
-                  query={query}
-                  onQueryChange={setQuery}
-                  responsavelFilter={responsavelFilter}
-                  onResponsavelFilterChange={setResponsavelFilter}
-                  responsavelOptions={responsavelOptions}
-                  visibleCount={visibleCount}
-                  totalCount={totalCount}
-                  inputRef={filterInputRef}
-                />
-                <div className="flex flex-wrap items-center gap-3 mt-3">
-                  <ViewToggles
-                    compact={view.compact}
-                    onToggleCompact={() => view.setCompact(!view.compact)}
-                    focus={view.focus}
-                    onToggleFocus={() => view.setFocus(!view.focus)}
-                    columnTimeVisible={view.columnTimeVisible}
-                    onToggleColumnTime={() => view.setColumnTimeVisible(!view.columnTimeVisible)}
-                    expandActions={view.expandActions}
-                    onToggleExpandActions={() => view.setExpandActions(!view.expandActions)}
-                    sortMode={sortMode}
-                    onSortModeChange={setSortMode}
+                <TextFieldsIcon />
+              </IconButton>
+            </Stack>
+          </Stack>
+          <Typography variant="body2" color="text.secondary">
+            Cole o link da planilha (as abas devem se chamar <strong>To Do</strong>, <strong>In Progress</strong> e <strong>Done</strong>).
+          </Typography>
+          <SheetUrlForm value={sheetUrl} onChange={setSheetUrl} onSubmit={handleLoad} loading={state === 'loading'} recentSheets={recentSheets.recent} />
+          {state === 'success' && (
+            <>
+              {(mode !== 'tarefas' || extraLists.lists.length > 0) && (
+                <TextField select size="small" value={mode} onChange={(e) => setMode(e.target.value)} sx={{ maxWidth: 240 }}>
+                  <MenuItem value="tarefas">Tarefas</MenuItem>
+                  {extraLists.lists.map((l) => (
+                    <MenuItem key={l.name} value={l.name}>
+                      {l.name} ({l.items.length})
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+              {mode === 'tarefas' && (
+                <>
+                  <FilterBar
+                    query={query}
+                    onQueryChange={setQuery}
+                    responsavelFilter={responsavelFilter}
+                    onResponsavelFilterChange={setResponsavelFilter}
+                    responsavelOptions={responsavelOptions}
+                    visibleCount={visibleCount}
+                    totalCount={totalCount}
+                    inputRef={filterInputRef}
                   />
-                  <HeaderMenus
-                    onCopyBoardLink={handleCopyBoardLink}
-                    onCopySheetUrl={handleCopySheetUrl}
-                    onShareWhatsApp={handleShareWhatsApp}
-                    onExportText={handleExportText}
-                    onDownloadMd={handleDownloadMd}
-                    onDownloadJson={handleDownloadJson}
-                    onDownloadCsv={handleDownloadCsv}
-                    onDownloadIcs={handleDownloadIcs}
-                  />
-                  <button
-                    type="button"
-                    className={`link-btn ${activity.unseenCount > 0 ? 'link-btn--active' : ''}`}
-                    onClick={() => {
-                      setActivityPanelOpen((o) => !o);
-                      if (!activityPanelOpen) activity.markSeen();
-                    }}
-                  >
-                    Atividade{activity.unseenCount > 0 ? ` (${activity.unseenCount})` : ''}
-                  </button>
-                  {!readonly && (
-                    <button
-                      type="button"
-                      className={`link-btn ${selection.selectMode ? 'link-btn--active' : ''}`}
-                      onClick={selection.toggleSelectMode}
-                    >
-                      Selecionar
-                    </button>
-                  )}
-                  <label className="text-[0.85rem] text-text-muted flex items-center gap-1.5">
-                    <input type="checkbox" checked={autoRefresh} onChange={(e) => setAutoRefresh(e.target.checked)} />
-                    Auto-refresh
-                  </label>
-                  <select
-                    className="field-input px-2 py-1 text-[0.85rem] cursor-pointer"
-                    value={refreshIntervalMin}
-                    onChange={(e) => setRefreshIntervalMin(Number(e.target.value))}
-                  >
-                    <option value={1}>1 min</option>
-                    <option value={5}>5 min</option>
-                    <option value={10}>10 min</option>
-                  </select>
-                  {!readonly && (
-                    <button
-                      type="button"
-                      className="new-task-btn ml-auto"
+                  <Stack direction="row" spacing={1.5} useFlexGap sx={{ flexWrap: 'wrap', alignItems: 'center' }}>
+                    <ViewToggles
+                      compact={view.compact}
+                      onToggleCompact={() => view.setCompact(!view.compact)}
+                      focus={view.focus}
+                      onToggleFocus={() => view.setFocus(!view.focus)}
+                      columnTimeVisible={view.columnTimeVisible}
+                      onToggleColumnTime={() => view.setColumnTimeVisible(!view.columnTimeVisible)}
+                      expandActions={view.expandActions}
+                      onToggleExpandActions={() => view.setExpandActions(!view.expandActions)}
+                      sortMode={sortMode}
+                      onSortModeChange={setSortMode}
+                    />
+                    <HeaderMenus
+                      onCopyBoardLink={handleCopyBoardLink}
+                      onCopySheetUrl={handleCopySheetUrl}
+                      onShareWhatsApp={handleShareWhatsApp}
+                      onExportText={handleExportText}
+                      onDownloadMd={handleDownloadMd}
+                      onDownloadJson={handleDownloadJson}
+                      onDownloadCsv={handleDownloadCsv}
+                      onDownloadIcs={handleDownloadIcs}
+                    />
+                    <Button
+                      size="small"
+                      color={activity.unseenCount > 0 ? 'primary' : 'inherit'}
                       onClick={() => {
-                        setNewTaskPrefill(undefined);
-                        setNewTaskModalOpen(true);
+                        setActivityPanelOpen((o) => !o);
+                        if (!activityPanelOpen) activity.markSeen();
                       }}
-                      title="Nova tarefa (N)"
                     >
-                      + Nova Tarefa
-                    </button>
+                      Atividade{activity.unseenCount > 0 ? ` (${activity.unseenCount})` : ''}
+                    </Button>
+                    {!readonly && (
+                      <Button size="small" color={selection.selectMode ? 'primary' : 'inherit'} onClick={selection.toggleSelectMode}>
+                        Selecionar
+                      </Button>
+                    )}
+                    <FormControlLabel
+                      control={<Checkbox size="small" checked={autoRefresh} onChange={(e) => setAutoRefresh(e.target.checked)} />}
+                      label={<Typography variant="body2" color="text.secondary">Auto-refresh</Typography>}
+                    />
+                    <TextField
+                      select
+                      size="small"
+                      value={refreshIntervalMin}
+                      onChange={(e) => setRefreshIntervalMin(Number(e.target.value))}
+                      sx={{ minWidth: 90 }}
+                    >
+                      <MenuItem value={1}>1 min</MenuItem>
+                      <MenuItem value={5}>5 min</MenuItem>
+                      <MenuItem value={10}>10 min</MenuItem>
+                    </TextField>
+                    {!readonly && (
+                      <Button
+                        variant="outlined"
+                        startIcon={<AddIcon />}
+                        sx={{ ml: 'auto' }}
+                        title="Nova tarefa (N)"
+                        onClick={() => {
+                          setNewTaskPrefill(undefined);
+                          setNewTaskModalOpen(true);
+                        }}
+                      >
+                        Nova Tarefa
+                      </Button>
+                    )}
+                  </Stack>
+                  {selection.selectMode && !readonly && (
+                    <BulkActionsBar
+                      selectedCount={selection.selectedTitles.size}
+                      onSelectAll={() => selection.selectAll(visibleTitles)}
+                      onCopySelected={handleCopySelected}
+                      onDownloadCsvSelected={handleDownloadCsvSelected}
+                      onCancel={selection.toggleSelectMode}
+                    />
                   )}
-                </div>
-                {selection.selectMode && !readonly && (
-                  <BulkActionsBar
-                    selectedCount={selection.selectedTitles.size}
-                    onSelectAll={() => selection.selectAll(visibleTitles)}
-                    onCopySelected={handleCopySelected}
-                    onDownloadCsvSelected={handleDownloadCsvSelected}
-                    onCancel={selection.toggleSelectMode}
-                  />
-                )}
-              </>
-            )}
-          </>
-        )}
-        </div>
-      </header>
+                </>
+              )}
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
 
       {pasteHintVisible && <PasteHintBanner onDismiss={() => setPasteHintVisible(false)} />}
       {activityPanelOpen && mode === 'tarefas' && (
-        <div className="mt-3">
+        <Box sx={{ mt: 1.5 }}>
           <ActivityPanel log={activity.log} />
-        </div>
+        </Box>
       )}
 
       {state === 'idle' && (
-        <div className="surface-panel flex items-center justify-center min-h-[80px] p-8 mt-4 text-text-muted text-[0.95rem]">
-          Insira o link da planilha acima para começar.
-        </div>
+        <Paper elevation={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 80, p: 4, mt: 3 }}>
+          <Typography color="text.secondary">Insira o link da planilha acima para começar.</Typography>
+        </Paper>
       )}
       {state === 'loading' && (
-        <div className="surface-panel flex items-center justify-center gap-3 min-h-[80px] p-8 mt-4 text-text-muted text-[0.95rem]">
-          <span className="spinner" />
-          Carregando...
-        </div>
+        <Paper elevation={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1.5, minHeight: 80, p: 4, mt: 3 }}>
+          <CircularProgress size={22} />
+          <Typography color="text.secondary">Carregando...</Typography>
+        </Paper>
       )}
       {state === 'error' && (
-        <div className="surface-panel flex items-center justify-center min-h-[80px] p-8 mt-4 text-error-color bg-error-bg border border-error-border text-[0.95rem]">
+        <Alert severity="error" sx={{ mt: 3 }}>
           {errorMessage}
-        </div>
+        </Alert>
       )}
       {state === 'success' && mode === 'tarefas' && (
-        <div className="mt-4">
+        <Box sx={{ mt: 2 }}>
           <Board
             columns={displayColumns}
             expandActions={view.expandActions}
@@ -494,12 +513,12 @@ function App() {
             }
           />
           <BoardSummaryView summary={boardSummary} />
-        </div>
+        </Box>
       )}
       {state === 'success' && mode !== 'tarefas' && (
-        <div className="mt-4">
+        <Box sx={{ mt: 2 }}>
           <ExtraListPanel name={mode} items={extraLists.lists.find((l) => l.name === mode)?.items ?? []} />
-        </div>
+        </Box>
       )}
 
       {newTaskModalOpen && (
@@ -516,7 +535,8 @@ function App() {
         <HelpModal onClose={() => setHelpOpen(false)} onDownloadTemplate={handleDownloadTemplate} onResetSettings={handleResetSettings} />
       )}
       <BackToTop />
-    </main>
+    </Box>
+    </ThemeProvider>
   );
 }
 

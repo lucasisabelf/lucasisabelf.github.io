@@ -1,7 +1,18 @@
 import { useState } from 'react';
-import { Modal } from '../Modal';
-import { TEMPLATE_CONFIG } from '../../lib/config';
-import { APP_VERSION } from '../../lib/config';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { TEMPLATE_CONFIG, APP_VERSION } from '../../lib/config';
 
 const SHORTCUTS: [string, string][] = [
   ['R', 'Atualizar board'],
@@ -26,47 +37,43 @@ export function HelpModal({ onClose, onDownloadTemplate, onResetSettings }: Help
   const [templateType, setTemplateType] = useState('tarefas');
 
   return (
-    <Modal
-      onClose={onClose}
-      title="Atalhos de teclado"
-      footer={
-        <button type="button" className="btn-outline" onClick={onClose}>
-          Fechar
-        </button>
-      }
-    >
-      <table className="w-full text-[0.875rem] mb-4 border-collapse">
-        <tbody>
-          {SHORTCUTS.map(([key, desc]) => (
-            <tr key={key}>
-              <td className="py-1.5 pr-3 font-semibold text-text w-16">{key}</td>
-              <td className="py-1.5 text-text-muted">{desc}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="flex justify-center gap-2.5 mb-3">
-        <select
-          className="field-input px-2.5 py-1.5 text-[0.85rem] cursor-pointer"
-          value={templateType}
-          onChange={(e) => setTemplateType(e.target.value)}
-        >
-          {Object.entries(TEMPLATE_CONFIG).map(([type, { label }]) => (
-            <option key={type} value={type}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <button type="button" className="link-btn" onClick={() => onDownloadTemplate(templateType)}>
-          Baixar modelo .csv
-        </button>
-      </div>
-      <div className="text-center mb-1">
-        <button type="button" className="text-[0.8rem] text-text-muted bg-transparent border-0 cursor-pointer hover:text-error-color" onClick={onResetSettings}>
-          Limpar configurações
-        </button>
-      </div>
-      <p className="text-[0.8rem] text-text-muted text-center mt-2">Sprint Board v{APP_VERSION}</p>
-    </Modal>
+    <Dialog open onClose={onClose} fullWidth maxWidth="xs">
+      <DialogTitle>Atalhos de teclado</DialogTitle>
+      <DialogContent>
+        <Table size="small" sx={{ mb: 2 }}>
+          <TableBody>
+            {SHORTCUTS.map(([key, desc]) => (
+              <TableRow key={key}>
+                <TableCell sx={{ fontWeight: 600, width: 96 }}>{key}</TableCell>
+                <TableCell sx={{ color: 'text.secondary' }}>{desc}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <Stack direction="row" spacing={1.5} sx={{ justifyContent: 'center', mb: 2 }}>
+          <TextField select size="small" value={templateType} onChange={(e) => setTemplateType(e.target.value)}>
+            {Object.entries(TEMPLATE_CONFIG).map(([type, { label }]) => (
+              <MenuItem key={type} value={type}>
+                {label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <Button size="small" onClick={() => onDownloadTemplate(templateType)}>
+            Baixar modelo .csv
+          </Button>
+        </Stack>
+        <Stack spacing={1} sx={{ alignItems: 'center' }}>
+          <Button size="small" color="error" onClick={onResetSettings}>
+            Limpar configurações
+          </Button>
+          <Typography variant="caption" color="text.secondary">
+            Sprint Board v{APP_VERSION}
+          </Typography>
+        </Stack>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Fechar</Button>
+      </DialogActions>
+    </Dialog>
   );
 }

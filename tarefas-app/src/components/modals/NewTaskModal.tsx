@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { Modal } from '../Modal';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import { toPtBrDate } from '../../lib/date';
 import { buildRecurrenceMarker, RECURRENCE_OPTIONS } from '../../lib/recurrence';
 import type { Priority, RecurrenceType } from '../../types/card';
@@ -41,105 +48,67 @@ export function NewTaskModal({ prefill, onClose, onSubmit }: NewTaskModalProps) 
   }
 
   return (
-    <Modal
-      onClose={onClose}
-      title="Nova Tarefa"
-      footer={
-        <>
-          <button type="button" className="btn-outline" onClick={onClose}>
-            Cancelar
-          </button>
-          <button type="button" className="btn-primary" onClick={handleSubmit}>
-            Adicionar
-          </button>
-        </>
-      }
-    >
-      <div className="space-y-3.5">
-        <div>
-          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-name">
-            Nome
-          </label>
-          <input
-            id="task-name"
-            className={`field-input w-full px-3.5 py-2 ${nameInvalid ? 'input--invalid' : ''}`}
-            maxLength={80}
+    <Dialog open onClose={onClose} fullWidth maxWidth="xs">
+      <DialogTitle>Nova Tarefa</DialogTitle>
+      <DialogContent>
+        <Stack spacing={2.5} sx={{ mt: 0.5 }}>
+          <TextField
+            label="Nome"
             value={name}
+            error={nameInvalid}
+            helperText={`${name.length} / 80`}
+            slotProps={{ htmlInput: { maxLength: 80 } }}
             onChange={(e) => {
               setName(e.target.value);
               setNameInvalid(false);
             }}
             onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
             autoFocus
+            fullWidth
           />
-          <small className="block text-right text-[0.72rem] text-text-muted mt-0.5">{name.length} / 80</small>
-        </div>
-        <div>
-          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-desc">
-            Descrição
-          </label>
-          <textarea
-            id="task-desc"
-            className="field-input w-full px-3.5 py-2 resize-none"
-            rows={3}
-            maxLength={TASK_DESC_MAX}
+          <TextField
+            label="Descrição"
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
             onKeyDown={(e) => {
               if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') handleSubmit();
             }}
+            helperText={`${desc.length} / ${TASK_DESC_MAX}`}
+            slotProps={{ htmlInput: { maxLength: TASK_DESC_MAX } }}
+            multiline
+            rows={3}
+            fullWidth
           />
-          <small className="block text-right text-[0.72rem] text-text-muted mt-0.5">
-            {desc.length} / {TASK_DESC_MAX}
-          </small>
-        </div>
-        <div>
-          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-date">
-            Data
-          </label>
-          <input
-            id="task-date"
+          <TextField
+            label="Data"
             type="date"
-            className="field-input w-full px-3.5 py-2"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+            slotProps={{ inputLabel: { shrink: true } }}
+            fullWidth
           />
-        </div>
-        <div>
-          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-priority">
-            Prioridade
-          </label>
-          <select
-            id="task-priority"
-            className="field-input w-full px-3.5 py-2 cursor-pointer"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value as Priority | '')}
-          >
-            <option value="">Sem prioridade</option>
-            <option value="Alta">Alta</option>
-            <option value="Média">Média</option>
-            <option value="Baixa">Baixa</option>
-          </select>
-        </div>
-        <div>
-          <label className="block text-[0.85rem] font-semibold text-text-muted mb-1" htmlFor="task-recurrence">
-            Repetir
-          </label>
-          <select
-            id="task-recurrence"
-            className="field-input w-full px-3.5 py-2 cursor-pointer"
-            value={recurrence}
-            onChange={(e) => setRecurrence(e.target.value as RecurrenceType | '')}
-          >
-            <option value="">Nunca</option>
+          <TextField select label="Prioridade" value={priority} onChange={(e) => setPriority(e.target.value as Priority | '')} fullWidth>
+            <MenuItem value="">Sem prioridade</MenuItem>
+            <MenuItem value="Alta">Alta</MenuItem>
+            <MenuItem value="Média">Média</MenuItem>
+            <MenuItem value="Baixa">Baixa</MenuItem>
+          </TextField>
+          <TextField select label="Repetir" value={recurrence} onChange={(e) => setRecurrence(e.target.value as RecurrenceType | '')} fullWidth>
+            <MenuItem value="">Nunca</MenuItem>
             {Object.entries(RECURRENCE_OPTIONS).map(([type, { label }]) => (
-              <option key={type} value={type}>
+              <MenuItem key={type} value={type}>
                 {label}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-        </div>
-      </div>
-    </Modal>
+          </TextField>
+        </Stack>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancelar</Button>
+        <Button variant="contained" onClick={handleSubmit}>
+          Adicionar
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
