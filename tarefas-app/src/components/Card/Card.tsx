@@ -48,7 +48,7 @@ export function Card(props: CardProps) {
         bgcolor: overdueStage > 0 ? 'var(--overdue-bg)' : undefined,
       }}
     >
-      <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+      <CardContent sx={{ p: 1.5, position: 'relative', zIndex: 1, '&:last-child': { pb: 1.5 } }}>
         {props.onToggleSelect && (
           <Checkbox
             size="small"

@@ -104,6 +104,7 @@
    elemento (2×2px). Quanto mais atrasado, mais peças do desenho aparecem. ── */
 .card-overdue-stage {
   position: relative;
+  isolation: isolate;
 }
 
 .card-overdue-stage::before {
@@ -114,6 +115,7 @@
   width: 2px;
   height: 2px;
   background: var(--forca-stroke);
+  z-index: 0;
 }
 
 .card-overdue-stage-1::before {
