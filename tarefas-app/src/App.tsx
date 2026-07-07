@@ -21,6 +21,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import TextFieldsIcon from '@mui/icons-material/TextFields';
 import AddIcon from '@mui/icons-material/Add';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { createAppTheme } from './theme';
 import { useSheetData } from './hooks/useSheetData';
 import { useViewPreferences } from './hooks/useViewPreferences';
@@ -300,6 +301,9 @@ function App() {
     onToggleSelectMode: selection.toggleSelectMode,
     onToggleHelp: () => setHelpOpen((o) => !o),
     onPrint: () => window.print(),
+    onOpenSheet: () => {
+      if (state === 'success' && sheetUrl) window.open(sheetUrl, '_blank', 'noopener,noreferrer');
+    },
     onEscape: () => {
       if (newTaskModalOpen) {
         setNewTaskModalOpen(false);
@@ -321,7 +325,13 @@ function App() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
     <Box component="main" sx={{ maxWidth: 1100, mx: 'auto', p: { xs: 2, sm: 4 } }}>
-      <AppBar position="sticky" color="inherit" elevation={1} className="no-print" sx={{ borderRadius: 3, mb: 3, top: 0 }}>
+      <AppBar
+        position="static"
+        color="inherit"
+        elevation={1}
+        className="no-print"
+        sx={{ borderRadius: 3, mb: 3, position: { xs: 'static', md: 'sticky' }, top: 0, maxHeight: { xs: '80vh', md: 'none' }, overflowY: { xs: 'auto', md: 'visible' } }}
+      >
         <Toolbar sx={{ flexDirection: 'column', alignItems: 'stretch', py: 2, gap: 1.5, '&.MuiToolbar-root': { px: 3 } }}>
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
@@ -399,6 +409,17 @@ function App() {
                       onDownloadCsv={handleDownloadCsv}
                       onDownloadIcs={handleDownloadIcs}
                     />
+                    <Button
+                      size="small"
+                      startIcon={<OpenInNewIcon fontSize="small" />}
+                      component="a"
+                      href={sheetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Abrir planilha no Google Sheets (G)"
+                    >
+                      Ir para planilha
+                    </Button>
                     <Button
                       size="small"
                       color={activity.unseenCount > 0 ? 'primary' : 'inherit'}

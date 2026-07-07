@@ -25,6 +25,8 @@ const SHORTCUTS: [string, string][] = [
   ['T', 'Alternar tema claro/escuro'],
   ['S', 'Ciclar ordenação (original → prioridade → data → A-Z)'],
   ['V', 'Alternar modo de seleção'],
+  ['G', 'Abrir planilha no Google Sheets'],
+  ['P', 'Imprimir board'],
 ];
 
 interface HelpModalProps {

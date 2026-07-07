@@ -43,6 +43,7 @@ export function Card(props: CardProps) {
       className={`card-surface ${overdueStage > 0 ? `card-overdue-stage card-overdue-stage-${overdueStage}` : ''}`}
       sx={{
         position: 'relative',
+        flexShrink: 0,
         borderLeft: priority && PRIORITY_BORDER_COLOR[priority] ? `3px solid ${PRIORITY_BORDER_COLOR[priority]}` : undefined,
         borderStyle: responsavel ? 'solid' : 'dashed',
         bgcolor: overdueStage > 0 ? 'var(--overdue-bg)' : undefined,
