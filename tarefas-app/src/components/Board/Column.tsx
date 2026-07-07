@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import type { ColumnData } from '../../types/card';
-import type { CardActionHandlers, CardDetailHandlers, CardFilterHandlers, CardSelectionHandlers } from '../../types/handlers';
+import type { CardActionHandlers, CardDetailHandlers, CardFilterHandlers, CardSelectionHandlers, ColumnHeaderHandlers } from '../../types/handlers';
 import { Card } from '../Card/Card';
 
 const HEADER_COLOR: Record<string, string> = {
@@ -17,10 +17,13 @@ interface ColumnProps
     CardActionHandlers,
     CardFilterHandlers,
     CardDetailHandlers,
+    ColumnHeaderHandlers,
     Partial<CardSelectionHandlers> {
   expandActions: boolean;
   readonly: boolean;
+  compact: boolean;
   activeFilter?: string;
+  collapsed?: boolean;
   onCreateTask?: () => void;
   selectedTitles?: Set<string>;
   newTitles?: Set<string>;
@@ -28,53 +31,84 @@ interface ColumnProps
 }
 
 export function Column(props: ColumnProps) {
-  const { id, title, cards, onCreateTask, selectedTitles, newTitles, daysByTitle, onToggleSelect, ...cardHandlers } = props;
+  const {
+    id,
+    title,
+    cards,
+    collapsed,
+    onToggleCollapse,
+    onCopyColumnText,
+    onCopyColumnCsv,
+    onCreateTask,
+    selectedTitles,
+    newTitles,
+    daysByTitle,
+    onToggleSelect,
+    ...cardHandlers
+  } = props;
+
+  function handleHeaderClick(e: React.MouseEvent) {
+    if (e.ctrlKey && e.shiftKey) {
+      onCopyColumnCsv(title, cards);
+      return;
+    }
+    if (e.shiftKey) {
+      onCopyColumnText(title, cards);
+      return;
+    }
+    onToggleCollapse(id);
+  }
 
   return (
     <Paper elevation={1} sx={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <Box sx={{ px: 2, py: 1.5, fontWeight: 700, fontSize: '0.95rem', letterSpacing: 0.3, color: '#fff', bgcolor: HEADER_COLOR[id], userSelect: 'none' }}>
+      <Box
+        onClick={handleHeaderClick}
+        sx={{ px: 2, py: 1.5, fontWeight: 700, fontSize: '0.95rem', letterSpacing: 0.3, color: '#fff', bgcolor: HEADER_COLOR[id], userSelect: 'none', cursor: 'pointer' }}
+      >
         {title}
         {cards.length > 0 ? ` (${cards.length})` : ''}
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 1.25,
-          p: 1.5,
-          minHeight: 60,
-          maxHeight: '70vh',
-          overflowY: 'auto',
-          '&::-webkit-scrollbar': { width: 4 },
-          '&::-webkit-scrollbar-thumb': { bgcolor: 'divider', borderRadius: 2 },
-        }}
-      >
-        {cards.length === 0 ? (
-          <Box sx={{ textAlign: 'center', fontSize: '0.85rem', color: 'text.disabled', py: 1 }}>
-            <Typography variant="body2" color="text.disabled">
-              Nenhuma tarefa
-            </Typography>
-            {onCreateTask && (
-              <Button size="small" onClick={onCreateTask} sx={{ mt: 0.5 }}>
-                + Nova Tarefa
-              </Button>
-            )}
-          </Box>
-        ) : (
-          cards.map((card) => (
-            <Card
-              key={card.title}
-              {...card}
-              {...cardHandlers}
-              onToggleSelect={onToggleSelect}
-              selected={selectedTitles?.has(card.title) ?? false}
-              isNew={newTitles?.has(card.title) ?? card.isNew}
-              daysInColumn={daysByTitle?.get(card.title) ?? card.daysInColumn}
-              isDoneColumn={id === 'done'}
-            />
-          ))
-        )}
-      </Box>
+      {!collapsed && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1.25,
+            p: 1.5,
+            minHeight: 60,
+            maxHeight: '70vh',
+            overflowY: 'auto',
+            '&::-webkit-scrollbar': { width: 4 },
+            '&::-webkit-scrollbar-thumb': { bgcolor: 'divider', borderRadius: 2 },
+          }}
+        >
+          {cards.length === 0 ? (
+            <Box sx={{ textAlign: 'center', fontSize: '0.85rem', color: 'text.disabled', py: 1 }}>
+              <Typography variant="body2" color="text.disabled">
+                Nenhuma tarefa
+              </Typography>
+              {onCreateTask && (
+                <Button size="small" onClick={onCreateTask} sx={{ mt: 0.5 }}>
+                  + Nova Tarefa
+                </Button>
+              )}
+            </Box>
+          ) : (
+            cards.map((card) => (
+              <Card
+                key={card.title}
+                {...card}
+                {...cardHandlers}
+                onToggleSelect={onToggleSelect}
+                selected={selectedTitles?.has(card.title) ?? false}
+                isNew={newTitles?.has(card.title) ?? card.isNew}
+                daysInColumn={daysByTitle?.get(card.title) ?? card.daysInColumn}
+                isDoneColumn={id === 'done'}
+              />
+            ))
+          )}
+        </Box>
+      )}
     </Paper>
   );
 }

@@ -31,3 +31,10 @@ export interface CardFilterHandlers {
 export interface CardDetailHandlers {
   onOpenDetail(card: CardData): void;
 }
+
+/** Consumida só pelo header da coluna (Column) — colapsar e copiar a coluna inteira, não um card. */
+export interface ColumnHeaderHandlers {
+  onToggleCollapse(columnId: string): void;
+  onCopyColumnText(columnTitle: string, cards: CardData[]): void;
+  onCopyColumnCsv(columnTitle: string, cards: CardData[]): void;
+}

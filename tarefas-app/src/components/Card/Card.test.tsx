@@ -14,6 +14,7 @@ const baseProps = {
   recurrence: 'semanal' as const,
   expandActions: false,
   readonly: false,
+  compact: false,
   onOpenDetail: vi.fn(),
   onFilterByPriority: vi.fn(),
   onFilterByTag: vi.fn(),
@@ -50,6 +51,15 @@ describe('Card', () => {
     await userEvent.click(screen.getByText('Mais'));
     expect(screen.getByText('WhatsApp')).toBeInTheDocument();
     expect(screen.getByText('Duplicar')).toBeInTheDocument();
+  });
+
+  it('hides description, badges and actions in compact mode, but keeps the title', () => {
+    render(<Card {...baseProps} compact />);
+    expect(screen.getByText('Tarefa recorrente')).toBeInTheDocument();
+    expect(screen.queryByText('Descrição')).not.toBeInTheDocument();
+    expect(screen.queryByText('Alta')).not.toBeInTheDocument();
+    expect(screen.queryByText('sprint')).not.toBeInTheDocument();
+    expect(screen.queryByText('Copiar')).not.toBeInTheDocument();
   });
 
   it('calls onOpenDetail with the card data when the title is clicked', async () => {

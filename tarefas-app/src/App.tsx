@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -22,6 +23,8 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import TextFieldsIcon from '@mui/icons-material/TextFields';
 import AddIcon from '@mui/icons-material/Add';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { AppMenu } from './components/AppMenu';
 import { createAppTheme } from './theme';
 import { useSheetData } from './hooks/useSheetData';
 import { useViewPreferences } from './hooks/useViewPreferences';
@@ -31,6 +34,8 @@ import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useExtraLists } from './hooks/useExtraLists';
 import { useActivityLog } from './hooks/useActivityLog';
 import { useRecentSheets } from './hooks/useRecentSheets';
+import { useCollapseState } from './hooks/useCollapseState';
+import { useDebouncedValue } from './hooks/useDebouncedValue';
 import { useLocalStorageBoolean, useLocalStorageString } from './hooks/useLocalStorageState';
 import { SheetUrlForm } from './components/Header/SheetUrlForm';
 import { FilterBar } from './components/Header/FilterBar';
@@ -43,6 +48,7 @@ import { ActivityPanel } from './components/panels/ActivityPanel';
 import { NewTaskModal, type NewTaskPrefill } from './components/modals/NewTaskModal';
 import { CardDetailModal } from './components/modals/CardDetailModal';
 import { HelpModal } from './components/modals/HelpModal';
+import { ConfirmDialog } from './components/ConfirmDialog';
 import { PasteHintBanner } from './components/PasteHintBanner';
 import { BoardSummaryView } from './components/panels/BoardSummaryView';
 import { BackToTop } from './components/BackToTop';
@@ -54,15 +60,14 @@ import { buildCardSummaryText } from './lib/format';
 import { buildWhatsAppUrl, buildBoardWhatsAppUrl } from './lib/exporters/whatsapp';
 import { buildCalendarUrl } from './lib/exporters/calendar';
 import { buildAskClaudeText } from './lib/exporters/askClaude';
-import { buildCardRowCsv, buildBoardCsv, buildTemplateCsv } from './lib/exporters/csv';
-import { buildBoardText } from './lib/exporters/markdown';
+import { buildCardRowCsv, buildBoardCsv, buildColumnCsv, buildTemplateCsv, BOARD_CSV_HEADERS } from './lib/exporters/csv';
+import { buildBoardText, buildColumnText } from './lib/exporters/markdown';
 import { buildBoardJson } from './lib/exporters/json';
 import { buildIcsCalendar } from './lib/exporters/ics';
 import { toIsoDate } from './lib/date';
 import { nextRecurrenceDate } from './lib/recurrence';
 import { computeBoardSummary } from './lib/boardSummary';
-import { TEMPLATE_CONFIG } from './lib/config';
-import { APP_VERSION } from './lib/config';
+import { TEMPLATE_CONFIG, APP_VERSION, COLUMN_IDS, FILTER_DEBOUNCE_MS } from './lib/config';
 
 function downloadBlob(content: string, filename: string, type: string) {
   const blob = new Blob(['﻿' + content], { type });
@@ -80,9 +85,11 @@ function App() {
   const selection = useSelection();
   const { theme, toggleTheme } = useTheme();
   const muiTheme = useMemo(() => createAppTheme(theme), [theme]);
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
   const extraLists = useExtraLists();
   const activity = useActivityLog();
   const recentSheets = useRecentSheets();
+  const collapseState = useCollapseState();
   const [dyslexicFont, setDyslexicFont] = useLocalStorageBoolean('dyslexicFont', false);
   const [mode, setMode] = useLocalStorageString('mode', 'tarefas');
 
@@ -102,6 +109,7 @@ function App() {
   const [detailCard, setDetailCard] = useState<CardData | null>(null);
   const [pasteHintVisible, setPasteHintVisible] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
+  const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   const [activityPanelOpen, setActivityPanelOpen] = useState(false);
 
   const filterInputRef = useRef<HTMLInputElement>(null);
@@ -145,9 +153,11 @@ function App() {
       .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
   }, [columns]);
 
+  const debouncedQuery = useDebouncedValue(query, FILTER_DEBOUNCE_MS);
+
   const displayColumns = useMemo(
-    () => columns.map((col) => ({ ...col, cards: sortCards(filterCards(col.cards, query, responsavelFilter), sortMode) })),
-    [columns, query, responsavelFilter, sortMode],
+    () => columns.map((col) => ({ ...col, cards: sortCards(filterCards(col.cards, debouncedQuery, responsavelFilter), sortMode) })),
+    [columns, debouncedQuery, responsavelFilter, sortMode],
   );
 
   const totalCount = useMemo(() => columns.reduce((sum, c) => sum + c.cards.length, 0), [columns]);
@@ -176,11 +186,11 @@ function App() {
   useEffect(() => {
     history.replaceState(null, '', `${location.pathname}?${(() => {
       const params = new URLSearchParams(location.search);
-      if (query) params.set('filter', query);
+      if (debouncedQuery) params.set('filter', debouncedQuery);
       else params.delete('filter');
       return params.toString();
     })()}`);
-  }, [query]);
+  }, [debouncedQuery]);
 
   function toggleQueryFilter(value: string) {
     setQuery((current) => (current === value ? '' : value));
@@ -232,11 +242,19 @@ function App() {
   }
 
   function handleDownloadCsvSelected() {
-    const rows = ['Coluna,Título,Descrição,Data,Prioridade,Responsável,Link,Tags'];
+    const rows = [BOARD_CSV_HEADERS];
     displayColumns.forEach((col) => {
       col.cards.filter((c) => selection.selectedTitles.has(c.title)).forEach((c) => rows.push(buildCardRowCsv(c, col.title)));
     });
     downloadBlob(rows.join('\n'), 'sprint-board-selecionados.csv', 'text/csv;charset=utf-8');
+  }
+
+  function handleCopyColumnText(columnTitle: string, cards: CardData[]) {
+    navigator.clipboard.writeText(buildColumnText(columnTitle, cards));
+  }
+
+  function handleCopyColumnCsv(columnTitle: string, cards: CardData[]) {
+    navigator.clipboard.writeText(buildColumnCsv(columnTitle, cards));
   }
 
   function handleCopyBoardLink() {
@@ -282,10 +300,15 @@ function App() {
   }
 
   function handleResetSettings() {
-    if (!confirm('Limpar todas as configurações e recarregar a página?')) return;
+    setResetConfirmOpen(true);
+  }
+
+  function handleConfirmReset() {
     STORAGE_KEYS.forEach((k) => localStorage.removeItem(k));
     location.reload();
   }
+
+  const mobileMenuActiveCount = (activity.unseenCount > 0 ? 1 : 0) + (selection.selectMode ? 1 : 0);
 
   useKeyboardShortcuts({
     boardVisible: state === 'success',
@@ -304,6 +327,7 @@ function App() {
     onOpenSheet: () => {
       if (state === 'success' && sheetUrl) window.open(sheetUrl, '_blank', 'noopener,noreferrer');
     },
+    onToggleAllColumns: () => collapseState.toggleAll([...COLUMN_IDS]),
     onEscape: () => {
       if (newTaskModalOpen) {
         setNewTaskModalOpen(false);
@@ -409,31 +433,76 @@ function App() {
                       onDownloadCsv={handleDownloadCsv}
                       onDownloadIcs={handleDownloadIcs}
                     />
-                    <Button
-                      size="small"
-                      startIcon={<OpenInNewIcon fontSize="small" />}
-                      component="a"
-                      href={sheetUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Abrir planilha no Google Sheets (G)"
-                    >
-                      Ir para planilha
-                    </Button>
-                    <Button
-                      size="small"
-                      color={activity.unseenCount > 0 ? 'primary' : 'inherit'}
-                      onClick={() => {
-                        setActivityPanelOpen((o) => !o);
-                        if (!activityPanelOpen) activity.markSeen();
-                      }}
-                    >
-                      Atividade{activity.unseenCount > 0 ? ` (${activity.unseenCount})` : ''}
-                    </Button>
-                    {!readonly && (
-                      <Button size="small" color={selection.selectMode ? 'primary' : 'inherit'} onClick={selection.toggleSelectMode}>
-                        Selecionar
-                      </Button>
+                    {isMobile ? (
+                      <AppMenu
+                        label={`Mais${mobileMenuActiveCount > 0 ? ` (${mobileMenuActiveCount})` : ''}`}
+                        buttonProps={{ size: 'small', endIcon: <ExpandMoreIcon /> }}
+                      >
+                        {(close) => [
+                          <MenuItem
+                            key="sheet"
+                            component="a"
+                            href={sheetUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={close}
+                          >
+                            Ir para planilha
+                          </MenuItem>,
+                          <MenuItem
+                            key="activity"
+                            onClick={() => {
+                              setActivityPanelOpen((o) => !o);
+                              if (!activityPanelOpen) activity.markSeen();
+                              close();
+                            }}
+                          >
+                            Atividade{activity.unseenCount > 0 ? ` (${activity.unseenCount})` : ''}
+                          </MenuItem>,
+                          ...(readonly
+                            ? []
+                            : [
+                                <MenuItem
+                                  key="select"
+                                  onClick={() => {
+                                    selection.toggleSelectMode();
+                                    close();
+                                  }}
+                                >
+                                  Selecionar
+                                </MenuItem>,
+                              ]),
+                        ]}
+                      </AppMenu>
+                    ) : (
+                      <>
+                        <Button
+                          size="small"
+                          startIcon={<OpenInNewIcon fontSize="small" />}
+                          component="a"
+                          href={sheetUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Abrir planilha no Google Sheets (G)"
+                        >
+                          Ir para planilha
+                        </Button>
+                        <Button
+                          size="small"
+                          color={activity.unseenCount > 0 ? 'primary' : 'inherit'}
+                          onClick={() => {
+                            setActivityPanelOpen((o) => !o);
+                            if (!activityPanelOpen) activity.markSeen();
+                          }}
+                        >
+                          Atividade{activity.unseenCount > 0 ? ` (${activity.unseenCount})` : ''}
+                        </Button>
+                        {!readonly && (
+                          <Button size="small" color={selection.selectMode ? 'primary' : 'inherit'} onClick={selection.toggleSelectMode}>
+                            Selecionar
+                          </Button>
+                        )}
+                      </>
                     )}
                     <FormControlLabel
                       control={<Checkbox size="small" checked={autoRefresh} onChange={(e) => setAutoRefresh(e.target.checked)} />}
@@ -510,12 +579,17 @@ function App() {
             columns={displayColumns}
             expandActions={view.expandActions}
             focus={view.focus}
+            compact={view.compact}
             readonly={readonly}
             activeFilter={activeFilter}
             selectedTitles={selection.selectMode ? selection.selectedTitles : undefined}
             onToggleSelect={selection.selectMode ? selection.toggleTitle : undefined}
             newTitles={activity.newTitles}
             daysByTitle={view.columnTimeVisible ? activity.daysByTitle : undefined}
+            collapsedColumns={collapseState.collapsed}
+            onToggleCollapse={collapseState.toggleColumn}
+            onCopyColumnText={handleCopyColumnText}
+            onCopyColumnCsv={handleCopyColumnCsv}
             onFilterByPriority={toggleQueryFilter}
             onFilterByTag={toggleQueryFilter}
             onOpenDetail={handleOpenDetail}
@@ -554,6 +628,15 @@ function App() {
       )}
       {helpOpen && (
         <HelpModal onClose={() => setHelpOpen(false)} onDownloadTemplate={handleDownloadTemplate} onResetSettings={handleResetSettings} />
+      )}
+      {resetConfirmOpen && (
+        <ConfirmDialog
+          title="Limpar configurações"
+          message="Isso vai apagar tema, filtros salvos, planilhas recentes e demais preferências, e recarregar a página. Confirmar?"
+          confirmLabel="Limpar"
+          onCancel={() => setResetConfirmOpen(false)}
+          onConfirm={handleConfirmReset}
+        />
       )}
       <BackToTop />
     </Box>

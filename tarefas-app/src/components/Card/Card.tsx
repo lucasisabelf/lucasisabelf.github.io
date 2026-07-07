@@ -25,12 +25,13 @@ interface CardProps
     Partial<CardSelectionHandlers> {
   expandActions: boolean;
   readonly: boolean;
+  compact: boolean;
   activeFilter?: string;
   isDoneColumn?: boolean;
 }
 
 export function Card(props: CardProps) {
-  const { title, desc, date, priority, responsavel, link, tags, recurrence, isNew, daysInColumn, expandActions, readonly, activeFilter, isDoneColumn } = props;
+  const { title, desc, date, priority, responsavel, link, tags, recurrence, isNew, daysInColumn, expandActions, readonly, compact, activeFilter, isDoneColumn } = props;
   const { onOpenDetail, onFilterByPriority, onFilterByTag, onCopy, onDuplicate, onWhatsApp, onCalendar, onAskClaude } = props;
   const checklist = parseChecklist(desc);
   const cardData: CardData = { title, desc, date, priority, responsavel, link, tags, recurrence };
@@ -72,7 +73,7 @@ export function Card(props: CardProps) {
           </Typography>
         </Box>
 
-        {checklist ? (
+        {!compact && checklist ? (
           <Box component="ul" sx={{ mt: 0.75, mb: 0, pl: 0, listStyle: 'none', fontSize: '0.82rem', color: 'text.secondary' }}>
             {checklist.map((item, i) => (
               <li key={i}>
@@ -81,6 +82,7 @@ export function Card(props: CardProps) {
             ))}
           </Box>
         ) : (
+          !compact &&
           desc && (
             <Typography variant="body2" color="text.secondary" sx={{ mt: 0.75 }}>
               {desc}
@@ -88,33 +90,37 @@ export function Card(props: CardProps) {
           )
         )}
 
-        <CardBadges
-          date={date}
-          priority={priority}
-          recurrence={recurrence}
-          responsavel={responsavel}
-          tags={tags}
-          activeFilter={activeFilter}
-          onFilterByPriority={onFilterByPriority}
-          onFilterByTag={onFilterByTag}
-        />
+        {!compact && (
+          <CardBadges
+            date={date}
+            priority={priority}
+            recurrence={recurrence}
+            responsavel={responsavel}
+            tags={tags}
+            activeFilter={activeFilter}
+            onFilterByPriority={onFilterByPriority}
+            onFilterByTag={onFilterByTag}
+          />
+        )}
 
-        {daysInColumn !== undefined && daysInColumn > 0 && (
+        {!compact && daysInColumn !== undefined && daysInColumn > 0 && (
           <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 0.75 }}>
             há {daysInColumn} dia{daysInColumn !== 1 ? 's' : ''}
           </Typography>
         )}
 
-        <CardActions
-          card={cardData}
-          expandActions={expandActions}
-          readonly={readonly}
-          onCopy={onCopy}
-          onDuplicate={onDuplicate}
-          onWhatsApp={onWhatsApp}
-          onCalendar={onCalendar}
-          onAskClaude={onAskClaude}
-        />
+        {!compact && (
+          <CardActions
+            card={cardData}
+            expandActions={expandActions}
+            readonly={readonly}
+            onCopy={onCopy}
+            onDuplicate={onDuplicate}
+            onWhatsApp={onWhatsApp}
+            onCalendar={onCalendar}
+            onAskClaude={onAskClaude}
+          />
+        )}
       </CardContent>
     </MuiCard>
   );

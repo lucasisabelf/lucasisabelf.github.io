@@ -1,7 +1,7 @@
 import type { CardData, ColumnData } from '../../types/card';
 import { csvEscape } from '../csv';
 
-const BOARD_CSV_HEADERS = 'Coluna,Título,Descrição,Data,Prioridade,Responsável,Link,Tags';
+export const BOARD_CSV_HEADERS = 'Coluna,Título,Descrição,Data,Prioridade,Responsável,Link,Tags';
 
 export function buildCardRowCsv(card: CardData, colName: string): string {
   return [
@@ -23,6 +23,11 @@ export function buildBoardCsv(columns: ColumnData[]): string {
   columns.forEach((col) => {
     col.cards.forEach((card) => rows.push(buildCardRowCsv(card, col.title)));
   });
+  return rows.join('\n');
+}
+
+export function buildColumnCsv(columnTitle: string, cards: CardData[]): string {
+  const rows = [BOARD_CSV_HEADERS, ...cards.map((card) => buildCardRowCsv(card, columnTitle))];
   return rows.join('\n');
 }
 

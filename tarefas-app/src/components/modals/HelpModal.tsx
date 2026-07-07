@@ -27,6 +27,10 @@ const SHORTCUTS: [string, string][] = [
   ['V', 'Alternar modo de seleção'],
   ['G', 'Abrir planilha no Google Sheets'],
   ['P', 'Imprimir board'],
+  ['C', 'Colapsar/expandir todas as colunas'],
+  ['Header', 'Recolher/expandir uma coluna'],
+  ['Shift+Header', 'Copiar coluna como texto'],
+  ['Ctrl+Shift+Header', 'Copiar coluna como CSV'],
 ];
 
 interface HelpModalProps {

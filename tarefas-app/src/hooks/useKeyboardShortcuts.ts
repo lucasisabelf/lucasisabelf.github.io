@@ -13,6 +13,7 @@ export interface KeyboardShortcutHandlers {
   onEscape(): void;
   onPrint(): void;
   onOpenSheet(): void;
+  onToggleAllColumns(): void;
 }
 
 /** Atalhos globais do board — espelha os já documentados no modal de Ajuda da versão vanilla. */
@@ -59,6 +60,9 @@ export function useKeyboardShortcuts(handlers: KeyboardShortcutHandlers) {
           break;
         case 'g':
           handlers.onOpenSheet();
+          break;
+        case 'c':
+          handlers.onToggleAllColumns();
           break;
       }
     }

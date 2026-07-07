@@ -1,17 +1,21 @@
-import type { ColumnData } from '../../types/card';
+import type { CardData, ColumnData } from '../../types/card';
+
+function buildColumnLines(title: string, cards: CardData[]): string[] {
+  const lines = [`## ${title}`];
+  if (cards.length === 0) {
+    lines.push('_(vazio)_');
+  } else {
+    cards.forEach((card) => {
+      lines.push(`- ${card.title}${card.desc ? ` — ${card.desc}` : ''}`);
+    });
+  }
+  return lines;
+}
 
 export function buildBoardText(columns: ColumnData[]): string {
   const lines: string[] = [];
   columns.forEach((col) => {
-    lines.push(`## ${col.title}`);
-    if (col.cards.length === 0) {
-      lines.push('_(vazio)_');
-    } else {
-      col.cards.forEach((card) => {
-        lines.push(`- ${card.title}${card.desc ? ` — ${card.desc}` : ''}`);
-      });
-    }
-    lines.push('');
+    lines.push(...buildColumnLines(col.title, col.cards), '');
   });
   const ts = new Date().toLocaleString('pt-BR', {
     day: '2-digit',
@@ -22,4 +26,8 @@ export function buildBoardText(columns: ColumnData[]): string {
   });
   lines.push(`---\nExportado em ${ts}`);
   return lines.join('\n').trim();
+}
+
+export function buildColumnText(columnTitle: string, cards: CardData[]): string {
+  return buildColumnLines(columnTitle, cards).join('\n');
 }

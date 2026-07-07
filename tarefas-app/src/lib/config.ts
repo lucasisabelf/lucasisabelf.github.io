@@ -1,4 +1,6 @@
-export const APP_VERSION = '2.0';
+export const APP_VERSION = '2.1';
+
+export const FILTER_DEBOUNCE_MS = 200;
 
 export const SHEET_NAMES = ['To Do', 'In Progress', 'Done'] as const;
 export const COLUMN_IDS = ['todo', 'progress', 'done'] as const;

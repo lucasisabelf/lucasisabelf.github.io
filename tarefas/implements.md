@@ -1,18 +1,6 @@
-# Implements — Ciclo 32
+## 1. Colapsar/expandir colunas
 
-## 1. Prevenir chamadas concorrentes de handleSubmit
-
-**Tarefa:** Novo `let isLoading = false;` (`app.js`). `handleSubmit` retorna imediatamente se já houver uma requisição em andamento; a flag é setada antes do primeiro `showState('loading')` e resetada em um único `finally` que cobre tanto o caminho de sucesso quanto o `catch`.
-
-**Edge case:** `FEATURES.md` descrevia resetar `isLoading = false` "em todos os caminhos de saída (sucesso e o catch)" separadamente.
-
-**Solução:** Usado `try/finally` em vez de repetir `isLoading = false` em cada `return`/fim de bloco — um único ponto de reset que cobre todos os caminhos de saída sem duplicar a atribuição, mais robusto a um futuro `return` antecipado esquecido dentro do `try`.
-
----
-
-## 2. Aria-label nos botões somente-ícone
-
-**Tarefa:** `#help-btn`, `#theme-toggle`, `#dyslexic-toggle`, `#filter-clear-btn` e `#back-to-top` (`index.html`) ganharam `aria-label` com o mesmo texto do `title` já existente.
+**Tarefa:** Clicar no header de uma coluna (`components/Board/Column.tsx`) recolhe/expande o corpo dela; atalho `C` recolhe/expande todas de uma vez. Estado persistido em `localStorage` via novo hook `hooks/useCollapseState.ts` (`collapsed`/`toggleColumn`/`toggleAll`). `HelpModal.tsx` ganhou a linha do atalho `C`.
 
 **Edge case:** Nenhum.
 
@@ -20,9 +8,19 @@
 
 ---
 
-## 3. Selecionar todos no modo de seleção
+## 2. Copiar coluna via clique no header (texto/CSV)
 
-**Tarefa:** Novo `<button id="select-all-btn">` em `#bulk-actions-bar` (`index.html`). Listener em `app.js` marca `checkbox.checked = true` e adiciona `dataset.title` a `selectedTitles` para todo `.card:not(.hidden) .card-select-checkbox`, chamando `updateSelectedCount(selectedTitles.size)` uma única vez ao final — mesma função já usada pelo listener de `change` individual.
+**Tarefa:** Shift+clique no header copia a coluna como texto (`## Nome\n- título — desc`); Ctrl+Shift+clique copia como CSV. Implementado junto com a feature 1 porque as duas dividem o mesmo handler de clique no header (`handleHeaderClick` em `Column.tsx`, checando `e.shiftKey`/`e.ctrlKey` antes de decidir entre colapsar/copiar texto/copiar CSV).
+
+**Edge case:** A descrição original propunha reaproveitar `buildCardRowCsv` (já usado por `buildBoardCsv` e por `handleDownloadCsvSelected`) — ao implementar, percebi que `handleDownloadCsvSelected` em `App.tsx` já duplicava o cabeçalho CSV como string literal inline (`'Coluna,Título,...'`), separado da constante `BOARD_CSV_HEADERS` privada de `lib/exporters/csv.ts`. Adicionar uma 3ª função de coluna com o mesmo cabeçalho hardcoded seria a 3ª ocorrência do mesmo literal.
+
+**Solução:** Exportei `BOARD_CSV_HEADERS` de `csv.ts`, criei `buildColumnCsv(columnTitle, cards)` reaproveitando-a, e troquei o literal inline de `handleDownloadCsvSelected` pela constante importada — eliminando a duplicação em vez de criar uma terceira instância dela. `buildColumnText` (irmã de `buildBoardText`) também foi extraída via um `buildColumnLines` interno compartilhado em `markdown.ts`, evitando duplicar a construção de linhas entre as duas funções.
+
+---
+
+## 3. Restaurar o modo compacto
+
+**Tarefa:** `view.compact` (já existia em `useViewPreferences.ts` e já persistia em `localStorage`) agora é de fato consumido: propagado por `Board.tsx` → `Column.tsx` → `Card.tsx` (prop `compact` nova, obrigatória nos três), escondendo descrição/checklist, `CardBadges`, o texto de "dias na coluna" e `CardActions` quando ativo. Título e badge "Novo" continuam visíveis.
 
 **Edge case:** Nenhum.
 
@@ -30,34 +28,32 @@
 
 ---
 
-## 4. Detalhe do card mostra Responsável/Link/Tags/Checklist
+## 4. Debounce no filtro de texto
 
-**Tarefa:** Novos `#card-detail-responsavel`, `#card-detail-link` e `#card-detail-tags` (`index.html`, este último reaproveitando a classe `.card-tags` já existente). `openCardDetail` (`ui.js`) passa a ler `responsavel`/`link`/`tags` de `card.dataset` e preenchê-los/escondê-los como já fazia para `date`/`priority`. Para a descrição, reaproveita `parseChecklist(desc)` já existente — quando retorna itens, `#card-detail-desc` recebe um `<ul class="card-checklist">`/`<li class="card-checklist-item">` (mesmas classes de `renderCard`, garantindo o mesmo visual via CSS já existente) em vez do texto cru; caso contrário mantém o texto simples.
+**Tarefa:** Novo hook genérico `hooks/useDebouncedValue.ts`; `App.tsx` mantém `query` (ligado ao campo de filtro, atualiza a cada tecla) e deriva `debouncedQuery` (200ms, `FILTER_DEBOUNCE_MS` nova em `lib/config.ts`) usado em `displayColumns` e na sincronização da URL (`?filter=`). Clique em badge de prioridade/tag e `Esc` continuam instantâneos, pois atuam sobre `query` diretamente.
 
-**Edge case:** A criação do `<ul>`/`<li>` do checklist e dos chips de tag (`.card-tag`) agora existe em dois lugares (`renderCard` e `openCardDetail`). Pela convenção do projeto ("3 ocorrências justificam extração, 2 não"), isso ainda não justifica um helper compartilhado.
+**Edge case:** Nenhum.
 
-**Solução:** Duplicado inline em `openCardDetail`, reaproveitando as MESMAS classes CSS (`card-checklist`, `card-checklist-item`, `card-tag`) usadas por `renderCard`, para que o visual seja idêntico sem precisar de CSS novo nem de uma extração prematura para apenas 2 ocorrências. Se uma 3ª ocorrência aparecer futuramente, deve ser extraída (ver restrição `terceira-ocorrencia-nao-extraida`).
-
----
-
-## 5. Modo somente leitura via `?readonly=1`
-
-**Tarefa:** `app.js`, no bloco de inicialização (junto de `urlSheet`/`urlFilter`, antes do primeiro `handleSubmit()`), lê `readonly === '1'` e, se verdadeiro, adiciona `board--readonly` a `document.documentElement`. `showState` (`ui.js`), no bloco de sucesso, esconde `#new-task-btn`/`#select-mode-btn` de novo se a classe estiver presente. `renderCard` (`ui.js`) não cria o botão "Duplicar" quando a classe está presente.
-
-**Edge case:** `FEATURES.md` descrevia ler `new URLSearchParams(location.search).get('readonly')` como uma chamada isolada. O bloco de inicialização já chamava `new URLSearchParams(location.search)` duas vezes (para `urlSheet` e `urlFilter`) antes desta feature — adicionar uma terceira chamada igual no mesmo bloco cruza o limiar de "3 ocorrências justificam extração" do projeto.
-
-**Solução:** Extraído `const urlParams = new URLSearchParams(location.search);` uma única vez no topo do bloco, reaproveitado por `urlSheet`, `urlFilter` e `urlReadonly` — encontrado e corrigido na autorrevisão (Fase 1 do `/review`).
+**Solução:** N/A.
 
 ---
 
-## 6. Indicador visual de modo somente leitura
+## 5. Consolidar ações de baixa frequência no mobile
 
-**Tarefa:** Novo `<span id="readonly-badge">` (`index.html`) ao lado do `<h1>Sprint Board`. No mesmo bloco onde `board--readonly` é adicionado (`app.js`), `hidden` é removido do selo.
+**Tarefa:** `useMediaQuery(muiTheme.breakpoints.down('sm'))` decide, em `App.tsx`, se "Ir para planilha"/"Atividade"/"Selecionar" aparecem soltos (desktop, como já era) ou agrupados num `AppMenu` "Mais" (mobile), com contador de itens ativos no rótulo (`Mais (N)`, somando notificação de atividade não vista + modo de seleção ligado).
 
-**Edge case:** `FEATURES.md` não especificava estilo visual para o selo.
+**Edge case:** A descrição original propunha um componente novo pro menu mobile; ao implementar, o `AppMenu` genérico (já existente desde a migração pro MUI, usado por Compartilhar/Baixar/Visualização/"Mais" de cada card) já cobria exatamente esse caso — seria a 5ª instância do padrão de dropdown.
 
-**Solução:** Reaproveitada a classe `.version-badge` já existente (mesmo visual de pílula pequena usado pelo número de versão ao lado do título) em vez de criar uma regra CSS nova com as mesmas propriedades — consistente com a restrição `css-duplicado-entre-classes`.
+**Solução:** Reaproveitei `AppMenu` diretamente em vez de criar um componente de menu mobile dedicado — nenhum componente novo foi necessário além da lógica condicional (`isMobile ? <AppMenu>...</AppMenu> : <>...botões soltos...</>`) dentro do próprio `App.tsx`.
 
 ---
 
-**Nota do ciclo:** `APP_VERSION` incrementada de `1.30` para `1.31`. Ciclo cumpriu a nova regra de distribuição de esforço: feature 5 (Longa) e feature 4 (Média), as demais Curtas. Fila de falhas (`FALHAS.md`) não tinha itens `aberto`/`em análise` pendentes neste ciclo. Passo 0d (invertexto.com/matuto) verificado; nenhuma sugestão nova sobreviveu ao filtro de segurança/sentido para o projeto.
+## 6. Confirmação de "Limpar configurações" com Dialog do MUI
+
+**Tarefa:** Novo componente genérico `components/ConfirmDialog.tsx` (title/message/confirmLabel como props) substitui o `window.confirm()` nativo em `handleResetSettings` (`App.tsx`). Segue o mesmo padrão de renderização condicional dos outros modais do projeto (`{resetConfirmOpen && <ConfirmDialog/>}`, sem prop `open` própria).
+
+**Edge case:** Nenhum.
+
+**Solução:** N/A.
+
+---
