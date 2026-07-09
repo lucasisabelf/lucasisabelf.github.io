@@ -1,6 +1,7 @@
 # Pesquisa — saude/al
 
 > Atualizado em 2026-07-09 por /pesquisar. Lido por /escrever e /revisar.
+> Último bloco Invertexto visto para esta pasta: "pesquise como fluxonazol pode ajudar e substitutos" (2026-07-09)
 
 ## Dermatite seborreica
 

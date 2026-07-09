@@ -1,6 +1,7 @@
 # Pesquisa — saude/lc
 
 > Atualizado em 2026-07-09 por /pesquisar. Lido por /escrever e /revisar.
+> Último bloco Invertexto visto para esta pasta: "vazio" (2026-07-09)
 
 ## Transtorno bipolar
 

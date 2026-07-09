@@ -29,7 +29,7 @@ saude/<pasta>/
 | `pesquisar.md` | `/pesquisar <pasta>` | Pesquisa fontes confiáveis por queixa + interações entre queixas da mesma pasta |
 | `escrever.md` | `/escrever <pasta>` | Gera/atualiza `index.html` a partir de `pesquisa.md` (e `pontos.md`, se houver) |
 | `revisar.md` | `/revisar <pasta>` | Revisão crítica do `index.html`, exporta `pontos.md` |
-| `loop.md` | `/loop <pasta>` | Orquestra pesquisar → escrever → revisar (com 1 repetição se sobrar item crítico/alto), sem commit/push |
+| `loop.md` | `/loop` | Ciclo recorrente: checagem barata em todas as pastas (topicos.txt + Invertexto), roda pesquisar→escrever→revisar só onde mudou, commita/dá push, reagenda via `ScheduleWakeup` |
 
 ## Fluxo
 
@@ -55,7 +55,9 @@ flowchart TD
     end
 ```
 
-`/loop <pasta>` é o ponto de entrada pensado para uso recorrente: pode ser chamado por um `/loop` de intervalo nativo ou por agendamento (`ScheduleWakeup`/cron) quando `topicos.txt` ganhar novas queixas no futuro. Ele mesmo verifica (Passo 0 de `loop.md`) se há algo novo antes de repesquisar/reescrever — rodar sem mudança nenhuma é barato.
+`/loop` é o ciclo recorrente de verdade: a cada rodada faz uma checagem barata em todas as pastas (mudou `topicos.txt`? mudou o bloco da pasta no notepad do Invertexto? sobrou pendência crítica/alta em `pontos.md`?) e só dispara pesquisar→escrever→revisar nas pastas marcadas — rodada sem mudança nenhuma termina rápido, sem pesquisa nem escrita. Ao final, commita e dá push (só `saude/`) se algo mudou, e reagenda a si mesmo via `ScheduleWakeup`.
+
+Essa recorrência roda dentro da sessão do Claude Code (depende dela continuar viva). Para automação independente de sessão, ver o desenho em `saude/python_fluxo.md` — um script Python externo faz a checagem barata sem a limitação de cache do `WebFetch` e invoca `claude -p "/loop"` quando detecta mudança.
 
 ## Regras de segurança
 
