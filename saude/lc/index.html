@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saúde — Acompanhamento de queixas</title>
+<style>
+  :root {
+    --cor-fundo: #f7f8fa;
+    --cor-superficie: #ffffff;
+    --cor-texto: #1f2430;
+    --cor-texto-suave: #55606e;
+    --cor-primaria: #3a5ba0;
+    --cor-primaria-suave: #e6ecf8;
+    --cor-borda: #e1e5ea;
+    --cor-aviso-fundo: #fff6e0;
+    --cor-aviso-borda: #e8c766;
+    --cor-interacao-fundo: #fdeeee;
+    --cor-interacao-borda: #e3a3a3;
+    --cor-interacao-texto: #7a2b2b;
+    --espaco-sm: 0.5rem;
+    --espaco-md: 1rem;
+    --espaco-lg: 2rem;
+    --raio: 12px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--cor-fundo);
+    color: var(--cor-texto);
+    line-height: 1.6;
+  }
+
+  header {
+    background: var(--cor-primaria);
+    color: white;
+    padding: var(--espaco-lg) var(--espaco-md);
+    text-align: center;
+  }
+
+  header h1 { margin: 0 0 var(--espaco-sm) 0; font-size: 1.6rem; }
+  header p { margin: 0; opacity: 0.9; font-size: 0.95rem; }
+
+  nav.indice {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--espaco-md);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-sm);
+    justify-content: center;
+  }
+
+  nav.indice a {
+    text-decoration: none;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-primaria);
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+  }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 var(--espaco-md) var(--espaco-lg);
+  }
+
+  .card-queixa, .card-interacao {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    padding: var(--espaco-lg);
+    margin-bottom: var(--espaco-lg);
+  }
+
+  .card-queixa h2 {
+    margin-top: 0;
+    color: var(--cor-primaria);
+    font-size: 1.3rem;
+  }
+
+  .card-queixa h3, .card-interacao h3 {
+    font-size: 1rem;
+    margin-bottom: var(--espaco-sm);
+  }
+
+  .card-queixa section, .card-interacao section { margin-bottom: var(--espaco-md); }
+
+  .card-queixa ul, .card-interacao ul { margin: 0; padding-left: 1.2rem; }
+  .card-queixa li, .card-interacao li { margin-bottom: 0.35rem; }
+
+  .nota-terminologia {
+    background: var(--cor-primaria-suave);
+    border-radius: var(--raio);
+    padding: var(--espaco-md);
+    font-size: 0.9rem;
+    margin-bottom: var(--espaco-md);
+  }
+
+  .fontes {
+    font-size: 0.85rem;
+    color: var(--cor-texto-suave);
+    border-top: 1px solid var(--cor-borda);
+    padding-top: var(--espaco-md);
+  }
+
+  .fontes ul { padding-left: 1.2rem; }
+
+  .tag-epistemica {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: var(--cor-primaria-suave);
+    color: var(--cor-primaria);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    margin-right: 0.4rem;
+  }
+
+  .secao-interacoes {
+    border: 2px solid var(--cor-interacao-borda);
+    border-radius: var(--raio);
+    padding: var(--espaco-lg);
+    margin-bottom: var(--espaco-lg);
+    background: var(--cor-interacao-fundo);
+  }
+
+  .secao-interacoes > h2 {
+    color: var(--cor-interacao-texto);
+    margin-top: 0;
+  }
+
+  .secao-interacoes > p.intro {
+    color: var(--cor-interacao-texto);
+    font-size: 0.95rem;
+  }
+
+  .card-interacao {
+    border-color: var(--cor-interacao-borda);
+    background: var(--cor-superficie);
+  }
+
+  .card-interacao h3 { color: var(--cor-interacao-texto); }
+
+  .aviso {
+    background: var(--cor-aviso-fundo);
+    border: 1px solid var(--cor-aviso-borda);
+    border-radius: var(--raio);
+    padding: var(--espaco-md);
+    font-size: 0.9rem;
+    color: #6b5a10;
+  }
+
+  footer {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 var(--espaco-md) var(--espaco-lg);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Acompanhamento de saúde</h1>
+  <p>Conteúdo educativo sobre as queixas em acompanhamento</p>
+</header>
+
+<nav class="indice" id="indice"></nav>
+
+<main id="conteudo"></main>
+
+<footer>
+  <div class="aviso">
+    Este conteúdo é educativo e não substitui avaliação, diagnóstico ou acompanhamento com um profissional de saúde.
+    Qualquer decisão de tratamento (incluindo ajuste ou início de medicação) deve ser sempre feita junto ao médico/psiquiatra/endocrinologista responsável.
+  </div>
+</footer>
+
+<script>
+  const QUEIXAS = [
+    {
+      id: 'bipolaridade',
+      titulo: 'Transtorno bipolar',
+      oQueE: 'Transtorno de humor caracterizado por oscilações que vão de episódios de euforia/expansividade (mania ou hipomania) a episódios de depressão, com tristeza profunda, apatia e falta de energia. Segundo a Associação Brasileira de Psiquiatria (ABP), afeta cerca de 6 milhões de pessoas no Brasil.',
+      sintomas: [
+        'Episódio maníaco/hipomaníaco: humor elevado, expansivo ou irritável, aumento persistente de energia/atividade, pensamentos acelerados, menor necessidade de sono, impulsividade',
+        'Episódio depressivo: tristeza, apatia, inquietação, culpa excessiva, desesperança'
+      ],
+      manejo: [
+        'Diário de humor: anotar diariamente sono, energia, humor e uso de medicação — ajuda a notar padrões antes de uma crise se instalar',
+        'Rotina de sono consistente, com horário fixo pra dormir/acordar',
+        'Evitar telas e estímulos fortes antes de deitar; ambiente de sono tranquilo (quarto escuro, temperatura amena, sem ruído) — privação de sono é gatilho reconhecido de episódios',
+        'Acompanhamento regular com psiquiatra (ajuste de medicação) e psicólogo'
+      ],
+      quandoProcurarAjuda: 'Aumento repentino de energia, insônia sem causa aparente, pensamentos acelerados, culpa ou desesperança extremas — ou quando as oscilações passam a causar prejuízo na vida social, profissional ou nas relações.',
+      fontes: [
+        { nivel: 'Evidência', texto: 'Definição, prevalência no Brasil, sintomas de mania/depressão', fonte: 'Associação Brasileira de Psiquiatria (ABP)', url: 'https://www.metropoles.com/saude/transtorno-bipolar-conheca-13-sinais-importantes-para-o-diagnostico' },
+        { nivel: 'Evidência', texto: 'Estratégias de manejo diário (diário de humor, rotina de sono)', fonte: 'Dr. João Bomfim, psiquiatra', url: 'https://drjoaobomfimpsiquiatra.com.br/entre-altos-baixos-e-o-equilibrio-como-gerenciar-o-transtorno-bipolar-no-dia-a-dia/' },
+        { nivel: 'Evidência', texto: 'Apresentação clínica e critérios', fonte: 'Manual MSD, edição profissional', url: 'https://www.msdmanuals.com/pt/profissional/transtornos-psiqui%C3%A1tricos/transtornos-do-humor/transtornos-bipolares' }
+      ]
+    },
+    {
+      id: 'tdah',
+      titulo: 'TDAH (Transtorno do Déficit de Atenção com Hiperatividade)',
+      oQueE: 'Condição neurobiológica que afeta atenção, organização e controle de impulsos/hiperatividade. Em adultos costuma se manifestar mais como desatenção e desorganização do que como hiperatividade motora visível.',
+      sintomas: [
+        'Descuido em atividades e falta de organização',
+        'Dificuldade em manter foco, procrastinação constante',
+        'Esquecimentos frequentes, dificuldade em priorizar tarefas',
+        'Sensação frequente de sobrecarga'
+      ],
+      manejo: [
+        'Exercício físico regular — ajuda a gastar excesso de energia, melhora humor e foco',
+        'Sono adequado — poucas horas de sono pioram diretamente a desatenção; evitar cafeína antes de dormir e manter rotina noturna',
+        'Organização externa: agenda/lembretes para compromissos e prazos',
+        'Horários fixos para tarefas do dia (acordar, comer, trabalhar, dormir)',
+        'Alimentação regular — também ajuda a reduzir distração e estresse'
+      ],
+      quandoProcurarAjuda: 'Quando os sintomas geram prejuízo real (trabalho, estudo, finanças, relações) ou sensação prolongada de estar no "modo sobrevivência". Diagnóstico em adultos costuma ser feito por psiquiatra ou neurologista; tratamento combina, na maioria dos casos, medicação e terapia cognitivo-comportamental.',
+      fontes: [
+        { nivel: 'Evidência', texto: 'Sintomas em adultos e estratégias de manejo', fonte: 'Associação Brasileira do Déficit de Atenção (tdah.org.br)', url: 'https://tdah.org.br/tdah-no-adulto-algumas-estrategias-para-o-dia-a-dia/' },
+        { nivel: 'Evidência', texto: 'Critérios de quando buscar ajuda e condução diagnóstica', fonte: 'Instituto Sanapta', url: 'https://institutosanapta.com.br/blog/sintomas-do-tdah-em-adultos/' }
+      ]
+    },
+    {
+      id: 'hashimoto',
+      titulo: 'Hipotireoidismo por tireoidite de Hashimoto',
+      notaTerminologia: 'Nota importante: o termo "hipertireoidismo de Hashimoto" é impreciso — vale esclarecer com o endocrinologista qual é o quadro real. A tireoidite de Hashimoto é a causa mais comum de <strong>hipotireoidismo</strong> (produção baixa de hormônio). Existe uma fase chamada <strong>hashitoxicose</strong>: no início da inflamação, a destruição do tecido pode liberar hormônio estocado em excesso, causando um quadro transitório de sintomas de "hiper" — essa fase costuma ser passageira e evoluir para hipotireoidismo clássico. Ou seja, o "hiper" tende a ser uma fase, não o quadro definitivo.',
+      oQueE: 'Doença autoimune em que anticorpos atacam a tireoide, reduzindo aos poucos sua capacidade de produzir hormônio. É a causa mais frequente de hipotireoidismo atualmente.',
+      sintomas: [
+        'Fase de hipotireoidismo: fadiga, lentidão de raciocínio, dificuldade de concentração, alterações de humor/irritabilidade, ganho de peso, sensibilidade ao frio',
+        'Fase transitória de hashitoxicose (mais rara): taquicardia, ansiedade, perda de peso, tremores'
+      ],
+      manejo: [
+        'Acompanhamento com exames periódicos (TSH, T3, T4, anticorpos anti-TPO e anti-tireoglobulina) para monitorar a função tireoidiana ao longo do tempo, já que ela pode mudar de fase'
+      ],
+      quandoProcurarAjuda: 'Diagnóstico e acompanhamento são feitos por endocrinologista, com exames laboratoriais. Qualquer sintoma novo de humor, energia ou peso vale ser reportado — pode refletir mudança na função da tireoide.',
+      fontes: [
+        { nivel: 'Evidência', texto: 'Hashimoto como causa mais comum de hipotireoidismo; espectro clínico hipo/eu/hipertireoidismo', fonte: 'Departamento de Tireoide da SBEM', url: 'https://www.tireoide.org.br/tireoidite-de-hashimoto/' },
+        { nivel: 'Evidência', texto: 'Hashitoxicose como tireotoxicose transitória que evolui para hipotireoidismo', fonte: 'Departamento de Tireoide da SBEM', url: 'https://www.tireoide.org.br/para-o-publico/disturbios/tireoidite/' },
+        { nivel: 'Evidência', texto: 'Diagnóstico laboratorial (TSH, T3, T4, anti-TPO, TgAb)', fonte: 'Manual MSD, edição profissional', url: 'https://www.msdmanuals.com/pt/profissional/dist%C3%BArbios-end%C3%B3crinos-e-metab%C3%B3licos/dist%C3%BArbios-da-tireoide/tireoidite-de-hashimoto' }
+      ]
+    }
+  ];
+
+  const INTERACOES = [
+    {
+      id: 'tdah-bipolaridade',
+      par: 'TDAH × Transtorno bipolar',
+      oQueDiz: 'A combinação das duas condições pode somatizar energia e desfoco de formas que dificultam diferenciar um episódio de mania de uma piora do TDAH — os dois cursam com aceleração, impulsividade e menor necessidade de sono, então uma piora real de humor pode passar despercebida como "só o TDAH de sempre".',
+      cuidado: 'Estimulantes usados no tratamento do TDAH — como lisdexanfetamina (Venvanse) — têm potencial reconhecido de precipitar ou intensificar episódios de mania, inclusive em quem nunca teve esse sintoma antes. A orientação clínica geral é <strong>não iniciar medicação para TDAH até o quadro bipolar estar bem estabilizado</strong> com estabilizador de humor (e, quando necessário, antipsicótico) — o estimulante só entra depois, sob acompanhamento psiquiátrico próximo. Uma revisão sistemática de 2024 não encontrou aumento de risco de mania quando o estimulante é introduzido dessa forma — o risco relevante é pular essa etapa de estabilização.',
+      fontes: [
+        { nivel: 'Evidência', texto: 'Risco de estimulantes precipitarem mania mesmo em quem nunca teve o sintoma', fonte: 'WebMD, bula/perfil de segurança de lisdexanfetamina', url: 'https://www.webmd.com/drugs/lisdexamfetamine-vyvanse' },
+        { nivel: 'Evidência', texto: 'Recomendação de estabilizar o quadro bipolar antes de iniciar tratamento para TDAH; ausência de risco aumentado quando essa ordem é seguida', fonte: 'Revisão sistemática 2024, resumo clínico', url: 'https://www.droracle.ai/articles/565823/would-you-prescribe-vyvanse-lisdexamfetamine-for-attention-deficit-hyperactivity' }
+      ]
+    },
+    {
+      id: 'bipolaridade-hashimoto',
+      par: 'Transtorno bipolar × Hipotireoidismo (Hashimoto)',
+      oQueDiz: 'A relação vai nos dois sentidos: o próprio hipotireoidismo pode causar ou agravar sintomas depressivos e lentidão de raciocínio, que podem se misturar com um episódio depressivo do transtorno bipolar. Além disso, o lítio — um dos estabilizadores de humor mais usados no transtorno bipolar — é uma causa medicamentosa conhecida de hipotireoidismo.',
+      cuidado: 'Quem usa lítio tem risco de hipotireoidismo cerca de <strong>6 vezes maior</strong>, por inibição da função tireoidiana e estímulo sustentado do TSH. Quem já tem Hashimoto e usa (ou pode vir a usar) lítio precisa de monitoramento laboratorial da tireoide antes e durante o tratamento — a função tireoidiana pode piorar por causa do próprio medicamento, não só da doença autoimune de base. Reforça a importância de psiquiatra e endocrinologista alinhados, não avaliações isoladas.',
+      fontes: [
+        { nivel: 'Evidência', texto: 'Hipotireoidismo afetando humor e cognição (sintomas depressivos, lentidão)', fonte: 'Compilação de fontes clínicas gerais' },
+        { nivel: 'Evidência', texto: 'Lítio aumentando em ~6× o risco de hipotireoidismo; necessidade de monitorar hormônios tireoidianos', fonte: 'Brazilian Journal of Health Review — "Efeitos adversos do Lítio relacionados ao Hipotireoidismo"', url: 'https://ojs.brazilianjournals.com.br/ojs/index.php/BJHR/article/view/43183' }
+      ]
+    },
+    {
+      id: 'tdah-hashimoto',
+      par: 'TDAH × Hipotireoidismo (Hashimoto)',
+      oQueDiz: 'Os sintomas se sobrepõem de um jeito que pode confundir diagnóstico e acompanhamento: hipotireoidismo não tratado causa fadiga, dificuldade de concentração, lentidão de raciocínio e irritabilidade — praticamente o mesmo conjunto de queixas atribuído ao TDAH. Uma piora de concentração pode ser a tireoide descompensando, não o TDAH "piorando".',
+      cuidado: 'Quando a atenção/energia piora, vale checar a função tireoidiana (TSH/T4 livre) antes de assumir que é só o TDAH — uma vez a tireoide estabilizada com o tratamento adequado, é esperado que a parcela dos sintomas que vinha dela melhore.',
+      fontes: [
+        { nivel: 'Evidência', texto: 'Sobreposição de sintomas (fadiga, desatenção, lentidão, irritabilidade) entre hipotireoidismo e TDAH, risco de confusão diagnóstica', fonte: 'Compilação de fontes clínicas (Edge Foundation e outras)', url: 'https://edgefoundation.org/adhd-and-thyroid-problems/' },
+        { nivel: 'Inferência', texto: 'Reavaliação da função tireoidiana recomendada diante de piora de sintomas atencionais', fonte: 'Combinação das fontes acima, sem estudo controlado específico citado' }
+      ]
+    }
+  ];
+
+  function renderTagEpistemica(nivel) {
+    return `<span class="tag-epistemica">${nivel}</span>`;
+  }
+
+  function renderLista(itens) {
+    return `<ul>${itens.map(i => `<li>${i}</li>`).join('')}</ul>`;
+  }
+
+  function renderFontes(fontes) {
+    const itens = fontes.map(f => {
+      const referencia = f.url
+        ? `<a href="${f.url}" target="_blank" rel="noopener noreferrer">${f.fonte}</a>`
+        : f.fonte;
+      return `<li>${renderTagEpistemica(f.nivel)}${f.texto} — ${referencia}</li>`;
+    }).join('');
+    return `<div class="fontes"><h3>Fontes</h3><ul>${itens}</ul></div>`;
+  }
+
+  function renderQueixa(q) {
+    const nota = q.notaTerminologia
+      ? `<div class="nota-terminologia">${q.notaTerminologia}</div>`
+      : '';
+    return `
+      <article class="card-queixa" id="${q.id}">
+        <h2>${q.titulo}</h2>
+        ${nota}
+        <section>
+          <h3>O que é</h3>
+          <p>${q.oQueE}</p>
+        </section>
+        <section>
+          <h3>Sintomas comuns</h3>
+          ${renderLista(q.sintomas)}
+        </section>
+        <section>
+          <h3>O que ajuda no dia a dia</h3>
+          ${renderLista(q.manejo)}
+        </section>
+        <section>
+          <h3>Quando procurar ajuda</h3>
+          <p>${q.quandoProcurarAjuda}</p>
+        </section>
+        ${renderFontes(q.fontes)}
+      </article>
+    `;
+  }
+
+  function renderInteracao(i) {
+    return `
+      <article class="card-interacao" id="${i.id}">
+        <h3>${i.par}</h3>
+        <section>
+          <p>${i.oQueDiz}</p>
+        </section>
+        <section>
+          <p>${i.cuidado}</p>
+        </section>
+        ${renderFontes(i.fontes)}
+      </article>
+    `;
+  }
+
+  function renderIndice(itens) {
+    return itens.map(i => `<a href="#${i.id}">${i.titulo || i.par}</a>`).join('');
+  }
+
+  function initPagina() {
+    const container = document.getElementById('conteudo');
+    const indice = document.getElementById('indice');
+
+    indice.innerHTML = renderIndice(QUEIXAS) + renderIndice(INTERACOES.length ? [{ id: 'interacoes', titulo: 'Quando as condições se somam' }] : []);
+
+    let html = QUEIXAS.map(renderQueixa).join('');
+
+    if (INTERACOES.length) {
+      html += `
+        <section class="secao-interacoes" id="interacoes">
+          <h2>Quando as condições se somam</h2>
+          <p class="intro">Ter mais de uma condição ao mesmo tempo não é só "a soma" de cada uma isolada — os sintomas e os cuidados de medicação podem se misturar. Esta seção reúne o que a pesquisa encontrou sobre como essas três condições interagem entre si.</p>
+          ${INTERACOES.map(renderInteracao).join('')}
+        </section>
+      `;
+    }
+
+    container.innerHTML = html;
+  }
+
+  initPagina();
+</script>
+
+</body>
+</html>
