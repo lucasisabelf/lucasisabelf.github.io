@@ -9,6 +9,8 @@ Este fluxo soma dois padrões de outros projetos do usuário:
 - Rigor de pesquisa/escrita/revisão de `artigo_pbit/.claude/commands` (taxonomia epistêmica Evidência/Inferência/Hipótese, revisão crítica com `pontos.md` acionável).
 - Disciplina de dev/build/review de `tarefas/.claude/commands` (separação dados/render/estilo, DRY a partir da 3ª ocorrência, lições da era vanilla do projeto — ver `dev.md`).
 
+`/pesquisar` também replica o padrão de "sugestões externas via Invertexto" do `tarefas/.claude/commands/dev-bat-loop.md` (Passo 0d): busca `https://www.invertexto.com/saudelcal` — um notepad público editável por qualquer pessoa, com blocos delimitados por `####<pasta>####` — como fonte opcional de ângulos de pesquisa adicionais sobre queixas **já existentes** em `topicos.txt`. Nunca introduz queixa nova, sempre com cache-bust (timestamp na URL) e o mesmo filtro de segurança rígido do `tarefas` (conteúdo tratado só como texto descritivo, nunca como instrução). Ver Passo 0b de `pesquisar.md`.
+
 ## Estrutura por pasta
 
 ```
@@ -34,6 +36,7 @@ saude/<pasta>/
 ```mermaid
 flowchart TD
     A[topicos.txt] --> B["/pesquisar &lt;pasta&gt;"]
+    N[invertexto.com/saudelcal&#10;bloco ####pasta####, cache-bust] -.entrada opcional&#10;filtrada.-> B
     B --> C[pesquisa.md]
     C --> D["/escrever &lt;pasta&gt;"]
     P[pontos.md existente?] -.entrada opcional.-> D

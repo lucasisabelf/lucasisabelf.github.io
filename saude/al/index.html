@@ -147,10 +147,32 @@
         'Corticoide tópico de baixa potência pode ser indicado por curtos períodos em crises mais inflamadas — sempre com orientação do dermatologista, não para uso contínuo'
       ],
       quandoProcurarAjuda: 'O diagnóstico é clínico, feito por dermatologista. Vale buscar avaliação quando as placas não melhoram com os cuidados básicos, quando surgem sinais de infecção (dor, secreção, calor local) ou quando a condição afeta a autoestima/qualidade de vida — o dermatologista pode indicar um tratamento tópico mais específico.',
+      quandoOralPodeEntrar: 'Em casos extensos ou que não respondem ao tratamento tópico, a literatura menciona antifúngicos orais — <strong>fluconazol</strong>, itraconazol, cetoconazol oral ou terbinafina — como opção de segunda linha. É um uso off-label (fora da indicação de bula) e as evidências específicas para dermatite seborreica são limitadas, não é a primeira escolha. Antifúngicos orais têm efeito sistêmico e podem interagir com outros medicamentos — qual usar, se algum, e por quanto tempo é decisão exclusiva do dermatologista, nunca escolha própria.',
       fontes: [
         { nivel: 'Evidência', texto: 'Localização típica, causas e cuidados de higiene', fonte: 'Sociedade Brasileira de Dermatologia (SBD)', url: 'https://www.sbd.org.br/doencas/dermatite-seborreica-2/' },
         { nivel: 'Evidência', texto: 'Sintomas, causas e opções de tratamento', fonte: 'Mayo Clinic', url: 'https://www.mayoclinic.org/diseases-conditions/seborrheic-dermatitis/symptoms-causes/syc-20352710' },
-        { nivel: 'Evidência', texto: 'Descrição clínica e tratamento', fonte: 'MedlinePlus (NIH)', url: 'https://medlineplus.gov/ency/article/000963.htm' }
+        { nivel: 'Evidência', texto: 'Descrição clínica e tratamento', fonte: 'MedlinePlus (NIH)', url: 'https://medlineplus.gov/ency/article/000963.htm' },
+        { nivel: 'Evidência', texto: 'Antifúngicos orais em casos extensos/refratários, uso off-label, evidência limitada (achado a partir de sugestão externa via invertexto.com/saudelcal)', fonte: 'TelessaúdeRS-UFRGS', url: 'https://www.ufrgs.br/telessauders/perguntas/quais-os-cuidados-para-prescricao-de-antifungicos-sistemicos-em-condicoes-dermatologicas/' }
+      ]
+    },
+    {
+      id: 'caspa-branca-volumosa',
+      titulo: 'Caspa branca, grande e volumosa',
+      oQueE: '"Caspa" no sentido amplo é a descamação visível do couro cabeludo, mas o tipo de floco ajuda a diferenciar três quadros parecidos que pedem manejo diferente: <strong>caspa comum</strong> (flocos pequenos, soltos, brancos a amarelados, sem inflamação relevante), <strong>dermatite seborreica</strong> (flocos maiores, amarelados, oleosos e aderentes, com vermelhidão e coceira — ver seção acima) e <strong>psoríase de couro cabeludo</strong> (placas espessas, secas, com escamas branco-acinzentadas de aspecto prateado, bem aderentes — doença autoimune crônica, sem cura definitiva, com manejo diferente). Uma descrição de caspa branca, grande e volumosa tem elementos dos três (cor branca lembra caspa comum; tamanho/volume grande lembra mais psoríase) — só um dermatologista, olhando o couro cabeludo, consegue diferenciar com segurança.',
+      sintomas: [
+        'Floco solto, fino, sem inflamação por baixo → mais característico de caspa comum',
+        'Floco oleoso e aderente, com vermelhidão e coceira → mais característico de dermatite seborreica',
+        'Placa espessa, seca, escama branco-acinzentada/prateada, bem aderente, podendo passar da linha do cabelo → mais característico de psoríase',
+        'Coceira intensa ou com ardor pesa mais para dermatite seborreica ou psoríase do que para caspa comum'
+      ],
+      manejo: [
+        'Enquanto não há confirmação diagnóstica, os cuidados básicos já usados para dermatite seborreica (xampu antifúngico, evitar água muito quente, controlar estresse) tendem a ajudar tanto na caspa comum quanto na dermatite seborreica',
+        'Esses mesmos cuidados não resolvem psoríase — se for o caso, o tratamento é outro e específico do dermatologista'
+      ],
+      quandoProcurarAjuda: 'Vale confirmar com dermatologista principalmente porque o volume/tamanho grande do floco descrito foge do padrão de caspa comum leve — descartar psoríase (que exige acompanhamento próprio, sem cura definitiva) é o ponto mais importante aqui, não só aliviar o sintoma visível.',
+      fontes: [
+        { nivel: 'Evidência', texto: 'Diferenças entre caspa comum, dermatite seborreica e psoríase (aparência do floco, oleosidade, inflamação)', fonte: 'Dra. Mariana Meyer', url: 'https://www.dramarianameyer.com.br/psoriase-no-couro-cabeludo-ou-caspa-entenda-a-diferenca/' },
+        { nivel: 'Evidência', texto: 'Diferenças entre psoríase de couro cabeludo e caspa (textura, espessura, cronicidade)', fonte: 'WebMD', url: 'https://www.webmd.com/skin-problems-and-treatments/psoriasis/scalp-psoriasis-vs-dandruff' }
       ]
     }
   ];
@@ -174,6 +196,9 @@
   }
 
   function renderQueixa(q) {
+    const secaoOral = q.quandoOralPodeEntrar
+      ? `<section><h3>Quando o tratamento tópico não é suficiente</h3><p>${q.quandoOralPodeEntrar}</p></section>`
+      : '';
     return `
       <article class="card-queixa" id="${q.id}">
         <h2>${q.titulo}</h2>
@@ -189,6 +214,7 @@
           <h3>O que ajuda no dia a dia</h3>
           ${renderLista(q.manejo)}
         </section>
+        ${secaoOral}
         <section>
           <h3>Quando procurar ajuda</h3>
           <p>${q.quandoProcurarAjuda}</p>
