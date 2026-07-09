@@ -1,7 +1,7 @@
 # Pesquisa — saude/lc
 
 > Atualizado em 2026-07-09 por /pesquisar. Lido por /escrever e /revisar.
-> Último bloco Invertexto visto para esta pasta: "vazio" (2026-07-09)
+> Último bloco Invertexto visto para esta pasta: "cansaço excessivo" (2026-07-09)
 
 ## Transtorno bipolar
 
@@ -77,13 +77,14 @@
 
 ### Transtorno bipolar × Hipotireoidismo (Hashimoto)
 
-**O que a literatura diz:** A relação é nos dois sentidos. (1) O próprio hipotireoidismo pode causar ou agravar sintomas depressivos e lentidão de raciocínio, o que pode se misturar com um episódio depressivo do transtorno bipolar. (2) O lítio — um dos estabilizadores de humor mais usados no transtorno bipolar — é uma causa medicamentosa conhecida de hipotireoidismo: o risco de desenvolver hipotireoidismo aumenta cerca de 6 vezes em quem usa lítio, por inibição da função tireoidiana e estímulo sustentado do TSH.
+**O que a literatura diz:** A relação é nos dois sentidos. (1) O próprio hipotireoidismo pode causar ou agravar sintomas depressivos e lentidão de raciocínio, o que pode se misturar com um episódio depressivo do transtorno bipolar. (2) Estabilizadores de humor usados no transtorno bipolar são causa medicamentosa conhecida de hipotireoidismo — não só o lítio: o risco de hipotireoidismo aumenta cerca de 6 vezes em quem usa lítio, por inibição da função tireoidiana e estímulo sustentado do TSH; **valproato** também é uma causa documentada, ainda que menos monitorada na prática (ver achado abaixo, sugestão externa via invertexto.com/saudelcal).
 
-**Cuidado de medicação/acompanhamento:** Quem já tem Hashimoto e usa (ou pode vir a usar) lítio precisa de monitoramento laboratorial da tireoide antes e durante o tratamento — a função tireoidiana pode piorar por causa do próprio medicamento, não só da doença autoimune de base. Isso reforça a importância de psiquiatra e endocrinologista alinhados, não avaliações isoladas.
+**Cuidado de medicação/acompanhamento:** Quem já tem Hashimoto e usa (ou pode vir a usar) lítio ou valproato precisa de monitoramento laboratorial da tireoide antes e durante o tratamento — a função tireoidiana pode piorar por causa do próprio medicamento, não só da doença autoimune de base. Um relato de caso documentou hipotireoidismo central induzido por valproato numa paciente com transtorno bipolar tipo I, com **fadiga severa** como sintoma principal, começando cerca de 30 dias após o início da medicação, e reversão completa da fadiga cerca de 20 dias após suspender o valproato. O artigo destaca que a função tireoidiana é rotineiramente monitorada em quem usa lítio, mas **é menos comum monitorar em quem usa valproato** — reforça a importância de reportar fadiga nova ou piora dela ao psiquiatra, mesmo estando em valproato e não em lítio.
 
 **Fontes:**
 - [Evidência] Hipotireoidismo afetando humor/cognição (sintomas depressivos, lentidão) — MedlinePlus/resumo clínico geral (achado consistente entre fontes de busca)
 - [Evidência] Lítio aumentando em ~6× o risco de hipotireoidismo; necessidade de monitorar hormônios tireoidianos antes/durante o uso — Brazilian Journal of Health Review, "Efeitos adversos do Lítio relacionados ao Hipotireoidismo", https://ojs.brazilianjournals.com.br/ojs/index.php/BJHR/article/view/43183
+- [Evidência] Relato de caso de hipotireoidismo central induzido por valproato em transtorno bipolar tipo I, com fadiga severa como sintoma principal e reversão após suspensão — PMC (achado a partir de sugestão externa via invertexto.com/saudelcal, "cansaço excessivo", filtrada em 2026-07-09), https://pmc.ncbi.nlm.nih.gov/articles/PMC7487638/
 
 ### TDAH × Hipotireoidismo (Hashimoto)
 
@@ -94,3 +95,18 @@
 **Fontes:**
 - [Evidência] Sobreposição de sintomas (fadiga, desatenção, lentidão, irritabilidade) entre hipotireoidismo e TDAH, e risco de confusão diagnóstica — compilação de fontes clínicas (neurolaunch.com, Edge Foundation, ADHD Online), https://edgefoundation.org/adhd-and-thyroid-problems/
 - [Inferência] Reavaliação da função tireoidiana como passo recomendado diante de piora de sintomas atencionais — combinação das fontes acima, nenhuma delas com estudo controlado específico citado.
+
+### Cansaço excessivo — diferenciando a causa entre as 3 condições (sugestão externa via invertexto.com/saudelcal, filtrada em 2026-07-09)
+
+**O que a literatura diz:** "Cansaço excessivo" é um sintoma que aparece nas três queixas desta pasta, mas com características que ajudam a diferenciar a causa provável:
+- **Fadiga do hipotireoidismo (Hashimoto):** persistente, desproporcional ao esforço, presente desde o início do dia, não melhora mesmo depois de dormir bem — de origem hormonal, acompanhada tipicamente de intolerância ao frio, ganho de peso e lentidão de raciocínio.
+- **Fadiga depressiva (episódio depressivo do transtorno bipolar):** ligada ao humor — vem com tristeza profunda, perda de interesse em atividades antes prazerosas e pensamentos negativos recorrentes; costuma ser mais intensa pela manhã.
+- **Fadiga do TDAH:** frequentemente vem do esforço mental constante de manter o foco e administrar distrações, mais do que de uma causa hormonal ou de humor — mas pode se confundir com fadiga depressiva quando as duas coexistem (TDAH e depressão frequentemente coocorrem).
+- **Causa medicamentosa (ver interação acima):** valproato (e, com menos frequência, lítio) podem causar hipotireoidismo induzido por medicação, com fadiga severa como sintoma de alerta — vale suspeitar principalmente se o cansaço começou ou piorou depois do início/ajuste desses medicamentos.
+
+**Cuidado de medicação/acompanhamento:** A investigação correta de cansaço excessivo persistente passa por avaliação clínica e exames (hemograma, TSH e T4 livre no mínimo) — não é possível diferenciar as causas com segurança só pela sensação subjetiva de cansaço. Reportar ao psiquiatra E ao endocrinologista quando o cansaço for novo, persistente ou desproporcional, em vez de assumir que é "só" uma das três condições já diagnosticadas.
+
+**Fontes:**
+- [Evidência] Diferenciação entre fadiga do hipotireoidismo, fadiga depressiva e fadiga por privação de sono — Tua Saúde / Dra. Renata Figueiredo, compilação de fontes clínicas em português, https://www.tuasaude.com/news/2026/04/28/como-e-a-fadiga-causada-pelo-hipotireoidismo-e-como-diferencia-la-do-cansaco-por-privacao-de-sono-ou-depressao/
+- [Evidência] Fadiga do TDAH ligada ao esforço mental de manter foco; coocorrência frequente entre TDAH e depressão dificultando diferenciação — compilação de fontes clínicas (ADHD Advisor, Oxford CBT, The Mini ADHD Coach), https://www.theminiadhdcoach.com/adhd-symptoms/adhd-chronic-fatigue
+- [Evidência] Investigação diagnóstica de fadiga (hemograma, TSH, T4 livre) — Viva o SUS, https://vivaosus.com/fadiga
