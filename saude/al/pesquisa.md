@@ -1,7 +1,7 @@
 # Pesquisa — saude/al
 
-> Atualizado em 2026-07-09 por /pesquisar. Lido por /escrever e /revisar.
-> Último bloco Invertexto visto para esta pasta: "pesquise como fluxonazol pode ajudar e substitutos" (2026-07-09)
+> Atualizado em 2026-07-12 por /pesquisar. Lido por /escrever e /revisar.
+> Último bloco Invertexto visto para esta pasta: "pesquise como fluxonazol pode ajudar e substitutos, cansaço, dor no ovário, insônia, tomo lítio e quietiapina, lentidão ao urinar" (2026-07-12)
 
 ## Dermatite seborreica
 
@@ -63,3 +63,26 @@ A descrição "branca, grande e volumosa" tem elementos dos três — cor branca
 - [Evidência] Diferenças entre caspa comum, dermatite seborreica e psoríase (aparência do floco, oleosidade, inflamação) — Dra. Mariana Meyer / Clínica Follicles / Cacheia, compilação de fontes dermatológicas em português, https://www.dramarianameyer.com.br/psoriase-no-couro-cabeludo-ou-caspa-entenda-a-diferenca/
 - [Evidência] Diferenças entre psoríase de couro cabeludo e caspa (textura, espessura, cronicidade) — WebMD/GoodRx, compilação, https://www.webmd.com/skin-problems-and-treatments/psoriasis/scalp-psoriasis-vs-dandruff
 - [Inferência] "Branca, grande e volumosa" não permite diferenciação segura só pela descrição — combinação das fontes acima (nenhuma delas propõe autodiagnóstico só por essas duas características).
+
+## Cansaço, dor no ovário, insônia e lentidão ao urinar em uso de lítio e quetiapina
+
+**O que é:** Não é uma condição única — são quatro sintomas relatados enquanto em uso de lítio e quetiapina (medicações comumente usadas para transtorno bipolar). Cada um tem uma origem provável diferente, e nem todos parecem ligados à medicação.
+
+**Sintomas e o que a literatura diz sobre cada um:**
+- **Lentidão ao urinar:** retenção urinária, disúria (dificuldade/dor ao urinar) e aumento de frequência urinária são reações adversas **incomuns** da quetiapina (entre 0,1% e 1% de quem usa) — bate com o que foi relatado.
+- **Cansaço/fadiga:** é um efeito colateral comum tanto do lítio quanto de antipsicóticos como a quetiapina (efeito sedativo). Além disso, o lítio pode causar hipotireoidismo (elevando o TSH), e o hipotireoidismo por si só causa fadiga, fraqueza muscular e piora de humor — ou seja, a fadiga pode ter mais de uma causa somada.
+- **Insônia:** contraintuitivo à primeira vista, já que quetiapina em dose baixa é sedativa (bloqueio de receptores de histamina H1). Mas em doses mais altas, o bloqueio de receptores de dopamina (D2) passa a predominar, o que pode causar ativação/insônia paradoxal em algumas pessoas. A combinação quetiapina+lítio é um esquema terapêutico padrão (adjuvante) — a literatura não aponta uma interação farmacológica específica e documentada entre os dois que cause insônia, mas sensibilidade individual à dose de quetiapina é uma explicação plausível.
+- **Dor no ovário:** **não é** um efeito colateral documentado de lítio ou quetiapina. As causas mais comuns de dor ovariana são ovulação, cistos ovarianos, endometriose ou doença inflamatória pélvica — nada ligado à medicação psiquiátrica.
+
+**Manejo no dia a dia:** Nenhum desses sintomas deve levar a ajustar ou parar a medicação por conta própria — lítio e quetiapina exigem acompanhamento médico para qualquer mudança de dose.
+
+**Quando procurar ajuda:**
+- Reportar cansaço, insônia e lentidão urinária ao **psiquiatra** que prescreveu lítio/quetiapina — ele pode avaliar se é caso de exames (função renal, tireoide) ou ajuste de dose/horário.
+- Reportar a **função tireoidiana** especificamente: lítio pode causar hipotireoidismo, e os sintomas se sobrepõem com a fadiga já relatada — vale pedir TSH/T4 livre na próxima consulta.
+- Procurar **ginecologista** para a dor no ovário — principalmente se for intensa, frequente, vier acompanhada de sangramento fora do período menstrual ou dor durante relação sexual. Dor súbita e muito intensa é sinal de possível emergência (torção de cisto) e pede atendimento imediato.
+
+**Fontes:**
+- [Evidência] Retenção urinária, disúria e frequência urinária como reações adversas incomuns (0,1-1%) da quetiapina — bula/ConsultaRemédios, https://consultaremedios.com.br/hemifumarato-de-quetiapina-biosintetica-ache/bula/reacoes-adversas
+- [Evidência] Quetiapina em dose baixa como sedativa (bloqueio H1) e possível ativação/insônia paradoxal em dose mais alta (bloqueio D2); combinação com lítio como terapia adjuvante padrão, sem interação farmacológica específica documentada causando insônia — compilação de fontes clínicas, https://www.intramed.net/content/104480
+- [Evidência] Fadiga, poliúria e incontinência urinária como efeitos colaterais comuns do lítio; risco de hipotireoidismo induzido por lítio (elevação de TSH) causando fadiga/fraqueza/piora de humor; monitoramento recomendado de função renal e tireoidiana a cada 6-12 meses — compilação de fontes clínicas/bula de carbonato de lítio, https://artmed.com.br/artigos/efeitos-sistemicos-do-litio-orientacoes-para-o-generalista
+- [Evidência] Dor no ovário não é efeito colateral documentado de lítio/quetiapina; causas comuns (ovulação, cisto, endometriose, DIP) e sinais de quando procurar ginecologista/emergência — Tua Saúde, https://www.tuasaude.com/dor-no-ovario/
