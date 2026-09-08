@@ -34,7 +34,7 @@
     .neutro { color: #9aa0a6; }
 </style>
 </head>
-<body><h1>📈 Insiders de Ações — IBOV + Small Cap</h1><div class="meta">Última atualização: 08/09/2026 19:52 · fonte: <a href="https://www.fundamentus.com.br/insiders.php">fundamentus.com.br/insiders.php</a> · 146 tickers · 9597 movimentos mensais · dados em <a href="./insiders.json">insiders.json</a></div><div class="tabs">
+<body><h1>📈 Insiders de Ações — IBOV + Small Cap</h1><div class="meta">Última atualização: 08/09/2026 20:05 · fonte: <a href="https://www.fundamentus.com.br/insiders.php">fundamentus.com.br/insiders.php</a> · 146 tickers · 9597 movimentos mensais · dados em <a href="./insiders.json">insiders.json</a></div><div class="tabs">
     <button class="tab-btn ativo" data-view="tabela">Tabela completa</button>
     <button class="tab-btn" data-view="ranking">Ranking</button>
     <button class="tab-btn" data-view="sequencias">Sequências</button>
@@ -56,6 +56,20 @@
         <span>-</span>
         <input type="date" id="dataMax" oninput="aplicarFiltros()">
     </div>
+</div>
+<div class="filtro">
+    <label>Ordenar por</label>
+    <select id="ordenarCampo" onchange="ordenarTabela()">
+        <option value="ticker">Nome (Ticker)</option>
+        <option value="data">Data</option>
+    </select>
+</div>
+<div class="filtro">
+    <label>Direção</label>
+    <select id="ordenarDirecao" onchange="ordenarTabela()">
+        <option value="asc">Crescente</option>
+        <option value="desc">Decrescente</option>
+    </select>
 </div>
 </div>
 <div id="contador" class="contador">Carregando...</div>
@@ -326,6 +340,25 @@
         });
 
         document.getElementById('contador').textContent = visiveis + ' de ' + linhas.length + ' movimentos exibidos';
+    }
+
+    // Reordena as <tr> já existentes (não recria) — filtro continua funcionando
+    // normalmente depois, já que é baseado em atributo, não em posição no DOM.
+    function ordenarTabela() {
+        var campo = document.getElementById('ordenarCampo').value;
+        var direcao = document.getElementById('ordenarDirecao').value;
+        var corpo = document.getElementById('corpoInsiders');
+        var linhas = Array.prototype.slice.call(corpo.children);
+
+        linhas.sort(function (a, b) {
+            var va = a.getAttribute('data-' + campo);
+            var vb = b.getAttribute('data-' + campo);
+            if (va < vb) return direcao === 'asc' ? -1 : 1;
+            if (va > vb) return direcao === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        linhas.forEach(function (linha) { corpo.appendChild(linha); });
     }
 
     // ---------- Agregação compartilhada (Ranking + Atividade) ----------
