@@ -34,12 +34,22 @@
     .neutro { color: #9aa0a6; }
 </style>
 </head>
-<body><h1>📈 Insiders de Ações — IBOV + Small Cap</h1><div class="meta">Última atualização: 08/09/2026 22:09 · fonte: <a href="https://www.fundamentus.com.br/insiders.php">fundamentus.com.br/insiders.php</a> · 146 tickers · 9597 movimentos mensais · dados em <a href="./insiders.json">insiders.json</a></div><div class="tabs">
+<body><h1>📈 Insiders de Ações — IBOV + Small Cap</h1><div class="meta">Última atualização: 08/09/2026 22:16 · fonte: <a href="https://www.fundamentus.com.br/insiders.php">fundamentus.com.br/insiders.php</a> · 146 tickers · 9597 movimentos mensais · dados em <a href="./insiders.json">insiders.json</a></div><div class="tabs">
     <button class="tab-btn ativo" data-view="tabela">Tabela completa</button>
     <button class="tab-btn" data-view="ranking">Ranking</button>
     <button class="tab-btn" data-view="sequencias">Sequências</button>
     <button class="tab-btn" data-view="reversoes">Reversões</button>
     <button class="tab-btn" data-view="atividade">Atividade</button>
+</div>
+<div class="filtros">
+    <div class="filtro">
+        <label>Índice</label>
+        <select id="filtroIndice" onchange="aplicarFiltroIndice()">
+            <option value="">IBOV + Small Cap (padrão)</option>
+            <option value="IBOV">Só IBOV</option>
+            <option value="SMLL">Só Small Cap</option>
+        </select>
+    </div>
 </div><section id="secao-tabela" class="secao"><div class="filtros"><div class="filtro"><label>Ticker</label><select id="ticker" onchange="aplicarFiltros()"><option value="">Todos</option><option value="ABCB4">ABCB4</option><option value="ABEV3">ABEV3</option><option value="ALOS3">ALOS3</option><option value="ALPA4">ALPA4</option><option value="ALUP11">ALUP11</option><option value="ANIM3">ANIM3</option><option value="ARML3">ARML3</option><option value="ASAI3">ASAI3</option><option value="AUAU3">AUAU3</option><option value="AURE3">AURE3</option><option value="AXIA3">AXIA3</option><option value="AZZA3">AZZA3</option><option value="B3SA3">B3SA3</option><option value="BBAS3">BBAS3</option><option value="BBDC3">BBDC3</option><option value="BBDC4">BBDC4</option><option value="BBSE3">BBSE3</option><option value="BEEF3">BEEF3</option><option value="BMOB3">BMOB3</option><option value="BPAC11">BPAC11</option><option value="BRAP4">BRAP4</option><option value="BRAV3">BRAV3</option><option value="BRBI11">BRBI11</option><option value="BRSR6">BRSR6</option><option value="CAML3">CAML3</option><option value="CASH3">CASH3</option><option value="CBAV3">CBAV3</option><option value="CEAB3">CEAB3</option><option value="CMIG4">CMIG4</option><option value="CMIN3">CMIN3</option><option value="COGN3">COGN3</option><option value="CPFE3">CPFE3</option><option value="CPLE3">CPLE3</option><option value="CSAN3">CSAN3</option><option value="CSMG3">CSMG3</option><option value="CSNA3">CSNA3</option><option value="CURY3">CURY3</option><option value="CVCB3">CVCB3</option><option value="CXSE3">CXSE3</option><option value="CYRE3">CYRE3</option><option value="DASA3">DASA3</option><option value="DESK3">DESK3</option><option value="DIRR3">DIRR3</option><option value="DXCO3">DXCO3</option><option value="ECOR3">ECOR3</option><option value="EGIE3">EGIE3</option><option value="EMBJ3">EMBJ3</option><option value="ENEV3">ENEV3</option><option value="ENGI11">ENGI11</option><option value="EQTL3">EQTL3</option><option value="EVEN3">EVEN3</option><option value="EZTC3">EZTC3</option><option value="FESA4">FESA4</option><option value="FLRY3">FLRY3</option><option value="FRAS3">FRAS3</option><option value="GGBR4">GGBR4</option><option value="GGPS3">GGPS3</option><option value="GMAT3">GMAT3</option><option value="GOAU4">GOAU4</option><option value="GRND3">GRND3</option><option value="HAPV3">HAPV3</option><option value="HBOR3">HBOR3</option><option value="HBSA3">HBSA3</option><option value="HYPE3">HYPE3</option><option value="IGTI11">IGTI11</option><option value="INTB3">INTB3</option><option value="IRBR3">IRBR3</option><option value="ISAE4">ISAE4</option><option value="ITSA4">ITSA4</option><option value="ITUB4">ITUB4</option><option value="JHSF3">JHSF3</option><option value="JSLG3">JSLG3</option><option value="KEPL3">KEPL3</option><option value="KLBN11">KLBN11</option><option value="LAVV3">LAVV3</option><option value="LEVE3">LEVE3</option><option value="LJQQ3">LJQQ3</option><option value="LOGG3">LOGG3</option><option value="LREN3">LREN3</option><option value="LWSA3">LWSA3</option><option value="MBRF3">MBRF3</option><option value="MDIA3">MDIA3</option><option value="MDNE3">MDNE3</option><option value="MGLU3">MGLU3</option><option value="MILS3">MILS3</option><option value="MOTV3">MOTV3</option><option value="MOVI3">MOVI3</option><option value="MRVE3">MRVE3</option><option value="MULT3">MULT3</option><option value="MYPK3">MYPK3</option><option value="NATU3">NATU3</option><option value="OPCT3">OPCT3</option><option value="ORVR3">ORVR3</option><option value="PETR3">PETR3</option><option value="PETR4">PETR4</option><option value="PGMN3">PGMN3</option><option value="PINE4">PINE4</option><option value="PLPL3">PLPL3</option><option value="PNVL3">PNVL3</option><option value="POMO3">POMO3</option><option value="POMO4">POMO4</option><option value="POSI3">POSI3</option><option value="PRIO3">PRIO3</option><option value="PRNR3">PRNR3</option><option value="PSSA3">PSSA3</option><option value="QUAL3">QUAL3</option><option value="RADL3">RADL3</option><option value="RAIL3">RAIL3</option><option value="RANI3">RANI3</option><option value="RAPT4">RAPT4</option><option value="RDOR3">RDOR3</option><option value="RECV3">RECV3</option><option value="RENT3">RENT3</option><option value="RIAA3">RIAA3</option><option value="SANB11">SANB11</option><option value="SAPR11">SAPR11</option><option value="SBFG3">SBFG3</option><option value="SBSP3">SBSP3</option><option value="SEER3">SEER3</option><option value="SIMH3">SIMH3</option><option value="SLCE3">SLCE3</option><option value="SMFT3">SMFT3</option><option value="SMTO3">SMTO3</option><option value="SOJA3">SOJA3</option><option value="SUZB3">SUZB3</option><option value="TAEE11">TAEE11</option><option value="TEND3">TEND3</option><option value="TFCO4">TFCO4</option><option value="TGMA3">TGMA3</option><option value="TIMS3">TIMS3</option><option value="TOTS3">TOTS3</option><option value="TTEN3">TTEN3</option><option value="TUPY3">TUPY3</option><option value="UGPA3">UGPA3</option><option value="UNIP6">UNIP6</option><option value="USIM5">USIM5</option><option value="VALE3">VALE3</option><option value="VAMO3">VAMO3</option><option value="VBBR3">VBBR3</option><option value="VIVA3">VIVA3</option><option value="VIVT3">VIVT3</option><option value="VLID3">VLID3</option><option value="VTRU3">VTRU3</option><option value="VULC3">VULC3</option><option value="WEGE3">WEGE3</option><option value="YDUQ3">YDUQ3</option></select></div><div class="filtro">
     <label>Tipo</label>
     <select id="tipo" onchange="aplicarFiltros()">
@@ -240,7 +250,8 @@
 <tbody id="corpoAtividade"></tbody>
 </table>
 </section><script>
-    var dadosGlobais = [];
+    var dadosGlobaisCompletos = []; // tudo, sem filtro de índice
+    var dadosGlobais = []; // dadosGlobaisCompletos após o filtro de índice — é isso que todos os views usam
     var opcoesInteiro = { maximumFractionDigits: 0 };
     var opcoesDecimal = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
@@ -563,16 +574,28 @@
         document.getElementById('contadorAtividade').textContent = top.length + ' de ' + comMovimento.length + ' tickers com movimento no período';
     }
 
+    // ---------- Filtro global de índice (afeta todos os views) ----------
+    function aplicarFiltroIndice() {
+        var indice = document.getElementById('filtroIndice').value;
+        dadosGlobais = indice
+            ? dadosGlobaisCompletos.filter(function (m) { return m.indices.indexOf(indice) !== -1; })
+            : dadosGlobaisCompletos;
+
+        document.getElementById('corpoInsiders').innerHTML = '';
+        renderizarLinhas(dadosGlobais);
+        ordenarTabela(); // reaplica a ordenação escolhida (renderizarLinhas volta pra ordem original)
+        aplicarFiltros();
+        renderizarRanking();
+        renderizarSequencias();
+        renderizarReversoes();
+        renderizarAtividade();
+    }
+
     fetch('./insiders.json')
         .then(function (r) { return r.json(); })
         .then(function (dados) {
-            dadosGlobais = dados;
-            renderizarLinhas(dados);
-            aplicarFiltros();
-            renderizarRanking();
-            renderizarSequencias();
-            renderizarReversoes();
-            renderizarAtividade();
+            dadosGlobaisCompletos = dados;
+            aplicarFiltroIndice();
         })
         .catch(function (erro) {
             document.getElementById('contador').textContent = 'Erro ao carregar insiders.json: ' + erro;
