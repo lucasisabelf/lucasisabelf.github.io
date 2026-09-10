@@ -34,12 +34,13 @@
     .neutro { color: #9aa0a6; }
 </style>
 </head>
-<body><h1>📈 Insiders de Ações — IBOV + Small Cap</h1><div class="meta">Última atualização: 08/09/2026 22:16 · fonte: <a href="https://www.fundamentus.com.br/insiders.php">fundamentus.com.br/insiders.php</a> · 146 tickers · 9597 movimentos mensais · dados em <a href="./insiders.json">insiders.json</a></div><div class="tabs">
+<body><h1>📈 Insiders de Ações — IBOV + Small Cap</h1><div class="meta">Última atualização: 09/09/2026 21:58 · fonte: <a href="https://www.fundamentus.com.br/insiders.php">fundamentus.com.br/insiders.php</a> · 146 tickers · 9637 movimentos mensais · dados em <a href="./insiders.json">insiders.json</a></div><div class="tabs">
     <button class="tab-btn ativo" data-view="tabela">Tabela completa</button>
     <button class="tab-btn" data-view="ranking">Ranking</button>
     <button class="tab-btn" data-view="sequencias">Sequências</button>
     <button class="tab-btn" data-view="reversoes">Reversões</button>
     <button class="tab-btn" data-view="atividade">Atividade</button>
+    <button class="tab-btn" data-view="shorts">Shorts</button>
 </div>
 <div class="filtros">
     <div class="filtro">
@@ -249,6 +250,57 @@
 </thead>
 <tbody id="corpoAtividade"></tbody>
 </table>
+</section><section id="secao-shorts" class="secao oculto">
+<div class="meta" id="shortsMeta">Carregando dados de shorts...</div>
+<div class="filtros">
+    <div class="filtro">
+        <label>Ticker</label>
+        <select id="shortsTicker" onchange="renderizarShorts()"><option value="">Todos</option></select>
+    </div>
+    <div class="filtro">
+        <label>Índice</label>
+        <select id="shortsIndice" onchange="renderizarShorts()">
+            <option value="">IBOV + Small Cap (padrão)</option>
+            <option value="IBOV">Só IBOV</option>
+            <option value="SMLL">Só Small Cap</option>
+        </select>
+    </div>
+    <div class="filtro">
+        <label>Ordenar por</label>
+        <select id="shortsOrdenarCampo" onchange="renderizarShorts()">
+            <option value="ticker">Ticker</option>
+            <option value="saldoValor" selected>Saldo (R$)</option>
+            <option value="varSemanal">Var. Semanal</option>
+            <option value="varMensal">Var. Mensal</option>
+            <option value="plShort">P/L Short</option>
+        </select>
+    </div>
+    <div class="filtro">
+        <label>Direção</label>
+        <select id="shortsOrdenarDirecao" onchange="renderizarShorts()">
+            <option value="desc" selected>Decrescente</option>
+            <option value="asc">Crescente</option>
+        </select>
+    </div>
+</div>
+<div id="contadorShorts" class="contador"></div>
+<table>
+<thead>
+<tr>
+    <th>Ticker</th>
+    <th>Data</th>
+    <th>Saldo (qtd)</th>
+    <th>Preço Médio (R$)</th>
+    <th>Saldo (R$)</th>
+    <th>Taxa Tomador Média (%)</th>
+    <th>Cotação Atual (R$)</th>
+    <th>Var. Semanal (%)</th>
+    <th>Var. Mensal (%)</th>
+    <th>P/L Short (%)</th>
+</tr>
+</thead>
+<tbody id="corpoShorts"></tbody>
+</table>
 </section><script>
     var dadosGlobaisCompletos = []; // tudo, sem filtro de índice
     var dadosGlobais = []; // dadosGlobaisCompletos após o filtro de índice — é isso que todos os views usam
@@ -278,6 +330,7 @@
         document.querySelectorAll('.secao').forEach(function (secao) {
             secao.classList.toggle('oculto', secao.id !== 'secao-' + view);
         });
+        if (view === 'shorts') carregarShortsSeAindaNao();
     }
 
     document.querySelectorAll('.tab-btn').forEach(function (btn) {
@@ -600,6 +653,149 @@
         .catch(function (erro) {
             document.getElementById('contador').textContent = 'Erro ao carregar insiders.json: ' + erro;
         });
+
+    // ---------- Shorts (aba independente, dado carregado sob demanda) ----------
+    var dadosShorts = [];
+    var shortsAtualizadoEm = null;
+    var shortsCarregado = false;
+    var shortsPollIniciado = false;
+
+    function buscarShorts() {
+        document.getElementById('shortsMeta').textContent = 'Carregando dados de shorts...';
+        fetch('./shorts.json', { cache: 'no-store' })
+            .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+            .then(function (payload) {
+                dadosShorts = payload.pontos || [];
+                shortsAtualizadoEm = payload.atualizadoEm || null;
+                shortsCarregado = true;
+                popularTickersShorts();
+                renderizarShorts();
+                document.getElementById('shortsMeta').textContent = 'Última atualização: ' +
+                    (shortsAtualizadoEm ? new Date(shortsAtualizadoEm).toLocaleString('pt-BR') : '-') +
+                    ' · fonte: shortwatch.live · ' + dadosShorts.length + ' pontos';
+            })
+            .catch(function (erro) {
+                document.getElementById('shortsMeta').textContent = 'Ainda não há dados de shorts publicados (' + erro + ').';
+            });
+    }
+
+    // Busca só o arquivo pequeno (shorts-meta.json) pra saber se o shorts.json
+    // grande mudou desde a última carga — evita re-baixar/re-parsear o payload
+    // inteiro e re-renderizar a tabela toda a cada poll sem necessidade.
+    function verificarAtualizacaoShorts() {
+        if (!shortsCarregado) return;
+        fetch('./shorts-meta.json', { cache: 'no-store' })
+            .then(function (r) { return r.json(); })
+            .then(function (meta) {
+                if (meta.atualizadoEm && meta.atualizadoEm !== shortsAtualizadoEm) buscarShorts();
+            })
+            .catch(function () { /* falha silenciosa — o próximo poll tenta de novo */ });
+    }
+
+    function carregarShortsSeAindaNao() {
+        if (!shortsCarregado) buscarShorts();
+        if (!shortsPollIniciado) {
+            shortsPollIniciado = true;
+            setInterval(verificarAtualizacaoShorts, 5 * 60 * 1000);
+        }
+    }
+
+    function popularTickersShorts() {
+        var select = document.getElementById('shortsTicker');
+        var atual = select.value;
+        var tickers = Array.prototype.slice.call(new Set(dadosShorts.map(function (p) { return p.ticker; }))).sort();
+        select.innerHTML = '<option value="">Todos</option>';
+        tickers.forEach(function (t) {
+            var opt = document.createElement('option');
+            opt.value = t;
+            opt.textContent = t;
+            select.appendChild(opt);
+        });
+        select.value = atual;
+    }
+
+    // Agrega a série bruta (um ponto por dia por ticker) num resumo por ticker:
+    // ponto mais recente + variação semanal/mensal (~5/~21 pregões atrás, aproximação
+    // por posição no array já que a fonte não marca fins de semana/feriados) + P/L
+    // Short — mesmo princípio das outras views: dado bruto do servidor, métrica
+    // calculada aqui no cliente.
+    function calcularResumoShorts(dados) {
+        var porTicker = {};
+        dados.forEach(function (p) {
+            if (!porTicker[p.ticker]) porTicker[p.ticker] = [];
+            porTicker[p.ticker].push(p);
+        });
+
+        var resumo = [];
+        Object.keys(porTicker).forEach(function (ticker) {
+            var pontos = porTicker[ticker].slice().sort(function (a, b) {
+                return a.data < b.data ? 1 : (a.data > b.data ? -1 : 0);
+            });
+            var atual = pontos[0];
+            var semanal = pontos[5] || null;
+            var mensal = pontos[21] || null;
+
+            resumo.push({
+                ticker: ticker,
+                indices: atual.indices || [],
+                data: atual.data,
+                saldoQtd: atual.saldoQtd,
+                precoMedio: atual.precoMedio,
+                saldoValor: atual.saldoValor,
+                taxaTomadorMed: atual.taxaTomadorMed,
+                close: atual.close,
+                varSemanal: semanal ? (atual.saldoValor - semanal.saldoValor) / semanal.saldoValor * 100 : null,
+                varMensal: mensal ? (atual.saldoValor - mensal.saldoValor) / mensal.saldoValor * 100 : null,
+                plShort: atual.precoMedio ? (atual.precoMedio - atual.close) / atual.precoMedio * 100 : null,
+            });
+        });
+
+        return resumo;
+    }
+
+    function renderizarShorts() {
+        if (!shortsCarregado) return;
+
+        var tickerFiltro = document.getElementById('shortsTicker').value;
+        var indiceFiltro = document.getElementById('shortsIndice').value;
+        var campo = document.getElementById('shortsOrdenarCampo').value;
+        var direcao = document.getElementById('shortsOrdenarDirecao').value;
+
+        var resumo = calcularResumoShorts(dadosShorts);
+        var filtrado = resumo.filter(function (r) {
+            if (tickerFiltro && r.ticker !== tickerFiltro) return false;
+            if (indiceFiltro && r.indices.indexOf(indiceFiltro) === -1) return false;
+            return true;
+        });
+
+        filtrado.sort(function (a, b) {
+            var va = a[campo], vb = b[campo];
+            if (va === null || va === undefined) va = -Infinity;
+            if (vb === null || vb === undefined) vb = -Infinity;
+            if (va < vb) return direcao === 'asc' ? -1 : 1;
+            if (va > vb) return direcao === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        var corpo = document.getElementById('corpoShorts');
+        corpo.innerHTML = '';
+        filtrado.forEach(function (r) {
+            var tr = document.createElement('tr');
+            tr.appendChild(celula(r.ticker));
+            tr.appendChild(celula(formatarData(r.data)));
+            tr.appendChild(celula(r.saldoQtd.toLocaleString('pt-BR', opcoesInteiro)));
+            tr.appendChild(celula(r.precoMedio.toLocaleString('pt-BR', opcoesDecimal)));
+            tr.appendChild(celula(r.saldoValor.toLocaleString('pt-BR', opcoesInteiro)));
+            tr.appendChild(celula((r.taxaTomadorMed * 100).toLocaleString('pt-BR', opcoesDecimal)));
+            tr.appendChild(celula(r.close.toLocaleString('pt-BR', opcoesDecimal)));
+            tr.appendChild(celula(r.varSemanal === null ? '-' : r.varSemanal.toLocaleString('pt-BR', opcoesDecimal), classeSinal(r.varSemanal)));
+            tr.appendChild(celula(r.varMensal === null ? '-' : r.varMensal.toLocaleString('pt-BR', opcoesDecimal), classeSinal(r.varMensal)));
+            tr.appendChild(celula(r.plShort === null ? '-' : r.plShort.toLocaleString('pt-BR', opcoesDecimal), classeSinal(r.plShort)));
+            corpo.appendChild(tr);
+        });
+
+        document.getElementById('contadorShorts').textContent = filtrado.length + ' de ' + resumo.length + ' tickers com dado de short';
+    }
 </script>
 </body>
 </html>
