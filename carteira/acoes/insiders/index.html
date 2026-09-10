@@ -34,13 +34,18 @@
     .neutro { color: #9aa0a6; }
 </style>
 </head>
-<body><h1>📈 Insiders de Ações — IBOV + Small Cap</h1><div class="meta">Última atualização: 09/09/2026 21:58 · fonte: <a href="https://www.fundamentus.com.br/insiders.php">fundamentus.com.br/insiders.php</a> · 146 tickers · 9637 movimentos mensais · dados em <a href="./insiders.json">insiders.json</a></div><div class="tabs">
+<body><h1>📈 Insiders de Ações — IBOV + Small Cap</h1><div class="meta">Última atualização: 09/09/2026 23:38 · fonte: <a href="https://www.fundamentus.com.br/insiders.php">fundamentus.com.br/insiders.php</a> · 146 tickers · 9637 movimentos mensais · dados em <a href="./insiders.json">insiders.json</a></div><div class="tabs">
     <button class="tab-btn ativo" data-view="tabela">Tabela completa</button>
     <button class="tab-btn" data-view="ranking">Ranking</button>
     <button class="tab-btn" data-view="sequencias">Sequências</button>
     <button class="tab-btn" data-view="reversoes">Reversões</button>
     <button class="tab-btn" data-view="atividade">Atividade</button>
     <button class="tab-btn" data-view="shorts">Shorts</button>
+    <button class="tab-btn" data-view="score">Score</button>
+    <button class="tab-btn" data-view="convergencia">Convergência</button>
+    <button class="tab-btn" data-view="divergencia">Divergência</button>
+    <button class="tab-btn" data-view="squeeze">Squeeze</button>
+    <button class="tab-btn" data-view="raiox">Raio-X</button>
 </div>
 <div class="filtros">
     <div class="filtro">
@@ -301,6 +306,160 @@
 </thead>
 <tbody id="corpoShorts"></tbody>
 </table>
+</section><section id="secao-score" class="secao oculto">
+<div class="meta">Cruza o líquido comprado/vendido por insiders nos últimos 12 meses com a variação mensal do saldo short (invertida) — soma de ranks (não os valores brutos, que estão em unidades diferentes), menor = maior convicção de alta combinada.</div>
+<div class="filtros">
+    <div class="filtro">
+        <label>Índice</label>
+        <select id="scoreIndice" onchange="renderizarScore()">
+            <option value="">IBOV + Small Cap (padrão)</option>
+            <option value="IBOV">Só IBOV</option>
+            <option value="SMLL">Só Small Cap</option>
+        </select>
+    </div>
+    <div class="filtro">
+        <label>Direção</label>
+        <select id="scoreDirecao" onchange="renderizarScore()">
+            <option value="alta">Convicção de Alta</option>
+            <option value="baixa">Convicção de Baixa</option>
+        </select>
+    </div>
+    <div class="filtro">
+        <label>Top N</label>
+        <input type="number" id="scoreTopN" value="20" min="1" step="1" oninput="renderizarScore()">
+    </div>
+</div>
+<div id="contadorScore" class="contador"></div>
+<table>
+<thead>
+<tr>
+    <th>#</th>
+    <th>Ticker</th>
+    <th>Insider líquido 12m (R$)</th>
+    <th>Var. Mensal Short (%)</th>
+    <th>Score (menor = mais convicção)</th>
+</tr>
+</thead>
+<tbody id="corpoScore"></tbody>
+</table>
+</section>
+
+<section id="secao-convergencia" class="secao oculto">
+<div class="meta">Tickers onde insider e short apontam na mesma direção: insider comprando + short caindo (Alta), ou insider vendendo + short subindo (Baixa).</div>
+<div class="filtros">
+    <div class="filtro">
+        <label>Índice</label>
+        <select id="convergenciaIndice" onchange="renderizarConvergencia()">
+            <option value="">IBOV + Small Cap (padrão)</option>
+            <option value="IBOV">Só IBOV</option>
+            <option value="SMLL">Só Small Cap</option>
+        </select>
+    </div>
+    <div class="filtro">
+        <label>Direção</label>
+        <select id="convergenciaDirecao" onchange="renderizarConvergencia()">
+            <option value="">Ambas</option>
+            <option value="alta">Só Alta</option>
+            <option value="baixa">Só Baixa</option>
+        </select>
+    </div>
+</div>
+<div id="contadorConvergencia" class="contador"></div>
+<table>
+<thead>
+<tr>
+    <th>Ticker</th>
+    <th>Convergência</th>
+    <th>Insider líquido 12m (R$)</th>
+    <th>Var. Mensal Short (%)</th>
+</tr>
+</thead>
+<tbody id="corpoConvergencia"></tbody>
+</table>
+</section>
+
+<section id="secao-divergencia" class="secao oculto">
+<div class="meta">Tickers onde insider e short discordam: insider comprando enquanto o short sobe, ou insider vendendo enquanto o short cai — o "quem sabe mais" entre os dois sinais.</div>
+<div class="filtros">
+    <div class="filtro">
+        <label>Índice</label>
+        <select id="divergenciaIndice" onchange="renderizarDivergencia()">
+            <option value="">IBOV + Small Cap (padrão)</option>
+            <option value="IBOV">Só IBOV</option>
+            <option value="SMLL">Só Small Cap</option>
+        </select>
+    </div>
+</div>
+<div id="contadorDivergencia" class="contador"></div>
+<table>
+<thead>
+<tr>
+    <th>Ticker</th>
+    <th>Tipo de divergência</th>
+    <th>Insider líquido 12m (R$)</th>
+    <th>Var. Mensal Short (%)</th>
+</tr>
+</thead>
+<tbody id="corpoDivergencia"></tbody>
+</table>
+</section>
+
+<section id="secao-squeeze" class="secao oculto">
+<div class="meta">Candidatos a short squeeze: compra recente de insider (últimos 12 meses) combinada com taxa de aluguel alta — proxy de papel "apertado"/escasso pra quem quer vender a descoberto, já que % do free float e Days to Cover não vêm da série histórica coletada.</div>
+<div class="filtros">
+    <div class="filtro">
+        <label>Índice</label>
+        <select id="squeezeIndice" onchange="renderizarSqueeze()">
+            <option value="">IBOV + Small Cap (padrão)</option>
+            <option value="IBOV">Só IBOV</option>
+            <option value="SMLL">Só Small Cap</option>
+        </select>
+    </div>
+    <div class="filtro">
+        <label>Top N</label>
+        <input type="number" id="squeezeTopN" value="15" min="1" step="1" oninput="renderizarSqueeze()">
+    </div>
+</div>
+<div id="contadorSqueeze" class="contador"></div>
+<table>
+<thead>
+<tr>
+    <th>#</th>
+    <th>Ticker</th>
+    <th>Taxa Tomador Média (%)</th>
+    <th>Saldo Short (R$)</th>
+    <th>Insider líquido 12m (R$)</th>
+</tr>
+</thead>
+<tbody id="corpoSqueeze"></tbody>
+</table>
+</section>
+
+<section id="secao-raiox" class="secao oculto">
+<div class="meta">Linha do tempo de um único ticker: movimentos de insider lado a lado com os últimos 30 dias de saldo short.</div>
+<div class="filtros">
+    <div class="filtro">
+        <label>Ticker</label>
+        <select id="raioxTicker" onchange="renderizarRaioX()"><option value="">Selecione...</option></select>
+    </div>
+</div>
+<div id="contadorRaiox" class="contador">Selecione um ticker.</div>
+<div style="display:flex; gap:1.5rem; flex-wrap:wrap;">
+<div style="flex:1; min-width:300px;">
+<h2>Movimentos de Insider</h2>
+<table>
+<thead><tr><th>Data</th><th>Quantidade</th><th>Valor (R$)</th></tr></thead>
+<tbody id="corpoRaioxInsider"></tbody>
+</table>
+</div>
+<div style="flex:1; min-width:300px;">
+<h2>Série de Short (últimos 30 dias)</h2>
+<table>
+<thead><tr><th>Data</th><th>Saldo (qtd)</th><th>Saldo (R$)</th><th>Cotação (R$)</th></tr></thead>
+<tbody id="corpoRaioxShort"></tbody>
+</table>
+</div>
+</div>
 </section><script>
     var dadosGlobaisCompletos = []; // tudo, sem filtro de índice
     var dadosGlobais = []; // dadosGlobaisCompletos após o filtro de índice — é isso que todos os views usam
@@ -331,6 +490,7 @@
             secao.classList.toggle('oculto', secao.id !== 'secao-' + view);
         });
         if (view === 'shorts') carregarShortsSeAindaNao();
+        if (['score', 'convergencia', 'divergencia', 'squeeze', 'raiox'].indexOf(view) !== -1) carregarCorrelacaoSeAindaNao();
     }
 
     document.querySelectorAll('.tab-btn').forEach(function (btn) {
@@ -644,7 +804,10 @@
         renderizarAtividade();
     }
 
-    fetch('./insiders.json')
+    // Promise exposta (não só fire-and-forget) — as views de correlação mais
+    // abaixo precisam saber quando os insiders terminaram de carregar, em paralelo
+    // com os shorts (ver garantirShortsCarregando/carregarCorrelacaoSeAindaNao).
+    var insidersPromise = fetch('./insiders.json')
         .then(function (r) { return r.json(); })
         .then(function (dados) {
             dadosGlobaisCompletos = dados;
@@ -659,10 +822,11 @@
     var shortsAtualizadoEm = null;
     var shortsCarregado = false;
     var shortsPollIniciado = false;
+    var shortsPromise = null;
 
     function buscarShorts() {
         document.getElementById('shortsMeta').textContent = 'Carregando dados de shorts...';
-        fetch('./shorts.json', { cache: 'no-store' })
+        shortsPromise = fetch('./shorts.json', { cache: 'no-store' })
             .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
             .then(function (payload) {
                 dadosShorts = payload.pontos || [];
@@ -677,6 +841,7 @@
             .catch(function (erro) {
                 document.getElementById('shortsMeta').textContent = 'Ainda não há dados de shorts publicados (' + erro + ').';
             });
+        return shortsPromise;
     }
 
     // Busca só o arquivo pequeno (shorts-meta.json) pra saber se o shorts.json
@@ -692,12 +857,20 @@
             .catch(function () { /* falha silenciosa — o próximo poll tenta de novo */ });
     }
 
-    function carregarShortsSeAindaNao() {
-        if (!shortsCarregado) buscarShorts();
+    // Garante que a carga de shorts esteja em andamento (ou já concluída) e devolve
+    // a promise correspondente — usado tanto pela aba Shorts quanto pelas views de
+    // correlação, que precisam esperar essa mesma carga.
+    function garantirShortsCarregando() {
+        if (!shortsCarregado && !shortsPromise) buscarShorts();
         if (!shortsPollIniciado) {
             shortsPollIniciado = true;
             setInterval(verificarAtualizacaoShorts, 5 * 60 * 1000);
         }
+        return shortsPromise || Promise.resolve();
+    }
+
+    function carregarShortsSeAindaNao() {
+        garantirShortsCarregando();
     }
 
     function popularTickersShorts() {
@@ -795,6 +968,271 @@
         });
 
         document.getElementById('contadorShorts').textContent = filtrado.length + ' de ' + resumo.length + ' tickers com dado de short';
+    }
+
+    // ---------- Correlação Insiders × Shorts (Score/Convergência/Divergência/
+    // Squeeze/Raio-X) ----------
+    // Cruza os dois datasets já carregados (insiders.json + shorts.json)
+    // inteiramente no cliente, sem nenhum dado novo do servidor. As duas cargas são
+    // independentes uma da outra (arquivos diferentes, publicados em ciclos
+    // diferentes) — por isso usa Promise.all pra esperar as duas em paralelo, em vez
+    // de encadear uma depois da outra.
+    var correlacaoIniciada = false;
+
+    function carregarCorrelacaoSeAindaNao() {
+        correlacaoIniciada = true;
+        Promise.all([insidersPromise, garantirShortsCarregando()]).then(function () {
+            popularTickersRaioX();
+            renderizarScore();
+            renderizarConvergencia();
+            renderizarDivergencia();
+            renderizarSqueeze();
+            renderizarRaioX();
+        });
+    }
+
+    // Rank "de competição" simplificado (empates não recebem o mesmo tratamento
+    // rigoroso do RANK() do Excel/AssignRanks no backend — suficiente pra ordenar
+    // estas views no cliente).
+    function rankSimples(valores, descendente) {
+        var indices = valores.map(function (_, i) { return i; });
+        indices.sort(function (a, b) { return descendente ? valores[b] - valores[a] : valores[a] - valores[b]; });
+        var ranks = new Array(valores.length);
+        indices.forEach(function (idx, pos) { ranks[idx] = pos + 1; });
+        return ranks;
+    }
+
+    // Combina o líquido de insider (R$, últimos 12 meses — reaproveita
+    // agruparPorTicker, já usado em Ranking/Atividade) com a variação mensal do
+    // saldo short invertida (short caindo = positivo/bullish — reaproveita
+    // calcularResumoShorts, já usado na aba Shorts). Como as unidades são diferentes
+    // (R$ vs %), a combinação usa RANKS, não os valores brutos — mesmo princípio do
+    // ranking "5 em 1" de FIIs no backend: soma de ranks, menor = maior convicção.
+    function calcularCorrelacaoInsiderShort() {
+        var dozeMesesAtras = new Date();
+        dozeMesesAtras.setMonth(dozeMesesAtras.getMonth() - 12);
+        var dataMin = dozeMesesAtras.toISOString().slice(0, 10);
+
+        var gruposInsider = agruparPorTicker(dadosGlobais, dataMin, null);
+        var resumoShorts = calcularResumoShorts(dadosShorts);
+
+        var porTickerShort = {};
+        resumoShorts.forEach(function (r) { porTickerShort[r.ticker] = r; });
+
+        var combinados = gruposInsider
+            .filter(function (g) { return porTickerShort[g.ticker]; })
+            .map(function (g) {
+                var short = porTickerShort[g.ticker];
+                var shortBullish = short.varMensal === null ? 0 : -short.varMensal;
+                return {
+                    ticker: g.ticker,
+                    indices: short.indices,
+                    insiderLiquido: g.valorLiquido,
+                    shortVarMensal: short.varMensal,
+                    shortBullish: shortBullish,
+                    taxaTomadorMed: short.taxaTomadorMed,
+                    saldoValor: short.saldoValor,
+                };
+            });
+
+        var rankInsider = rankSimples(combinados.map(function (c) { return c.insiderLiquido; }), true);
+        var rankShort = rankSimples(combinados.map(function (c) { return c.shortBullish; }), true);
+
+        combinados.forEach(function (c, i) {
+            c.rankInsider = rankInsider[i];
+            c.rankShort = rankShort[i];
+            c.scoreCombinado = rankInsider[i] + rankShort[i]; // menor = maior convicção de alta combinada
+            c.direcaoInsider = c.insiderLiquido > 0 ? 'compra' : (c.insiderLiquido < 0 ? 'venda' : 'neutro');
+            c.direcaoShort = c.shortBullish > 0 ? 'queda' : (c.shortBullish < 0 ? 'alta' : 'neutro'); // direção do saldo short
+        });
+
+        return combinados;
+    }
+
+    function filtrarPorIndiceCorrelacao(lista, idSelectIndice) {
+        var el = document.getElementById(idSelectIndice);
+        var indice = el ? el.value : '';
+        if (!indice) return lista;
+        return lista.filter(function (c) { return c.indices.indexOf(indice) !== -1; });
+    }
+
+    // ---------- Score de Convicção ----------
+    function renderizarScore() {
+        if (!correlacaoIniciada || !shortsCarregado) return;
+
+        var direcao = document.getElementById('scoreDirecao').value;
+        var topN = parseInt(document.getElementById('scoreTopN').value, 10) || 20;
+
+        var lista = filtrarPorIndiceCorrelacao(calcularCorrelacaoInsiderShort(), 'scoreIndice');
+        lista.sort(function (a, b) {
+            return direcao === 'alta' ? a.scoreCombinado - b.scoreCombinado : b.scoreCombinado - a.scoreCombinado;
+        });
+        var top = lista.slice(0, topN);
+
+        var corpo = document.getElementById('corpoScore');
+        corpo.innerHTML = '';
+        top.forEach(function (c, i) {
+            var tr = document.createElement('tr');
+            tr.appendChild(celula(i + 1));
+            tr.appendChild(celula(c.ticker));
+            tr.appendChild(celula(c.insiderLiquido.toLocaleString('pt-BR', opcoesInteiro), classeSinal(c.insiderLiquido)));
+            tr.appendChild(celula(c.shortVarMensal === null ? '-' : c.shortVarMensal.toLocaleString('pt-BR', opcoesDecimal), classeSinal(c.shortBullish)));
+            tr.appendChild(celula(c.scoreCombinado));
+            corpo.appendChild(tr);
+        });
+
+        document.getElementById('contadorScore').textContent = top.length + ' de ' + lista.length +
+            ' tickers com dado de insider e de short nos últimos 12 meses';
+    }
+
+    // ---------- Convergência (sinais concordam) ----------
+    function renderizarConvergencia() {
+        if (!correlacaoIniciada || !shortsCarregado) return;
+
+        var direcaoFiltro = document.getElementById('convergenciaDirecao').value;
+
+        var convergentes = filtrarPorIndiceCorrelacao(calcularCorrelacaoInsiderShort(), 'convergenciaIndice')
+            .filter(function (c) {
+                return (c.direcaoInsider === 'compra' && c.direcaoShort === 'queda') ||
+                       (c.direcaoInsider === 'venda' && c.direcaoShort === 'alta');
+            })
+            .map(function (c) {
+                c.direcaoConvergencia = c.direcaoInsider === 'compra' ? 'alta' : 'baixa';
+                return c;
+            });
+
+        if (direcaoFiltro) convergentes = convergentes.filter(function (c) { return c.direcaoConvergencia === direcaoFiltro; });
+        convergentes.sort(function (a, b) { return a.scoreCombinado - b.scoreCombinado; });
+
+        var corpo = document.getElementById('corpoConvergencia');
+        corpo.innerHTML = '';
+        convergentes.forEach(function (c) {
+            var tr = document.createElement('tr');
+            var rotulo = c.direcaoConvergencia === 'alta' ? 'Convergência de Alta' : 'Convergência de Baixa';
+            tr.appendChild(celula(c.ticker));
+            tr.appendChild(celula(rotulo, c.direcaoConvergencia === 'alta' ? 'pos' : 'neg'));
+            tr.appendChild(celula(c.insiderLiquido.toLocaleString('pt-BR', opcoesInteiro), classeSinal(c.insiderLiquido)));
+            tr.appendChild(celula(c.shortVarMensal === null ? '-' : c.shortVarMensal.toLocaleString('pt-BR', opcoesDecimal), classeSinal(c.shortBullish)));
+            corpo.appendChild(tr);
+        });
+
+        document.getElementById('contadorConvergencia').textContent = convergentes.length + ' tickers com insider e short apontando na mesma direção';
+    }
+
+    // ---------- Divergência (sinais discordam) ----------
+    function renderizarDivergencia() {
+        if (!correlacaoIniciada || !shortsCarregado) return;
+
+        var divergentes = filtrarPorIndiceCorrelacao(calcularCorrelacaoInsiderShort(), 'divergenciaIndice')
+            .filter(function (c) {
+                return (c.direcaoInsider === 'compra' && c.direcaoShort === 'alta') ||
+                       (c.direcaoInsider === 'venda' && c.direcaoShort === 'queda');
+            })
+            .map(function (c) {
+                c.tipoDivergencia = c.direcaoInsider === 'compra' ? 'Insider compra, short sobe' : 'Insider vende, short cai';
+                return c;
+            });
+
+        divergentes.sort(function (a, b) { return Math.abs(b.insiderLiquido) - Math.abs(a.insiderLiquido); });
+
+        var corpo = document.getElementById('corpoDivergencia');
+        corpo.innerHTML = '';
+        divergentes.forEach(function (c) {
+            var tr = document.createElement('tr');
+            tr.appendChild(celula(c.ticker));
+            tr.appendChild(celula(c.tipoDivergencia));
+            tr.appendChild(celula(c.insiderLiquido.toLocaleString('pt-BR', opcoesInteiro), classeSinal(c.insiderLiquido)));
+            tr.appendChild(celula(c.shortVarMensal === null ? '-' : c.shortVarMensal.toLocaleString('pt-BR', opcoesDecimal), classeSinal(c.shortBullish)));
+            corpo.appendChild(tr);
+        });
+
+        document.getElementById('contadorDivergencia').textContent = divergentes.length + ' tickers com insider e short discordando';
+    }
+
+    // ---------- Candidatos a Squeeze ----------
+    // Sem % do free float nem Days to Cover (não vêm da série histórica coletada) —
+    // usa como proxy de "crowding" a Taxa Tomador Média (custo de aluguel sobe
+    // quando o papel fica escasso pra quem quer vender a descoberto), combinada com
+    // compra recente de insider.
+    function renderizarSqueeze() {
+        if (!correlacaoIniciada || !shortsCarregado) return;
+
+        var topN = parseInt(document.getElementById('squeezeTopN').value, 10) || 15;
+
+        var lista = filtrarPorIndiceCorrelacao(calcularCorrelacaoInsiderShort(), 'squeezeIndice')
+            .filter(function (c) { return c.direcaoInsider === 'compra'; });
+
+        var rankTaxa = rankSimples(lista.map(function (c) { return c.taxaTomadorMed; }), true);
+        lista.forEach(function (c, i) { c.scoreSqueeze = c.rankInsider + rankTaxa[i]; });
+        lista.sort(function (a, b) { return a.scoreSqueeze - b.scoreSqueeze; });
+        var top = lista.slice(0, topN);
+
+        var corpo = document.getElementById('corpoSqueeze');
+        corpo.innerHTML = '';
+        top.forEach(function (c, i) {
+            var tr = document.createElement('tr');
+            tr.appendChild(celula(i + 1));
+            tr.appendChild(celula(c.ticker));
+            tr.appendChild(celula((c.taxaTomadorMed * 100).toLocaleString('pt-BR', opcoesDecimal)));
+            tr.appendChild(celula(c.saldoValor.toLocaleString('pt-BR', opcoesInteiro)));
+            tr.appendChild(celula(c.insiderLiquido.toLocaleString('pt-BR', opcoesInteiro), 'pos'));
+            corpo.appendChild(tr);
+        });
+
+        document.getElementById('contadorSqueeze').textContent = top.length + ' de ' + lista.length +
+            ' tickers com compra de insider nos últimos 12 meses, ordenados por taxa de aluguel + convicção de insider';
+    }
+
+    // ---------- Raio-X por Ticker ----------
+    function popularTickersRaioX() {
+        var select = document.getElementById('raioxTicker');
+        if (!select || select.options.length > 1) return; // popula uma vez só
+        var tickersInsider = dadosGlobais.map(function (m) { return m.ticker; });
+        var tickersShort = dadosShorts.map(function (p) { return p.ticker; });
+        var todos = Array.prototype.slice.call(new Set(tickersInsider.concat(tickersShort))).sort();
+        todos.forEach(function (t) {
+            var opt = document.createElement('option');
+            opt.value = t;
+            opt.textContent = t;
+            select.appendChild(opt);
+        });
+    }
+
+    function renderizarRaioX() {
+        if (!correlacaoIniciada || !shortsCarregado) return;
+
+        var ticker = document.getElementById('raioxTicker').value;
+
+        var movimentos = dadosGlobais.filter(function (m) { return m.ticker === ticker; })
+            .slice().sort(function (a, b) { return a.data < b.data ? 1 : -1; });
+        var corpoInsider = document.getElementById('corpoRaioxInsider');
+        corpoInsider.innerHTML = '';
+        movimentos.forEach(function (m) {
+            var tipo = m.quantidade > 0 ? 'pos' : (m.quantidade < 0 ? 'neg' : 'neutro');
+            var tr = document.createElement('tr');
+            tr.appendChild(celula(formatarData(m.data)));
+            tr.appendChild(celula(m.quantidade.toLocaleString('pt-BR', opcoesInteiro), tipo));
+            tr.appendChild(celula(m.valor.toLocaleString('pt-BR', opcoesInteiro), tipo));
+            corpoInsider.appendChild(tr);
+        });
+
+        var pontos = dadosShorts.filter(function (p) { return p.ticker === ticker; })
+            .slice().sort(function (a, b) { return a.data < b.data ? 1 : -1; })
+            .slice(0, 30);
+        var corpoShort = document.getElementById('corpoRaioxShort');
+        corpoShort.innerHTML = '';
+        pontos.forEach(function (p) {
+            var tr = document.createElement('tr');
+            tr.appendChild(celula(formatarData(p.data)));
+            tr.appendChild(celula(p.saldoQtd.toLocaleString('pt-BR', opcoesInteiro)));
+            tr.appendChild(celula(p.saldoValor.toLocaleString('pt-BR', opcoesInteiro)));
+            tr.appendChild(celula(p.close.toLocaleString('pt-BR', opcoesDecimal)));
+            corpoShort.appendChild(tr);
+        });
+
+        document.getElementById('contadorRaiox').textContent = ticker
+            ? (movimentos.length + ' movimentos de insider · ' + pontos.length + ' dias de short (mais recentes)')
+            : 'Selecione um ticker.';
     }
 </script>
 </body>
