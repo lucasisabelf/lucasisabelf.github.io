@@ -175,6 +175,7 @@ To suppress this warning, you need to explicitly provide the \`palette.${t}Chann
 // App da Web (Executar como: Eu; Quem pode acessar: Qualquer pessoa).
 // Ao atualizar o codigo: Implantar > Gerenciar implantacoes > editar > Nova versao (a URL continua a mesma).
 
+var SCRIPT_VERSION = 2;
 var BOARD_SHEETS = ['To Do', 'In Progress', 'Done'];
 var LISTS_SHEET = 'Listas';
 
@@ -200,7 +201,7 @@ function doPost(e) {
 }
 
 function doGet() {
-  return json_({ ok: true, app: 'sprint-board' });
+  return json_({ ok: true, app: 'sprint-board', version: SCRIPT_VERSION, lists: listNames_() });
 }
 
 function handle_(req) {
@@ -237,7 +238,9 @@ function handle_(req) {
 
 function sheet_(kind, name) {
   var allowed = kind === 'list' ? listNames_() : BOARD_SHEETS;
-  if (allowed.indexOf(name) === -1) throw new Error('Aba invalida: ' + name);
+  if (allowed.indexOf(name) === -1) {
+    throw new Error('Aba invalida: "' + name + '". Aceitas: ' + (allowed.join(', ') || '(nenhuma lista na aba ' + LISTS_SHEET + ')') + '.');
+  }
   var s = SpreadsheetApp.getActive().getSheetByName(name);
   if (!s) throw new Error('Aba nao encontrada: ' + name);
   return s;
