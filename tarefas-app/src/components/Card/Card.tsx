@@ -5,9 +5,10 @@ import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import type { CardData } from '../../types/card';
-import type { CardActionHandlers, CardDetailHandlers, CardFilterHandlers, CardSelectionHandlers } from '../../types/handlers';
+import type { CardActionHandlers, CardDetailHandlers, CardEditHandlers, CardFilterHandlers, CardSelectionHandlers } from '../../types/handlers';
 import { parseChecklist } from '../../lib/checklist';
 import { getDateInfo } from '../../lib/dateStatus';
+import { CARD_DRAG_MIME, serializeDraggedCard } from '../../lib/dragCard';
 import { CardBadges } from './CardBadges';
 import { CardActions } from './CardActions';
 
@@ -22,7 +23,9 @@ interface CardProps
     CardActionHandlers,
     CardFilterHandlers,
     CardDetailHandlers,
-    Partial<CardSelectionHandlers> {
+    Partial<CardSelectionHandlers>,
+    Partial<CardEditHandlers> {
+  columnId?: string;
   expandActions: boolean;
   readonly: boolean;
   compact: boolean;
@@ -32,14 +35,24 @@ interface CardProps
 
 export function Card(props: CardProps) {
   const { title, desc, date, priority, responsavel, link, tags, recurrence, isNew, daysInColumn, expandActions, readonly, compact, activeFilter, isDoneColumn } = props;
-  const { onOpenDetail, onFilterByPriority, onFilterByTag, onCopy, onDuplicate, onWhatsApp, onCalendar, onAskClaude } = props;
+  const { onOpenDetail, onFilterByPriority, onFilterByTag, onCopy, onDuplicate, onWhatsApp, onCalendar, onAskClaude, onEdit, onMove, onDelete, columnId } = props;
   const checklist = parseChecklist(desc);
   const cardData: CardData = { title, desc, date, priority, responsavel, link, tags, recurrence };
   const dateInfo = getDateInfo(date);
   const overdueStage = !isDoneColumn && dateInfo ? dateInfo.overdueStage : 0;
+  const draggable = !readonly && Boolean(onMove) && columnId !== undefined;
 
   return (
     <MuiCard
+      draggable={draggable}
+      onDragStart={
+        draggable
+          ? (e: React.DragEvent) => {
+              e.dataTransfer.setData(CARD_DRAG_MIME, serializeDraggedCard(cardData, columnId!));
+              e.dataTransfer.effectAllowed = 'move';
+            }
+          : undefined
+      }
       variant="outlined"
       className={`card-surface ${overdueStage > 0 ? `card-overdue-stage card-overdue-stage-${overdueStage}` : ''}`}
       sx={{
@@ -48,6 +61,7 @@ export function Card(props: CardProps) {
         borderLeft: priority && PRIORITY_BORDER_COLOR[priority] ? `3px solid ${PRIORITY_BORDER_COLOR[priority]}` : undefined,
         borderStyle: responsavel ? 'solid' : 'dashed',
         bgcolor: overdueStage > 0 ? 'var(--overdue-bg)' : undefined,
+        cursor: draggable ? 'grab' : undefined,
       }}
     >
       <CardContent sx={{ p: 1.5, position: 'relative', zIndex: 1, '&:last-child': { pb: 1.5 } }}>
@@ -112,6 +126,7 @@ export function Card(props: CardProps) {
         {!compact && (
           <CardActions
             card={cardData}
+            columnId={columnId}
             expandActions={expandActions}
             readonly={readonly}
             onCopy={onCopy}
@@ -119,6 +134,9 @@ export function Card(props: CardProps) {
             onWhatsApp={onWhatsApp}
             onCalendar={onCalendar}
             onAskClaude={onAskClaude}
+            onEdit={onEdit}
+            onMove={onMove}
+            onDelete={onDelete}
           />
         )}
       </CardContent>

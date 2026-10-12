@@ -70,6 +70,19 @@ Ao adicionar uma nova acao/comportamento de card: **nao** adicionar mais um camp
 4. `App.tsx` encadeia `useActivityLog().track(columns)` e `useExtraLists().load(id)` com o resultado
 5. `displayColumns` (filtro + ordenacao, via `useMemo`) e passado para `<Board>`, que renderiza `<Column>` → `<Card>`
 
+## Gravacao na planilha (Apps Script)
+
+Leitura continua via `gviz` (sem login). Escrita e opcional e usa um **Apps Script vinculado a planilha**, publicado como App da Web (Executar como: Eu; Acesso: Qualquer pessoa) — sem backend proprio e sem projeto no Google Cloud.
+
+- Codigo do script: `tarefas-app/src/appsScript/Code.gs` (importado via `?raw` pelo `WriteSetupDialog`, que tem o botao "Copiar codigo do script"). Mudou o script → o usuario precisa colar de novo e criar **nova versao** da implantacao.
+- Cliente: `lib/sheetWriter.ts` (`postSheetAction`, POST `text/plain` pra evitar preflight CORS) + `hooks/useSheetWriter.ts` (URL do Web App por planilha em `localStorage['writeEndpoints']`, `sheetId -> url`).
+- Acoes: `create` (aba To Do), `update`, `move`, `delete`. Cards nao tem ID: o script localiza a linha por **titulo (col A) + data exibida (col C)**. Se virar problema (titulos duplicados com mesma data), adicionar coluna H de ID.
+- `lib/cardRow.ts` e o inverso de `mapCardRow` (`cardToRow`, `draftToCard`, `draftToTsv`); `NewTaskModal` entrega um `TaskDraft` e serve tambem pra editar (`mode="edit"`).
+- Handlers de escrita do card ficam em `CardEditHandlers` (ISP), so passados quando a edicao esta configurada e o board nao e readonly. Sem endpoint, o fluxo antigo (copiar TSV + colar) continua.
+- Apos gravar, o board recarrega com `load(url, { silent: true })` (sem trocar pelo spinner).
+- **Drag and drop** (desktop, API nativa HTML5 — sem lib): `Card` e `draggable` quando ha `onMove`; `Column` aceita o drop (`lib/dragCard.ts`: payload + `moveCardBetweenColumns`). O move e otimista (`useSheetData().moveCardLocally`) e recarrega a planilha se a gravacao falhar. No celular continua o "Mover para" do menu.
+- **Listas extras**: `kind: 'list'` no payload — layout diferente (cabecalho na linha 1, A:E, linha localizada so pelo nome) e o script so aceita abas cadastradas em `Listas`. UI: `ExtraListPanel` recebe `ListItemEditHandlers` (ISP) + `ListItemModal`.
+
 ## Testes
 
 Vitest + Testing Library, colocados junto do codigo (`arquivo.ts` + `arquivo.test.ts`). Cobertura minima esperada pra codigo novo:

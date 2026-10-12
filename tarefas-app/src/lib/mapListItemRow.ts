@@ -15,3 +15,7 @@ export function mapListItemRow(row: string[]): ListItemData {
     motivo: (row[4] || '').trim(),
   };
 }
+
+export function listItemToRow(item: ListItemData): string[] {
+  return [item.nome, item.topico, item.prioridade, item.status, item.motivo];
+}

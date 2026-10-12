@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -17,6 +17,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Paper from '@mui/material/Paper';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutlineOutlined';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -27,6 +28,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AppMenu } from './components/AppMenu';
 import { createAppTheme } from './theme';
 import { useSheetData } from './hooks/useSheetData';
+import { useSheetWriter } from './hooks/useSheetWriter';
 import { useViewPreferences } from './hooks/useViewPreferences';
 import { useSelection } from './hooks/useSelection';
 import { useTheme } from './hooks/useTheme';
@@ -47,12 +49,15 @@ import { ExtraListPanel } from './components/panels/ExtraListPanel';
 import { ActivityPanel } from './components/panels/ActivityPanel';
 import { NewTaskModal, type NewTaskPrefill } from './components/modals/NewTaskModal';
 import { CardDetailModal } from './components/modals/CardDetailModal';
+import { WriteSetupDialog } from './components/modals/WriteSetupDialog';
+import { ListItemModal } from './components/modals/ListItemModal';
+import type { ListItemData } from './lib/mapListItemRow';
 import { HelpModal } from './components/modals/HelpModal';
 import { ConfirmDialog } from './components/ConfirmDialog';
 import { PasteHintBanner } from './components/PasteHintBanner';
 import { BoardSummaryView } from './components/panels/BoardSummaryView';
 import { BackToTop } from './components/BackToTop';
-import type { CardData } from './types/card';
+import type { CardData, TaskDraft } from './types/card';
 import { STORAGE_KEYS } from './lib/storageKeys';
 import { filterCards } from './lib/filterCards';
 import { sortCards, SORT_MODES, type SortMode } from './lib/sortCards';
@@ -65,9 +70,14 @@ import { buildBoardText, buildColumnText } from './lib/exporters/markdown';
 import { buildBoardJson } from './lib/exporters/json';
 import { buildIcsCalendar } from './lib/exporters/ics';
 import { toIsoDate } from './lib/date';
+import { draftToCard, draftToTsv } from './lib/cardRow';
 import { nextRecurrenceDate } from './lib/recurrence';
 import { computeBoardSummary } from './lib/boardSummary';
-import { TEMPLATE_CONFIG, APP_VERSION, COLUMN_IDS, FILTER_DEBOUNCE_MS } from './lib/config';
+import { TEMPLATE_CONFIG, APP_VERSION, COLUMN_IDS, SHEET_NAMES, FILTER_DEBOUNCE_MS } from './lib/config';
+
+function sheetNameOf(columnId: string): string {
+  return SHEET_NAMES[COLUMN_IDS.indexOf(columnId as (typeof COLUMN_IDS)[number])];
+}
 
 function downloadBlob(content: string, filename: string, type: string) {
   const blob = new Blob(['﻿' + content], { type });
@@ -111,6 +121,12 @@ function App() {
   const [helpOpen, setHelpOpen] = useState(false);
   const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   const [activityPanelOpen, setActivityPanelOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState<{ card: CardData; columnId: string } | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<{ card: CardData; columnId: string } | null>(null);
+  const [writeSetupOpen, setWriteSetupOpen] = useState(false);
+  const [listItemModal, setListItemModal] = useState<{ item?: ListItemData } | null>(null);
+  const [listItemToDelete, setListItemToDelete] = useState<ListItemData | null>(null);
+  const [toast, setToast] = useState<{ message: string; severity: 'success' | 'error' } | null>(null);
 
   const filterInputRef = useRef<HTMLInputElement>(null);
 
@@ -129,6 +145,27 @@ function App() {
     const params = new URLSearchParams();
     params.set('sheet', url);
     history.replaceState(null, '', `?${params.toString()}`);
+  }
+
+  const refreshAfterWrite = useCallback(async () => {
+    const result = await sheetData.load(sheetUrl, { silent: true });
+    if (!result) return;
+    activity.track(result.columns);
+    extraLists.load(result.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sheetUrl]);
+  const writer = useSheetWriter(sheetData.sheetId, refreshAfterWrite);
+  const canWrite = writer.configured && !readonly;
+
+  async function runWrite(operation: () => Promise<void>, successMessage: string) {
+    try {
+      await operation();
+      setToast({ message: successMessage, severity: 'success' });
+      return true;
+    } catch (err) {
+      setToast({ message: err instanceof Error ? err.message : 'Falha ao gravar na planilha.', severity: 'error' });
+      return false;
+    }
   }
 
   useEffect(() => {
@@ -227,13 +264,65 @@ function App() {
     setNewTaskModalOpen(true);
   }
 
-  function handleNewTaskSubmit(tsvRow: string) {
-    navigator.clipboard.writeText(tsvRow).then(() => {
+  function closeTaskModal() {
+    setNewTaskModalOpen(false);
+    setNewTaskPrefill(undefined);
+    setEditTarget(null);
+  }
+
+  async function handleTaskSubmit(draft: TaskDraft) {
+    if (editTarget) {
+      const updated = draftToCard(draft, editTarget.card);
+      if (await runWrite(() => writer.updateTask(sheetNameOf(editTarget.columnId), editTarget.card, updated), 'Tarefa atualizada na planilha.')) {
+        closeTaskModal();
+      }
+      return;
+    }
+    if (canWrite) {
+      if (await runWrite(() => writer.createTask(SHEET_NAMES[0], draftToCard(draft)), 'Tarefa criada na planilha.')) closeTaskModal();
+      return;
+    }
+    navigator.clipboard.writeText(draftToTsv(draft)).then(() => {
       window.open(sheetUrl);
-      setNewTaskModalOpen(false);
-      setNewTaskPrefill(undefined);
+      closeTaskModal();
       setPasteHintVisible(true);
     });
+  }
+
+  function handleEdit(card: CardData, columnId: string) {
+    setEditTarget({ card, columnId });
+    setNewTaskPrefill({ name: card.title, desc: card.desc, date: toIsoDate(card.date), priority: card.priority, recurrence: card.recurrence ?? '' });
+    setNewTaskModalOpen(true);
+  }
+
+  async function handleMove(card: CardData, fromColumnId: string, toColumnId: string) {
+    const to = sheetNameOf(toColumnId);
+    sheetData.moveCardLocally(card, fromColumnId, toColumnId);
+    const ok = await runWrite(() => writer.moveTask(sheetNameOf(fromColumnId), to, card), `Movida para ${to}.`);
+    if (!ok) refreshAfterWrite();
+  }
+
+  async function handleListItemSubmit(item: ListItemData) {
+    const original = listItemModal?.item;
+    const saved = await runWrite(
+      () => (original ? writer.updateListItem(mode, original, item) : writer.createListItem(mode, item)),
+      original ? 'Item atualizado na planilha.' : 'Item criado na planilha.',
+    );
+    if (saved) setListItemModal(null);
+  }
+
+  async function handleConfirmDeleteListItem() {
+    if (!listItemToDelete) return;
+    const item = listItemToDelete;
+    setListItemToDelete(null);
+    await runWrite(() => writer.deleteListItem(mode, item), 'Item excluído da planilha.');
+  }
+
+  async function handleConfirmDelete() {
+    if (!deleteTarget) return;
+    const { card, columnId } = deleteTarget;
+    setDeleteTarget(null);
+    await runWrite(() => writer.deleteTask(sheetNameOf(columnId), card), 'Tarefa excluída da planilha.');
   }
 
   function handleCopySelected() {
@@ -330,7 +419,7 @@ function App() {
     onToggleAllColumns: () => collapseState.toggleAll([...COLUMN_IDS]),
     onEscape: () => {
       if (newTaskModalOpen) {
-        setNewTaskModalOpen(false);
+        closeTaskModal();
         return;
       }
       if (detailCard) {
@@ -432,6 +521,8 @@ function App() {
                       onDownloadJson={handleDownloadJson}
                       onDownloadCsv={handleDownloadCsv}
                       onDownloadIcs={handleDownloadIcs}
+                      writeConfigured={writer.configured}
+                      onOpenWriteSetup={readonly ? undefined : () => setWriteSetupOpen(true)}
                     />
                     {isMobile ? (
                       <AppMenu
@@ -598,6 +689,9 @@ function App() {
             onWhatsApp={handleWhatsApp}
             onCalendar={handleCalendar}
             onAskClaude={handleAskClaude}
+            onEdit={canWrite ? handleEdit : undefined}
+            onMove={canWrite ? handleMove : undefined}
+            onDelete={canWrite ? (card, columnId) => setDeleteTarget({ card, columnId }) : undefined}
             onCreateTask={
               readonly
                 ? undefined
@@ -612,15 +706,23 @@ function App() {
       )}
       {state === 'success' && mode !== 'tarefas' && (
         <Box sx={{ mt: 2 }}>
-          <ExtraListPanel name={mode} items={extraLists.lists.find((l) => l.name === mode)?.items ?? []} />
+          <ExtraListPanel
+            name={mode}
+            items={extraLists.lists.find((l) => l.name === mode)?.items ?? []}
+            onCreateItem={canWrite ? () => setListItemModal({}) : undefined}
+            onEditItem={canWrite ? (item) => setListItemModal({ item }) : undefined}
+            onDeleteItem={canWrite ? setListItemToDelete : undefined}
+          />
         </Box>
       )}
 
       {newTaskModalOpen && (
         <NewTaskModal
           prefill={newTaskPrefill}
-          onClose={() => setNewTaskModalOpen(false)}
-          onSubmit={handleNewTaskSubmit}
+          mode={editTarget ? 'edit' : 'create'}
+          saving={writer.pending}
+          onClose={closeTaskModal}
+          onSubmit={handleTaskSubmit}
         />
       )}
       {detailCard && (
@@ -638,6 +740,52 @@ function App() {
           onConfirm={handleConfirmReset}
         />
       )}
+      {deleteTarget && (
+        <ConfirmDialog
+          title="Excluir tarefa"
+          message={`Excluir "${deleteTarget.card.title}" da planilha? Essa ação apaga a linha no Google Sheets.`}
+          confirmLabel="Excluir"
+          onCancel={() => setDeleteTarget(null)}
+          onConfirm={handleConfirmDelete}
+        />
+      )}
+      {listItemModal && (
+        <ListItemModal
+          listName={mode}
+          item={listItemModal.item}
+          saving={writer.pending}
+          onClose={() => setListItemModal(null)}
+          onSubmit={handleListItemSubmit}
+        />
+      )}
+      {listItemToDelete && (
+        <ConfirmDialog
+          title="Excluir item"
+          message={`Excluir "${listItemToDelete.nome}" da lista ${mode}? Essa ação apaga a linha no Google Sheets.`}
+          confirmLabel="Excluir"
+          onCancel={() => setListItemToDelete(null)}
+          onConfirm={handleConfirmDeleteListItem}
+        />
+      )}
+      {writeSetupOpen && (
+        <WriteSetupDialog
+          endpoint={writer.endpoint}
+          sheetUrl={sheetUrl}
+          onClose={() => setWriteSetupOpen(false)}
+          onSave={(url) => {
+            writer.setEndpoint(url);
+            setWriteSetupOpen(false);
+            setToast({ message: url ? 'Edição direta ativada.' : 'Edição direta desconectada.', severity: 'success' });
+          }}
+        />
+      )}
+      <Snackbar open={toast !== null} autoHideDuration={toast?.severity === 'error' ? 8000 : 3000} onClose={() => setToast(null)}>
+        {toast ? (
+          <Alert severity={toast.severity} variant="filled" onClose={() => setToast(null)}>
+            {toast.message}
+          </Alert>
+        ) : undefined}
+      </Snackbar>
       <BackToTop />
     </Box>
     </ThemeProvider>

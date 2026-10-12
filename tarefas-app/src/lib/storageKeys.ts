@@ -13,4 +13,5 @@ export const STORAGE_KEYS = [
   'activityTotalCount',
   'activityLastSeenCount',
   'mode',
+  'writeEndpoints',
 ];

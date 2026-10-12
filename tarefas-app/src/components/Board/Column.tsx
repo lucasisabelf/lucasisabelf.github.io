@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import type { ColumnData } from '../../types/card';
-import type { CardActionHandlers, CardDetailHandlers, CardFilterHandlers, CardSelectionHandlers, ColumnHeaderHandlers } from '../../types/handlers';
+import type { CardActionHandlers, CardDetailHandlers, CardEditHandlers, CardFilterHandlers, CardSelectionHandlers, ColumnHeaderHandlers } from '../../types/handlers';
 import { Card } from '../Card/Card';
+import { CARD_DRAG_MIME, parseDraggedCard } from '../../lib/dragCard';
 
 const HEADER_COLOR: Record<string, string> = {
   todo: '#3b82f6',
@@ -18,7 +20,8 @@ interface ColumnProps
     CardFilterHandlers,
     CardDetailHandlers,
     ColumnHeaderHandlers,
-    Partial<CardSelectionHandlers> {
+    Partial<CardSelectionHandlers>,
+    Partial<CardEditHandlers> {
   expandActions: boolean;
   readonly: boolean;
   compact: boolean;
@@ -46,6 +49,31 @@ export function Column(props: ColumnProps) {
     onToggleSelect,
     ...cardHandlers
   } = props;
+  const { onMove } = cardHandlers;
+  const [dragOver, setDragOver] = useState(false);
+
+  function acceptsDrag(e: React.DragEvent) {
+    return Boolean(onMove) && e.dataTransfer.types.includes(CARD_DRAG_MIME);
+  }
+
+  function handleDragOver(e: React.DragEvent) {
+    if (!acceptsDrag(e)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOver(true);
+  }
+
+  function handleDragLeave(e: React.DragEvent) {
+    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setDragOver(false);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    setDragOver(false);
+    if (!acceptsDrag(e)) return;
+    e.preventDefault();
+    const dragged = parseDraggedCard(e.dataTransfer.getData(CARD_DRAG_MIME));
+    if (dragged && dragged.fromColumnId !== id) onMove!(dragged.card, dragged.fromColumnId, id);
+  }
 
   function handleHeaderClick(e: React.MouseEvent) {
     if (e.ctrlKey && e.shiftKey) {
@@ -60,7 +88,20 @@ export function Column(props: ColumnProps) {
   }
 
   return (
-    <Paper elevation={1} sx={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <Paper
+      elevation={1}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        outline: dragOver ? '2px dashed' : 'none',
+        outlineColor: HEADER_COLOR[id],
+        outlineOffset: -2,
+      }}
+    >
       <Box
         onClick={handleHeaderClick}
         sx={{ px: 2, py: 1.5, fontWeight: 700, fontSize: '0.95rem', letterSpacing: 0.3, color: '#fff', bgcolor: HEADER_COLOR[id], userSelect: 'none', cursor: 'pointer' }}
@@ -104,6 +145,7 @@ export function Column(props: ColumnProps) {
                 isNew={newTitles?.has(card.title) ?? card.isNew}
                 daysInColumn={daysByTitle?.get(card.title) ?? card.daysInColumn}
                 isDoneColumn={id === 'done'}
+                columnId={id}
               />
             ))
           )}

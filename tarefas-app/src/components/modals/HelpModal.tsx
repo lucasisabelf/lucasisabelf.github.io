@@ -56,6 +56,10 @@ export function HelpModal({ onClose, onDownloadTemplate, onResetSettings }: Help
             ))}
           </TableBody>
         </Table>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          <strong>Edição direta:</strong> em "Conectar edição", instale o Apps Script na planilha para criar, editar, mover e excluir tarefas
+          sem copiar e colar. Sem isso, "Nova Tarefa" copia a linha para você colar na planilha.
+        </Typography>
         <Stack direction="row" spacing={1.5} sx={{ justifyContent: 'center', mb: 2 }}>
           <TextField select size="small" value={templateType} onChange={(e) => setTemplateType(e.target.value)}>
             {Object.entries(TEMPLATE_CONFIG).map(([type, { label }]) => (

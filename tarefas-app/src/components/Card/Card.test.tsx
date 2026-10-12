@@ -70,4 +70,25 @@ describe('Card', () => {
       expect.objectContaining({ title: 'Tarefa recorrente', recurrence: 'semanal' }),
     );
   });
+
+  it('hides Editar/Mover/Excluir when edit handlers are not provided', async () => {
+    render(<Card {...baseProps} columnId="todo" />);
+    await userEvent.click(screen.getByText('Mais'));
+    expect(screen.queryByText('Editar')).not.toBeInTheDocument();
+    expect(screen.queryByText('Excluir')).not.toBeInTheDocument();
+  });
+
+  it('offers move targets other than the current column and calls the edit handlers', async () => {
+    const onEdit = vi.fn();
+    const onMove = vi.fn();
+    const onDelete = vi.fn();
+    render(<Card {...baseProps} columnId="todo" onEdit={onEdit} onMove={onMove} onDelete={onDelete} />);
+    await userEvent.click(screen.getByText('Mais'));
+    expect(screen.queryByText('Mover para To Do')).not.toBeInTheDocument();
+    await userEvent.click(screen.getByText('Mover para Done'));
+    expect(onMove).toHaveBeenCalledWith(expect.objectContaining({ title: 'Tarefa recorrente' }), 'todo', 'done');
+    await userEvent.click(screen.getByText('Mais'));
+    await userEvent.click(screen.getByText('Excluir'));
+    expect(onDelete).toHaveBeenCalledWith(expect.objectContaining({ title: 'Tarefa recorrente' }), 'todo');
+  });
 });

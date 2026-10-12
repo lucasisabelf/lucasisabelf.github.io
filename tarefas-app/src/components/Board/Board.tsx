@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
 import type { ColumnData } from '../../types/card';
-import type { CardActionHandlers, CardDetailHandlers, CardFilterHandlers, CardSelectionHandlers, ColumnHeaderHandlers } from '../../types/handlers';
+import type { CardActionHandlers, CardDetailHandlers, CardEditHandlers, CardFilterHandlers, CardSelectionHandlers, ColumnHeaderHandlers } from '../../types/handlers';
 import { Column } from './Column';
 
 interface BoardProps
@@ -8,7 +8,8 @@ interface BoardProps
     CardFilterHandlers,
     CardDetailHandlers,
     ColumnHeaderHandlers,
-    Partial<CardSelectionHandlers> {
+    Partial<CardSelectionHandlers>,
+    Partial<CardEditHandlers> {
   columns: ColumnData[];
   expandActions: boolean;
   focus: boolean;

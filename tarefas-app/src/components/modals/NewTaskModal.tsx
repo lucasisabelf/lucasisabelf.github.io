@@ -7,9 +7,8 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { toPtBrDate } from '../../lib/date';
-import { buildRecurrenceMarker, RECURRENCE_OPTIONS } from '../../lib/recurrence';
-import type { Priority, RecurrenceType } from '../../types/card';
+import { RECURRENCE_OPTIONS } from '../../lib/recurrence';
+import type { Priority, RecurrenceType, TaskDraft } from '../../types/card';
 
 const TASK_DESC_MAX = 300;
 
@@ -23,11 +22,13 @@ export interface NewTaskPrefill {
 
 interface NewTaskModalProps {
   prefill?: NewTaskPrefill;
+  mode?: 'create' | 'edit';
+  saving?: boolean;
   onClose(): void;
-  onSubmit(tsvRow: string): void;
+  onSubmit(draft: TaskDraft): void;
 }
 
-export function NewTaskModal({ prefill, onClose, onSubmit }: NewTaskModalProps) {
+export function NewTaskModal({ prefill, mode = 'create', saving = false, onClose, onSubmit }: NewTaskModalProps) {
   const [name, setName] = useState(prefill?.name ?? '');
   const [desc, setDesc] = useState(prefill?.desc ?? '');
   const [date, setDate] = useState(prefill?.date || new Date().toISOString().slice(0, 10));
@@ -41,15 +42,12 @@ export function NewTaskModal({ prefill, onClose, onSubmit }: NewTaskModalProps) 
       setNameInvalid(true);
       return;
     }
-    const ptBrDate = toPtBrDate(date) || new Date().toLocaleDateString('pt-BR');
-    const descWithRecurrence = recurrence ? `${desc}${desc ? '\n' : ''}${buildRecurrenceMarker(recurrence)}` : desc;
-    const tsv = `${trimmedName}\t${descWithRecurrence}\t${ptBrDate}\t${priority}`;
-    onSubmit(tsv);
+    onSubmit({ name: trimmedName, desc, date, priority, recurrence });
   }
 
   return (
     <Dialog open onClose={onClose} fullWidth maxWidth="xs">
-      <DialogTitle>Nova Tarefa</DialogTitle>
+      <DialogTitle>{mode === 'edit' ? 'Editar Tarefa' : 'Nova Tarefa'}</DialogTitle>
       <DialogContent>
         <Stack spacing={2.5} sx={{ mt: 0.5 }}>
           <TextField
@@ -105,8 +103,8 @@ export function NewTaskModal({ prefill, onClose, onSubmit }: NewTaskModalProps) 
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancelar</Button>
-        <Button variant="contained" onClick={handleSubmit}>
-          Adicionar
+        <Button variant="contained" onClick={handleSubmit} disabled={saving}>
+          {mode === 'edit' ? 'Salvar' : 'Adicionar'}
         </Button>
       </DialogActions>
     </Dialog>

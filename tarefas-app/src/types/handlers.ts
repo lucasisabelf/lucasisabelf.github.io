@@ -1,4 +1,5 @@
 import type { CardData } from './card';
+import type { ListItemData } from '../lib/mapListItemRow';
 
 /**
  * Interfaces segregadas por papel de consumidor (ISP): cada componente recebe só
@@ -37,4 +38,18 @@ export interface ColumnHeaderHandlers {
   onToggleCollapse(columnId: string): void;
   onCopyColumnText(columnTitle: string, cards: CardData[]): void;
   onCopyColumnCsv(columnTitle: string, cards: CardData[]): void;
+}
+
+/** Gravação direta na planilha (Apps Script) — só passada quando a edição está configurada e o board não é readonly. */
+export interface CardEditHandlers {
+  onEdit(card: CardData, columnId: string): void;
+  onMove(card: CardData, fromColumnId: string, toColumnId: string): void;
+  onDelete(card: CardData, columnId: string): void;
+}
+
+/** Gravação direta numa lista extra — só passada quando a edição está configurada e o board não é readonly. */
+export interface ListItemEditHandlers {
+  onCreateItem(): void;
+  onEditItem(item: ListItemData): void;
+  onDeleteItem(item: ListItemData): void;
 }

@@ -11,7 +11,7 @@ describe('NewTaskModal', () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
-  it('embeds the recurrence marker in the description when a recurrence is chosen', async () => {
+  it('submits a structured draft with the chosen recurrence', async () => {
     const onSubmit = vi.fn();
     render(<NewTaskModal onClose={vi.fn()} onSubmit={onSubmit} />);
     await userEvent.type(screen.getByLabelText('Nome'), 'Revisar backlog');
@@ -19,9 +19,7 @@ describe('NewTaskModal', () => {
     await userEvent.click(await screen.findByText('Semanalmente'));
     await userEvent.click(screen.getByText('Adicionar'));
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    const tsv = onSubmit.mock.calls[0][0] as string;
-    expect(tsv).toContain('Revisar backlog');
-    expect(tsv).toContain('[repete:semanal]');
+    expect(onSubmit.mock.calls[0][0]).toMatchObject({ name: 'Revisar backlog', recurrence: 'semanal' });
   });
 
   it('prefills fields from a duplicated card', () => {
@@ -35,5 +33,13 @@ describe('NewTaskModal', () => {
     expect(screen.getByLabelText('Nome')).toHaveValue('Tarefa (cópia)');
     expect(screen.getByLabelText('Descrição')).toHaveValue('desc original');
     expect(screen.getByLabelText('Repetir')).toHaveTextContent('Mensalmente');
+  });
+
+  it('shows edit title and Salvar button in edit mode', async () => {
+    const onSubmit = vi.fn();
+    render(<NewTaskModal mode="edit" prefill={{ name: 'Existente', date: '2026-10-20' }} onClose={vi.fn()} onSubmit={onSubmit} />);
+    expect(screen.getByText('Editar Tarefa')).toBeInTheDocument();
+    await userEvent.click(screen.getByText('Salvar'));
+    expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({ name: 'Existente', date: '2026-10-20' }));
   });
 });

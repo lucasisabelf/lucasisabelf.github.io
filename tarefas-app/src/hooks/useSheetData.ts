@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react';
-import type { ColumnData } from '../types/card';
+import type { CardData, ColumnData } from '../types/card';
 import { SHEET_NAMES, COLUMN_IDS } from '../lib/config';
 import { extractSheetId, buildSheetUrl, fetchWithTimeout } from '../lib/sheetUrl';
 import { parseCsv, filterRows } from '../lib/csv';
 import { mapCardRow } from '../lib/mapCardRow';
+import { moveCardBetweenColumns } from '../lib/dragCard';
 
 export type BoardState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -25,7 +26,8 @@ export function useSheetData() {
   const [errorMessage, setErrorMessage] = useState('');
   const [sheetId, setSheetId] = useState<string | null>(null);
 
-  const load = useCallback(async (sheetUrl: string) => {
+  /** `silent` mantém o board na tela durante o recarregamento (usado após gravar na planilha). */
+  const load = useCallback(async (sheetUrl: string, { silent = false }: { silent?: boolean } = {}) => {
     const id = extractSheetId(sheetUrl);
     if (!id) {
       setState('error');
@@ -33,7 +35,7 @@ export function useSheetData() {
       return null;
     }
 
-    setState('loading');
+    if (!silent) setState('loading');
     try {
       const results = await Promise.all(SHEET_NAMES.map((name) => fetchColumnRows(id, name)));
       const newColumns: ColumnData[] = results.map((rows, i) => ({
@@ -58,6 +60,11 @@ export function useSheetData() {
     }
   }, []);
 
+  /** Atualização otimista do board enquanto a gravação na planilha está em andamento. */
+  const moveCardLocally = useCallback((card: CardData, fromColumnId: string, toColumnId: string) => {
+    setColumns((current) => moveCardBetweenColumns(current, card, fromColumnId, toColumnId));
+  }, []);
+
   const reset = useCallback(() => {
     setState('idle');
     setColumns([]);
@@ -65,5 +72,5 @@ export function useSheetData() {
     setSheetId(null);
   }, []);
 
-  return { columns, state, errorMessage, sheetId, load, reset };
+  return { columns, state, errorMessage, sheetId, load, moveCardLocally, reset };
 }

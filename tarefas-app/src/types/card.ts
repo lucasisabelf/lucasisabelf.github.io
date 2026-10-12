@@ -26,3 +26,12 @@ export interface ColumnData {
   title: string;
   cards: CardData[];
 }
+
+/** Campos editáveis no modal de tarefa — data em yyyy-MM-dd (formato do <input type="date">). */
+export interface TaskDraft {
+  name: string;
+  desc: string;
+  date: string;
+  priority: Priority | '';
+  recurrence: RecurrenceType | '';
+}
