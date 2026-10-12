@@ -1,6 +1,5 @@
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AppMenu } from '../AppMenu';
 
@@ -13,8 +12,6 @@ interface HeaderMenusProps {
   onDownloadJson(): void;
   onDownloadCsv(): void;
   onDownloadIcs(): void;
-  writeConfigured?: boolean;
-  onOpenWriteSetup?: () => void;
 }
 
 export function HeaderMenus({
@@ -26,8 +23,6 @@ export function HeaderMenus({
   onDownloadJson,
   onDownloadCsv,
   onDownloadIcs,
-  writeConfigured,
-  onOpenWriteSetup,
 }: HeaderMenusProps) {
   return (
     <Stack direction="row" spacing={1}>
@@ -47,11 +42,6 @@ export function HeaderMenus({
           <MenuItem key="ics" onClick={() => { onDownloadIcs(); close(); }}>Agenda (.ics)</MenuItem>,
         ]}
       </AppMenu>
-      {onOpenWriteSetup && (
-        <Button size="small" color={writeConfigured ? 'success' : 'inherit'} onClick={onOpenWriteSetup} title="Gravar direto na planilha via Apps Script">
-          {writeConfigured ? '✓ Edição direta' : 'Conectar edição'}
-        </Button>
-      )}
     </Stack>
   );
 }

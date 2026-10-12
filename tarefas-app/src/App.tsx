@@ -477,16 +477,28 @@ function App() {
           <SheetUrlForm value={sheetUrl} onChange={setSheetUrl} onSubmit={handleLoad} loading={state === 'loading'} recentSheets={recentSheets.recent} />
           {state === 'success' && (
             <>
-              {(mode !== 'tarefas' || extraLists.lists.length > 0) && (
-                <TextField select size="small" value={mode} onChange={(e) => setMode(e.target.value)} sx={{ maxWidth: 240 }}>
-                  <MenuItem value="tarefas">Tarefas</MenuItem>
-                  {extraLists.lists.map((l) => (
-                    <MenuItem key={l.name} value={l.name}>
-                      {l.name} ({l.items.length})
-                    </MenuItem>
-                  ))}
-                </TextField>
-              )}
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+                {(mode !== 'tarefas' || extraLists.lists.length > 0) && (
+                  <TextField select size="small" value={mode} onChange={(e) => setMode(e.target.value)} sx={{ maxWidth: 240 }}>
+                    <MenuItem value="tarefas">Tarefas</MenuItem>
+                    {extraLists.lists.map((l) => (
+                      <MenuItem key={l.name} value={l.name}>
+                        {l.name} ({l.items.length})
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+                {!readonly && (
+                  <Button
+                    size="small"
+                    color={writer.configured ? 'success' : 'inherit'}
+                    onClick={() => setWriteSetupOpen(true)}
+                    title="Gravar direto na planilha via Apps Script"
+                  >
+                    {writer.configured ? '✓ Edição direta' : 'Conectar edição'}
+                  </Button>
+                )}
+              </Stack>
               {mode === 'tarefas' && (
                 <>
                   <FilterBar
@@ -521,8 +533,6 @@ function App() {
                       onDownloadJson={handleDownloadJson}
                       onDownloadCsv={handleDownloadCsv}
                       onDownloadIcs={handleDownloadIcs}
-                      writeConfigured={writer.configured}
-                      onOpenWriteSetup={readonly ? undefined : () => setWriteSetupOpen(true)}
                     />
                     {isMobile ? (
                       <AppMenu
