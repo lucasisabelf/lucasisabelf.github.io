@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { postSheetAction, WEB_APP_URL_RE } from './sheetWriter';
+import { postSheetAction, postSheetActions, WEB_APP_URL_RE } from './sheetWriter';
 
 const ENDPOINT = 'https://script.google.com/macros/s/abc_123/exec';
 
@@ -54,17 +54,25 @@ describe('postSheetAction (listas)', () => {
   });
 });
 
-describe('postSheetAction (lote)', () => {
-  it('sends all operations in a single request', async () => {
+describe('postSheetActions', () => {
+  const moveA = { action: 'move' as const, from: 'To Do', to: 'Done', match: { title: 'A', date: '01/01/2026' } };
+  const moveB = { action: 'move' as const, from: 'In Progress', to: 'Done', match: { title: 'B', date: '' } };
+
+  it('sends one request per operation, in order', async () => {
     const fetchMock = mockFetch({ json: () => Promise.resolve({ ok: true }) });
-    await postSheetAction(ENDPOINT, {
-      action: 'batch',
-      ops: [
-        { action: 'move', from: 'To Do', to: 'Done', match: { title: 'A', date: '01/01/2026' } },
-        { action: 'move', from: 'In Progress', to: 'Done', match: { title: 'B', date: '' } },
-      ],
-    });
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(JSON.parse(fetchMock.mock.calls[0][1].body).ops).toHaveLength(2);
+    await postSheetActions(ENDPOINT, [moveA, moveB]);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body).match.title).toBe('A');
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body).match.title).toBe('B');
+  });
+
+  it('stops at the first failure and reports progress', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: true, status: 200, json: () => Promise.resolve({ ok: true }) })
+      .mockResolvedValueOnce({ ok: true, status: 200, json: () => Promise.resolve({ ok: false, error: 'nao encontrado' }) });
+    vi.stubGlobal('fetch', fetchMock);
+    await expect(postSheetActions(ENDPOINT, [moveA, moveB, moveA])).rejects.toThrow('Falha no item 2 de 3: nao encontrado (1 item(ns) anterior(es) já foram aplicados).');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 });

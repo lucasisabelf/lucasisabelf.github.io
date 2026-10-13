@@ -8,14 +8,26 @@ export interface RowMatch {
 /** `list` = aba de lista extra (cabeçalho na linha 1, A:E, localizada só pelo nome); ausente = aba do board. */
 type SheetKind = { kind?: 'list' };
 
-export type SheetRowAction =
+export type SheetWriteAction =
   | ({ action: 'create'; sheet: string; row: string[] } & SheetKind)
   | ({ action: 'update'; sheet: string; match: RowMatch; row: string[] } & SheetKind)
   | { action: 'move'; from: string; to: string; match: RowMatch }
   | ({ action: 'delete'; sheet: string; match: RowMatch } & SheetKind);
 
-/** `batch` aplica as operações em ordem, numa única requisição e sob o mesmo lock do script. */
-export type SheetWriteAction = SheetRowAction | { action: 'batch'; ops: SheetRowAction[] };
+/**
+ * Lote feito no cliente — uma requisição por operação, em sequência (o script serializa via lock,
+ * então paralelizar não ganha nada). Mantém o Apps Script inalterado.
+ */
+export async function postSheetActions(endpoint: string, payloads: SheetWriteAction[]): Promise<void> {
+  for (let i = 0; i < payloads.length; i++) {
+    try {
+      await postSheetAction(endpoint, payloads[i]);
+    } catch (err) {
+      const done = i === 0 ? 'nenhum item foi alterado' : `${i} item(ns) anterior(es) já foram aplicados`;
+      throw new Error(`Falha no item ${i + 1} de ${payloads.length}: ${err instanceof Error ? err.message : String(err)} (${done}).`);
+    }
+  }
+}
 
 export const WEB_APP_URL_RE = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
 

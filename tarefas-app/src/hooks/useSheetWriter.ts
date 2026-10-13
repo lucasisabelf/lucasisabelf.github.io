@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import type { CardData } from '../types/card';
-import { postSheetAction, type SheetWriteAction } from '../lib/sheetWriter';
+import { postSheetActions, type SheetWriteAction } from '../lib/sheetWriter';
 import { cardToRow } from '../lib/cardRow';
 import { listItemToRow, type ListItemData } from '../lib/mapListItemRow';
 
@@ -46,11 +46,11 @@ export function useSheetWriter(sheetId: string | null, onWritten: () => void) {
   );
 
   const run = useCallback(
-    async (payload: SheetWriteAction) => {
+    async (...payloads: SheetWriteAction[]) => {
       if (!endpoint) throw new Error('Edição direta não configurada para esta planilha.');
       setPending(true);
       try {
-        await postSheetAction(endpoint, payload);
+        await postSheetActions(endpoint, payloads);
         onWritten();
       } finally {
         setPending(false);
@@ -70,9 +70,9 @@ export function useSheetWriter(sheetId: string | null, onWritten: () => void) {
     moveTask: (from: string, to: string, card: CardData) => run({ action: 'move', from, to, match: matchOf(card) }),
     deleteTask: (sheet: string, card: CardData) => run({ action: 'delete', sheet, match: matchOf(card) }),
     moveTasks: (items: CardInColumn[], to: string) =>
-      run({ action: 'batch', ops: items.map(({ card, sheet }) => ({ action: 'move' as const, from: sheet, to, match: matchOf(card) })) }),
+      run(...items.map(({ card, sheet }): SheetWriteAction => ({ action: 'move', from: sheet, to, match: matchOf(card) }))),
     deleteTasks: (items: CardInColumn[]) =>
-      run({ action: 'batch', ops: items.map(({ card, sheet }) => ({ action: 'delete' as const, sheet, match: matchOf(card) })) }),
+      run(...items.map(({ card, sheet }): SheetWriteAction => ({ action: 'delete', sheet, match: matchOf(card) }))),
     createListItem: (list: string, item: ListItemData) => run({ action: 'create', kind: 'list', sheet: list, row: listItemToRow(item) }),
     updateListItem: (list: string, original: ListItemData, updated: ListItemData) =>
       run({ action: 'update', kind: 'list', sheet: list, match: { title: original.nome }, row: listItemToRow(updated) }),

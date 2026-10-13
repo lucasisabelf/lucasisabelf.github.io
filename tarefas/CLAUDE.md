@@ -81,7 +81,8 @@ Leitura continua via `gviz` (sem login). Escrita e opcional e usa um **Apps Scri
 - Handlers de escrita do card ficam em `CardEditHandlers` (ISP), so passados quando a edicao esta configurada e o board nao e readonly. Sem endpoint, o fluxo antigo (copiar TSV + colar) continua.
 - Apos gravar, o board recarrega com `load(url, { silent: true })` (sem trocar pelo spinner).
 - **Drag and drop** (desktop, API nativa HTML5 — sem lib): `Card` e `draggable` quando ha `onMove`; `Column` aceita o drop (`lib/dragCard.ts`: payload + `moveCardBetweenColumns`). O move e otimista (`useSheetData().moveCardLocally`) e recarrega a planilha se a gravacao falhar. No celular continua o "Mover para" do menu.
-- **Lote** (modo Selecionar → `BulkActionsBar`): "Mover para" e "Excluir selecionados" mandam `{ action: 'batch', ops }` numa unica requisicao; o script aplica em ordem sob o mesmo lock e, se um item falhar, os anteriores ja ficaram aplicados (a mensagem diz quantos). `SCRIPT_VERSION` no `Code.gs` (exposto no `doGet`) deve subir a cada mudanca do script.
+- **Lote** (modo Selecionar → `BulkActionsBar`): "Mover para" e "Excluir selecionados" sao feitos **no cliente** (`postSheetActions`: uma requisicao por card, em sequencia, com as acoes que o script ja tem). Para no primeiro erro e a mensagem diz quantos itens ja foram aplicados; o board recarrega uma vez no fim.
+- **Evitar mudar o `Code.gs`**: cada mudanca obriga o usuario a colar o script e publicar nova versao em cada planilha. Preferir resolver no front com as acoes existentes (create/update/move/delete, `kind: 'list'`); so mexer no script quando for impossivel, e entao subir `SCRIPT_VERSION`.
 - **Listas extras**: `kind: 'list'` no payload — layout diferente (cabecalho na linha 1, A:E, linha localizada so pelo nome) e o script so aceita abas cadastradas em `Listas`. UI: `ExtraListPanel` recebe `ListItemEditHandlers` (ISP) + `ListItemModal`.
 
 ## Testes
