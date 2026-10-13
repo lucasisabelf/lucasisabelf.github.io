@@ -20,6 +20,11 @@ function matchOf(card: CardData) {
   return { title: card.title, date: card.date };
 }
 
+export interface CardInColumn {
+  card: CardData;
+  sheet: string;
+}
+
 /** URL do Web App (Apps Script) por planilha + operações de escrita. `onWritten` recarrega o board após cada sucesso. */
 export function useSheetWriter(sheetId: string | null, onWritten: () => void) {
   const [endpoints, setEndpoints] = useState(readEndpoints);
@@ -64,6 +69,10 @@ export function useSheetWriter(sheetId: string | null, onWritten: () => void) {
       run({ action: 'update', sheet, match: matchOf(original), row: cardToRow(updated) }),
     moveTask: (from: string, to: string, card: CardData) => run({ action: 'move', from, to, match: matchOf(card) }),
     deleteTask: (sheet: string, card: CardData) => run({ action: 'delete', sheet, match: matchOf(card) }),
+    moveTasks: (items: CardInColumn[], to: string) =>
+      run({ action: 'batch', ops: items.map(({ card, sheet }) => ({ action: 'move' as const, from: sheet, to, match: matchOf(card) })) }),
+    deleteTasks: (items: CardInColumn[]) =>
+      run({ action: 'batch', ops: items.map(({ card, sheet }) => ({ action: 'delete' as const, sheet, match: matchOf(card) })) }),
     createListItem: (list: string, item: ListItemData) => run({ action: 'create', kind: 'list', sheet: list, row: listItemToRow(item) }),
     updateListItem: (list: string, original: ListItemData, updated: ListItemData) =>
       run({ action: 'update', kind: 'list', sheet: list, match: { title: original.nome }, row: listItemToRow(updated) }),

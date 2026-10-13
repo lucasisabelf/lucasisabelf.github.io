@@ -3,7 +3,7 @@
 // App da Web (Executar como: Eu; Quem pode acessar: Qualquer pessoa).
 // Ao atualizar o codigo: Implantar > Gerenciar implantacoes > editar > Nova versao (a URL continua a mesma).
 
-var SCRIPT_VERSION = 2;
+var SCRIPT_VERSION = 3;
 var BOARD_SHEETS = ['To Do', 'In Progress', 'Done'];
 var LISTS_SHEET = 'Listas';
 
@@ -33,6 +33,10 @@ function doGet() {
 }
 
 function handle_(req) {
+  if (req.action === 'batch') {
+    runBatch_(req.ops || []);
+    return;
+  }
   var kind = req.kind === 'list' ? 'list' : 'board';
   var layout = LAYOUTS[kind];
   switch (req.action) {
@@ -61,6 +65,19 @@ function handle_(req) {
     }
     default:
       throw new Error('Acao desconhecida: ' + req.action);
+  }
+}
+
+// Operacoes em lote rodam sob o mesmo lock, em ordem. Se uma falhar, as anteriores ja foram aplicadas.
+function runBatch_(ops) {
+  for (var i = 0; i < ops.length; i++) {
+    if (ops[i].action === 'batch') throw new Error('Lote dentro de lote nao e permitido.');
+    try {
+      handle_(ops[i]);
+    } catch (err) {
+      var done = i === 0 ? 'nenhum item foi alterado' : i + ' item(ns) anterior(es) ja foram aplicados';
+      throw new Error('Falha no item ' + (i + 1) + ' de ' + ops.length + ': ' + (err && err.message ? err.message : err) + ' (' + done + ').');
+    }
   }
 }
 

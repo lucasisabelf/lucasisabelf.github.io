@@ -53,3 +53,18 @@ describe('postSheetAction (listas)', () => {
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ kind: 'list', sheet: 'Livros', match: { title: 'Livro X' } });
   });
 });
+
+describe('postSheetAction (lote)', () => {
+  it('sends all operations in a single request', async () => {
+    const fetchMock = mockFetch({ json: () => Promise.resolve({ ok: true }) });
+    await postSheetAction(ENDPOINT, {
+      action: 'batch',
+      ops: [
+        { action: 'move', from: 'To Do', to: 'Done', match: { title: 'A', date: '01/01/2026' } },
+        { action: 'move', from: 'In Progress', to: 'Done', match: { title: 'B', date: '' } },
+      ],
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body).ops).toHaveLength(2);
+  });
+});

@@ -126,6 +126,7 @@ function App() {
   const [writeSetupOpen, setWriteSetupOpen] = useState(false);
   const [listItemModal, setListItemModal] = useState<{ item?: ListItemData } | null>(null);
   const [listItemToDelete, setListItemToDelete] = useState<ListItemData | null>(null);
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
   const [toast, setToast] = useState<{ message: string; severity: 'success' | 'error' } | null>(null);
 
   const filterInputRef = useRef<HTMLInputElement>(null);
@@ -323,6 +324,36 @@ function App() {
     const { card, columnId } = deleteTarget;
     setDeleteTarget(null);
     await runWrite(() => writer.deleteTask(sheetNameOf(columnId), card), 'Tarefa excluída da planilha.');
+  }
+
+  function selectedCardsWithColumn() {
+    return displayColumns.flatMap((col) =>
+      col.cards.filter((c) => selection.selectedTitles.has(c.title)).map((card) => ({ card, columnId: col.id })),
+    );
+  }
+
+  async function handleMoveSelected(toColumnId: string) {
+    const items = selectedCardsWithColumn().filter((i) => i.columnId !== toColumnId);
+    if (items.length === 0) return;
+    const to = sheetNameOf(toColumnId);
+    items.forEach(({ card, columnId }) => sheetData.moveCardLocally(card, columnId, toColumnId));
+    const ok = await runWrite(
+      () => writer.moveTasks(items.map(({ card, columnId }) => ({ card, sheet: sheetNameOf(columnId) })), to),
+      `${items.length} tarefa${items.length !== 1 ? 's' : ''} movida${items.length !== 1 ? 's' : ''} para ${to}.`,
+    );
+    if (ok) selection.reset();
+    else refreshAfterWrite();
+  }
+
+  async function handleConfirmDeleteSelected() {
+    setBulkDeleteOpen(false);
+    const items = selectedCardsWithColumn();
+    const ok = await runWrite(
+      () => writer.deleteTasks(items.map(({ card, columnId }) => ({ card, sheet: sheetNameOf(columnId) }))),
+      `${items.length} tarefa${items.length !== 1 ? 's' : ''} excluída${items.length !== 1 ? 's' : ''} da planilha.`,
+    );
+    if (ok) selection.reset();
+    else refreshAfterWrite();
   }
 
   function handleCopySelected() {
@@ -642,6 +673,8 @@ function App() {
                       onCopySelected={handleCopySelected}
                       onDownloadCsvSelected={handleDownloadCsvSelected}
                       onCancel={selection.toggleSelectMode}
+                      onMoveSelected={canWrite ? handleMoveSelected : undefined}
+                      onDeleteSelected={canWrite ? () => setBulkDeleteOpen(true) : undefined}
                     />
                   )}
                 </>
@@ -757,6 +790,15 @@ function App() {
           confirmLabel="Excluir"
           onCancel={() => setDeleteTarget(null)}
           onConfirm={handleConfirmDelete}
+        />
+      )}
+      {bulkDeleteOpen && (
+        <ConfirmDialog
+          title="Excluir selecionadas"
+          message={`Excluir ${selection.selectedTitles.size} tarefa(s) da planilha? Essa ação apaga as linhas no Google Sheets.`}
+          confirmLabel="Excluir"
+          onCancel={() => setBulkDeleteOpen(false)}
+          onConfirm={handleConfirmDeleteSelected}
         />
       )}
       {listItemModal && (

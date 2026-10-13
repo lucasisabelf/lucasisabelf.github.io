@@ -8,11 +8,14 @@ export interface RowMatch {
 /** `list` = aba de lista extra (cabeçalho na linha 1, A:E, localizada só pelo nome); ausente = aba do board. */
 type SheetKind = { kind?: 'list' };
 
-export type SheetWriteAction =
+export type SheetRowAction =
   | ({ action: 'create'; sheet: string; row: string[] } & SheetKind)
   | ({ action: 'update'; sheet: string; match: RowMatch; row: string[] } & SheetKind)
   | { action: 'move'; from: string; to: string; match: RowMatch }
   | ({ action: 'delete'; sheet: string; match: RowMatch } & SheetKind);
+
+/** `batch` aplica as operações em ordem, numa única requisição e sob o mesmo lock do script. */
+export type SheetWriteAction = SheetRowAction | { action: 'batch'; ops: SheetRowAction[] };
 
 export const WEB_APP_URL_RE = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
 
