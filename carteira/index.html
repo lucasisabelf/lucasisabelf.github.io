@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Visão geral | Carteira</title>
+<meta name="description" content="Ranking de FIIs, movimentos de insiders e posições vendidas em um painel.">
+<meta property="og:title" content="Visão geral | Carteira">
+<meta property="og:description" content="Ranking de FIIs, movimentos de insiders e posições vendidas em um painel.">
+<meta property="og:type" content="website">
+<link rel="icon" href="carteira.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="painel.css">
+<script src="dados.js" defer></script>
+<script src="painel.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="./index.html"><span aria-hidden="true">▰</span> Carteira</a>
+            <nav class="site-nav" aria-label="Navegação principal">
+                <a href="./index.html" aria-current="page">Visão geral</a>
+                <a href="./fiis/index.html">FIIs</a>
+                <a href="./acoes/insiders/index.html">Ações e shorts</a>
+            </nav>
+        </div>
+    </header>
+    <main class="page">
+        <div class="page-heading hero">
+            <h1>Painel de mercado</h1>
+            <p>Explore o ranking de fundos imobiliários, os movimentos de insiders e as séries de posição vendida.</p>
+        </div>
+        <dl class="status-grid" aria-label="Última atualização por fonte">
+            <div><dt>Atualização de FIIs</dt><dd id="data-fiis">Carregando…</dd></div>
+            <div><dt>Atualização de insiders</dt><dd id="data-insiders">Carregando…</dd></div>
+            <div><dt>Atualização de shorts</dt><dd id="data-shorts">Carregando…</dd></div>
+        </dl>
+        <div class="market-grid">
+            <section class="market-card">
+                <h2>FIIs por segmento</h2>
+                <p id="resumo-fiis">Líderes do ranking 5 em 1 com os filtros padrão.</p>
+                <ul class="preview-list" id="lista-fiis"></ul>
+                <a class="card-link" href="./fiis/index.html">Explorar FIIs →</a>
+            </section>
+            <section class="market-card">
+                <h2>Movimentos de insiders</h2>
+                <p id="resumo-insiders">Maiores valores absolutos no mês mais recente da série.</p>
+                <ul class="preview-list" id="lista-insiders"></ul>
+                <a class="card-link" href="./acoes/insiders/index.html#ranking">Abrir ranking →</a>
+            </section>
+            <section class="market-card">
+                <h2>Posição vendida</h2>
+                <p id="resumo-shorts">Carregando série de shorts…</p>
+                <canvas id="grafico-shorts" class="short-chart" width="480" height="130" role="img" hidden></canvas>
+                <p id="periodo-shorts" class="chart-caption"></p>
+                <p id="escala-shorts" class="chart-caption"></p>
+                <a class="card-link" href="./acoes/insiders/index.html#shorts">Explorar shorts →</a>
+                <a id="link-raiox" href="./acoes/insiders/index.html#raiox">Abrir Raio-X por ticker</a>
+            </section>
+        </div>
+        <noscript><p>Ative o JavaScript para carregar as prévias. Os links do menu continuam disponíveis.</p></noscript>
+    <footer class="site-footer">
+    <p>Dados de mercado para consulta. O conteúdo não constitui recomendação de investimento.</p>
+    <p>Fontes: <a href="https://www.fundamentus.com.br/">Fundamentus</a> e <a href="https://shortwatch.live/">Shortwatch</a>. As datas estão indicadas em cada seção.</p>
+</footer>
+</main>
+</body>
+</html>
