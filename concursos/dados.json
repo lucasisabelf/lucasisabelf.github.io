@@ -1,11 +1,69 @@
 {
- "atualizado_em": "2026-11-19T20:09:40+00:00",
- "cargos": 33,
- "confirmados": 33,
+ "atualizado_em": "2026-11-19T23:47:53+00:00",
+ "cargos": 127,
+ "confirmados": 117,
  "editais": [
   {
+   "id": "93845",
+   "titulo": "Universidade Estadual Paulista (UNESP) – Câmpus de Marília, Faculdade de Filosofia e Ciências",
+   "titulo_origem": "UNESP abre concurso para Professor em Marília-SP e paga R$ 25 mil",
+   "uf": "SP",
+   "artigo": "https://www.acheconcursos.com.br/concursos-sao-paulo/unesp-abre-concurso-para-professor-em-marilia-sp-e-paga-r-25-mil-93845",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/64727/edital.pdf",
+   "oficiais": [
+    "https://inscricoes.unesp.br"
+   ],
+   "orgao": "Universidade Estadual Paulista (UNESP) – Câmpus de Marília, Faculdade de Filosofia e Ciências",
+   "banca": "UNESP",
+   "edital_numero": "224/2026-CM",
+   "validade": null,
+   "taxas": [
+    {
+     "nivel": "Professor Titular",
+     "valor": 286
+    }
+   ],
+   "inscricao_inicio": "08/10/2026",
+   "inscricao_fim": "22/11/2026",
+   "inscricao_fim_iso": "2026-11-22",
+   "data_prova": null,
+   "cidade_prova": null,
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "RDIDP",
+     "cargo": "Professor Titular",
+     "escolaridade": "Livre-Docência (UNESP, USP ou UNICAMP) há pelo menos 6 anos",
+     "local": "Marília – SP",
+     "requisitos": "Título de Livre-Docente conferido há pelo menos 6 anos, atividade didática na graduação por no mínimo 6 anos após o título e demais condições do edital; Regime de Dedicação Integral à Docência e à Pesquisa (RDIDP)",
+     "salario": 25261.98,
+     "vagas_ac": 1,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Vencimento: referência MS-6, R$ 25.261,98.",
+    "O edital diz que não haverá reserva de vagas para PcD em razão do número de vagas.",
+    "A data das provas não consta nas páginas recebidas.",
+    "O edital cita para a redução da taxa um período (10/10 a 23/11/2026) diferente do das inscrições (08/10 a 22/11/2026); vale o item 2.1 para a inscrição."
+   ],
+   "registrado_em": "2026-11-19T23:09:59.467166+00:00"
+  },
+  {
    "id": "94624",
-   "titulo": "Curitibanos-SC: Prefeitura abre 2 processos seletivos com vagas de R$ 26 mil",
+   "titulo": "Prefeitura do Município de Curitibanos – SC",
+   "titulo_origem": "Curitibanos-SC: Prefeitura abre 2 processos seletivos com vagas de R$ 26 mil",
    "uf": "SC",
    "artigo": "https://www.acheconcursos.com.br/concursos-santa-catarina/curitibanos-sc-prefeitura-abre-2-processos-seletivos-com-vagas-de-r-26-mil-94624",
    "pdf": "https://anexos-r2.selecao.net.br/uploads/281/concursos/4228/anexos/354bbac7-1acd-4c24-b1d2-95c593be0458.pdf",
@@ -22,10 +80,10 @@
      "valor": 50
     }
    ],
-   "inscricao_inicio": null,
-   "inscricao_fim": null,
-   "inscricao_fim_iso": null,
-   "data_prova": null,
+   "inscricao_inicio": "11/11/2026",
+   "inscricao_fim": "25/11/2026",
+   "inscricao_fim_iso": "2026-11-25",
+   "data_prova": "20/12/2026",
    "cidade_prova": null,
    "cargos": [
     {
@@ -34,7 +92,7 @@
      "cargo": "Professor de Educação Infantil – 20h",
      "escolaridade": "Ensino Médio (Magistério) ou Superior (Pedagogia)",
      "local": null,
-     "requisitos": "Licenciatura em Pedagogia ou curso de Ensino Médio, modalidade Normal (Magistério)",
+     "requisitos": "Licenciatura em Pedagogia ou curso de Ensino Médio, modalidade Normal (Magistério).",
      "salario": 2565.32,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -56,7 +114,7 @@
      "cargo": "Professor de Educação Infantil – 40h",
      "escolaridade": "Ensino Médio (Magistério) ou Superior (Pedagogia)",
      "local": null,
-     "requisitos": "Licenciatura em Pedagogia ou curso de Ensino Médio, modalidade Normal (Magistério)",
+     "requisitos": "Licenciatura em Pedagogia ou curso de Ensino Médio, modalidade Normal (Magistério).",
      "salario": 5130.63,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -78,7 +136,7 @@
      "cargo": "Professor de Séries Iniciais – 20h",
      "escolaridade": "Ensino Médio (Magistério) ou Superior (Pedagogia)",
      "local": null,
-     "requisitos": "Licenciatura em Pedagogia ou curso de Ensino Médio, modalidade Normal (Magistério)",
+     "requisitos": "Licenciatura em Pedagogia ou curso de Ensino Médio, modalidade Normal (Magistério).",
      "salario": 2565.32,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -100,7 +158,95 @@
      "cargo": "Professor de Séries Iniciais – 40h",
      "escolaridade": "Ensino Médio (Magistério) ou Superior (Pedagogia)",
      "local": null,
-     "requisitos": "Licenciatura em Pedagogia ou curso de Ensino Médio, modalidade Normal (Magistério)",
+     "requisitos": "Licenciatura em Pedagogia ou curso de Ensino Médio, modalidade Normal (Magistério).",
+     "salario": 5130.63,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "10h",
+     "cargo": "Professor de História – 10h",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena em História.",
+     "salario": 1282.66,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de História – 20h",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena em História.",
+     "salario": 2565.32,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30h",
+     "cargo": "Professor de História – 30h",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena em História.",
+     "salario": 3847.97,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Professor de História – 40h",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena em História.",
      "salario": 5130.63,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -122,7 +268,7 @@
      "cargo": "Professor de Língua Portuguesa – 10h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Letras – Português",
+     "requisitos": "Licenciatura Plena em Letras – Português.",
      "salario": 1282.66,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -144,7 +290,7 @@
      "cargo": "Professor de Língua Portuguesa – 20h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Letras – Português",
+     "requisitos": "Licenciatura Plena em Letras – Português.",
      "salario": 2565.32,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -166,7 +312,7 @@
      "cargo": "Professor de Língua Portuguesa – 30h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Letras – Português",
+     "requisitos": "Licenciatura Plena em Letras – Português.",
      "salario": 3847.97,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -188,7 +334,7 @@
      "cargo": "Professor de Língua Portuguesa – 40h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Letras – Português",
+     "requisitos": "Licenciatura Plena em Letras – Português.",
      "salario": 5130.63,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -210,7 +356,95 @@
      "cargo": "Professor de Língua Inglesa – 10h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Letras – Inglês",
+     "requisitos": "Licenciatura Plena em Letras – Inglês.",
+     "salario": 1282.66,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de Língua Inglesa – 20h",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena em Letras – Inglês.",
+     "salario": 2565.32,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30h",
+     "cargo": "Professor de Língua Inglesa – 30h",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena em Letras – Inglês.",
+     "salario": 3847.97,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Professor de Língua Inglesa – 40h",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena em Letras – Inglês.",
+     "salario": 5130.63,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "10h",
+     "cargo": "Professor de Artes – 10h",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena em Artes Visuais.",
      "salario": 1282.66,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -232,7 +466,7 @@
      "cargo": "Professor de Artes – 20h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Artes Visuais",
+     "requisitos": "Licenciatura Plena em Artes Visuais.",
      "salario": 2565.32,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -254,7 +488,7 @@
      "cargo": "Professor de Artes – 30h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Artes Visuais",
+     "requisitos": "Licenciatura Plena em Artes Visuais.",
      "salario": 3847.97,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -276,7 +510,7 @@
      "cargo": "Professor de Artes – 40h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Artes Visuais",
+     "requisitos": "Licenciatura Plena em Artes Visuais.",
      "salario": 5130.63,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -298,7 +532,7 @@
      "cargo": "Professor de Matemática – 10h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Matemática",
+     "requisitos": "Licenciatura Plena em Matemática.",
      "salario": 1282.66,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -320,7 +554,7 @@
      "cargo": "Professor de Matemática – 20h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Matemática",
+     "requisitos": "Licenciatura Plena em Matemática.",
      "salario": 2565.32,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -342,7 +576,7 @@
      "cargo": "Professor de Matemática – 30h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Matemática",
+     "requisitos": "Licenciatura Plena em Matemática.",
      "salario": 3847.97,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -364,7 +598,7 @@
      "cargo": "Professor de Matemática – 40h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Matemática",
+     "requisitos": "Licenciatura Plena em Matemática.",
      "salario": 5130.63,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -386,7 +620,7 @@
      "cargo": "Professor de Ciências – 10h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Ciências",
+     "requisitos": "Licenciatura Plena em Ciências.",
      "salario": 1282.66,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -408,7 +642,7 @@
      "cargo": "Professor de Ciências – 20h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Ciências",
+     "requisitos": "Licenciatura Plena em Ciências.",
      "salario": 2565.32,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -430,7 +664,7 @@
      "cargo": "Professor de Ciências – 30h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Ciências",
+     "requisitos": "Licenciatura Plena em Ciências.",
      "salario": 3847.97,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -452,7 +686,7 @@
      "cargo": "Professor de Ciências – 40h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Ciências",
+     "requisitos": "Licenciatura Plena em Ciências.",
      "salario": 5130.63,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -474,7 +708,7 @@
      "cargo": "Professor de Ensino Religioso – 10h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Ciências da Religião",
+     "requisitos": "Licenciatura Plena em Ciências da Religião.",
      "salario": 1282.66,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -496,7 +730,7 @@
      "cargo": "Professor de Ensino Religioso – 20h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Ciências da Religião",
+     "requisitos": "Licenciatura Plena em Ciências da Religião.",
      "salario": 2565.32,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -518,7 +752,7 @@
      "cargo": "Professor de Ensino Religioso – 30h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Ciências da Religião",
+     "requisitos": "Licenciatura Plena em Ciências da Religião.",
      "salario": 3847.97,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -540,7 +774,7 @@
      "cargo": "Professor de Ensino Religioso – 40h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Ciências da Religião",
+     "requisitos": "Licenciatura Plena em Ciências da Religião.",
      "salario": 5130.63,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -562,7 +796,7 @@
      "cargo": "Professor de Geografia – 10h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Geografia",
+     "requisitos": "Licenciatura Plena em Geografia.",
      "salario": 1282.66,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -584,7 +818,7 @@
      "cargo": "Professor de Geografia – 20h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Geografia",
+     "requisitos": "Licenciatura Plena em Geografia.",
      "salario": 2565.32,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -606,7 +840,7 @@
      "cargo": "Professor de Geografia – 30h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Geografia",
+     "requisitos": "Licenciatura Plena em Geografia.",
      "salario": 3847.97,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -628,7 +862,7 @@
      "cargo": "Professor de Geografia – 40h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Geografia",
+     "requisitos": "Licenciatura Plena em Geografia.",
      "salario": 5130.63,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -650,7 +884,7 @@
      "cargo": "Especialista em Assuntos Educacionais – 40h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Pedagogia",
+     "requisitos": "Licenciatura Plena em Pedagogia.",
      "salario": 5130.64,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -672,7 +906,7 @@
      "cargo": "Professor de Educação Física – 10h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Educação Física e registro no Conselho profissional competente",
+     "requisitos": "Licenciatura Plena em Educação Física e registro no Conselho profissional competente.",
      "salario": 1282.66,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -694,7 +928,7 @@
      "cargo": "Professor de Educação Física – 20h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Educação Física e registro no Conselho profissional competente",
+     "requisitos": "Licenciatura Plena em Educação Física e registro no Conselho profissional competente.",
      "salario": 2565.32,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -716,7 +950,7 @@
      "cargo": "Professor de Educação Física – 30h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Educação Física e registro no Conselho profissional competente",
+     "requisitos": "Licenciatura Plena em Educação Física e registro no Conselho profissional competente.",
      "salario": 3847.97,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -738,7 +972,7 @@
      "cargo": "Professor de Educação Física – 40h",
      "escolaridade": "Superior",
      "local": null,
-     "requisitos": "Licenciatura Plena em Educação Física e registro no Conselho profissional competente",
+     "requisitos": "Licenciatura Plena em Educação Física e registro no Conselho profissional competente.",
      "salario": 5130.63,
      "vagas_ac": null,
      "vagas_pcd": null,
@@ -756,13 +990,2212 @@
     }
    ],
    "observacoes": [
-    "O quadro de vagas continua em páginas não enviadas (por exemplo 3 e 5): faltam, entre outras, Língua Inglesa 20h/30h/40h e Artes 10h. A lista pode estar incompleta.",
-    "Coluna AC mostra CR (cadastro de reserva) em todas as funções lidas e PcD mostra '-': vagas_ac e vagas_pcd ficaram nulos.",
+    "Todas as funções estão como CR (cadastro de reserva); a coluna PcD mostra '-'.",
     "Cada função tem condição HABILITADOS (cumpre o requisito) e NÃO HABILITADOS (matrícula e frequência a partir do 3º período da licenciatura).",
-    "Período de inscrição, data da prova e cidade constam no Anexo III (cronograma), que não estava nas páginas recebidas.",
+    "Pagamento da taxa até 26/11/2026; cronograma é projeção e pode mudar (Anexo III).",
     "O vencimento do Especialista em Assuntos Educacionais é R$ 5.130,64, um centavo acima das demais 40h (R$ 5.130,63), como no edital."
    ],
-   "registrado_em": "2026-11-19T20:09:28.500379+00:00"
+   "registrado_em": "2026-11-19T23:09:14.058993+00:00"
+  },
+  {
+   "id": "94657",
+   "titulo": "Município de São Miguel do Oeste – SC",
+   "titulo_origem": "Edital São Miguel do Oeste-SC 2026: Prefeitura abre vagas na saúde",
+   "uf": "SC",
+   "artigo": "https://www.acheconcursos.com.br/concursos-santa-catarina/edital-sao-miguel-do-oeste-sc-2026-vagas-na-saude-94657",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65248/edital.pdf",
+   "oficiais": [
+    "https://saomigueldooeste.1doc.com.br/b.php?pg=wp/wp&itd=5"
+   ],
+   "orgao": "Município de São Miguel do Oeste – SC",
+   "banca": null,
+   "edital_numero": "006/2026",
+   "validade": null,
+   "taxas": [],
+   "inscricao_inicio": "18/11/2026",
+   "inscricao_fim": "07/12/2026",
+   "inscricao_fim_iso": "2026-12-07",
+   "data_prova": null,
+   "cidade_prova": "São Miguel do Oeste",
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 horas",
+     "cargo": "Auxiliar de Consultório Dentário",
+     "escolaridade": "Ensino médio",
+     "local": null,
+     "requisitos": "Ensino médio concluído e curso na área de Auxiliar de Odontologia e/ou em Higiene Dental, e registro no órgão fiscalizador da categoria profissional",
+     "salario": 2825.83,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "10 horas",
+     "cargo": "Médico (Ginecologista)",
+     "escolaridade": "Ensino superior",
+     "local": null,
+     "requisitos": "Ensino superior em Medicina, com especialização específica para a função, registro no órgão fiscalizador da categoria e comprovação da especialização",
+     "salario": 26375.18,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 horas",
+     "cargo": "Técnico em Enfermagem",
+     "escolaridade": "Ensino médio",
+     "local": null,
+     "requisitos": "Ensino médio concluído e curso profissionalizante de Técnico em Enfermagem e registro no órgão fiscalizador da categoria profissional",
+     "salario": 3626.52,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 horas",
+     "cargo": "Motorista Categoria D - Emergência",
+     "escolaridade": "Ensino médio",
+     "local": null,
+     "requisitos": "Ensino médio completo, carteira de habilitação categoria D e curso de Emergência",
+     "salario": 2967.12,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 horas",
+     "cargo": "Motorista Categoria D - Socorrista",
+     "escolaridade": "Ensino médio",
+     "local": null,
+     "requisitos": "Ensino médio completo, carteira de habilitação categoria D e curso de Emergência e Socorrista SAMU",
+     "salario": 2967.12,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Nota do edital: a remuneração de R$ 26.375,18 do Médico (Ginecologista) refere-se a 40 horas, embora o quadro liste 10 horas semanais.",
+    "Nenhuma taxa de inscrição aparece nas páginas recebidas.",
+    "Banca: o edital é da própria prefeitura (comissão especial), sem banca externa nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:08:13.936210+00:00"
+  },
+  {
+   "id": "93667",
+   "titulo": "Prefeitura Municipal de Aparecida de Goiânia – GO",
+   "titulo_origem": "Concurso Aparecida de Goiânia-GO 2026 saiu! Prefeitura abre 2.956 vagas; veja edital",
+   "uf": "GO",
+   "artigo": "https://www.acheconcursos.com.br/concursos-goias/concurso-aparecida-de-goiania-go-2026-prefeitura-93667",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/64612/edital-concurso-publico-da-secretaria-de-educacao-da-prefeitura-municipal-de-aparecida-de-goiania-go.pdf",
+   "oficiais": [
+    "https://sistemas.institutoverbena.ufg.br/2026/concurso-prefeitura-aparecida-de-goiania-educacao/"
+   ],
+   "orgao": "Prefeitura Municipal de Aparecida de Goiânia – GO",
+   "banca": "Instituto Verbena / Universidade Federal de Goiás (UFG)",
+   "edital_numero": "01/2026",
+   "validade": null,
+   "taxas": [],
+   "inscricao_inicio": "09/11/2026",
+   "inscricao_fim": "09/12/2026",
+   "inscricao_fim_iso": "2026-12-09",
+   "data_prova": "31/01/2027",
+   "cidade_prova": null,
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Agente Educativo",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio na modalidade Magistério ou Ensino Médio com curso de extensão em educação (preferencialmente Educação Infantil) de no mínimo 120 horas",
+     "salario": 3070.76,
+     "vagas_ac": 1246,
+     "vagas_pcd": 84,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Auxiliar de Secretaria",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio completo; Curso de Informática Básica",
+     "salario": 2825.11,
+     "vagas_ac": 91,
+     "vagas_pcd": 6,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Profissional da Educação I (PE-I) - Artes",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura plena completa em Artes Cênicas ou Artes Visuais",
+     "salario": 4508.28,
+     "vagas_ac": 5,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Profissional da Educação I (PE-I) - Ciências",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura plena completa em Ciências",
+     "salario": 4508.28,
+     "vagas_ac": 4,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Profissional da Educação I (PE-I) - Educação Física",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura plena completa em Educação Física",
+     "salario": 4508.28,
+     "vagas_ac": 41,
+     "vagas_pcd": 3,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Profissional da Educação I (PE-I) - Geografia",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura plena completa em Geografia",
+     "salario": 4508.28,
+     "vagas_ac": 7,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Profissional da Educação I (PE-I) - História",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura plena completa em História",
+     "salario": 4508.28,
+     "vagas_ac": 7,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Profissional da Educação I (PE-I) - Inglês",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura plena completa em Letras-Inglês ou Letras-Português/Inglês",
+     "salario": 4508.28,
+     "vagas_ac": 3,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Profissional da Educação I (PE-I) - Língua Portuguesa",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura plena completa em Letras-Língua Portuguesa ou Letras-Português/Inglês ou Letras-Português/Espanhol",
+     "salario": 4508.28,
+     "vagas_ac": 12,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Profissional da Educação I (PE-I) - Matemática",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura plena completa em Matemática",
+     "salario": 4508.28,
+     "vagas_ac": 9,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 horas semanais",
+     "cargo": "Profissional da Educação I (PE-I) - Pedagogia",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura plena completa em Pedagogia com habilitação para docência no Ensino Fundamental - séries iniciais e na Educação Infantil",
+     "salario": 4508.28,
+     "vagas_ac": 792,
+     "vagas_pcd": 53,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "O quadro (Anexo II) também reserva vagas para candidatos negros, que não cabem nos campos do resultado: Agente Educativo 333, Auxiliar de Secretaria 24, PE-I Artes 1, Ciências 1, Educação Física 11, Geografia 2, História 2, Língua Portuguesa 3, Matemática 3, Pedagogia 211.",
+    "Os números de vagas_ac e vagas_pcd são as vagas imediatas; o cadastro de reserva de cada cargo está no quadro (Agente Educativo 8315, Auxiliar de Secretaria 605, Pedagogia 5280, etc.).",
+    "O texto do PDF veio sem espaços entre as palavras; os nomes dos cargos foram escritos com espaços.",
+    "Valor da taxa de inscrição não consta nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:41:12.210350+00:00"
+  },
+  {
+   "id": "93734",
+   "titulo": "Polícia Civil de Pernambuco (SAD/PE e SDS/PE)",
+   "titulo_origem": "Concurso PC-PE 2026: Polícia Civil lança edital com 1.315 vagas",
+   "uf": "PE",
+   "artigo": "https://www.acheconcursos.com.br/concursos-pernambuco/concurso-policia-civil-pc-pe-2026-edital-inscricao-93734",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/64654/edital.pdf",
+   "oficiais": [
+    "http://www.cebraspe.org.br/concursos/pc_pe_26"
+   ],
+   "orgao": "Polícia Civil de Pernambuco (SAD/PE e SDS/PE)",
+   "banca": "Cebraspe",
+   "edital_numero": "1 – PCPE, de 2 de outubro de 2026",
+   "validade": "2 (dois) anos, contados da primeira homologação do resultado final, prorrogável por igual período",
+   "taxas": [
+    {
+     "nivel": "Agente de Polícia",
+     "valor": 250
+    },
+    {
+     "nivel": "Delegado de Polícia",
+     "valor": 350
+    },
+    {
+     "nivel": "Escrivão de Polícia",
+     "valor": 250
+    }
+   ],
+   "inscricao_inicio": "15/10/2026",
+   "inscricao_fim": "16/12/2026",
+   "inscricao_fim_iso": "2026-12-16",
+   "data_prova": "07/03/2027",
+   "cidade_prova": "Arcoverde, Caruaru, Petrolina e Recife (PE)",
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 horas diárias ou 40 horas semanais",
+     "cargo": "Agente de Polícia",
+     "escolaridade": "Superior",
+     "local": "Pernambuco",
+     "requisitos": "Diploma de nível superior em qualquer área de formação e CNH, no mínimo, categoria B",
+     "salario": 5667.92,
+     "vagas_ac": 780,
+     "vagas_pcd": 60,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 horas diárias ou 40 horas semanais",
+     "cargo": "Delegado de Polícia",
+     "escolaridade": "Superior",
+     "local": "Pernambuco",
+     "requisitos": "Bacharelado em Direito, três anos de atividade jurídica ou policial e CNH, no mínimo, categoria B",
+     "salario": 13560,
+     "vagas_ac": 29,
+     "vagas_pcd": 3,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 horas diárias ou 40 horas semanais",
+     "cargo": "Escrivão de Polícia",
+     "escolaridade": "Superior",
+     "local": "Pernambuco",
+     "requisitos": "Diploma de nível superior em qualquer área de formação e CNH, no mínimo, categoria B",
+     "salario": 5667.92,
+     "vagas_ac": 45,
+     "vagas_pcd": 4,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Distribuição das vagas (AC/PCD/PPP/PI/PQ): Agente 780/60/300/36/24 = 1.200; Delegado 29/3/11/1/1 = 45; Escrivão 45/4/18/2/1 = 70. Pretos e pardos, indígenas e quilombolas não cabem nos campos do resultado.",
+    "A remuneração do Escrivão de Polícia está na página 5 e aparece como R$ 5.667,92, igual à do Agente.",
+    "O cronograma é previsto e pode mudar."
+   ],
+   "registrado_em": "2026-11-19T23:30:53.204842+00:00"
+  },
+  {
+   "id": "94283",
+   "titulo": "Universidade Estadual Paulista (UNESP) – Faculdade de Medicina, Câmpus de Botucatu",
+   "titulo_origem": "UNESP realiza novo concurso com salário de 25,2 mil em Botucatu-SP",
+   "uf": "SP",
+   "artigo": "https://www.acheconcursos.com.br/concursos-sao-paulo/unesp-realiza-novo-concurso-de-25-2-botucatu-sp-94283",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65010/edital.pdf",
+   "oficiais": [
+    "https://inscricoes.unesp.br"
+   ],
+   "orgao": "Universidade Estadual Paulista (UNESP) – Faculdade de Medicina, Câmpus de Botucatu",
+   "banca": "UNESP",
+   "edital_numero": "93/2026-FMB/STA",
+   "validade": null,
+   "taxas": [
+    {
+     "nivel": "Professor Titular",
+     "valor": 286
+    }
+   ],
+   "inscricao_inicio": "04/11/2026",
+   "inscricao_fim": "18/12/2026",
+   "inscricao_fim_iso": "2026-12-18",
+   "data_prova": null,
+   "cidade_prova": "Botucatu",
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "RDIDP",
+     "cargo": "Professor Titular – Anestesiologia",
+     "escolaridade": "Livre-Docência (UNESP, USP ou UNICAMP) há pelo menos 6 anos",
+     "local": "Botucatu – SP",
+     "requisitos": "Título de Livre-Docente conferido há pelo menos 6 anos, atividade didática por no mínimo 6 anos após o título e demais condições do edital; Regime de Dedicação Integral à Docência e à Pesquisa (RDIDP)",
+     "salario": null,
+     "vagas_ac": 1,
+     "vagas_pcd": 0,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor Titular – Anestesiologia' não aparece no texto lido",
+      "sem salário"
+     ]
+    }
+   ],
+   "observacoes": [
+    "O edital informa só a referência MS-6 do vencimento, sem valor em reais nas páginas recebidas; o salário ficou em branco.",
+    "Não haverá reserva de vagas para PcD em razão do número de vagas (item 2.4).",
+    "A data das provas não consta nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:10:37.141591+00:00"
+  },
+  {
+   "id": "94582",
+   "titulo": "Instituto Federal de Educação, Ciência e Tecnologia Farroupilha (IFFar)",
+   "titulo_origem": "Concurso IFFar-RS 2026: Sai edital para Técnicos Administrativos",
+   "uf": "RS",
+   "artigo": "https://www.acheconcursos.com.br/concursos-rio-grande-do-sul/concurso-iffar-rs-2026-sai-edital-para-tecnicos-administrativos-94582",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65199/edital-iffar-rs-406-2026.pdf",
+   "oficiais": [
+    "http://www.fundatec.org.br"
+   ],
+   "orgao": "Instituto Federal de Educação, Ciência e Tecnologia Farroupilha (IFFar)",
+   "banca": "Fundação Universidade Empresa de Tecnologia e Ciências (Fundatec)",
+   "edital_numero": "406/2026",
+   "validade": null,
+   "taxas": [],
+   "inscricao_inicio": "19/11/2026",
+   "inscricao_fim": "21/12/2026",
+   "inscricao_fim_iso": "2026-12-21",
+   "data_prova": "31/01/2027",
+   "cidade_prova": null,
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Técnico de Laboratório/Área Biologia",
+     "escolaridade": "Ensino Médio profissionalizante ou Ensino Médio + curso técnico (nível D)",
+     "local": null,
+     "requisitos": "Ensino Médio completo Profissionalizante na área de Biologia ou Ensino Médio completo + Curso Técnico na área de Biologia",
+     "salario": 3181.39,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Assistente em Administração",
+     "escolaridade": "Ensino Médio (nível D)",
+     "local": null,
+     "requisitos": "Ensino Médio Profissionalizante ou Ensino Médio Completo",
+     "salario": 3181.39,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Total de vagas no quadro: Técnico de Laboratório/Biologia 1; Assistente em Administração 4 (1 reservada a pessoa negra). A distribuição da ampla concorrência e das demais reservas só sai após sorteio público (item 12.8).",
+    "O quadro de vagas (Anexo I) começa antes da página 52 e não foi enviado; faltam os demais cargos do edital.",
+    "Salário: o valor de R$ 3.181,39 é o do nível de classificação D numa tabela de remuneração do edital; não foi ligado cargo a cargo no quadro.",
+    "Taxas de inscrição não constam nas páginas recebidas. Data da prova (31/01/2027) é provável, conforme o cronograma."
+   ],
+   "registrado_em": "2026-11-19T23:33:01.962344+00:00"
+  },
+  {
+   "id": "94760",
+   "titulo": "Município de Cravinhos – SP",
+   "titulo_origem": "Prefeitura de Cravinhos-SP abre vagas para Professor via PSS",
+   "uf": "SP",
+   "artigo": "https://www.acheconcursos.com.br/concursos-sao-paulo/prefeitura-de-cravinhos-sp-abre-vagas-para-professor-94760",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65319/edital.pdf",
+   "oficiais": [
+    "https://portal.cepasf.com.br/edital/ver/22"
+   ],
+   "orgao": "Município de Cravinhos – SP",
+   "banca": "CEPASF (Centro Educacional de Pesquisa e Assessoria São Francisco)",
+   "edital_numero": "001/2026",
+   "validade": null,
+   "taxas": [
+    {
+     "nivel": "Qualquer função (por inscrição)",
+     "valor": 11
+    }
+   ],
+   "inscricao_inicio": "19/11/2026",
+   "inscricao_fim": "21/12/2026",
+   "inscricao_fim_iso": "2026-12-21",
+   "data_prova": null,
+   "cidade_prova": "Cravinhos",
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h semanais / 150 h mensais",
+     "cargo": "Professor I",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Normal Superior ou Licenciatura Plena em Pedagogia",
+     "salario": 3972,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "24 h semanais / 120 h mensais",
+     "cargo": "Professor II - Arte",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena na área específica do componente curricular",
+     "salario": 3177.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor II - Arte' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "24 h semanais / 120 h mensais",
+     "cargo": "Professor II - Ciências",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena na área específica do componente curricular",
+     "salario": 3177.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor II - Ciências' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "24 h semanais / 120 h mensais",
+     "cargo": "Professor II - Educação Física",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena em Educação Física e registro regular no CREF",
+     "salario": 3177.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor II - Educação Física' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "24 h semanais / 120 h mensais",
+     "cargo": "Professor II - Geografia",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena na área específica do componente curricular",
+     "salario": 3177.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor II - Geografia' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "24 h semanais / 120 h mensais",
+     "cargo": "Professor II - História",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena na área específica do componente curricular",
+     "salario": 3177.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor II - História' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "24 h semanais / 120 h mensais",
+     "cargo": "Professor II - Inglês",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena na área específica do componente curricular",
+     "salario": 3177.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor II - Inglês' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "24 h semanais / 120 h mensais",
+     "cargo": "Professor II - Português",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena na área específica do componente curricular",
+     "salario": 3177.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor II - Português' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "24 h semanais / 120 h mensais",
+     "cargo": "Professor II - Matemática",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Licenciatura Plena na área específica do componente curricular",
+     "salario": 3177.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor II - Matemática' não aparece no texto lido"
+     ]
+    }
+   ],
+   "observacoes": [
+    "Todas as funções são cadastro de reserva (CR), sem vagas imediatas.",
+    "Remuneração calculada com R$ 26,48 por hora/aula; auxílio-alimentação de R$ 1.100,00 mensais.",
+    "A taxa de R$ 11,00 vale para cada inscrição, em qualquer função.",
+    "Data da prova não consta nas páginas recebidas (cronograma no Anexo II, não enviado)."
+   ],
+   "registrado_em": "2026-11-19T23:31:42.493375+00:00"
+  },
+  {
+   "id": "94418",
+   "titulo": "Polícia Militar do Estado de São Paulo – Diretoria de Pessoal",
+   "titulo_origem": "Concurso PM-SP 2026/2027: Edital sai e abre 2.000 vagas para Soldado",
+   "uf": "SP",
+   "artigo": "https://www.acheconcursos.com.br/concursos-sao-paulo/concurso-pmsp-2026-2027-edital-inscricao-soldado-94418",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65091/edital-concurso-pm-sp-4-321-2026-soldado.pdf",
+   "oficiais": [
+    "https://www.vunesp.com.br/PMES2603"
+   ],
+   "orgao": "Polícia Militar do Estado de São Paulo – Diretoria de Pessoal",
+   "banca": "Fundação VUNESP",
+   "edital_numero": "DP-4/321/26",
+   "validade": null,
+   "taxas": [],
+   "inscricao_inicio": "09/11/2026",
+   "inscricao_fim": "22/12/2026",
+   "inscricao_fim_iso": "2026-12-22",
+   "data_prova": null,
+   "cidade_prova": null,
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Aluno-Soldado PM",
+     "escolaridade": "Ensino médio",
+     "local": "Estado de São Paulo",
+     "requisitos": "Brasileiro, 17 a 30 anos, altura mínima de 155 cm (mulher) ou 160 cm (homem); para a posse, ensino médio concluído e CNH categoria B a E",
+     "salario": 5482.51,
+     "vagas_ac": 2000,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Remuneração básica inicial de R$ 5.482,51 (padrão R$ 2.348,42 + RETP R$ 2.348,42 + insalubridade R$ 785,67).",
+    "Não haverá reserva de vagas para pessoas com deficiência (peculiaridades da função policial-militar).",
+    "Valor da taxa de inscrição e data das provas não constam nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:27:14.140185+00:00"
+  },
+  {
+   "id": "94469",
+   "titulo": "Prefeitura Municipal de Jandira – SP",
+   "titulo_origem": "Concurso Jandira-SP 2026: Prefeitura abre inscrições para 1.380 vagas em 4 editais",
+   "uf": "SP",
+   "artigo": "https://www.acheconcursos.com.br/concursos-sao-paulo/concurso-jandira-sp-2026-prefeitura-editais-1380-vagas-94469",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65249/edital-jandira-sp-01.pdf",
+   "oficiais": [
+    "https://documento.vunesp.com.br/documento/stream/ODAxNjM0Mg%3d%3d",
+    "https://documento.vunesp.com.br/documento/stream/ODAxNjM0NQ%3d%3d",
+    "https://documento.vunesp.com.br/documento/stream/ODAxNjM1NQ%3d%3d",
+    "https://documento.vunesp.com.br/documento/stream/ODAxNjM2Mg%3d%3d",
+    "https://www.vunesp.com.br/"
+   ],
+   "orgao": "Prefeitura Municipal de Jandira – SP",
+   "banca": "Fundação VUNESP",
+   "edital_numero": "1/2026",
+   "validade": null,
+   "taxas": [
+    {
+     "nivel": "Ensino fundamental",
+     "valor": 67
+    },
+    {
+     "nivel": "Ensino médio",
+     "valor": 80
+    },
+    {
+     "nivel": "Ensino superior",
+     "valor": 115
+    }
+   ],
+   "inscricao_inicio": null,
+   "inscricao_fim": null,
+   "inscricao_fim_iso": null,
+   "data_prova": null,
+   "cidade_prova": "Jandira",
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala -200 H/Mês",
+     "cargo": "Ajudante Geral (masculino)",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Incompleto (4ª serie) ; - Ser do sexo masculino.",
+     "salario": 1621,
+     "vagas_ac": 19,
+     "vagas_pcd": 1,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Ajudante Geral (masculino)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "12x36 H/Semanais - 180 H/Mês",
+     "cargo": "Auxiliar de Cozinha Hospitalar",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Incompleto (4ª serie)",
+     "salario": 1621,
+     "vagas_ac": 3,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês ou Escala",
+     "cargo": "Coveiro",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Incompleto (4ª serie).",
+     "salario": 1793.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala -200 H/Mês",
+     "cargo": "Eletricista Predial",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Incompleto (4ª serie) e - Curso Profissionalizante de Eletricista modalidade presencial ou experiência mínima comprovada de 1 (um) ano.",
+     "salario": 1793.67,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala -200 H/Mês",
+     "cargo": "Encanador",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Incompleto (4ª serie)",
+     "salario": 1793.6,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala -200 H/Mês",
+     "cargo": "Jardineiro",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Incompleto (4ª serie)",
+     "salario": 1793.6,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala -200 H/Mês",
+     "cargo": "Mecânico de Automóveis",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Completo (8ª Série) e - Curso Profissionalizante em Mecânica de Automóveis modalidade presencial ou experiência mínima comprovada de 1 (um) ano.",
+     "salario": 2316.84,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 horas diárias - 30 horas semanais -150 horas mensais",
+     "cargo": "Monitor Curso de Cabeleireiro",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Completo (8ª Serie); - Formação Em Curso Com Habilitação Em Cabeleireiro e - Experiência Mínima De 06 Meses Na Área",
+     "salario": 1793.67,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 horas diárias - 30 horas semanais -150 horas mensais",
+     "cargo": "Monitor Curso em Tecidos e Fios",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Completo (8ª Serie); -Formação Em Curso Com Habilitação Em Artesanato Em Mat. Alt. E Div - Experiência Mínima De 06 Meses Na Área",
+     "salario": 1793.67,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 horas diárias - 30 horas semanais -150 horas mensais",
+     "cargo": "Monitor Curso Manicure e Pedicure",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Completo (8ª Serie); - Formação Em Curso Com Habilitação Em Manicure e Pedicure e - Experiência Mínima De 06 Meses Na Área",
+     "salario": 1793.67,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala -200 H/Mês",
+     "cargo": "Pedreiro",
+     "escolaridade": "Ensino Fundamental",
+     "local": null,
+     "requisitos": "Ensino Fundamental Incompleto (4ª serie).",
+     "salario": 1793.67,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 horas diárias ou 12 por 36/40 horas semanais- 200 horas mensais",
+     "cargo": "Agente de Defesa Ambiental",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo e - Conhecimentos em Informática.",
+     "salario": 2316.84,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 horas diárias ou 12 por 36/40 horas semanais- 200 horas mensais",
+     "cargo": "Agente de Trânsito",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo; - CNH nas categorias “A\" e “D\" e - Conhecimento em Informática.",
+     "salario": 2316.84,
+     "vagas_ac": 4,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês ou Escala",
+     "cargo": "Agente Fiscal de Postura",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo; - Conhecimentos em Informática e - Carteira Nacional de Habilitação categoria “B”.",
+     "salario": 2813.69,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 h/diárias 40 h/ Semanais ou escala - 200 h/Mês",
+     "cargo": "Agente Social",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio e - Experiência em atendimento ao público, sistema de dados, trabalho social com criança, adolescentes e idosos.",
+     "salario": 1958.1,
+     "vagas_ac": 9,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês ou Escala",
+     "cargo": "Assistente de Controle de Trânsito",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo e - Conhecimentos em Informática.",
+     "salario": 3050.64,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês",
+     "cargo": "Assistente de Pessoal",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo; - Curso Técnico e/ou Profissionalizante de Assistente de Departamento Pessoal e - Conhecimento em informática.",
+     "salario": 2316.84,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês",
+     "cargo": "Assistente de Tributos e Rendas",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo e - Conhecimentos em Informática.",
+     "salario": 2591.57,
+     "vagas_ac": 4,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês ou Escala",
+     "cargo": "Auxiliar Administrativo",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo e - Conhecimentos em Informática.",
+     "salario": 1793.6,
+     "vagas_ac": 119,
+     "vagas_pcd": 6,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês ou Escala",
+     "cargo": "Auxiliar de Comunicação e Eventos",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo e - Conhecimentos em Informática.",
+     "salario": 1793.67,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês",
+     "cargo": "Auxiliar de Habitação e Urbanismo",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo e - Conhecimentos em Informática.",
+     "salario": 2316.84,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "5H/Diárias 25/ Semanais -125 H/Mês",
+     "cargo": "Instrutor de Curso de Violão",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Formação Técnica em Conservatório Musical ou Curso Superior ou Técnico Em Música Com Ênfase em Teoria e Prática e - Experiência Mínima De 06 Meses Como Instrutor Na Área",
+     "salario": 2137.46,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "5H/Diárias 25/ Semanais -125 H/Mês",
+     "cargo": "Instrutor de Música Clássica",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Formação Técnica em Conservatório Musical ou Curso Superior ou Técnico Em Música Com Ênfase em Teoria e Prática e - Experiência Mínima De 06 Meses Como Instrutor Na Área",
+     "salario": 2137.46,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês ou Escala",
+     "cargo": "Motorista",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo e - Carteira Nacional de Habilitação - CNH, na categoria D (dentro do prazo de validade).",
+     "salario": 1958.1,
+     "vagas_ac": 9,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "Escala 12HX36H, carga horária de 180 horas mensais",
+     "cargo": "Orientador Social",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo e - Experiência comprovada em trabalho social com crianças e adolescentes e conhecimento da Política Nacional de Assistência Social e do Estatuto da Criança e do Adolescente (ECA).",
+     "salario": 2137.46,
+     "vagas_ac": 21,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês",
+     "cargo": "Técnico em Edificações",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo; - Curso Técnico em Edificações e - Registro no órgão competente",
+     "salario": 3050.64,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês ou Escala",
+     "cargo": "Técnico em Tecnologia da Informação",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino médio completo e - Curso Técnico em Informática concluído (com duração mínima de 1 ano).",
+     "salario": 2316.84,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês",
+     "cargo": "Topógrafo",
+     "escolaridade": "Ensino Médio",
+     "local": null,
+     "requisitos": "Ensino Médio Completo; - Curso de Topografia ou Agrimensura e - Registro no órgão competente",
+     "salario": 3850.33,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 horas Diárias 40 horas/Semanais - 200 horas mensais",
+     "cargo": "Agente de Contratação",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Administração, Contabilidade, Direito ou Economia",
+     "salario": 3657.81,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/Diárias 40 H/ Semanais -200 H/Mês ou Escala",
+     "cargo": "Agente Fiscal de Renda",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Administração, Contabilidade, Direito ou Economia e - CNH na categoria “B\"",
+     "salario": 3850.33,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala 200 H/Mês",
+     "cargo": "Analista Administrativo",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Administração, Contabilidade, Economia, Direito, Recursos Humanos ou Gestão Pública",
+     "salario": 3657.81,
+     "vagas_ac": 5,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala 200 H/Mês",
+     "cargo": "Analista de Benefícios Previdenciário",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Administração, Contabilidade, Direito, Recursos Humanos, Gestão Pública, Ciências Políticas.",
+     "salario": 3657.81,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala 200 H/Mês",
+     "cargo": "Analista de Contratação",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Administração, Contabilidade, Economia, Direito, Gestão Pública, Ciências Políticas.",
+     "salario": 3657.81,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala 200 H/Mês",
+     "cargo": "Analista de Controle de Convênio",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo- em Administração, Contabilidade, Economia, Direito, Gestão Pública, Ciência Políticas.",
+     "salario": 3657.81,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala 200 H/Mês",
+     "cargo": "Analista de Controle Interno",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Administração, Contabilidade, Economia.",
+     "salario": 3657.81,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala 200 H/Mês",
+     "cargo": "Analista de Folha de Pagamento",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Administração, Recursos Humanos, Gestão Pública ou ciência políticas.",
+     "salario": 3657.81,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala 200 H/Mês",
+     "cargo": "Analista de Rede",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior completo em Ciência da Computação ou Análise de Sistema ou Tecnologia em Redes Ou Analista Desenvolvimento de Sistemas ou Gestão de Sistemas de Informação.",
+     "salario": 3657.81,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 H/diárias 30 H/ Semanais -150 H/Mês",
+     "cargo": "Arquiteto",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Arquitetura e - Registro no CAU.",
+     "salario": 6812.14,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 H/diárias 40 H/ Semanais ou escala 200 H/Mês",
+     "cargo": "Arquivista",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Arquivologia.",
+     "salario": 3657.81,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 H/diárias 30 H/ Semanais -150 H/Mês ou Escala",
+     "cargo": "Assistente Social",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior completo em Serviço Social e - Registro no CRESS.",
+     "salario": 4146.5,
+     "vagas_ac": 18,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "8 h/diárias 40 h/ Semanais ou escala - 200 h/Mês",
+     "cargo": "Biólogo",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Biologia e - Conselho de Classe (CRBios)",
+     "salario": 6190,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 h/diárias 40 h/ Semanais ou escala - 200 h/Mês",
+     "cargo": "Contador",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Contabilidade e - Registro Profissional no respectivo Conselho de Classe Regional CRC (Conselho Regional de Contabilidade)",
+     "salario": 4146.5,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "6 horas diárias 30 horas semanais 150 horas mensais",
+     "cargo": "Engenheiro Ambiental",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior completo em Engenharia Ambiental ou Ciências Biológicas e - Registro no respectivo Conselho de Classe.",
+     "salario": 6812.14,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 horas diárias 30 horas semanais 150 horas mensais",
+     "cargo": "Engenheiro Civil",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior completo em Engenharia Civil e - Registro no CREA.",
+     "salario": 6812.14,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 horas diárias 30 horas semanais 150 horas mensais",
+     "cargo": "Engenheiro Florestal",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Engenharia Florestal e - Registro no CREA",
+     "salario": 6812.14,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 H/diárias 30 H/ Semanais - 150 H/Mês ou Escala Ou Escala",
+     "cargo": "Fonoaudiólogo",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior em Fonoaudiologia e - Registro no CREFONO.",
+     "salario": 4353.83,
+     "vagas_ac": 4,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "5H/Diárias 25/ Semanais -125 H/Mês",
+     "cargo": "Instrutor Curso Dança Popular",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo Licenciatura Plena e Bacharelado Em Educação Física; - Registro no CREF e - Experiência Mínima De 06 Meses Como Instrutor De Dança Popular",
+     "salario": 2137.46,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "5H/Diárias 25/ Semanais -125 H/Mês",
+     "cargo": "Instrutor Curso de Dança Clássica",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo Licenciatura Plena e Bacharelado Em Educação Física; - Registro no CREF e - Experiência Mínima De 06 Meses Como Instrutor De Dança Clássica",
+     "salario": 2137.46,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 H/diárias 30 H/ Semanais - 150 H/Mês ou Escala",
+     "cargo": "Instrutor Esportivo",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Curso Superior de Bacharelado em Educação Física (Resolução CNE/CES 07/04 ou 06/18) ou dupla graduação em Educação Física (Licenciatura e Bacharelado) ou Licenciatura Plena em Educação Física (Resolução CFE 03/87 – Licenciado / Bacharel) e - Registro no CREF.",
+     "salario": 2591.57,
+     "vagas_ac": 7,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 H/diárias 30 H/ Semanais - 150 H/Mês ou Escala",
+     "cargo": "Nutricionista",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior completo em Nutrição e - Registro no CRN.",
+     "salario": 3514.17,
+     "vagas_ac": 8,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "8 h/diárias 40 h/ Semanais ou escala - 200 h/Mês",
+     "cargo": "Orientador Jurídico Social",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior Completo em Direito e; - Registro na OAB",
+     "salario": 5627.41,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "6 H/diárias 30 H/ Semanais - 150 H/Mês ou Escala",
+     "cargo": "Psicólogo",
+     "escolaridade": "Superior",
+     "local": null,
+     "requisitos": "Ensino Superior completo em Psicologia e - Registro no CRP.",
+     "salario": 4353.83,
+     "vagas_ac": 24,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Em vagas_ac e vagas_pcd o traço (-) do quadro ficou como null; 'CR' no total significa só cadastro de reserva.",
+    "A remuneração de vários cargos tem adicionais (insalubridade, periculosidade, gratificação) além do valor base informado em salario.",
+    "Período de inscrição e data das provas não constam nas páginas recebidas.",
+    "O artigo fala em 4 editais (1.380 vagas no total); este PDF é o edital n.º 01 e as demais páginas do quadro podem continuar fora das recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:29:41.365156+00:00"
+  },
+  {
+   "id": "93944",
+   "titulo": "Tribunal de Justiça de Santa Catarina",
+   "titulo_origem": "Concurso TJ-SC 2026: Saiu edital para Juiz de R$ 35 mil",
+   "uf": "SC",
+   "artigo": "https://www.acheconcursos.com.br/concursos-santa-catarina/concurso-tjsc-2026-edital-para-juiz-93944",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/64774/edital.pdf",
+   "oficiais": [
+    "https://conhecimento.fgv.br/concursos/tjscjuiz26"
+   ],
+   "orgao": "Tribunal de Justiça de Santa Catarina",
+   "banca": "Fundação Getulio Vargas (FGV)",
+   "edital_numero": "33/2026",
+   "validade": "2 (dois) anos, prorrogável uma única vez por igual período, contado da homologação do resultado final",
+   "taxas": [
+    {
+     "nivel": "Nível Superior - Direito",
+     "valor": 358
+    }
+   ],
+   "inscricao_inicio": null,
+   "inscricao_fim": null,
+   "inscricao_fim_iso": null,
+   "data_prova": null,
+   "cidade_prova": null,
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": null,
+     "cargo": "Juiz Substituto",
+     "escolaridade": "Nível Superior - Direito",
+     "local": null,
+     "requisitos": "Bacharelado em Direito e no mínimo 3 anos de atividade jurídica após a graduação; até 65 anos na posse",
+     "salario": 35874.14,
+     "vagas_ac": 9,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Total de vagas no quadro: 15 + CR; as demais vagas são reservadas a negros (4), indígenas (1) e quilombolas (1).",
+    "Período de inscrição e data da prova não constam nas páginas recebidas (cronograma não enviado)."
+   ],
+   "registrado_em": "2026-11-19T23:07:30.935796+00:00"
   }
  ]
 }

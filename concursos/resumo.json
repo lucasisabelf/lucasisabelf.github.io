@@ -1,10 +1,14 @@
 {
- "atualizado_em": "2026-11-19T20:09:40+00:00",
- "total": 1,
- "cargos": 33,
- "confirmados": 33,
- "abertos": 0,
+ "atualizado_em": "2026-11-19T23:47:53+00:00",
+ "total": 11,
+ "cargos": 127,
+ "confirmados": 117,
+ "abertos": 9,
  "ufs": [
-  "SC"
+  "GO",
+  "PE",
+  "RS",
+  "SC",
+  "SP"
  ]
 }
