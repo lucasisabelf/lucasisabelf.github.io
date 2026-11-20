@@ -1,8 +1,1722 @@
 {
- "atualizado_em": "2026-11-19T23:47:53+00:00",
- "cargos": 127,
- "confirmados": 117,
+ "atualizado_em": "2026-11-20T02:49:03+00:00",
+ "cargos": 336,
+ "confirmados": 308,
  "editais": [
+  {
+   "id": "94627",
+   "titulo": "Companhia Municipal de Transportes Coletivos (CMTC) – Mobi-Rio – Rio de Janeiro",
+   "titulo_origem": "Edital Mobi-Rio-RJ abre 63 vagas de até R$ 5.960",
+   "uf": "RJ",
+   "artigo": "https://www.acheconcursos.com.br/concursos-rio-de-janeiro/edital-mobi-rio-rj-abre-63-vagas-de-ate-5-960-94627",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65227/edital.pdf",
+   "oficiais": [
+    "https://mobi-rio.rio.br/processoseletivomobirio/"
+   ],
+   "orgao": "Companhia Municipal de Transportes Coletivos (CMTC) – Mobi-Rio – Rio de Janeiro",
+   "banca": null,
+   "edital_numero": "CMTC 024/2026",
+   "validade": null,
+   "taxas": [],
+   "inscricao_inicio": "13/11/2026",
+   "inscricao_fim": "21/11/2026",
+   "inscricao_fim_iso": "2026-11-21",
+   "data_prova": "07/12/2026",
+   "cidade_prova": "Rio de Janeiro",
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Ajudante de Eletricista Veicular",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 1739.12,
+     "vagas_ac": 1,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Ajudante de Mecânico",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 1739.12,
+     "vagas_ac": 2,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Eletricista Veicular",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 3025.28,
+     "vagas_ac": 16,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Encarregado de Mecânico",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 5960.63,
+     "vagas_ac": 1,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Lanterneiro",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 3025.28,
+     "vagas_ac": 5,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Lubrificador",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 2287.18,
+     "vagas_ac": 3,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Mecânico",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 3335.35,
+     "vagas_ac": 14,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Mecânico Alinhador",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 3592.09,
+     "vagas_ac": 2,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Mecânico de Refrigeração Veicular",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 3592.09,
+     "vagas_ac": 10,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Mecânico de Suspensão",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 3335.35,
+     "vagas_ac": 1,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Mecânico Socorrista",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 3592.09,
+     "vagas_ac": 1,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Pintor Predial",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 3025.28,
+     "vagas_ac": 1,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Técnico em Manutenção de Refrigeração Predial",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 3176.54,
+     "vagas_ac": 1,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Técnico em Manutenção Eletromecânica Predial",
+     "escolaridade": null,
+     "local": "Rio de Janeiro – RJ",
+     "requisitos": null,
+     "salario": 2881.19,
+     "vagas_ac": 1,
+     "vagas_pcd": 0,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Total de vagas por função conforme o quadro (soma 63), com as vagas reservadas a PcD indicadas na coluna seguinte; vagas_ac é o total menos as de PcD.",
+    "O salário é o 'salário base' do item 7; os contratados têm ainda vale alimentação de R$ 700,00, plano odontológico e auxílio transporte.",
+    "Seleção por análise curricular e teste teórico/prático; taxa de inscrição não consta nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:58:19.906744+00:00"
+  },
+  {
+   "id": "94113",
+   "titulo": "Município de Tuiuti - SP",
+   "titulo_origem": "Edital de Tuiuti-SP 2026 abre concurso com vagas de até R$ 5.209",
+   "uf": "SP",
+   "artigo": "https://www.acheconcursos.com.br/concursos-sao-paulo/edital-de-tuiuti-sp-2026-abre-concurso-vagas-5-209-94113",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/64890/edital.pdf",
+   "oficiais": [
+    "https://aplicativa.selecao.net.br/informacoes/69/"
+   ],
+   "orgao": "Município de Tuiuti - SP",
+   "banca": "Aplicativa Serviço de Apoio e Gestão Administrativa",
+   "edital_numero": "Concurso Público 01/2026 (retificação nº 01)",
+   "validade": "2 anos, a contar da homologação",
+   "taxas": [
+    {
+     "nivel": "Ensino Fundamental",
+     "valor": 35.5
+    },
+    {
+     "nivel": "Ensino Médio / Técnico",
+     "valor": 45.5
+    },
+    {
+     "nivel": "Ensino Superior",
+     "valor": 65.5
+    }
+   ],
+   "inscricao_inicio": "20/10/2026",
+   "inscricao_fim": "21/11/2026",
+   "inscricao_fim_iso": "2026-11-21",
+   "data_prova": null,
+   "cidade_prova": null,
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40h",
+     "cargo": "Ajudante Geral",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Fundamental Incompleto",
+     "salario": 1783.03,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40h",
+     "cargo": "Jardineiro",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Fundamental Incompleto",
+     "salario": 1783.03,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Mantenedor de Maquinas e Veículos",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Fundamental Incompleto",
+     "salario": 1795.45,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Motorista Sênior",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Fundamental Incompleto, CNH \"D\"",
+     "salario": 2063.52,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Operador de Maquinas Junior",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Fundamental Completo, CNH \"C\" ou \"D\"",
+     "salario": 1807.89,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40h",
+     "cargo": "Operador de Maquinas Sênior",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Fundamental Completo, CNH \"D\"",
+     "salario": 1820.33,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Pedreiro",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Fundamental Completo",
+     "salario": 1807.89,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Pintor",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Fundamental Completo, possuir curso básico em pintura de paredes e interiores",
+     "salario": 1783.03,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "Escala 12x36",
+     "cargo": "Vigia",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino fundamental completo + Carteira Nacional de Habilitação (categoria “A” ou “B”).",
+     "salario": 1783.03,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Agente Comunitário de Saúde - Centro",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo / residir obrigatoriamente, na área de atuação em que irá trabalhar + CNH “B”.",
+     "salario": 3242,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Agente Comunitário de Saúde - Godoy/Arraial",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo / residir obrigatoriamente, na área de atuação em que irá trabalhar + CNH “B”.",
+     "salario": 3242,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Agente Comunitário de Saúde - Lima Rico/Pantano",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo / residir obrigatoriamente, na área de atuação em que irá trabalhar + CNH “B”.",
+     "salario": 3242,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Agente Comunitário de Saúde - Passa Três/Machados/Ca etanos/Rio Abaixo",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo / residir obrigatoriamente, na área de atuação em que irá trabalhar + CNH “B”.",
+     "salario": 3242,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Agente de Controle de Endemia",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo, noções básicas de informática - CNH \"B\".",
+     "salario": 3242,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Almoxarife",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo e Noções Básica de Informática",
+     "salario": 1807.89,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Assistente Administrativo",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo e Noções Básica de Informática",
+     "salario": 1820.33,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Auxiliar Administrativo",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo e Noções Básica de Informática",
+     "salario": 1795.45,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40h",
+     "cargo": "Merendeira",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo",
+     "salario": 1783.03,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Recepcionista",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo e Noções Básica de Informática",
+     "salario": 1783.03,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40h",
+     "cargo": "Servente",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo",
+     "salario": 1783.03,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40h",
+     "cargo": "Servidor Braçal",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo",
+     "salario": 1783.03,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40h",
+     "cargo": "Técnico de Segurança do Trabalho",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Médio Completo + Curso Técnico e/ou Superior em Segurança do Trabalho + Carteira Nacional de Habilitação (CNH) Categoria \"B\"",
+     "salario": 2629.53,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Técnico de Enfermagem",
+     "escolaridade": "Ensino Médio",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Técnico em Enfermagem com Registro no Coren.",
+     "salario": 3462.99,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h divididas em 6h diárias",
+     "cargo": "Assistente Social",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior na Área de Serviço Social com registro no CRESS",
+     "salario": 2163.03,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Assistente Social Escolar",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso superior de Graduação em Serviço Social com registro ativo no CRESS.",
+     "salario": 3415.62,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Coordenador Pedagógico",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Licenciatura de Graduação Plena em qualquer área do conhecimento com Pós- Graduação na área da Educação, e ter, no mínimo, 06 (seis) anos de efetivo exercício no Magistério.",
+     "salario": 4960.97,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Diretor de Escola",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Licenciatura Plena em Pedagogia ou Licenciatura de Graduação Plena em qualquer área do conhecimento com Pós- graduação Stricto Sensu na área da Educação, e ter, no Mínimo, 03 (três) anos efetivos exercício de Magistério.",
+     "salario": 5209.01,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Enfermeiro",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Superior em Enfermagem e Registro no Conselho Regional",
+     "salario": 4947.13,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30h",
+     "cargo": "Professor de Educação Básica I - Classe",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso superior com Licenciatura de Graduação Plena com normal em nível médio, e ou Curso Normal Superior, e ou Licenciatura em Pedagogia com Habilitação em Magistério nas séries Iniciais",
+     "salario": 3930,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "27h",
+     "cargo": "Professor de Educação Básica I - Educação Infantil",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso superior com Licenciatura de graduação plena com curso normal em nível médio, e ou Curso Normal Superior, e ou Licenciatura Plena em Pedagogia com Habilitação em Educação Infantil e ou Pós-graduação em Educação Inf",
+     "salario": 3537,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "36h",
+     "cargo": "Professor de Educação Básica II - Educação Especial Interprete de Libras",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior em Licenciatura de Graduação Plena, com Habilitação Especifica em área própria.",
+     "salario": null,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "sem salário"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "36h",
+     "cargo": "Professor de Educação Básica II - Educação Especial",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior em Licenciatura de Graduação Plena, com Habilitação Especifica em área própria.",
+     "salario": null,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "sem salário"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "36h",
+     "cargo": "Professor de Educação Básica II - Educação Física",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior em Licenciatura de Graduação Plena, com Habilitação Especifica em área própria.",
+     "salario": null,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "sem salário"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "36h",
+     "cargo": "Professor de Educação Básica II - Geografia",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior em Licenciatura de Graduação Plena, com Habilitação Especifica em área própria.",
+     "salario": null,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "sem salário"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "36h",
+     "cargo": "Professor de Educação Básica II - História",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior em Licenciatura de Graduação Plena, com Habilitação Especifica em área própria.",
+     "salario": null,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "sem salário"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "36h",
+     "cargo": "Professor de Educação Básica II - Inglês",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior em Licenciatura de Graduação Plena, com Habilitação Especifica em área própria.",
+     "salario": null,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "sem salário"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "36h",
+     "cargo": "Professor de Educação Básica II - Matemática",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior em Licenciatura de Graduação Plena, com Habilitação Especifica em área própria.",
+     "salario": null,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "sem salário"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "36h",
+     "cargo": "Professor de Educação Básica II - Português",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior em Licenciatura de Graduação Plena, com Habilitação Especifica em área própria.",
+     "salario": null,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "sem salário"
+     ]
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h semanais divididas em 4h diárias",
+     "cargo": "Psicólogo",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Ensino Superior em Psicologia e Registro no Conselho Regional de Psicologia",
+     "salario": 2097.1,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Psicólogo Escolar",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior de Graduação em Psicologia com registro no CRP.",
+     "salario": 3415.62,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40h",
+     "cargo": "Psicopedagogo 40h",
+     "escolaridade": "Ensino Superior",
+     "local": "Tuiuti/SP",
+     "requisitos": "Curso Superior de graduação em Psicopedagogia, graduação em Pedagogia ou graduação em Psicologia com Especialização Lato- Sensu ou Stricto-Sensu em Psicopedagogia Clinica e Institucional, mínimo de 600H e registro ativo ",
+     "salario": 4617.58,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Vagas reservadas a PcD: o quadro mostra '-' (sem reserva no número de vagas imediatas); a reserva legal vale sobre as vagas existentes ou que surgirem.",
+    "Professores de Educação Básica II e Intérprete de Libras: pagamento por hora-aula (R$ 26,20/h-aula, 36 horas semanais); salário mensal deixado nulo.",
+    "Data da prova não consta nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-20T02:47:48.664566+00:00"
+  },
+  {
+   "id": "94255",
+   "titulo": "Prefeitura Municipal de Praia Grande - SP",
+   "titulo_origem": "Prefeitura de Praia Grande-SP abre vagas para Professores e Agentes de Saúde",
+   "uf": "SP",
+   "artigo": "https://www.acheconcursos.com.br/concursos-sao-paulo/prefeitura-de-praia-grande-sp-abre-vagas-para-professores-e-agentes-de-saude-94255",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/64989/edital-processo-seletivo-prefeitura-de-praia-grande-sp-01-2026.pdf",
+   "oficiais": [
+    "https://portal.institutolegalle.org.br/edital/ver/89"
+   ],
+   "orgao": "Prefeitura Municipal de Praia Grande - SP",
+   "banca": "Instituto Brasileiro de Carreiras Públicas e Desenvolvimento Institucional (Instituto Legalle)",
+   "edital_numero": "Processo Seletivo Simplificado 001/2026",
+   "validade": null,
+   "taxas": [
+    {
+     "nivel": "Ensino Fundamental",
+     "valor": 80
+    },
+    {
+     "nivel": "Ensino Médio/Técnico",
+     "valor": 80
+    },
+    {
+     "nivel": "Ensino Superior",
+     "valor": 100
+    }
+   ],
+   "inscricao_inicio": "27/10/2026",
+   "inscricao_fim": "22/11/2026",
+   "inscricao_fim_iso": "2026-11-22",
+   "data_prova": "13/12/2026",
+   "cidade_prova": "Praia Grande/SP",
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30h",
+     "cargo": "Assistente Social",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Diploma de Ensino Superior em Serviço Social",
+     "salario": 3446.53,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Professor de Artes",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura Plena em Artes (habilitado)",
+     "salario": 4082.75,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Professor de Ciências",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura Plena em Ciências (habilitado)",
+     "salario": 4082.75,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Professor de Educação Física",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura Plena em Educação Física, com registro válido (apenas habilitado)",
+     "salario": 4082.75,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Professor de Educação Infantil",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura em Educação Infantil (habilitado)",
+     "salario": 4082.75,
+     "vagas_ac": 15,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de Ensino Religioso",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura Plena (habilitado)",
+     "salario": 2041.37,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de Geografia",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura em Geografia (habilitado)",
+     "salario": 2041.37,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de História",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura em História (habilitado)",
+     "salario": 2041.37,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de Informática",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura em Informática (habilitado)",
+     "salario": 2041.37,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de Língua Portuguesa",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura em Letras (habilitado)",
+     "salario": 2041.37,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de Língua Inglesa",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura em Inglês (habilitado)",
+     "salario": 2041.37,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de Matemática",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura em Matemática (habilitado)",
+     "salario": 2041.37,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Professor de Música",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura Plena em Música (apenas habilitado)",
+     "salario": 4082.75,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20h",
+     "cargo": "Professor de Séries Iniciais do Ensino Fundamental I",
+     "escolaridade": "Ensino Superior",
+     "local": "Praia Grande/SP",
+     "requisitos": "Licenciatura (habilitado)",
+     "salario": 2041.37,
+     "vagas_ac": 10,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Auxiliar de Educação Infantil",
+     "escolaridade": "Ensino Médio",
+     "local": "Praia Grande/SP",
+     "requisitos": "Ensino Médio completo",
+     "salario": 1621,
+     "vagas_ac": 15,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Auxiliar Educacional",
+     "escolaridade": "Ensino Médio",
+     "local": "Praia Grande/SP",
+     "requisitos": "Ensino Médio completo",
+     "salario": 1621,
+     "vagas_ac": 20,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Monitor de Transporte Escolar",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Praia Grande/SP",
+     "requisitos": "Ensino Fundamental completo",
+     "salario": 1621,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Contratação temporária; 'N + CR' = N vagas imediatas e cadastro reserva. Vagas PcD constam como '-' no quadro.",
+    "Professores têm também a opção 'não habilitado' (estudante de licenciatura a partir do 3º período), com salários menores (ex.: R$ 1.633,10 para 20h e R$ 816,55 para 10h); os valores listados são os do profissional habilitado.",
+    "Vários professores têm duas cargas (ex.: 40h R$ 4.082,75 e 20h R$ 2.041,37); registrei a principal.",
+    "O título do Ache cita agentes de saúde, mas o quadro das páginas recebidas não os traz."
+   ],
+   "registrado_em": "2026-11-20T02:48:47.866223+00:00"
+  },
   {
    "id": "93845",
    "titulo": "Universidade Estadual Paulista (UNESP) – Câmpus de Marília, Faculdade de Filosofia e Ciências",
@@ -59,6 +1773,89 @@
     "O edital cita para a redução da taxa um período (10/10 a 23/11/2026) diferente do das inscrições (08/10 a 22/11/2026); vale o item 2.1 para a inscrição."
    ],
    "registrado_em": "2026-11-19T23:09:59.467166+00:00"
+  },
+  {
+   "id": "94196",
+   "titulo": "Tribunal Regional Federal da 3.ª Região (TRF-3)",
+   "titulo_origem": "Concurso TRF-3 2026: Inscrição aberta para Técnicos e Analistas",
+   "uf": "NACIONAL",
+   "artigo": "https://www.acheconcursos.com.br/concursos-brasil/concurso-trf-3-2026-edital-e-inscricao-94196",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/64946/edital-trf-3-2026-vunesp.pdf",
+   "oficiais": [
+    "https://www.vunesp.com.br/TRFT2601"
+   ],
+   "orgao": "Tribunal Regional Federal da 3.ª Região (TRF-3)",
+   "banca": "Fundação VUNESP",
+   "edital_numero": "01/2026",
+   "validade": null,
+   "taxas": [
+    {
+     "nivel": "Analista Judiciário",
+     "valor": 160
+    },
+    {
+     "nivel": "Técnico Judiciário",
+     "valor": 100
+    }
+   ],
+   "inscricao_inicio": "04/11/2026",
+   "inscricao_fim": "23/11/2026",
+   "inscricao_fim_iso": "2026-11-23",
+   "data_prova": null,
+   "cidade_prova": null,
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Analista Judiciário",
+     "escolaridade": "Ensino Superior Completo",
+     "local": "São Paulo e Mato Grosso do Sul (3.ª Região)",
+     "requisitos": "Graduação conforme a área/especialidade: Análise de Sistemas e Suporte em Tecnologia da Informação (graduação em TI, ou qualquer graduação + pós em TI de no mínimo 360 horas); Oficial de Justiça Avaliador Federal e Sem especialidade (graduação em Direito)",
+     "salario": 16040.87,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Técnico Judiciário",
+     "escolaridade": "Ensino Superior Completo",
+     "local": "São Paulo e Mato Grosso do Sul (3.ª Região)",
+     "requisitos": "Ensino superior completo, conforme a área de atividade do cargo",
+     "salario": 9776.73,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Remuneração inicial do Analista Judiciário: R$ 16.040,87; para a especialidade Oficial de Justiça Avaliador Federal é R$ 20.013,11 (Gratificação de Atividade Externa).",
+    "As vagas são disponibilizadas por Unidade de Classificação e não aparecem nas páginas recebidas; vagas_ac e vagas_pcd ficaram vazios.",
+    "Pagamento da taxa até 24/11/2026 (21h59). Há reserva de 5% das vagas para pessoas com deficiência (item 4.2).",
+    "Data das provas não consta nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:54:18.204607+00:00"
   },
   {
    "id": "94624",
@@ -998,6 +2795,678 @@
    "registrado_em": "2026-11-19T23:09:14.058993+00:00"
   },
   {
+   "id": "94707",
+   "titulo": "Universidade do Estado de Minas Gerais (UEMG) – Unidade Passos",
+   "titulo_origem": "UEMG abre 91 vagas para professores em Passos/MG via edital 41/2026",
+   "uf": "MG",
+   "artigo": "https://www.acheconcursos.com.br/concursos-minas-gerais/edital-uemg-41-2026-professores-passos-94707",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65284/edital-processo-seletivo-uemg-41-2026.pdf",
+   "oficiais": [
+    "https://www.uemg.br/component/phocadownload/category/5284-edital-n-41-2026-unidade-passos"
+   ],
+   "orgao": "Universidade do Estado de Minas Gerais (UEMG) – Unidade Passos",
+   "banca": null,
+   "edital_numero": "41/2026",
+   "validade": null,
+   "taxas": [],
+   "inscricao_inicio": "19/11/2026",
+   "inscricao_fim": "26/11/2026",
+   "inscricao_fim_iso": "2026-11-26",
+   "data_prova": null,
+   "cidade_prova": "Passos",
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Professor – Anatomia Animal (Ciências Biológicas Bacharelado)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Ecologia, Ciências Biológicas ou áreas afins",
+     "salario": 2360.14,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Anatomia Animal (Ciências Biológicas Bacharelado)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Professor – Anatomia e Morfologia das Traqueófitas (Ciências Biológicas Bacharelado)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Ciências Biológicas",
+     "salario": 2360.14,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Anatomia e Morfologia das Traqueófitas (Ciências Biológicas Bacharelado)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Professor – Anatomia Geral (Educação Física - Licenciatura)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Ciências Biológicas ou na área de Ciências da Saúde",
+     "salario": 2360.14,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Anatomia Geral (Educação Física - Licenciatura)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Professor – Anatomia (Educação Física - Bacharelado)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Ciências Biológicas ou na área de Ciências da Saúde",
+     "salario": 2360.14,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Anatomia (Educação Física - Bacharelado)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Professor – Bases Moleculares e Morfológicas de Células e Tecidos - Histologia (Medicina)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Ciências Biológicas ou na área de Ciências da Saúde",
+     "salario": 2360.14,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Bases Moleculares e Morfológicas de Células e Tecidos - Histologia (Medicina)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Professor – Biologia Celular (Engenharia Agronômica)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Ciências Biológicas ou na área de Ciências da Saúde",
+     "salario": 2360.14,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Biologia Celular (Engenharia Agronômica)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20h",
+     "cargo": "Professor – Biologia Celular (Ciências Biológicas Licenciatura)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Ciências Biológicas ou na área de Ciências da Saúde",
+     "salario": 1573.43,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Biologia Celular (Ciências Biológicas Licenciatura)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20h",
+     "cargo": "Professor – Fruticultura II (Engenharia Agronômica)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Agronomia",
+     "salario": 1573.43,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Fruticultura II (Engenharia Agronômica)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Professor – Bioquímica (Ciências Biológicas Licenciatura)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Biomedicina ou Farmácia",
+     "salario": 2360.14,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Bioquímica (Ciências Biológicas Licenciatura)' não aparece no texto lido"
+     ]
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30h",
+     "cargo": "Professor – Estágio Supervisionado em Análises Clínicas I - D (Biomedicina)",
+     "escolaridade": "Superior",
+     "local": "UEMG – Unidade Passos",
+     "requisitos": "Formação exigida: Biomedicina ou Farmácia",
+     "salario": 2360.14,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "revisar",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": [
+      "cargo 'Professor – Estágio Supervisionado em Análises Clínicas I - D (Biomedicina)' não aparece no texto lido"
+     ]
+    }
+   ],
+   "observacoes": [
+    "O edital oferece 91 vagas; só as disciplinas presentes nas páginas recebidas estão listadas (o quadro continua em páginas não enviadas).",
+    "A remuneração depende da titulação (Doutor, Mestre ou Especialista). O salário informado é o TOTAL do nível mais baixo (Especialista): 20h R$ 1.573,43 e 30h R$ 2.360,14. Doutor: R$ 3.947,22 (20h) e R$ 5.875,83 (30h); Mestre: R$ 2.669,05 (20h) e R$ 4.003,57 (30h).",
+    "Taxa de inscrição e vagas PcD não constam nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:51:38.586556+00:00"
+  },
+  {
+   "id": "94775",
+   "titulo": "Prefeitura Municipal de Montes Claros – MG",
+   "titulo_origem": "Prefeitura de Montes Claros-MG lança novo edital com 104 vagas",
+   "uf": "MG",
+   "artigo": "https://www.acheconcursos.com.br/concursos-minas-gerais/prefeitura-de-montes-claros-mg-edital-com-104-vagas-94775",
+   "pdf": "https://admin.montesclaros.mg.gov.br/upload/diario-oficial/files/edicoes/2026/nov-26/DiarioOficialEletronico10-11-26.pdf",
+   "oficiais": [
+    "https://concursos.montesclaros.mg.gov.br"
+   ],
+   "orgao": "Prefeitura Municipal de Montes Claros – MG",
+   "banca": null,
+   "edital_numero": null,
+   "validade": null,
+   "taxas": [],
+   "inscricao_inicio": "19/11/2026",
+   "inscricao_fim": "30/11/2026",
+   "inscricao_fim_iso": "2026-11-30",
+   "data_prova": null,
+   "cidade_prova": "Montes Claros",
+   "cargos": [
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30 horas",
+     "cargo": "Auxiliar de Consultório Dentário – 30 h",
+     "escolaridade": "Ensino Médio Completo e Registro no Conselho Regional de Odontologia CRO",
+     "local": "Montes Claros – MG",
+     "requisitos": "Ensino Médio Completo e Registro no Conselho Regional de Odontologia CRO",
+     "salario": 1778.15,
+     "vagas_ac": 9,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40 horas",
+     "cargo": "Auxiliar de Consultório Dentário – ESF – 40 h",
+     "escolaridade": "Ensino Médio Completo e Registro no Conselho Regional de Odontologia CRO",
+     "local": "Montes Claros – MG",
+     "requisitos": "Ensino Médio Completo e Registro no Conselho Regional de Odontologia CRO",
+     "salario": 2370.86,
+     "vagas_ac": 22,
+     "vagas_pcd": 2,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40 horas",
+     "cargo": "Auxiliar de Consultório Dentário – ESF – 40 h Zona Rural",
+     "escolaridade": "Ensino Médio Completo e Registro no Conselho Regional de Odontologia CRO",
+     "local": "Montes Claros – MG",
+     "requisitos": "Ensino Médio Completo e Registro no Conselho Regional de Odontologia CRO",
+     "salario": 2370.86,
+     "vagas_ac": 10,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20 horas",
+     "cargo": "Enfermeiro com Especialidade em Saúde Mental",
+     "escolaridade": "Curso de graduação em enfermagem, com registro ativo no órgão de classe e Curso de Especialização na área de Saúde Mental “Latu Sensu” com carga horária mínima de 360 horas",
+     "local": "Montes Claros – MG",
+     "requisitos": "Curso de graduação em enfermagem, com registro ativo no órgão de classe e Curso de Especialização na área de Saúde Mental “Latu Sensu” com carga horária mínima de 360 horas",
+     "salario": 2775.72,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "30 horas",
+     "cargo": "Técnico em Prótese Dentária – 30 h",
+     "escolaridade": "Ensino Médio/Técnico",
+     "local": "Montes Claros – MG",
+     "requisitos": "Curso técnico e registro ativo no órgão de classe",
+     "salario": 2443.88,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40 horas",
+     "cargo": "Técnico em Enfermagem – 40 h",
+     "escolaridade": "Curso Técnico em Enfermagem e Registro ativo no órgão de Classe – COREN",
+     "local": "Montes Claros – MG",
+     "requisitos": "Curso Técnico em Enfermagem e Registro ativo no órgão de Classe – COREN",
+     "salario": 3258.52,
+     "vagas_ac": 11,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40 horas",
+     "cargo": "Técnico em Enfermagem – 40 h Zona Rural",
+     "escolaridade": "Curso Técnico em Enfermagem e Registro ativo no órgão de Classe – COREN",
+     "local": "Montes Claros – MG",
+     "requisitos": "Curso Técnico em Enfermagem e Registro ativo no órgão de Classe – COREN",
+     "salario": 3258.52,
+     "vagas_ac": 18,
+     "vagas_pcd": 2,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20 horas",
+     "cargo": "Médico Angiologista",
+     "escolaridade": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "salario": 4528.92,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20 horas",
+     "cargo": "Médico Clínico Geral",
+     "escolaridade": "Formação de Ensino Superior Completo em medicina, com registro ativo no órgão/conselho de classe",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de Ensino Superior Completo em medicina, com registro ativo no órgão/conselho de classe",
+     "salario": 4528.92,
+     "vagas_ac": 5,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20 horas",
+     "cargo": "Médico Epidemiologista",
+     "escolaridade": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "salario": 4528.92,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20 horas",
+     "cargo": "Médico Geneticista",
+     "escolaridade": "Formação de nível superior em medicina e Residência Médica em Genética Médica ou, Título de Especialista em Genética Médica, ambos com – RQE",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de nível superior em medicina e Residência Médica em Genética Médica ou, Título de Especialista em Genética Médica, ambos com – RQE",
+     "salario": 4528.92,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20 horas",
+     "cargo": "Médico Neurologista",
+     "escolaridade": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "salario": 4528.92,
+     "vagas_ac": 3,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20 horas",
+     "cargo": "Médico Pneumologista",
+     "escolaridade": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "salario": 4528.92,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "24 horas mensais",
+     "cargo": "Médico Plantonista – Pediatra",
+     "escolaridade": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "salario": 3444.44,
+     "vagas_ac": 4,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20 horas",
+     "cargo": "Médico Ultrassonografista",
+     "escolaridade": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "salario": 4528.92,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "20 horas",
+     "cargo": "Médico Urologista",
+     "escolaridade": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de nível superior em medicina, com registro ativo no órgão/conselho de classe e RQE da especialidade",
+     "salario": 4528.92,
+     "vagas_ac": 3,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": false,
+     "carga_horaria": "40 horas",
+     "cargo": "Odontólogo 40 h",
+     "escolaridade": "Formação de Nível Superior em Odontologia e Registro no Conselho Regional de Odontologia CRO",
+     "local": "Montes Claros – MG",
+     "requisitos": "Formação de Nível Superior em Odontologia e Registro no Conselho Regional de Odontologia CRO",
+     "salario": 5551.46,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "O PDF é a edição inteira do Diário Oficial de Montes Claros; há outro edital na mesma edição com inscrições de 17/11 a 23/11/2026 (não lido aqui).",
+    "Total do quadro: 95 vagas de ampla concorrência + 9 PcD = 104.",
+    "Seleção por avaliação curricular e experiência (não há prova objetiva). Taxa de inscrição não consta nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:55:50.083036+00:00"
+  },
+  {
    "id": "94657",
    "titulo": "Município de São Miguel do Oeste – SC",
    "titulo_origem": "Edital São Miguel do Oeste-SC 2026: Prefeitura abre vagas na saúde",
@@ -1135,6 +3604,1721 @@
     "Banca: o edital é da própria prefeitura (comissão especial), sem banca externa nas páginas recebidas."
    ],
    "registrado_em": "2026-11-19T23:08:13.936210+00:00"
+  },
+  {
+   "id": "94637",
+   "titulo": "Prefeitura Municipal de Muqui – ES",
+   "titulo_origem": "Edital Muqui-ES 2026: Prefeitura abre concurso com 157 vagas",
+   "uf": "ES",
+   "artigo": "https://www.acheconcursos.com.br/concursos-espirito-santo/edital-muqui-es-2026-prefeitura-abre-concurso-157-vagas-94637",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65231/edital-muqui-es.pdf",
+   "oficiais": [
+    "https://ps.idesg.org.br/processos_de_selecao/ps.html?detail=58"
+   ],
+   "orgao": "Prefeitura Municipal de Muqui – ES",
+   "banca": "Instituto de Desenvolvimento Social, Gestão e Tecnologia (IDESG)",
+   "edital_numero": null,
+   "validade": null,
+   "taxas": [
+    {
+     "nivel": "Nível Superior e Magistério",
+     "valor": 150
+    },
+    {
+     "nivel": "Nível Técnico",
+     "valor": 100
+    },
+    {
+     "nivel": "Nível Médio",
+     "valor": 80
+    }
+   ],
+   "inscricao_inicio": "19/11/2026",
+   "inscricao_fim": "08/12/2026",
+   "inscricao_fim_iso": "2026-12-08",
+   "data_prova": "31/01/2027",
+   "cidade_prova": "Muqui",
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Administrador",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3325.5,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Agente Administrativo",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 3,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Arquiteto e Urbanista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3695,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Assistente Social",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 3,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Atendente",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Auditor de Controle Interno",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3325.5,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Auditor Fiscal Tributário",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3325.5,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Auxiliar de Consultório Médico",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Auxiliar de Creche",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Auxiliar de Farmácia",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Auxiliar de Laboratório",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Auxiliar de Saúde Bucal",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Auxiliar de Serviços Gerais",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 8,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Bibliotecário",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Bombeiro Hidráulico",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2100,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Calceteiro",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2100,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Contador",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3325.5,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Coveiro",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Cozinheiro",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s ou escala de 12h x 36h ou de 24h x 72h",
+     "cargo": "Cuidador Especial",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 3,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Educador Físico",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Educador Social",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Eletricista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2100,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Enfermeiro",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 3,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Engenheiro Agrônomo",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3695,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Engenheiro Civil",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3695,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Engenheiro de Segurança do Trabalho",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3695,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Farmacêutico",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Fiscal de Tributos",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2208.9,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Fiscal Sanitário",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2429.79,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Fiscal Urbano",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2429.79,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Fisioterapeuta",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Fonoaudiólogo",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Mecânico",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2100,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Alergista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Angiologista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Cardiologista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Clínica Médica",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico do Trabalho",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Endocrinologista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Epidemiologista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Generalista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 3,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Ginecologista Obstetra",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Neurologista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Neuropediatra",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Ortopedista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Pediatra",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Psiquiatra",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Médico Urologista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 4554,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Médico Veterinário",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3643.2,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s ou escala de 12h x 36h ou de 24h x 72h",
+     "cargo": "Motorista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2100,
+     "vagas_ac": 3,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Nutricionista",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Odontólogo",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Operador de Máquinas Pesadas",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2100,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Ouvidor",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2208.9,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25 h/s",
+     "cargo": "Pedagogo",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3042.36,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Pedreiro",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2100,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "20 h/s",
+     "cargo": "Procurador Municipal",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3695,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25 h/s",
+     "cargo": "Professor Base Nacional Comum (1º ao 5º ano do EF)",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3042.36,
+     "vagas_ac": 6,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25 h/s",
+     "cargo": "Professor de Arte",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3042.36,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25 h/s",
+     "cargo": "Professor de Educação Física",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3042.36,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25 h/s",
+     "cargo": "Professor de Educação Infantil (Creche e Pré-Escola)",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3042.36,
+     "vagas_ac": 3,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25 h/s",
+     "cargo": "Professor de Ensino Religioso",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3042.36,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30 h/s",
+     "cargo": "Psicólogo",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 3159.23,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Técnico Agrícola",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Técnico em Administração",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Técnico em Contabilidade",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Técnico em Edificações",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Técnico em Enfermagem",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": 3,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Técnico em Informática",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Técnico em Laboratório",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Técnico em Meio Ambiente",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "24 h/s",
+     "cargo": "Técnico em Radiologia",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Técnico em Segurança do Trabalho",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 2424.77,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s",
+     "cargo": "Trabalhador Braçal",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 5,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40 h/s ou escala de 12h x 36h ou de 24h x 72h",
+     "cargo": "Vigia",
+     "escolaridade": null,
+     "local": "Muqui – ES",
+     "requisitos": null,
+     "salario": 1631,
+     "vagas_ac": 3,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Em cada cargo, o quadro traz também vagas para pessoas pretas e pardas (PPP), indígenas e quilombolas, que não cabem nos campos do resultado; o total é 'N + CR' (N vagas imediatas e cadastro de reserva).",
+    "Ampla concorrência e PcD: traço (---) no quadro ficou como null.",
+    "Escolaridade por cargo não foi lida nas páginas do quadro; as taxas variam por nível (superior/magistério R$ 150, técnico R$ 100, médio R$ 80).",
+    "O artigo fala em 157 vagas no total."
+   ],
+   "registrado_em": "2026-11-19T23:52:54.597128+00:00"
   },
   {
    "id": "93667",
@@ -1407,6 +5591,167 @@
     "Valor da taxa de inscrição não consta nas páginas recebidas."
    ],
    "registrado_em": "2026-11-19T23:41:12.210350+00:00"
+  },
+  {
+   "id": "94603",
+   "titulo": "Ministério da Saúde – Secretaria Executiva / Subsecretaria de Assuntos Administrativos",
+   "titulo_origem": "Edital Ministério da Saúde 2026: Sai seleção com 759 vagas em 7 cidades",
+   "uf": "NACIONAL",
+   "artigo": "https://www.acheconcursos.com.br/concursos-brasil/edital-ministerio-saude-2026-processo-seletivo-94603",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65211/edital-ms-2026.pdf",
+   "oficiais": [
+    "https://www.avalia.org.br/concursos/644"
+   ],
+   "orgao": "Ministério da Saúde – Secretaria Executiva / Subsecretaria de Assuntos Administrativos",
+   "banca": "Instituto Avalia",
+   "edital_numero": "1/2026",
+   "validade": null,
+   "taxas": [],
+   "inscricao_inicio": "12/11/2026",
+   "inscricao_fim": "14/12/2026",
+   "inscricao_fim_iso": "2026-12-14",
+   "data_prova": "17/01/2027",
+   "cidade_prova": null,
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h semanais",
+     "cargo": "Técnico Administrativo",
+     "escolaridade": "Superior",
+     "local": "Distribuído por UF (SP, PR, PE, PA, DF e outras)",
+     "requisitos": "Qualquer formação de nível superior",
+     "salario": 4740.51,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h semanais",
+     "cargo": "Analista de Dados e Controle de Qualidade",
+     "escolaridade": "Superior",
+     "local": "Distribuído por UF (SP, PR, PE, PA, DF e outras)",
+     "requisitos": "Administração, Direito, Estatística, Economia, Engenharia de Produção, Ciência da Computação ou áreas afins",
+     "salario": 7647.2,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h semanais",
+     "cargo": "Analista de Requisitos Processuais, Normativos, Econômicos, Financeiros e Políticas de Saúde",
+     "escolaridade": "Superior",
+     "local": "Distribuído por UF (SP, PR, PE, PA, DF e outras)",
+     "requisitos": "Administração, Ciências Contábeis, Ciências Econômicas, Gestão Pública, Direito e formação em Biologia, Biomedicina, entre outras",
+     "salario": 7647.2,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h semanais",
+     "cargo": "Analista Técnico em Edificações",
+     "escolaridade": "Superior",
+     "local": "Distribuído por UF (SP, PR, PE, PA, DF e outras)",
+     "requisitos": "Engenharia Civil ou Arquitetura",
+     "salario": 7647.2,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h semanais",
+     "cargo": "Analista Técnico em Equipamentos",
+     "escolaridade": "Superior",
+     "local": "Distribuído por UF (SP, PR, PE, PA, DF e outras)",
+     "requisitos": "Nível superior completo em Medicina, Enfermagem, Engenharia Biomédica, Sistemas Biomédicos, Biologia, Biomedicina, entre outras",
+     "salario": 7647.2,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h semanais",
+     "cargo": "Gestor",
+     "escolaridade": "Superior",
+     "local": "Distribuído por UF (SP, PR, PE, PA, DF e outras)",
+     "requisitos": "Administração, Ciências Contábeis, Ciências Econômicas, Gestão Pública, Direito ou formação em Biologia, Biomedicina, entre outras",
+     "salario": 10354.29,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Vagas imediatas por perfil: Técnico Administrativo 28; Analista de Dados e Controle de Qualidade 12; Analista de Requisitos 218; Analista Técnico em Edificações 8; Analista Técnico em Equipamentos 18; Gestor 16 (total 300). Há também cadastro de reserva em cada perfil.",
+    "As vagas são distribuídas por unidade da federação e por reserva (ampla concorrência, PcD, pessoas negras, indígenas, quilombolas e trans); os números por UF não cabem nos campos do resultado, então vagas_ac e vagas_pcd ficaram vazios.",
+    "Pagamento da taxa de 12/11 a 15/12/2026; o valor da taxa não consta nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:57:33.488650+00:00"
   },
   {
    "id": "93734",
@@ -3196,6 +7541,682 @@
     "Período de inscrição e data da prova não constam nas páginas recebidas (cronograma não enviado)."
    ],
    "registrado_em": "2026-11-19T23:07:30.935796+00:00"
+  },
+  {
+   "id": "94656",
+   "titulo": "Prefeitura Municipal de Dumont - SP",
+   "titulo_origem": "Prefeitura de Dumont-SP lança edital com vagas de até R$ 5,2 mil",
+   "uf": "SP",
+   "artigo": "https://www.acheconcursos.com.br/concursos-sao-paulo/prefeitura-de-dumont-sp-lanca-edital-com-vagas-de-ate-5-2-mil-94656",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/65247/edital.pdf",
+   "oficiais": [
+    "https://app.inepam.org.br/concurso/concursoPaginaInterna.do?idInstituicao=13&idConcurso=4"
+   ],
+   "orgao": "Prefeitura Municipal de Dumont - SP",
+   "banca": "INEPAM (Instituto Nacional Especializado em Pesquisa e Apoio aos Municípios)",
+   "edital_numero": "Processo Seletivo 001/2026",
+   "validade": "1 ano, prorrogável por igual período",
+   "taxas": [
+    {
+     "nivel": "Ensino Fundamental",
+     "valor": 45
+    },
+    {
+     "nivel": "Ensino Médio",
+     "valor": 55
+    },
+    {
+     "nivel": "Ensino Superior",
+     "valor": 65
+    }
+   ],
+   "inscricao_inicio": "12/11/2026",
+   "inscricao_fim": "19/11/2026",
+   "inscricao_fim_iso": "2026-11-19",
+   "data_prova": "13/12/2026",
+   "cidade_prova": null,
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Merendeira (o)",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Dumont/SP",
+     "requisitos": "Ensino Fundamental completo",
+     "salario": 1861.05,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Servente",
+     "escolaridade": "Ensino Fundamental",
+     "local": "Dumont/SP",
+     "requisitos": "Ensino Fundamental completo",
+     "salario": 1861.05,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Auxiliar de Desenvolvimento Infantil",
+     "escolaridade": "Ensino Médio",
+     "local": "Dumont/SP",
+     "requisitos": "Ensino Médio Completo",
+     "salario": 1861.05,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Cuidador de Crianças com Necessidades Especiais",
+     "escolaridade": "Ensino Médio",
+     "local": "Dumont/SP",
+     "requisitos": "Ensino Médio Completo",
+     "salario": 2034.93,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30h",
+     "cargo": "Monitor de Ônibus",
+     "escolaridade": "Ensino Médio",
+     "local": "Dumont/SP",
+     "requisitos": "Ensino Médio Completo",
+     "salario": 1861.05,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30h",
+     "cargo": "Educador de Creche",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena em Pedagogia ou Curso Normal em Nível Médio ou Superior.",
+     "salario": 3954,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30h",
+     "cargo": "Professor de Educação Básica I - PEB I",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena em Pedagogia, ou Curso Normal em nível médio ou Normal Superior",
+     "salario": 3954,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25h",
+     "cargo": "Professor de Educação Básica II- Língua Portuguesa",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena, com habilitação específica na disciplina própria ou",
+     "salario": 3295,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25h",
+     "cargo": "Professor de Educação Básica II - Arte",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena, com habilitação específica na disciplina própria ou Curso Superior em área correspondente nos termos da legislação vigente.",
+     "salario": 3295,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25h",
+     "cargo": "Professor de Educação Básica PEB II - Matemática",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena, com habilitação específica na disciplina própria ou Curso Superior em área correspondente nos termos da legislação vigente.",
+     "salario": 3295,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25h",
+     "cargo": "Professor de Educação Básica PEB II - Ciências",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena, com habilitação específica na disciplina própria ou Curso Superior em área correspondente nos termos da legislação vigente.",
+     "salario": 3295,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25h",
+     "cargo": "Professor de Educação Básica II - PEB II - Educação Física",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena, com habilitação específica na disciplina própria ou Curso Superior em área correspondente nos termos da legislação vigente, e Registro no Conselho Regi",
+     "salario": 3295,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25h",
+     "cargo": "Professor de Educação Básica II- PEB II - Geografia",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena, com habilitação específica na disciplina própria ou Curso Superior em área correspondente nos termos da legislação vigente.",
+     "salario": 3295,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25h",
+     "cargo": "Professor de Educação Básica II - PEB II - Inglês",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena, com habilitação específica na disciplina própria ou Curso Superior em área correspondente nos termos da legislação vigente.",
+     "salario": 3295,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "25h",
+     "cargo": "Professor de Educação Básica II- PEB II - História",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena, com habilitação específica na disciplina própria ou Curso Superior em área correspondente nos termos da legislação vigente.",
+     "salario": 3295,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "30h",
+     "cargo": "Professor de Educação Infantil",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena em Pedagogia, ou Curso Normal em nível médio ou Normal Superior.",
+     "salario": 3954,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "40h",
+     "cargo": "Professor de Educação Especial",
+     "escolaridade": "Ensino Superior",
+     "local": "Dumont/SP",
+     "requisitos": "Curso Superior, Graduação em Licenciatura Plena, com habilitação específica na disciplina própria ou curso superior em área correspondente com complementação nos termos da legislação vigente.",
+     "salario": 5272,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Contratação temporária, todas as funções em cadastro reserva (sem número de vagas).",
+    "Além do salário base, vale alimentação de R$ 1.150,00 e vale transporte de R$ 315,00."
+   ],
+   "registrado_em": "2026-11-20T02:46:51.640849+00:00"
+  },
+  {
+   "id": "94104",
+   "titulo": "Prefeitura Municipal de Guaporé – RS",
+   "titulo_origem": "Concurso Prefeitura de Guaporé-RS 2026; veja edital",
+   "uf": "RS",
+   "artigo": "https://www.acheconcursos.com.br/concursos-rio-grande-do-sul/concurso-prefeitura-de-guapore-rs-2026-veja-edital-94104",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/64886/edital.pdf",
+   "oficiais": [
+    "https://portal.editais.legalleconcursos.com.br/edital/ver/2569"
+   ],
+   "orgao": "Prefeitura Municipal de Guaporé – RS",
+   "banca": "Legalle Concursos",
+   "edital_numero": "1040/2026",
+   "validade": null,
+   "taxas": [],
+   "inscricao_inicio": "20/10/2026",
+   "inscricao_fim": "19/11/2026",
+   "inscricao_fim_iso": "2026-11-19",
+   "data_prova": "13/12/2026",
+   "cidade_prova": "Guaporé",
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "Até 44h/semanal",
+     "cargo": "Agente Administrativo",
+     "escolaridade": "Ensino Médio Completo",
+     "local": "Guaporé – RS",
+     "requisitos": "Ensino Médio Completo.",
+     "salario": 3404.76,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "Até 44h/semanal",
+     "cargo": "Carpinteiro",
+     "escolaridade": "Ensino Fundamental Incompleto",
+     "local": "Guaporé – RS",
+     "requisitos": "Ensino Fundamental Incompleto.",
+     "salario": 2412.51,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "Até 44h/semanal",
+     "cargo": "Cozinheira",
+     "escolaridade": "Ensino Fundamental Completo",
+     "local": "Guaporé – RS",
+     "requisitos": "Ensino Fundamental Completo.",
+     "salario": 1712.11,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "Até 36h/semanal",
+     "cargo": "Monitor de Educação",
+     "escolaridade": "Ensino Médio Completo",
+     "local": "Guaporé – RS",
+     "requisitos": "Ensino Médio Completo.",
+     "salario": 1809.38,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "Até 44h/semanal",
+     "cargo": "Motorista",
+     "escolaridade": "Ensino Fundamental Incompleto",
+     "local": "Guaporé – RS",
+     "requisitos": "Ensino Fundamental Incompleto. Carteira",
+     "salario": 2519.52,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "Até 44h/semanal",
+     "cargo": "Operador de Máquina",
+     "escolaridade": "Ensino Fundamental Incompleto",
+     "local": "Guaporé – RS",
+     "requisitos": "Ensino Fundamental Incompleto. Carteira",
+     "salario": 2918.37,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "Até 44h/semanal",
+     "cargo": "Pedreiro",
+     "escolaridade": "Ensino Fundamental Incompleto",
+     "local": "Guaporé – RS",
+     "requisitos": "Ensino Fundamental Incompleto.",
+     "salario": 2412.51,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Todos os cargos têm 'CR' (cadastro de reserva) na coluna de vagas.",
+    "Prova prática prevista para 16/01/2027 (cargos que a exigem). Datas são prováveis, conforme o cronograma.",
+    "Último dia para pagar a taxa: 20/11/2026. Valor da taxa não consta nas páginas recebidas."
+   ],
+   "registrado_em": "2026-11-19T23:56:38.096290+00:00"
+  },
+  {
+   "id": "94145",
+   "titulo": "Prefeitura da Estância Turística de São Roque - SP",
+   "titulo_origem": "Concurso São Roque-SP 2026: Sai edital na Guarda com salário de R$ 5 mil",
+   "uf": "SP",
+   "artigo": "https://www.acheconcursos.com.br/concursos-sao-paulo/concurso-sao-roque-sp-2026-edital-na-guarda-municipal-94145",
+   "pdf": "https://www.acheconcursos.com.br/imagens/anexo/64910/edital-concurso-prefeitura-sao-roque-sp-11-2026.pdf",
+   "oficiais": [
+    "https://abcp.selecao.net.br/informacoes/2877/"
+   ],
+   "orgao": "Prefeitura da Estância Turística de São Roque - SP",
+   "banca": "Associação Brasileira de Concursos Públicos (ABCP)",
+   "edital_numero": "011/2026",
+   "validade": "2 anos, prorrogável por igual período",
+   "taxas": [
+    {
+     "nivel": "Todos os cargos",
+     "valor": 120
+    }
+   ],
+   "inscricao_inicio": "19/10/2026",
+   "inscricao_fim": "19/11/2026",
+   "inscricao_fim_iso": "2026-11-19",
+   "data_prova": "06/12/2026",
+   "cidade_prova": "São Roque/SP",
+   "cargos": [
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "12x36",
+     "cargo": "GUARDA CIVIL MUNICIPAL 3ª CLASSE MASCULINO",
+     "escolaridade": "Ensino Médio",
+     "local": "São Roque/SP",
+     "requisitos": "Ensino Médio completo + CNH A e B (ou superior) + estatura mínima de 1,60 m",
+     "salario": 2220.94,
+     "vagas_ac": 18,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "cadastro_reserva": true,
+     "carga_horaria": "12x36",
+     "cargo": "GUARDA CIVIL MUNICIPAL 3ª CLASSE FEMININO",
+     "escolaridade": "Ensino Médio",
+     "local": "São Roque/SP",
+     "requisitos": "Ensino Médio completo + CNH A e B (ou superior) + estatura mínima de 1,55 m",
+     "salario": 2220.94,
+     "vagas_ac": 4,
+     "vagas_pcd": 1,
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    }
+   ],
+   "observacoes": [
+    "Vagas por cota de negras/negros e afrodescendentes (NNA): 5 no masculino e 1 no feminino (total 24 e 6, mais CR).",
+    "Além do salário base de R$ 2.220,94: auxílio alimentação de R$ 450,00 e gratificação de assiduidade de R$ 400,00.",
+    "Os rodapés do PDF citam o edital 009/2026, mas o cabeçalho diz 011/2026; usei 011/2026."
+   ],
+   "registrado_em": "2026-11-20T02:45:53.427659+00:00"
   }
  ]
 }

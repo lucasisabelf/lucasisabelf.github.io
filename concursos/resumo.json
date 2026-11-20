@@ -1,12 +1,16 @@
 {
- "atualizado_em": "2026-11-19T23:47:53+00:00",
- "total": 11,
- "cargos": 127,
- "confirmados": 117,
- "abertos": 9,
+ "atualizado_em": "2026-11-20T02:49:03+00:00",
+ "total": 22,
+ "cargos": 336,
+ "confirmados": 308,
+ "abertos": 17,
  "ufs": [
+  "ES",
   "GO",
+  "MG",
+  "NACIONAL",
   "PE",
+  "RJ",
   "RS",
   "SC",
   "SP"

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tribunal Regional Federal da 3.ª Região (TRF-3) | Concursos</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1d232b;--mut:#5b6673;--bd:#dde2e8;--ac:#0b5cad;--ok:#17703a;--okb:#e3f4ea;--rv:#8a5a00;--rvb:#fff1d6;--en:#6b7480;--enb:#eceff3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12161b;--card:#1a2027;--tx:#e6eaee;--mut:#9aa6b2;--bd:#2c353f;--ac:#6db1f2;--ok:#6fd49a;--okb:#16301f;--rv:#f0c36a;--rvb:#35290f;--en:#9aa6b2;--enb:#242c35}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.topo{background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+.topo div{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center}
+.topo .marca{font-weight:700;color:var(--tx);text-decoration:none}
+.topo a{color:var(--mut);text-decoration:none;font-size:.92rem}.topo a[aria-current]{color:var(--ac);font-weight:600}
+main{max-width:1100px;margin:0 auto;padding:16px}
+.hero p{color:var(--mut);margin:0 0 14px;max-width:60ch}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.grade article{margin:0;display:flex;flex-direction:column}
+.faixa{font-weight:600;margin:2px 0 6px}
+.ver{margin-top:auto;padding-top:8px}.ver a{color:var(--ac);font-weight:600;text-decoration:none}
+.detalhe article>h2{display:none}
+.voltar{display:inline-block;margin:4px 0 8px;color:var(--ac);text-decoration:none;font-size:.92rem}
+h1{font-size:1.5rem;margin:8px 0 2px}
+.sub{color:var(--mut);margin:0 0 14px;font-size:.9rem}
+.res{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.res span{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:6px 10px;font-size:.9rem}
+.res b{font-size:1.1rem}
+.filtros{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.filtros input,.filtros select{font:inherit;padding:7px 9px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);min-width:0}
+.filtros input[type=search]{flex:1 1 200px}
+.filtros label{display:flex;align-items:center;gap:6px;font-size:.9rem}
+article{background:var(--card);border:1px solid var(--bd);border-radius:10px;margin-bottom:12px;padding:12px 14px}
+article:target{outline:2px solid var(--ac)}
+article h2{font-size:1.05rem;margin:0 0 4px}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--mut);font-size:.88rem;margin-bottom:8px}
+.tag{display:inline-block;border-radius:6px;padding:1px 7px;font-size:.78rem;font-weight:600}
+.t-aberto{background:var(--okb);color:var(--ok)}
+.t-encerrado,.t-semdata{background:var(--enb);color:var(--en)}
+.t-confirmado{background:var(--okb);color:var(--ok)}
+.t-revisar{background:var(--rvb);color:var(--rv)}
+.links a{color:var(--ac);margin-right:12px;font-size:.9rem}
+.tw{overflow-x:auto;margin-top:8px}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--bd);vertical-align:top}
+th{color:var(--mut);font-weight:600;white-space:nowrap}
+td.n{text-align:right;white-space:nowrap}
+details summary{cursor:pointer;color:var(--ac);font-size:.9rem;margin-top:6px}
+.obs{color:var(--mut);font-size:.85rem;margin:6px 0 0}
+.vazio{color:var(--mut);padding:20px;text-align:center}
+footer{color:var(--mut);font-size:.82rem;margin:18px 0}
+</style>
+</head>
+<body>
+<header class="topo"><div><a class="marca" href="../index.html">▰ Concursos</a><a href="../index.html" id="nav-home">Visão geral</a><a href="../index.html?st=aberto" id="nav-ab">Inscrições abertas</a></div></header>
+<main>
+<a class="voltar" id="voltar" href="../index.html" hidden>← Todos os concursos</a>
+<div class="hero"><h1 id="h1">Tribunal Regional Federal da 3.ª Região (TRF-3) | Concursos</h1>
+<p id="intro">Concursos públicos com o quadro de vagas lido direto do edital em PDF: cargos, vagas, vagas para PcD, salário e requisitos.</p></div>
+<p class="sub" id="sub"></p>
+<div class="res" id="res"></div>
+<div class="filtros" id="filtros">
+<input type="search" id="q" placeholder="Buscar órgão, banca ou cargo" aria-label="Buscar">
+<select id="uf" aria-label="UF"><option value="">Todas as UFs</option></select>
+<select id="st" aria-label="Situação"><option value="">Todos</option><option value="aberto">Inscrições abertas</option><option value="encerrado">Encerrados</option></select>
+<label><input type="checkbox" id="conf"> só cargos confirmados</label>
+</div>
+<div id="lista"></div>
+<footer>Dados extraídos do edital em PDF e conferidos contra o texto do próprio edital: cargo e salário. Vagas, requisitos e carga horária não são conferidos automaticamente. Confirme sempre no edital oficial.</footer>
+</main>
+<script type="application/json" id="dados">{"atualizado_em":"2026-11-20T02:49:03+00:00","cargos":2,"confirmados":0,"editais":[{"id":"94196","titulo":"Tribunal Regional Federal da 3.ª Região (TRF-3)","titulo_origem":"Concurso TRF-3 2026: Inscrição aberta para Técnicos e Analistas","uf":"NACIONAL","artigo":"https://www.acheconcursos.com.br/concursos-brasil/concurso-trf-3-2026-edital-e-inscricao-94196","pdf":"https://www.acheconcursos.com.br/imagens/anexo/64946/edital-trf-3-2026-vunesp.pdf","oficiais":["https://www.vunesp.com.br/TRFT2601"],"orgao":"Tribunal Regional Federal da 3.ª Região (TRF-3)","banca":"Fundação VUNESP","edital_numero":"01/2026","validade":null,"taxas":[{"nivel":"Analista Judiciário","valor":160},{"nivel":"Técnico Judiciário","valor":100}],"inscricao_inicio":"04/11/2026","inscricao_fim":"23/11/2026","inscricao_fim_iso":"2026-11-23","data_prova":null,"cidade_prova":null,"cargos":[{"cadastro_reserva":false,"carga_horaria":null,"cargo":"Analista Judiciário","escolaridade":"Ensino Superior Completo","local":"São Paulo e Mato Grosso do Sul (3.ª Região)","requisitos":"Graduação conforme a área/especialidade: Análise de Sistemas e Suporte em Tecnologia da Informação (graduação em TI, ou qualquer graduação + pós em TI de no mínimo 360 horas); Oficial de Justiça Avaliador Federal e Sem especialidade (graduação em Direito)","salario":16040.87,"vagas_ac":null,"vagas_pcd":null,"situacao":"confirmado","conferido":["cargo","salario"],"nao_verificado":["vagas","requisitos","carga_horaria"],"motivos":[]},{"cadastro_reserva":false,"carga_horaria":null,"cargo":"Técnico Judiciário","escolaridade":"Ensino Superior Completo","local":"São Paulo e Mato Grosso do Sul (3.ª Região)","requisitos":"Ensino superior completo, conforme a área de atividade do cargo","salario":9776.73,"vagas_ac":null,"vagas_pcd":null,"situacao":"confirmado","conferido":["cargo","salario"],"nao_verificado":["vagas","requisitos","carga_horaria"],"motivos":[]}],"observacoes":["Remuneração inicial do Analista Judiciário: R$ 16.040,87; para a especialidade Oficial de Justiça Avaliador Federal é R$ 20.013,11 (Gratificação de Atividade Externa).","As vagas são disponibilizadas por Unidade de Classificação e não aparecem nas páginas recebidas; vagas_ac e vagas_pcd ficaram vazios.","Pagamento da taxa até 24/11/2026 (21h59). Há reserva de 5% das vagas para pessoas com deficiência (item 4.2).","Data das provas não consta nas páginas recebidas."],"registrado_em":"2026-11-19T23:54:18.204607+00:00"}]}</script>
+<script>
+"use strict";
+var D=JSON.parse(document.getElementById("dados").textContent);var MODO="detalhe",RAIZ="../";
+var hoje=new Date().toISOString().slice(0,10);
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function seguro(u){return typeof u==="string"&&/^https?:\/\//i.test(u)}
+function link(txt,u){var a=el("a",null,txt);a.href=u;a.rel="noopener noreferrer";a.target="_blank";return a}
+function br(iso){return iso?iso.split("-").reverse().join("/"):""}
+function money(v){return typeof v==="number"?v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"—"}
+function situ(e){var f=e.inscricao_fim_iso;if(!f)return"semdata";return f>=hoje?"aberto":"encerrado"}
+var ROT={aberto:"Inscrições abertas",encerrado:"Encerrado",semdata:"Sem data de inscrição"};
+var ufs={};D.editais.forEach(function(e){if(e.uf)ufs[e.uf]=1});
+Object.keys(ufs).sort().forEach(function(u){var o=el("option",null,u);o.value=u;document.getElementById("uf").appendChild(o)});
+function cartao(e,so){
+ var a=el("article");a.id="edital-"+e.id;
+ var h=el("h2",null,e.titulo||("Edital "+e.id));a.appendChild(h);
+ var m=el("div","meta");var s=situ(e);var t=el("span","tag t-"+s,ROT[s]);m.appendChild(t);
+ if(e.uf)m.appendChild(el("span",null,e.uf));
+ if(e.banca)m.appendChild(el("span",null,"Banca: "+e.banca));
+ if(e.edital_numero)m.appendChild(el("span",null,"Edital "+e.edital_numero));
+ if(e.inscricao_fim_iso||e.inscricao_fim)m.appendChild(el("span",null,"Inscrições até "+(e.inscricao_fim_iso?br(e.inscricao_fim_iso):e.inscricao_fim)));
+ if(e.data_prova)m.appendChild(el("span",null,"Prova: "+e.data_prova));
+ if(e.taxas&&e.taxas.length)m.appendChild(el("span",null,"Taxa: "+e.taxas.map(function(x){return typeof x==="object"?(x.nivel?x.nivel+" ":"")+money(x.valor):String(x)}).join(" · ")));
+ a.appendChild(m);
+ var l=el("div","links");if(seguro(e.pdf))l.appendChild(link("Edital (PDF)",e.pdf));
+ var vistos={};(e.oficiais||[]).filter(seguro).forEach(function(u){var h;try{h=new URL(u).hostname.replace(/^www\./,"")}catch(x){return}if(vistos[h]||Object.keys(vistos).length>=2)return;vistos[h]=1;l.appendChild(link("Site: "+h,u))});
+ if(seguro(e.artigo))l.appendChild(link("Matéria de origem",e.artigo));a.appendChild(l);
+ var cs=e.cargos.filter(function(c){return !so||c.situacao==="confirmado"});
+ if(cs.length){var w=el("div","tw");var tb=el("table");var hd=el("tr");
+  ["Cargo","Escolaridade","Vagas","PcD","CR","Salário","Carga","Situação"].forEach(function(x){hd.appendChild(el("th",null,x))});
+  var th=el("thead");th.appendChild(hd);tb.appendChild(th);var bd=el("tbody");
+  cs.forEach(function(c){var r=el("tr");
+   var tc=el("td",null,c.cargo||"—");if(c.requisitos){var d=el("details");d.appendChild(el("summary",null,"requisitos"));d.appendChild(el("div","obs",c.requisitos));tc.appendChild(d)}r.appendChild(tc);
+   r.appendChild(el("td",null,c.escolaridade||"—"));
+   r.appendChild(el("td","n",c.vagas_ac!=null?String(c.vagas_ac):(c.cadastro_reserva?"CR":"—")));
+   r.appendChild(el("td","n",c.vagas_pcd==null?"—":String(c.vagas_pcd)));
+   r.appendChild(el("td",null,c.cadastro_reserva?"sim":"—"));
+   r.appendChild(el("td","n",money(c.salario)));
+   r.appendChild(el("td",null,c.carga_horaria||"—"));
+   var ts=el("td");var tg=el("span","tag t-"+c.situacao,c.situacao==="confirmado"?"confirmado":"a revisar");if(c.motivos&&c.motivos.length)tg.title=c.motivos.join("; ");ts.appendChild(tg);r.appendChild(ts);
+   bd.appendChild(r)});
+  tb.appendChild(bd);w.appendChild(tb);a.appendChild(w)}
+ else a.appendChild(el("p","obs","Nenhum cargo extraído para este filtro."));
+ if(e.observacoes&&e.observacoes.length)a.appendChild(el("p","obs",e.observacoes.join(" · ")));
+ a.appendChild(el("p","obs","Registrado em "+br((e.registrado_em||"").slice(0,10))));
+ return a}
+function faixa(e){var v=e.cargos.map(function(c){return c.salario}).filter(function(x){return typeof x==="number"});
+ if(!v.length)return"";var a=Math.min.apply(null,v),b=Math.max.apply(null,v);return a===b?money(a):money(a)+" a "+money(b)}
+function resumido(e){
+ var a=el("article");a.id="edital-"+e.id;
+ a.appendChild(el("h2",null,e.titulo||("Edital "+e.id)));
+ var m=el("div","meta");var s=situ(e);m.appendChild(el("span","tag t-"+s,ROT[s]));
+ if(e.uf)m.appendChild(el("span",null,e.uf));
+ if(e.banca)m.appendChild(el("span",null,"Banca: "+e.banca));a.appendChild(m);
+ var f=faixa(e);if(f)a.appendChild(el("div","faixa","Salários: "+f));
+ var m2=el("div","meta");
+ if(e.inscricao_fim_iso||e.inscricao_fim)m2.appendChild(el("span",null,"Inscrições até "+(e.inscricao_fim_iso?br(e.inscricao_fim_iso):e.inscricao_fim)));
+ if(e.data_prova)m2.appendChild(el("span",null,"Prova: "+e.data_prova));
+ var cf=e.cargos.filter(function(c){return c.situacao==="confirmado"}).length;
+ m2.appendChild(el("span",null,e.cargos.length+(e.cargos.length===1?" cargo (":" cargos (")+cf+(cf===1?" confirmado)":" confirmados)")));a.appendChild(m2);
+ var v=el("div","ver");var l=el("a",null,"Ver cargos e vagas →");l.href=RAIZ+"editais/"+encodeURIComponent(e.id)+".html";v.appendChild(l);a.appendChild(v);
+ return a}
+function desenhar(){
+ if(MODO==="detalhe"){var L0=document.getElementById("lista");L0.textContent="";L0.appendChild(cartao(D.editais[0],false));return}
+ var q=document.getElementById("q").value.trim().toLowerCase(),uf=document.getElementById("uf").value,st=document.getElementById("st").value,so=document.getElementById("conf").checked;
+ var L=document.getElementById("lista");L.textContent="";L.className="grade";var n=0;
+ D.editais.forEach(function(e){
+  if(uf&&e.uf!==uf)return;if(st&&situ(e)!==st)return;
+  if(q){var hay=[e.titulo,e.banca,e.orgao].concat(e.cargos.map(function(c){return c.cargo})).join(" ").toLowerCase();if(hay.indexOf(q)<0)return}
+  if(so&&!e.cargos.some(function(c){return c.situacao==="confirmado"}))return;
+  L.appendChild(resumido(e));n++});
+ if(!n)L.appendChild(el("p","vazio","Nenhum edital com esses filtros."))}
+var ab=D.editais.filter(function(e){return situ(e)==="aberto"}).length;
+document.getElementById("sub").textContent="Atualizado em "+br((D.atualizado_em||"").slice(0,10));
+var R=document.getElementById("res");
+[[D.editais.length,"editais"],[ab,"com inscrição aberta"],[D.cargos,"cargos"],[D.confirmados,"confirmados no texto"]].forEach(function(p){var s=el("span");s.appendChild(el("b",null,String(p[0])));s.appendChild(document.createTextNode(" "+p[1]));R.appendChild(s)});
+["q","uf","st","conf"].forEach(function(i){document.getElementById(i).addEventListener("input",desenhar)});
+if(MODO==="detalhe"){document.body.className="detalhe";document.getElementById("filtros").hidden=true;document.getElementById("res").hidden=true;document.getElementById("intro").hidden=true;
+ document.getElementById("voltar").hidden=false;document.getElementById("h1").textContent=D.editais[0].titulo||"Edital";document.title=(D.editais[0].titulo||"Edital")+" | Concursos";document.getElementById("nav-home").removeAttribute("aria-current")}
+else{document.getElementById("nav-home").setAttribute("aria-current","page");
+ try{var p=new URLSearchParams(location.search).get("st");if(p==="aberto"||p==="encerrado")document.getElementById("st").value=p}catch(x){}}
+desenhar();
+if(location.hash){var t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView()}
+</script>
+</body>
+</html>
