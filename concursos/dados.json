@@ -1,7 +1,7 @@
 {
- "atualizado_em": "2026-11-20T02:49:03+00:00",
- "cargos": 336,
- "confirmados": 308,
+ "atualizado_em": "2026-11-20T12:00:02+00:00",
+ "cargos": 342,
+ "confirmados": 314,
  "editais": [
   {
    "id": "94627",
@@ -1802,18 +1802,29 @@
    "inscricao_fim": "23/11/2026",
    "inscricao_fim_iso": "2026-11-23",
    "data_prova": null,
-   "cidade_prova": null,
+   "cidade_prova": "Araçatuba, Bauru, Ribeirão Preto, São Paulo, Campo Grande e Dourados",
    "cargos": [
     {
+     "area": "Apoio Especializado",
      "cadastro_reserva": false,
      "carga_horaria": null,
-     "cargo": "Analista Judiciário",
-     "escolaridade": "Ensino Superior Completo",
-     "local": "São Paulo e Mato Grosso do Sul (3.ª Região)",
-     "requisitos": "Graduação conforme a área/especialidade: Análise de Sistemas e Suporte em Tecnologia da Informação (graduação em TI, ou qualquer graduação + pós em TI de no mínimo 360 horas); Oficial de Justiça Avaliador Federal e Sem especialidade (graduação em Direito)",
+     "cargo": "Analista Judiciário - Área Apoio Especializado - Especialidade Análise de Sistemas de Informação",
+     "codigo": "001",
+     "escolaridade": "Ensino Superior",
+     "especialidade": "Análise de Sistemas de Informação",
+     "local": null,
+     "requisitos": "Diploma de graduação na área de TI; ou graduação em qualquer área + pós-graduação em TI (mín. 360 h)",
      "salario": 16040.87,
-     "vagas_ac": null,
+     "vagas_ac": 1,
      "vagas_pcd": null,
+     "vagas_por_local": [
+      {
+       "cadastro_reserva": false,
+       "local": "TRF 3ª Região (São Paulo-Capital e Campo Grande)",
+       "vagas_ac": 1,
+       "vagas_pcd": null
+      }
+     ],
      "situacao": "confirmado",
      "conferido": [
       "cargo",
@@ -1827,15 +1838,224 @@
      "motivos": []
     },
     {
+     "area": "Apoio Especializado",
      "cadastro_reserva": false,
      "carga_horaria": null,
-     "cargo": "Técnico Judiciário",
-     "escolaridade": "Ensino Superior Completo",
-     "local": "São Paulo e Mato Grosso do Sul (3.ª Região)",
-     "requisitos": "Ensino superior completo, conforme a área de atividade do cargo",
+     "cargo": "Analista Judiciário - Área Apoio Especializado - Especialidade Suporte em Tecnologia da Informação",
+     "codigo": "002",
+     "escolaridade": "Ensino Superior",
+     "especialidade": "Suporte em Tecnologia da Informação",
+     "local": null,
+     "requisitos": "Diploma de graduação na área de TI; ou graduação em qualquer área + pós-graduação em TI (mín. 360 h)",
+     "salario": 16040.87,
+     "vagas_ac": 1,
+     "vagas_pcd": null,
+     "vagas_por_local": [
+      {
+       "cadastro_reserva": false,
+       "local": "TRF 3ª Região (São Paulo-Capital e Campo Grande)",
+       "vagas_ac": 1,
+       "vagas_pcd": null
+      }
+     ],
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "area": "Judiciária",
+     "cadastro_reserva": true,
+     "carga_horaria": null,
+     "cargo": "Analista Judiciário - Área Judiciária - Especialidade Oficial de Justiça Avaliador Federal",
+     "codigo": "003",
+     "escolaridade": "Ensino Superior",
+     "especialidade": "Oficial de Justiça Avaliador Federal",
+     "local": null,
+     "requisitos": "Graduação em Direito (remuneração inclui a Gratificação de Atividade Externa - GAE)",
+     "salario": 20013.11,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "vagas_por_local": [
+      {
+       "cadastro_reserva": true,
+       "local": "Seção Judiciária de São Paulo",
+       "vagas_ac": null,
+       "vagas_pcd": null
+      }
+     ],
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "area": "Judiciária",
+     "cadastro_reserva": true,
+     "carga_horaria": null,
+     "cargo": "Analista Judiciário - Área Judiciária",
+     "codigo": "004",
+     "escolaridade": "Ensino Superior",
+     "especialidade": null,
+     "local": null,
+     "requisitos": "Graduação em Direito",
+     "salario": 16040.87,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "vagas_por_local": [
+      {
+       "cadastro_reserva": true,
+       "local": "Seção Judiciária de Mato Grosso do Sul",
+       "vagas_ac": null,
+       "vagas_pcd": null
+      }
+     ],
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "area": "Apoio Especializado",
+     "cadastro_reserva": true,
+     "carga_horaria": null,
+     "cargo": "Técnico Judiciário - Área Apoio Especializado - Especialidade Contabilidade",
+     "codigo": "005",
+     "escolaridade": "Ensino Superior",
+     "especialidade": "Contabilidade",
+     "local": null,
+     "requisitos": "Graduação em Ciências Contábeis com registro no CRC; ou graduação em qualquer área + curso técnico de Contabilidade com registro",
      "salario": 9776.73,
      "vagas_ac": null,
      "vagas_pcd": null,
+     "vagas_por_local": [
+      {
+       "cadastro_reserva": true,
+       "local": "Seção Judiciária de São Paulo",
+       "vagas_ac": null,
+       "vagas_pcd": null
+      }
+     ],
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "area": "Apoio Especializado",
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Técnico Judiciário - Área Apoio Especializado - Especialidade Desenvolvimento de Sistemas de Informação",
+     "codigo": "006",
+     "escolaridade": "Ensino Superior",
+     "especialidade": "Desenvolvimento de Sistemas de Informação",
+     "local": null,
+     "requisitos": "Graduação em qualquer área + certificado de cursos de desenvolvimento de software (mín. 120 h)",
+     "salario": 9776.73,
+     "vagas_ac": 2,
+     "vagas_pcd": 1,
+     "vagas_por_local": [
+      {
+       "cadastro_reserva": false,
+       "local": "TRF 3ª Região (São Paulo-Capital e Campo Grande)",
+       "vagas_ac": 2,
+       "vagas_pcd": 1
+      }
+     ],
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "area": "Apoio Especializado",
+     "cadastro_reserva": false,
+     "carga_horaria": null,
+     "cargo": "Técnico Judiciário - Área Apoio Especializado - Especialidade Suporte Técnico",
+     "codigo": "007",
+     "escolaridade": "Ensino Superior",
+     "especialidade": "Suporte Técnico",
+     "local": null,
+     "requisitos": "Graduação em qualquer área + certificado de cursos de TI (redes, banco de dados, sistemas operacionais, segurança, colaboração e telecom; mín. 120 h)",
+     "salario": 9776.73,
+     "vagas_ac": 2,
+     "vagas_pcd": null,
+     "vagas_por_local": [
+      {
+       "cadastro_reserva": false,
+       "local": "TRF 3ª Região (São Paulo-Capital e Campo Grande)",
+       "vagas_ac": 2,
+       "vagas_pcd": null
+      }
+     ],
+     "situacao": "confirmado",
+     "conferido": [
+      "cargo",
+      "salario"
+     ],
+     "nao_verificado": [
+      "vagas",
+      "requisitos",
+      "carga_horaria"
+     ],
+     "motivos": []
+    },
+    {
+     "area": "Apoio Especializado",
+     "cadastro_reserva": true,
+     "carga_horaria": null,
+     "cargo": "Técnico Judiciário - Área Apoio Especializado - Especialidade Tecnologia da Informação",
+     "codigo": "008",
+     "escolaridade": "Ensino Superior",
+     "especialidade": "Tecnologia da Informação",
+     "local": null,
+     "requisitos": "Graduação em qualquer área + certificado de cursos de TI (mín. 120 h)",
+     "salario": 9776.73,
+     "vagas_ac": null,
+     "vagas_pcd": null,
+     "vagas_por_local": [
+      {
+       "cadastro_reserva": true,
+       "local": "Seção Judiciária de Mato Grosso do Sul",
+       "vagas_ac": null,
+       "vagas_pcd": null
+      }
+     ],
      "situacao": "confirmado",
      "conferido": [
       "cargo",
@@ -1850,12 +2070,12 @@
     }
    ],
    "observacoes": [
-    "Remuneração inicial do Analista Judiciário: R$ 16.040,87; para a especialidade Oficial de Justiça Avaliador Federal é R$ 20.013,11 (Gratificação de Atividade Externa).",
-    "As vagas são disponibilizadas por Unidade de Classificação e não aparecem nas páginas recebidas; vagas_ac e vagas_pcd ficaram vazios.",
-    "Pagamento da taxa até 24/11/2026 (21h59). Há reserva de 5% das vagas para pessoas com deficiência (item 4.2).",
-    "Data das provas não consta nas páginas recebidas."
+    "8 especialidades: 4 de Analista (001-004) e 4 de Técnico (005-008). Vagas por Unidade de Classificação (Anexos III a V): 001 e 002 com 1 vaga cada, 006 com 5 (2 ampla, 1 PcD, 2 negros ou pardos), 007 com 4 (2 ampla, 2 negros ou pardos); 003, 004, 005 e 008 só cadastro reserva.",
+    "Nas especialidades 006 e 007 há vagas para candidatos negros ou pardos (2 em cada), fora dos números de ampla concorrência e PcD.",
+    "Remuneração inicial: Analista R$ 16.040,87 (Oficial de Justiça Avaliador Federal R$ 20.013,11 por causa da GAE); Técnico R$ 9.776,73.",
+    "Pagamento da taxa até 24/11/2026. Reserva de 5% das vagas para pessoas com deficiência (item 4.2). A data das provas não consta nas páginas recebidas."
    ],
-   "registrado_em": "2026-11-19T23:54:18.204607+00:00"
+   "registrado_em": "2026-11-20T11:58:40.882259+00:00"
   },
   {
    "id": "94624",
